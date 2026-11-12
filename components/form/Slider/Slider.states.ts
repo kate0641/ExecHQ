@@ -12,7 +12,7 @@ export const sliderStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "A choice along a short scale, dragged or tapped (Kate, 2026-10-26): the browser’s own range input with each stop’s word under its place on the track. Arrow keys step it; a screen reader hears the word. The track fills to the thumb and the chosen word is bold. First used for the weekly check-in’s three answers. Try it: these examples move.",
+    "A choice along a short scale, dragged or tapped: the browser’s own range input with each stop’s word under its place on the track. Arrow keys step it; a screen reader hears the word. The track fills to the thumb and the chosen word is bold. First used for the weekly check-in’s three answers. Try it: these examples move.",
   component: Slider,
   notApplicable: {
     loading: "Moving it changes nothing until the card around it is saved: there is nothing to wait for.",

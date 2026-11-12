@@ -57,7 +57,7 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
       },
       { id: "add", label: "Add to your picture", note: "Add, on Where you started.", query: "screen=add" },
       { id: "report-added", label: "How it went: something she added", note: "Nothing reported yet, on a row she added. Needs a dock state with rows: Follow-up due shows it.", query: "screen=report-added" },
-      { id: "report-loop", label: "How it went: something ExecHQ made", note: "Nothing reported yet, on a row from her work in ExecHQ: how it went, then her words. Follow-up due has one; in a state where every row is answered it opens on an answered one, without How did it go?", query: "screen=report-loop" },
+      { id: "report-loop", label: "How it went: something ExecEngine made", note: "Nothing reported yet, on a row from her work in ExecEngine: how it went, then her words. Follow-up due has one; in a state where every row is answered it opens on an answered one, without How did it go?", query: "screen=report-loop" },
     ],
   },
   {
@@ -110,8 +110,8 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
       },
       { id: "folded", label: "The move, drawer folded: the roadmap", note: "Folding the drawer shows her direction and the stage cards under the move.", query: "screen=plan-folded", full: true },
       { id: "when", label: "Change when", note: "Change when, in the drawer: the times to choose from.", query: "screen=plan-when" },
-      { id: "plan", label: "Answered: I’ll do it", note: "ExecHQ’s reply, then Next.", query: "screen=plan-plan" },
-      { id: "pass", label: "Not for me: asking why", note: "One optional tap before ExecHQ offers something else.", query: "screen=plan-pass" },
+      { id: "plan", label: "Answered: I’ll do it", note: "ExecEngine’s reply, then Next.", query: "screen=plan-plan" },
+      { id: "pass", label: "Not for me: asking why", note: "One optional tap before ExecEngine offers something else.", query: "screen=plan-pass" },
       { id: "passed", label: "Not for me: passed on", note: "After the reason. What was offered in its place shows here when there is one.", query: "screen=plan-passed" },
       { id: "last", label: "The last page: where the plan stands", note: "After the last move: what changed on her plan.", query: "screen=plan-last" },
       { id: "none", label: "Nothing to answer right now", note: "When she has no live moves.", query: "screen=plan-none" },
@@ -119,7 +119,7 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
       {
         id: "checkin",
         label: "Stage check-in: what you did",
-        note: "Opens in place of the moves when ExecHQ decides a stage is finished. Here it uses her last finished stage, or the one she is in.",
+        note: "Opens in place of the moves when ExecEngine decides a stage is finished. Here it uses her last finished stage, or the one she is in.",
         query: "screen=plan-checkin",
         full: true,
       },

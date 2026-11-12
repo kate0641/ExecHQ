@@ -7,7 +7,7 @@ export interface OutletCardProps {
   name: string;
   /** What she is pitching for, when no outlet is matched. */
   type?: PitchType;
-  /** The outlet's published page, when ExecHQ has it. */
+  /** The outlet's published page, when ExecEngine has it. */
   outlet?: Outlet;
   /** The day it is, ISO: an old check or a passed deadline says so. */
   today: string;
@@ -25,13 +25,13 @@ function Question({ children }: { children: string }) {
 }
 
 /**
- * Where a pitch goes (Kate, 14 Oct): the outlet, what it asks for, who
+ * Where a pitch goes: the outlet, what it asks for, who
  * receives it and how to send it, above the draft, so she reads where it is
  * going before what it says. Every fact is from the outlet's own page, linked
  * and dated; what the page doesn't say is a question to her, never a guess.
  */
 export function OutletCard({ name, type, outlet, today, className }: OutletCardProps) {
-  const classes = ["outlet-card", className].filter(Boolean).join(" ");
+  const classes = ["card", "outlet-card", className].filter(Boolean).join(" ");
   const kind: PitchType = outlet?.type ?? type ?? "Speaking";
   const watch = C.watchFor[kind];
   const ask = outlet?.ask;
@@ -42,7 +42,7 @@ export function OutletCard({ name, type, outlet, today, className }: OutletCardP
   return (
     <aside className={classes} aria-label={C.heading}>
       <p className="outlet-card__eyebrow">
-        <Icon name="send" size={14} />
+        <Icon name="send" size={16} />
         {C.heading}
       </p>
       <p className="outlet-card__name">{outlet?.name ?? name}</p>
@@ -59,7 +59,7 @@ export function OutletCard({ name, type, outlet, today, className }: OutletCardP
         <>
           {closed || stale ? (
             <p className="outlet-card__notice">
-              <Icon name="clock" size={14} />
+              <Icon name="clock" size={16} />
               {closed ? C.closed : C.stale}
             </p>
           ) : null}
@@ -139,7 +139,7 @@ export function OutletCard({ name, type, outlet, today, className }: OutletCardP
 
           {outlet?.source ? (
             <p className="outlet-card__source">
-              <Icon name="link" size={14} />
+              <Icon name="link" size={16} />
               <span>
                 <span className="outlet-card__address">{outlet.source.url}</span>
                 {` · ${C.checked(fullDate(outlet.source.checked))}`}

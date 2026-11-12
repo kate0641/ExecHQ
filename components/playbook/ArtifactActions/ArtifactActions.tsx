@@ -33,7 +33,7 @@ export interface ArtifactActionsProps {
  * Everything she can do with an artifact from the library: open it, use it
  * as the start of a new one, move its status on, export it, close it, or
  * delete it. Deleting asks once, and says exactly what else goes with it: its
- * record in ExecHQ, and any items it put on her Signal Picture.
+ * record in ExecEngine, and any items it put on her Signal Picture.
  */
 export function ArtifactActions({
   item,

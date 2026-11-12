@@ -1,5 +1,6 @@
 "use client";
 
+import { FOCUSABLE, keepTabInside } from "@/components/focus";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
@@ -17,9 +18,6 @@ export interface SheetProps {
   inline?: boolean;
   className?: string;
 }
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
  * A sheet that slides up over the phone screen, not the browser window.
@@ -64,7 +62,7 @@ export function Sheet({
     // browser scroll it to reveal the field would drag the sheet out of place.
     // The sheet's heading takes focus when it can (one with tabindex="-1"), so
     // a screen reader starts at the top and no ring sits on the close button
-    // as the sheet opens (designer, 2026-10-15). Otherwise the first control.
+    // as the sheet opens. Otherwise the first control.
     const start =
       panel.current?.querySelector<HTMLElement>(':is(h1, h2, h3)[tabindex="-1"]') ??
       panel.current?.querySelector<HTMLElement>(FOCUSABLE);
@@ -76,18 +74,7 @@ export function Sheet({
         handlers.current.onClose();
         return;
       }
-      if (event.key !== "Tab" || !panel.current) return;
-      const items = [...panel.current.querySelectorAll<HTMLElement>(FOCUSABLE)];
-      if (!items.length) return;
-      const first = items[0];
-      const last = items[items.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
+      keepTabInside(event, panel.current);
     }
     document.addEventListener("keydown", onKey);
     return () => {

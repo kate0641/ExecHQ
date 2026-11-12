@@ -23,7 +23,7 @@ export interface OutcomeNextProps {
   readback: string;
   /** The next step, first, and at most one more. Never empty. */
   offers: readonly OutcomeNextOffer[];
-  /** A line under them: "ExecHQ will ask how it went on Friday." */
+  /** A line under them: "ExecEngine will ask how it went on Friday." */
   note?: string;
   /** "Add a note": hers to add, never asked for. Left out, no note. */
   onNote?: (text: string) => void;
@@ -40,7 +40,7 @@ export interface OutcomeNextProps {
 
 /**
  * What comes after she says how something went (the Situation Brief first,
- * 13 October). Her one-tap answer is all the feedback there is: ExecHQ asks
+ * 13 October). Her one-tap answer is all the feedback there is: ExecEngine asks
  * nothing more. It says her answer back and gives the next step whatever it
  * was, built from her answer, the work's own goal and her Plan, each with one
  * action: a Plan step (added only when she says so), the follow-up email, a
@@ -71,7 +71,7 @@ export function OutcomeNext({
   }
 
   return (
-    <section className={["outcome-next", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["card", "outcome-next", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <p className="outcome-next__readback">
         <Icon name="check" size={16} />
         {readback}

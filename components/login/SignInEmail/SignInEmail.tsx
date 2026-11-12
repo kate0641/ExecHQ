@@ -17,7 +17,7 @@ export interface SignInEmailProps {
 /**
  * The login email itself, drawn as a message in a mail app: a neutral
  * subject and the one-time code, large enough to read across a table. There
- * is no button: she types the code into ExecHQ. Nothing in it says anything
+ * is no button: she types the code into ExecEngine. Nothing in it says anything
  * about the person's career.
  */
 export function SignInEmail({ email, code, onBack, onExpired, headingId = "sign-in-email", message }: SignInEmailProps) {

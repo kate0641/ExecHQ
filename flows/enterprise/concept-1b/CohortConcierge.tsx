@@ -1,5 +1,6 @@
 "use client";
 
+import { keepTabInside } from "@/components/focus";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChatComposer } from "@/components/chat/ChatComposer";
@@ -15,7 +16,7 @@ const PILL_ID = "cohort-concierge-pill";
 const PANEL_ID = "cohort-concierge-panel";
 
 /**
- * The assistant on the dashboard (Kate, 2026-10-20): the same floating bar as
+ * The assistant on the dashboard: the same floating bar as
  * the app's navigation, "Your cohort · Ask about your cohort", at the foot of
  * the page. It grows into a card over a soft scrim, as the navigation's does:
  * suggested questions first, then the conversation. Escape, the scrim or the
@@ -43,9 +44,12 @@ export function CohortConcierge({ cohort, window }: { cohort: Cohort; window: Da
     if (content) content.inert = true;
     screen.querySelector<HTMLInputElement>(`#${PANEL_ID} .chat-composer__field`)?.focus();
     function onKey(event: KeyboardEvent) {
-      if (event.key !== "Escape") return;
-      event.preventDefault();
-      close();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        close();
+        return;
+      }
+      keepTabInside(event, document.getElementById(PANEL_ID));
     }
     document.addEventListener("keydown", onKey);
     return () => {
@@ -74,7 +78,7 @@ export function CohortConcierge({ cohort, window }: { cohort: Cohort; window: Da
       {screen
         ? createPortal(
             <div className="concierge-host concierge-host--card">
-              <div className="concierge-host__pill">
+              <div className="concierge-host__pill" inert={open}>
                 <ConciergePill
                   id={PILL_ID}
                   here={{ label: C.pillHere, icon: "people" }}

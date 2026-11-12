@@ -33,9 +33,9 @@ export interface LibraryFolderProps {
 }
 
 /**
- * One of the library's folders: a folder per tool, filed by ExecHQ, never
+ * One of the library's folders: a folder per tool, filed by ExecEngine, never
  * made or moved by her. In the grid, a solid navy card, the tool's icon
- * beside its name (designer, 2026-10-27); open, the same navy card heads
+ * beside its name; open, the same navy card heads
  * the folder's page. It says how many it holds, what state they are
  * in, and when it last changed.
  */
@@ -55,6 +55,7 @@ export function LibraryFolder({
   className,
 }: LibraryFolderProps) {
   const classes = [
+    "card",
     "library-folder",
     `library-folder--${tool}`,
     `library-folder--${as}`,
@@ -66,7 +67,7 @@ export function LibraryFolder({
     .join(" ");
 
   // In the grid the icon sits beside the name, no circle, so the folders sit
-  // under the tools above them (designer, 2026-10-27).
+  // under the tools above them.
   const body = (
     <>
       <span className="library-folder__title">

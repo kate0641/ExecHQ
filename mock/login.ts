@@ -34,7 +34,7 @@ export const EMAIL_DELAY_MS = 1600;
 export type Provider = "google" | "apple";
 
 /** An account a provider's own picker might offer. `matches` is whether its
- *  address is the one on Maya's ExecHQ account. */
+ *  address is the one on Maya's ExecEngine account. */
 export interface ProviderAccount {
   id: string;
   title: string;
@@ -44,7 +44,7 @@ export interface ProviderAccount {
 
 export const PROVIDER_ACCOUNTS: Record<Provider, ProviderAccount[]> = {
   google: [
-    { id: "personal", title: MAYA.email, detail: "Personal: the address on her ExecHQ account", matches: true },
+    { id: "personal", title: MAYA.email, detail: "Personal: the address on her ExecEngine account", matches: true },
     { id: "work", title: "maya.chen@northwind.example", detail: "Work: her employer’s Google account", matches: false },
   ],
   apple: [
@@ -54,19 +54,19 @@ export const PROVIDER_ACCOUNTS: Record<Provider, ProviderAccount[]> = {
 };
 
 export const LOGIN_COPY = {
-  /** What ExecHQ is, in the same words as the start of onboarding. */
+  /** What ExecEngine is, in the same words as the start of onboarding. */
   welcome: { quote: WELCOME.quote, lede: WELCOME.lede },
 
   signIn: {
     kicker: "Welcome back",
-    heading: "Log in to ExecHQ",
+    heading: "Log in to ExecEngine",
     emailLabel: "Your email",
     keep: "Keep me logged in on this device",
     send: "Log in",
     or: "or",
     providers: { google: "Google", apple: "Apple" } satisfies Record<Provider, string>,
     providerLabel: (name: string) => `Continue with ${name}`,
-    newHere: "New to ExecHQ?",
+    newHere: "New to ExecEngine?",
     start: "Start here",
     empty: "Enter your email address to get a login code.",
     malformed: "That doesn’t look like an email address. Check it and try again.",
@@ -86,18 +86,18 @@ export const LOGIN_COPY = {
     otherAddress: "Use a different address",
     nothing: "Nothing arrived? Check your junk folder.",
     lostAccess: "Can’t get into that inbox?",
-    arrived: "New email from ExecHQ: Your login code.",
+    arrived: "New email from ExecEngine: Your login code.",
   },
 
   /** The drawn email. The subject and preview say nothing about her career. */
   email: {
     app: "Mail",
     back: "Inbox",
-    from: "ExecHQ",
+    from: "ExecEngine",
     subject: "Your login code",
     preview: "Here’s the code you asked for.",
     to: (email: string) => `to ${email} · now`,
-    codeLead: "Type this code in ExecHQ to log in:",
+    codeLead: "Type this code in ExecEngine to log in:",
     footer:
       "This code works for 10 minutes and only once. If you didn’t ask for it, you can ignore this email. No one can log in without it.",
     tryExpired: "Open it again after 10 minutes",
@@ -113,7 +113,7 @@ export const LOGIN_COPY = {
 
   otherAccount: {
     heading: "That’s a different account",
-    lede: "No ExecHQ account uses that address. Log in with the email you used when you joined, or start fresh.",
+    lede: "No ExecEngine account uses that address. Log in with the email you used when you joined, or start fresh.",
     back: "Log in with my email",
     fresh: "Start fresh",
   },

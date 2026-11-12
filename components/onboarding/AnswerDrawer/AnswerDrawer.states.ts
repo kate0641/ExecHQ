@@ -19,7 +19,7 @@ export const answerDrawerStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "Concept 3's drawer: it holds only the answer, since the question, what it is for and why ExecHQ is asking stay together on the page above it. Folds to a peek bar carrying the question; a drawn keyboard sits under it while a field has focus.",
+    "Concept 3's drawer: it holds only the answer, since the question, what it is for and why ExecEngine is asking stay together on the page above it. Folds to a peek bar carrying the question; a drawn keyboard sits under it while a field has focus.",
   component: AnswerDrawer,
   notApplicable: {
     ...CONTENT_INSIDE,

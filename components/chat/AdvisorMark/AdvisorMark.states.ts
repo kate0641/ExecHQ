@@ -8,7 +8,7 @@ export const advisorMarkStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "ExecHQ's mark in the conversation, chosen on 2026-09-24: a centre with six points gathered around it. Drawn in currentColor; always decorative.",
+    "ExecEngine's mark in the conversation, chosen on 2026-09-24: a centre with six points gathered around it. Drawn in currentColor; always decorative.",
   component: AdvisorMark,
   notApplicable: {
     ...NOT_INTERACTIVE,

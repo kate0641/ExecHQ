@@ -19,7 +19,7 @@ export const guidePageStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "One page of Concept 3, the guided onboarding: progress in words, what ExecHQ knows so far, the page, and a margin note saying why it is there. With an answer drawer, the question and its reason stay on the page and the drawer holds only the answer.",
+    "One page of Concept 3, the guided onboarding: progress in words, what ExecEngine knows so far, the page, and a margin note saying why it is there. With an answer drawer, the question and its reason stay on the page and the drawer holds only the answer.",
   component: GuidePage,
   notApplicable: {
     ...CONTENT_INSIDE,
@@ -48,7 +48,7 @@ export const guidePageStates = defineComponentStates({
     {
       label: "On a navy page",
       description:
-        "A step with no drawer, flooded navy: the headline and section labels in yellow, white cards on it. Signals, the recommendation, the first draft and Done (designer, 2026-10-15).",
+        "A step with no drawer, flooded navy: the headline and section labels in yellow, white cards on it. Signals, the recommendation, the first draft and Done.",
       props: {
         navy: true,
         kicker: GUIDE_C3.signals.kicker,

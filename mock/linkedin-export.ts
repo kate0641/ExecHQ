@@ -131,10 +131,10 @@ export const LINKEDIN_PICTURE_COPY = {
   /** Built on the onboarding spec's purpose, "how far your posts reach, and who they reach", and on what LinkedIn's
    *  export holds: totals, posts by date and reach (no titles), followers, and demographics (designer with Kate,
    *  2026-10-21; three charts before). */
-  /** Wide enough for all four figures, not reach alone (designer, 2026-10-21; "How far your posts reach" before). */
+  /** Wide enough for all four figures, not reach alone. */
   heading: "Your LinkedIn at a glance",
   intro: (from: string, to: string) => `${from} to ${to}, as LinkedIn reports it.`,
-  /** Short, so the four totals fit one row (designer, 2026-10-21; "times your posts were seen" before). */
+  /** Short, so the four totals fit one row. */
   seen: "times seen",
   reached: "people reached",
   followers: "followers",

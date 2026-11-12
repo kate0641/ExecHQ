@@ -19,7 +19,7 @@ export interface FigureDefinitionProps {
 /**
  * What a figure counts, where it comes from, the window it covers, and the
  * privacy rule it is under: one sentence each, plain enough for a talent lead
- * to repeat to their own leadership without ExecHQ in the room.
+ * to repeat to their own leadership without ExecEngine in the room.
  */
 export function FigureDefinition({ id, window, onClose, headingLevel = 3, headingId }: FigureDefinitionProps) {
   const fallbackId = useId();

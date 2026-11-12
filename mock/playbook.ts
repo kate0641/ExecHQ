@@ -8,14 +8,14 @@
  *   copy or export, mark ready or used. The tools differ in content only.
  * - A use case is one sentence on what the tool makes and one on when to use
  *   it. No feature tours.
- * - Inputs ask only for what this artifact needs. Anything ExecHQ already
+ * - Inputs ask only for what this artifact needs. Anything ExecEngine already
  *   knows arrives pre-filled and editable, with where it came from, and is
  *   never asked again.
  * - Enrichers are offered, never required: the draft never waits for one.
- * - Every output is a draft until she marks it ready. ExecHQ's wording is told
+ * - Every output is a draft until she marks it ready. ExecEngine's wording is told
  *   apart from her own, and anything only she knows is a question, never an
  *   invented number or name.
- * - Nothing says ExecHQ posts or sends: "Copy to post on LinkedIn", never
+ * - Nothing says ExecEngine posts or sends: "Copy to post on LinkedIn", never
  *   "Post to LinkedIn".
  */
 
@@ -38,7 +38,7 @@ export interface ToolUseCase {
   label: string;
   /** One sentence: when to use it. */
   when: string;
-  /** What she will need, short. Things ExecHQ already has are said so. */
+  /** What she will need, short. Things ExecEngine already has are said so. */
   needs: readonly string[];
   /** The action step it serves on Maya's plan, by id in `mock/plan.ts`. */
   planStepId?: string;
@@ -54,7 +54,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     makes: "Your positioning statement, a bio in three lengths and a leadership narrative, in your words.",
     short: "Your statement, bios and narrative",
     when: "Use it before anything that introduces you: a promotion conversation, a new boss, a conference program.",
-    needs: ["Your statement from onboarding (ExecHQ has it)", "A few recent accomplishments, if you want them in"],
+    needs: ["Your statement from onboarding (ExecEngine has it)", "A few recent accomplishments, if you want them in"],
     planStepId: "bio",
     // Like the other three: she can start a new one for each use (Kate,
     // 28 Oct), so it starts one rather than building out the one.
@@ -67,7 +67,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     makes: "A pitch to a conference, a podcast or an editor, with subject lines and the follow-up already drafted.",
     short: "Pitches for stages, shows and press",
     when: "Use it when there is a stage or a show the people above you pay attention to.",
-    needs: ["Who you are pitching (ExecHQ can suggest some)", "One or two things you can prove"],
+    needs: ["Who you are pitching (ExecEngine can suggest some)", "One or two things you can prove"],
     planStepId: "pitch-podcast",
     start: "Start a pitch",
   },
@@ -125,7 +125,7 @@ export interface ToolInput {
   options?: readonly string[];
   /** A choice where she can pick several. The value holds them one a line. */
   many?: boolean;
-  /** What ExecHQ already knows. Shown filled in and editable. */
+  /** What ExecEngine already knows. Shown filled in and editable. */
   value?: string;
   /** Where `value` came from. */
   source?: InputSource;
@@ -205,7 +205,7 @@ export const TL_INPUTS_DIRECT: readonly ToolInput[] = [
   {
     id: "topic",
     label: "What is it about?",
-    hint: "A few words. ExecHQ shapes the rest with you.",
+    hint: "A few words. ExecEngine shapes the rest with you.",
     kind: "text",
     placeholder: "What planning season taught me about scope",
   },
@@ -224,7 +224,7 @@ export const TL_TOPIC_FROM_STEP: Record<string, string> = {
 };
 
 /** A read's own opening for the post: why the article's point matters, in
- *  ExecHQ's framing. Read ids from `mock/briefing.ts`. */
+ *  ExecEngine's framing. Read ids from `mock/briefing.ts`. */
 export const READ_OPENINGS: Record<string, string> = {
   "planning-season": "Most new remits are handed out before anyone posts a role. They are decided in the plan.",
   "widen-a-remit": "When a marketing remit grows, the question changes from whether the work worked to whether people would follow you again.",
@@ -249,11 +249,11 @@ export const ENRICHERS: Record<string, Enricher> = {
 
 export const INPUT_COPY = {
   heading: "What this draft needs",
-  known: "ExecHQ already has these. Change anything that isn’t right.",
-  /** Concept 2's start: what ExecHQ has, as one line above the button. */
+  known: "ExecEngine already has these. Change anything that isn’t right.",
+  /** Concept 2's start: what ExecEngine has, as one line above the button. */
   builtWith: "Built with your",
   and: "and",
-  /** What each thing ExecHQ already has is called in "Built with your …". */
+  /** What each thing ExecEngine already has is called in "Built with your …". */
   names: { audience: "audience", example: "example", role: "role", statement: "positioning statement", toward: "direction", bio: "short bio" } as Record<string, string>,
   /** Closes the fields Edit opened under "Built with". */
   doneEditing: "Done",
@@ -276,7 +276,7 @@ export const INPUT_COPY = {
 /* -----------------------------------------------------------------------------
    THE DRAFT
    A draft is sections; each section is segments. A segment is her words,
-   ExecHQ's wording, or a question only she can answer. The editor shows the
+   ExecEngine's wording, or a question only she can answer. The editor shows the
    difference, so generated framing is never mistaken for what she said.
    -------------------------------------------------------------------------- */
 
@@ -370,7 +370,7 @@ export const FLOW_COPY = {
   editInputs: "Edit",
   rewrite: "Rewrite with these",
   cancelEdit: "Cancel",
-  rewriteNote: "ExecHQ writes a new version from these. The one you have now stays in Versions.",
+  rewriteNote: "ExecEngine writes a new version from these. The one you have now stays in Versions.",
   /** A version written from changed inputs, in Versions. */
   /** Concept 1: back to the clean read after changing a ready draft. */
   doneChanging: "Done",
@@ -381,11 +381,11 @@ export const FLOW_COPY = {
   next: "Next",
   previous: "Back",
   write: "Write my first draft",
-  /** Concept 1: the step that shows what ExecHQ already has. */
-  knownStep: "Check what ExecHQ has",
+  /** Concept 1: the step that shows what ExecEngine already has. */
+  knownStep: "Check what ExecEngine has",
   /** Concept 3, under the open draft on a phone: back to the changes. */
   changeDraft: "Change the draft",
-  /** The same last step when ExecHQ has nothing to show: only optional
+  /** The same last step when ExecEngine has nothing to show: only optional
    *  questions are left. */
   lastStep: "Anything else?",
   revise: "Revise",
@@ -433,9 +433,9 @@ export const DRAFT_COPY = {
     "thought-leadership": "Here is a first draft of your post. Change anything; it is yours.",
   } as Record<ArtifactKind, string>,
   legendYou: "Your words",
-  // Shorter, so the key is one line (designer, 28 Oct; was "ExecHQ's
+  // Shorter, so the key is one line (designer, 28 Oct; was "ExecEngine's
   // wording" and "A question only you can answer").
-  legendExechq: "ExecHQ’s words",
+  legendExechq: "ExecEngine’s words",
   legendQuestion: "Needs answer",
   questionLabel: "To answer:",
   answer: "Answer",
@@ -457,7 +457,7 @@ export const DRAFT_COPY = {
   /** Concept 2's page: unanswered questions are blank lines. */
   blanks: (n: number) => `${n} blank line${n === 1 ? " is a question" : "s are questions"} only you can answer.`,
   fillIn: "Fill them in",
-  gapsLead: "ExecHQ left these for you rather than guess.",
+  gapsLead: "ExecEngine left these for you rather than guess.",
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -511,7 +511,7 @@ export const VERSION_COPY = {
   /** What a version brought back says it is, in the list. */
   restoredWhat: (n: number) => `Version ${n}, brought back`,
   count: (n: number) => (n === 1 ? "1 version" : `${n} versions`),
-  /** Each row's number (designer, 2026-10-30; it was in a circle). */
+  /** Each row's number. */
   number: (n: number) => `Version ${n}`,
 } as const;
 
@@ -521,7 +521,7 @@ export const VERSION_COPY = {
 
 export const USE_COPY = {
   copy: "Copy",
-  /** By kind: what she does with it herself. ExecHQ never posts or sends. */
+  /** By kind: what she does with it herself. ExecEngine never posts or sends. */
   copyFor: {
     positioning: "Copy",
     pitch: "Copy to send",
@@ -543,8 +543,8 @@ export const USE_COPY = {
   markReady: "Mark ready",
   /** "Mark published", "Mark sent", "Mark used". */
   markUsed: (kind: ArtifactKind) => `Mark ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}`,
-  used: (kind: ArtifactKind) => `Marked ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}. ExecHQ will ask how it went.`,
-  ready: "Marked ready. ExecHQ will ask how it went once you use it.",
+  used: (kind: ArtifactKind) => `Marked ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}. ExecEngine will ask how it went.`,
+  ready: "Marked ready. ExecEngine will ask how it went once you use it.",
   /** Where she can export, by kind: copy for every output, PDF and Word for
    *  the Situation Brief, bios and long-form articles (brief's proposed answer). */
   exportable: {
@@ -560,7 +560,7 @@ export const USE_COPY = {
   /** Concept 1's one button once it is ready. */
   iveUsed: (kind: ArtifactKind) => `I’ve ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()} this`,
   /** The Playbook never publishes. */
-  neverPosts: "ExecHQ never posts or sends anything for you.",
+  neverPosts: "ExecEngine never posts or sends anything for you.",
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -686,7 +686,7 @@ export const LIBRARY_COPY = {
     delete: "Delete",
     more: (title: string) => `More for ${title}`,
   },
-  /** Concept 2's folders: one per tool, filed by ExecHQ. */
+  /** Concept 2's folders: one per tool, filed by ExecEngine. */
   folders: {
     names: {
       positioning: "Positioning",
@@ -737,8 +737,8 @@ export const LIBRARY_COPY = {
     /** States exactly what else goes, once. */
     body: (signalItems: number) =>
       signalItems === 0
-        ? "This deletes the draft and its record in ExecHQ. It can’t be undone."
-        : `This deletes the draft, its record in ExecHQ, and ${signalItems === 1 ? "1 item" : `${signalItems} items`} on your Signal Picture. It can’t be undone.`,
+        ? "This deletes the draft and its record in ExecEngine. It can’t be undone."
+        : `This deletes the draft, its record in ExecEngine, and ${signalItems === 1 ? "1 item" : `${signalItems} items`} on your Signal Picture. It can’t be undone.`,
     confirm: "Delete",
     keep: "Keep it",
     done: (title: string) => `${title} is deleted.`,
@@ -861,7 +861,7 @@ export const BRIEF_INPUTS: readonly ToolInput[] = [
   { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A board meeting", "A negotiation", "An executive conversation", "Something else"] },
   // Asked only after Something else, so the brief names it (CEO, 19 Oct).
   { id: "named", label: "What is it?", hint: "A skip-level, an offsite, a dinner. Say as much as you like.", kind: "text", placeholder: "A skip-level with my manager’s manager" },
-  { id: "date", label: "When is it?", hint: "If you know. ExecHQ asks how it went after it.", kind: "date", optional: true },
+  { id: "date", label: "When is it?", hint: "If you know. ExecEngine asks how it went after it.", kind: "date", optional: true },
   {
     id: "objective",
     label: "What do you want to come out of it?",
@@ -956,7 +956,7 @@ export const SEED_INPUTS: Record<string, Record<string, string>> = {
 
 export const STEP_BAR_COPY = {
   start: "Start",
-  /** The last step before the draft, with what ExecHQ already has. */
+  /** The last step before the draft, with what ExecEngine already has. */
   check: "Check",
   /** The same step with only optional questions left. */
   anythingElse: "Anything else",
@@ -1023,7 +1023,7 @@ export const TOOL_COPY = {
     cancel: "Not yet",
   },
   /** Situation Brief: when a date is known, the follow-up lands after it. */
-  askAfter: (when: string) => `ExecHQ will ask how it went ${when}.`,
+  askAfter: (when: string) => `ExecEngine will ask how it went ${when}.`,
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -1078,11 +1078,11 @@ export interface Outlet {
   internal?: boolean;
   ask?: OutletAsk;
   contact?: OutletContact;
-  /** The page it all came from, and the day ExecHQ checked it (ISO). */
+  /** The page it all came from, and the day ExecEngine checked it (ISO). */
   source?: { url: string; checked: string };
   /** Why it fits her angle and audience, in a line, for "Not sure yet". */
   fits?: string;
-  /** Who it reaches, and the plan areas it serves: the list ExecHQ keeps
+  /** Who it reaches, and the plan areas it serves: the list ExecEngine keeps
    *  for "Not sure yet" is filed by both (CEO, 19 Oct). */
   audiences?: readonly OutletAudience[];
   areas?: readonly string[];
@@ -1230,7 +1230,7 @@ export function pitchTypeOf(answer: string | undefined): PitchType | undefined {
 
 /** "Not sure yet": up to three that fit, of the kind she is pitching for. */
 export function suggestedOutlets(type: string | undefined, fit: { audience?: string; area?: string } = {}): Outlet[] {
-  // From the list ExecHQ keeps, filed by audience and plan area (CEO, 19
+  // From the list ExecEngine keeps, filed by audience and plan area (CEO, 19
   // Oct): the kind she is pitching for, then those that reach her audience,
   // then those that serve the plan area of her step.
   const score = (o: Outlet) =>
@@ -1262,8 +1262,8 @@ export const OUTLET_COPY = {
   /** The page publishes nothing about what they want. */
   noAsk: (watch: string) => `They don’t publish what they want. Read three recent ${watch} and pitch the gap.`,
   watchFor: { Speaking: "talks", Podcast: "episodes", Press: "articles" } as Record<PitchType, string>,
-  /** She named somewhere ExecHQ has no page for. */
-  notFound: (watch: string) => `ExecHQ couldn’t find their page. Check the name, or read three recent ${watch} and pitch the gap.`,
+  /** She named somewhere ExecEngine has no page for. */
+  notFound: (watch: string) => `ExecEngine couldn’t find their page. Check the name, or read three recent ${watch} and pitch the gap.`,
   /** The page names no contact: a question, never a guess. */
   noContact: {
     Speaking: "Who reviews talks? Look for a programme lead on the event’s page, or ask someone who has spoken there.",
@@ -1309,7 +1309,7 @@ export const SUGGEST_COPY = {
 
 export const SEND_STEPS_COPY = {
   heading: "Send it in four steps",
-  note: "Ticks are only for you. ExecHQ never sends anything for you.",
+  note: "Ticks are only for you. ExecEngine never sends anything for you.",
   check: {
     title: "Check it against what they asked for",
     wants: (name: string, format: string, topics: string) => `${name} wants ${format[0].toLowerCase()}${format.slice(1)}, on ${topics[0].toLowerCase()}${topics.slice(1)}.`,
@@ -1341,8 +1341,8 @@ export const SEND_STEPS_COPY = {
     title: "Mark it sent, and put the follow-up in your diary",
     done: "(done)",
     before: (days: number) =>
-      `Mark sent records where and when. ExecHQ asks how it went ${days} days later, and the follow-up in the draft is for a week after you send it.`,
-    after: (on: string, to: string, followUp: string, ask: string) => `Sent ${on}${to ? ` to ${to}` : ""}. Send the follow-up ${followUp} if you’ve heard nothing; ExecHQ asks how it went ${ask}.`,
+      `Mark sent records where and when. ExecEngine asks how it went ${days} days later, and the follow-up in the draft is for a week after you send it.`,
+    after: (on: string, to: string, followUp: string, ask: string) => `Sent ${on}${to ? ` to ${to}` : ""}. Send the follow-up ${followUp} if you’ve heard nothing; ExecEngine asks how it went ${ask}.`,
   },
   /** What a copy says it copied. */
   copied: (what: string) => `${what} copied.`,
@@ -1401,7 +1401,7 @@ export const POSITIONING_INPUTS: readonly ToolInput[] = [
   {
     id: "source",
     label: "Paste a bio you already have",
-    hint: "An old bio or profile. ExecHQ uses it to fill what it would otherwise ask.",
+    hint: "An old bio or profile. ExecEngine uses it to fill what it would otherwise ask.",
     kind: "long",
     optional: true,
   },
@@ -1475,14 +1475,14 @@ export const GOES_WITH = {
 
 /* -----------------------------------------------------------------------------
    AFTER SHE SAYS HOW IT WENT (13 October)
-   Her one-tap answer is the whole of the feedback: ExecHQ asks nothing more
+   Her one-tap answer is the whole of the feedback: ExecEngine asks nothing more
    and always comes back with the next step, built by rules from her answer,
    the work itself and her Plan (no model in the pilot). One leads, and at
    most one more. A step only goes on her Plan when she says so. Written up
    per builder in builders/*.md ("After she answers").
    -------------------------------------------------------------------------- */
 
-/** What ExecHQ can offer once she has answered. The first one leads. */
+/** What ExecEngine can offer once she has answered. The first one leads. */
 export type NextOffer =
   /** A Plan step to add. Without `stepId`, the one the brief's own goal
    *  points to (`HANDOFF_RULES`), or what's next on her Plan. */
@@ -1606,9 +1606,9 @@ export const AFTER_ANSWER: Record<ArtifactKind, Record<OutcomeType, AfterAnswer>
       readback: "Nothing yet.",
       offers: [{ type: "copy", sections: ["bio-short"], title: "Use it where you’re next introduced", body: "The short bio fits a speaker list, an invite or an intro email.", action: "Copy the short bio", copied: "Copied the short bio." }],
     },
-    // Her statement is what every tool draws on, so it never closes: ExecHQ
+    // Her statement is what every tool draws on, so it never closes: ExecEngine
     // only stops asking about this use of it (13 Oct).
-    "no-longer-relevant": { readback: "It’s no longer relevant. ExecHQ won’t ask about it again.", offers: [NEXT_ON_PLAN] },
+    "no-longer-relevant": { readback: "It’s no longer relevant. ExecEngine won’t ask about it again.", offers: [NEXT_ON_PLAN] },
   },
 };
 
@@ -1635,9 +1635,9 @@ export const NEXT_STEP_COPY = {
   },
   /** The next step already on her Plan. */
   nextOnPlan: { label: "Next on your plan", action: "Open your plan" },
-  /** After "Nothing yet": when ExecHQ asks again, in the kind's own words. */
+  /** After "Nothing yet": when ExecEngine asks again, in the kind's own words. */
   askAgain: (kind: ArtifactKind, when: string) =>
-    kind === "situation-brief" ? `ExecHQ will ask how it went ${when}.` : kind === "thought-leadership" ? `ExecHQ will ask how it landed ${when}.` : `ExecHQ will ask again ${when}.`,
+    kind === "situation-brief" ? `ExecEngine will ask how it went ${when}.` : kind === "thought-leadership" ? `ExecEngine will ask how it landed ${when}.` : `ExecEngine will ask again ${when}.`,
   /** Once she has set it aside. */
   logged: (readback: string) => `Logged: ${readback.charAt(0).toLowerCase()}${readback.slice(1)}`,
   /** A tool started from earlier work: says what it started from. */
@@ -1650,7 +1650,7 @@ export const NEXT_STEP_COPY = {
    PLAYBOOK FLOW CONCEPT 3 — ANSWERS AS TAPS (13 October)
    Every question in the Interview is answered with chips: check all that
    apply, or pick one where there is only one answer, plus Other for her own
-   words. Where ExecHQ knows something only she would say (her example
+   words. Where ExecEngine knows something only she would say (her example
    answers here, from her plan and direction), it leads the chips, so a tap
    still says something specific; the guardrail holds: nothing is invented
    for her. A date or a pasted bio stays a field.
@@ -1659,7 +1659,7 @@ export const NEXT_STEP_COPY = {
 export interface InterviewPick {
   mode: "one" | "many";
   options: readonly string[];
-  /** Her own answer, from what ExecHQ knows, leads the options. */
+  /** Her own answer, from what ExecEngine knows, leads the options. */
   fromHer?: boolean;
 }
 

@@ -8,7 +8,7 @@ export interface ConciergePillProps {
   ask?: string;
   /** A follow-up is due: the quiet dot. Never a count. */
   followUpDue?: boolean;
-  /** ExecHQ recorded something for her that she has not seen yet: the same quiet dot. */
+  /** ExecEngine recorded something for her that she has not seen yet: the same quiet dot. */
   newSignals?: boolean;
   expanded?: boolean;
   /** The id of the panel it opens. */
@@ -47,14 +47,14 @@ export function ConciergePill({
       onClick={onClick}
     >
       <span className="concierge-pill__here">
-        <Icon name={here.icon} size={18} />
+        <Icon name={here.icon} size={20} />
         <span>
           <span className="u-visually-hidden">You’re on </span>
           {here.label}
           <span className="u-visually-hidden">. </span>
         </span>
         {/* The dot rides on the chip's top right corner, not out beside the
-            advisor's mark (designer, 2026-10-12). */}
+            advisor's mark. */}
         {followUpDue || newSignals ? <span className="concierge-pill__dot" aria-hidden="true" /> : null}
       </span>
       <span className="concierge-pill__ask">{ask}</span>

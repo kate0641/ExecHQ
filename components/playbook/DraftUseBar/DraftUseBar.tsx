@@ -14,7 +14,7 @@ export interface DraftUseBarProps {
   onCopy: () => void;
   onExport?: (format: "PDF" | "Word") => void;
   onMarkReady: () => void;
-  /** Once ready: she used it ("Mark published"). ExecHQ asks what came of it later. */
+  /** Once ready: she used it ("Mark published"). ExecEngine asks what came of it later. */
   onMarkUsed?: () => void;
   /** Leaves Mark ready out, where the page has its own (Concept 1's bar). */
   noStatus?: boolean;
@@ -44,7 +44,7 @@ export interface DraftUseBarProps {
 /**
  * What she does with a draft: copy it (worded for what she'll do with it,
  * "Copy to post on LinkedIn"), export it where that is in scope, and mark it
- * ready. ExecHQ never posts or sends anything; the words say so.
+ * ready. ExecEngine never posts or sends anything; the words say so.
  */
 export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, exportInMenu = false, note, noNotes = false, copyInMenu = false, justCopied = false, secondary = false, className }: DraftUseBarProps) {
   const [message, setMessage] = useState(justCopied ? C.copied : "");

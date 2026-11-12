@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 /* A word that is already hyphenated is one word: it never breaks across lines, anywhere in the product
-   ("check-in", "one-page", "follow-up") (designer, 2026-10-16). CSS cannot stop a break at a hyphen, so as
+   ("check-in", "one-page", "follow-up"). CSS cannot stop a break at a hyphen, so as
    the page renders, a hyphen between two letters or digits becomes the non-breaking hyphen (U+2011),
    which every face here draws at the same width. Applied to what is on screen, never to the copy itself;
    fields, code and editable text are left as typed. */

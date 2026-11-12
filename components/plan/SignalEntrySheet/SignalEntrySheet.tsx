@@ -38,7 +38,7 @@ export interface SignalEntrySheetProps {
 }
 
 /**
- * The entry flow for something she did outside ExecHQ: four fields, the type,
+ * The entry flow for something she did outside ExecEngine: four fields, the type,
  * the date, and an optional link or note and what came of it. Nothing is searched for and nothing
  * leaves the browser. It opens fresh each time, and is offered at the moment it
  * is relevant, never kept as a standing form.
@@ -92,7 +92,7 @@ function EntryForm({ onClose, onSave, today, initial, editing, demoErrors }: Omi
         />
         {tried && errors.type ? (
           <p className="entry-form__error" role="alert">
-            <Icon name="flag" size={14} /> {errors.type}
+            <Icon name="flag" size={16} /> {errors.type}
           </p>
         ) : null}
       </div>
@@ -133,7 +133,7 @@ function EntryForm({ onClose, onSave, today, initial, editing, demoErrors }: Omi
         </>
       )}
       <p className="entry-form__privacy">{C.privacy}</p>
-      {/* The main action full width; leaving is the underlined link under it (designer, 2026-10-16). */}
+      {/* The main action full width; leaving is the underlined link under it. */}
       <div className="entry-form__actions sheet-actions">
         <Button type="submit" variant="primary" fullWidth>
           {editing ? C.saveEdit : C.save}

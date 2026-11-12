@@ -19,7 +19,7 @@ import { ACTIONS, HORIZONS } from "@/mock/plan-stub";
  * her word. Her next step is not here; it is the card under the rings. Left
  * out on the first return, when nothing is waiting.
  *
- * 4b adds the weekly check-in (Kate, 2026-10-23): due a week after her last
+ * 4b adds the weekly check-in: due a week after her last
  * answer, which in every moment but the first return is today. It comes after
  * what came of her work, so it never pushes that aside. Her answer stays
  * with this page: a reload asks again, as a prototype should.
@@ -36,7 +36,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
   // and tablet each takes most of the row, the next peeking in.
   const web = useViewport().viewport === "web";
   /* What a Ready answer offers to bring forward: the first medium-term step
-     not yet on her way (Kate, 2026-10-26). In the product it comes from her
+     not yet on her way. In the product it comes from her
      plan brief's "bring forward" rules. */
   const stretchStep = ACTIONS.find((a) => a.horizon === "medium" && !loop.tasks?.[a.id] && !loop.records.some((r) => r.id === a.artifactId));
   const due = dueFollowUps(loop.records, loop.today);

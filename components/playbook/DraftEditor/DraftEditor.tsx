@@ -29,7 +29,7 @@ export interface DraftEditorProps {
   id?: string;
   /**
    * How it reads once she has marked it ready:
-   * - `draft`: the working draft, with the key, ExecHQ's wording marked and
+   * - `draft`: the working draft, with the key, ExecEngine's wording marked and
    *   Edit on every section.
    * - `clean`: a finished document (Concept 1, option A). No key, no marking,
    *   no Edit; the questions still open gather in one folded box at the top.
@@ -60,7 +60,7 @@ export function sectionText(section: DraftSection, answers: Readonly<Record<stri
 }
 
 /** The questions a draft leaves for her, unanswered first. A question two
- *  parts share is asked once (designer, 2026-10-30): an answer is kept by
+ *  parts share is asked once: an answer is kept by
  *  its question, so one answer fills both. */
 export function draftQuestions(sections: readonly DraftSection[]): string[] {
   return [...new Set(sections.flatMap((section) => section.segments.filter(isQuestion).map((s) => s.question)))];
@@ -118,7 +118,7 @@ function SectionEditor({
 
 /**
  * The draft, where she reads and changes it. It is always called a draft
- * until she marks it ready. Her words and ExecHQ's wording look different,
+ * until she marks it ready. Her words and ExecEngine's wording look different,
  * with a key to say which is which, so generated framing is never mistaken
  * for what she said. Anything only she knows is a question in the text, not
  * an invented number or name, and the questions are gathered under the draft
@@ -164,7 +164,7 @@ export function DraftEditor({
                 onChange={(event) => setDrafts((d) => ({ ...d, [question]: event.target.value }))}
               />
               {/* On the ready draft's lime card, the strong navy button: never
-                  light blue on lime (designer, 2026-10-30). */}
+                  light blue on lime. */}
               <Button type="submit" variant={look === "clean" ? "strong" : "secondary"} size="sm">
                 {C.answer}
               </Button>
@@ -222,14 +222,14 @@ export function DraftEditor({
 
       {revising ? <GeneratingState label={revising} /> : null}
 
-      <div className="draft-editor__body" aria-busy={Boolean(revising) || undefined}>
+      <div className="card draft-editor__body" aria-busy={Boolean(revising) || undefined}>
         {sections.map((section) => {
           const name = section.heading ?? "the draft";
           const edited = edits[section.id];
           return (
             <section key={section.id} className="draft-editor__section" aria-label={section.heading ?? label}>
               <div className="draft-editor__section-head">
-                {section.heading ? <h3 className="draft-editor__section-heading">{section.heading}</h3> : <span />}
+                {section.heading ? <h2 className="draft-editor__section-heading">{section.heading}</h2> : <span />}
                 {editing === section.id || !working ? null : (
                   <span className="draft-editor__section-actions">
                     {sectionActions?.(section)}
@@ -274,7 +274,7 @@ export function DraftEditor({
                       )
                     ) : (
                       <li key={i} className={segment.by === "you" || !working ? "draft-editor__you" : "draft-editor__exechq"}>
-                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecEngine: </span> : null}
                         {segment.text}
                       </li>
                     )
@@ -293,7 +293,7 @@ export function DraftEditor({
                       )
                     ) : (
                       <span key={i} className={segment.by === "you" || !working ? "draft-editor__you" : "draft-editor__exechq"}>
-                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecEngine: </span> : null}
                         {segment.text}
                       </span>
                     )
@@ -307,9 +307,9 @@ export function DraftEditor({
 
       {working && open.length ? (
         <section className="draft-editor__gaps" aria-labelledby="draft-gaps-heading">
-          <h3 className="draft-editor__gaps-heading" id="draft-gaps-heading">
+          <h2 className="draft-editor__gaps-heading" id="draft-gaps-heading">
             {C.gapsHeading}
-          </h3>
+          </h2>
           <p className="draft-editor__gaps-lead">{C.gapsLead}</p>
           {gapForms}
         </section>

@@ -18,13 +18,13 @@ import type { Provider, ProviderAccount } from "@/mock/login";
    ENTRY
    -------------------------------------------------------------------------- */
 
-/** The welcome at the top of the account screen. What ExecHQ is, in the
+/** The welcome at the top of the account screen. What ExecEngine is, in the
  *  words of the pilot scope; the serif line answers the brand questionnaire's
  *  core audience — someone privately wondering what comes next, with nowhere
  *  to work on it. */
 export const WELCOME = {
   quote: "Somewhere to work on what comes next.",
-  heading: "Welcome to ExecHQ",
+  heading: "Welcome to ExecEngine",
   lede: "A private career advisor that takes you from “I’d like to be” to “I’m going to be”. It doesn’t just show you the way. It works for you to get you there.",
   cta: "Get started",
   inviteShow: "I have an invite code",
@@ -223,7 +223,7 @@ export const VOICE_SAMPLE = {
 
 /** What the plan was built from, as short tags: the direction, then each
  *  refinement answer. Every answer is shown whole: no text in the product
- *  is cut off with an ellipsis (designer, 2026-10-13). */
+ *  is cut off with an ellipsis. */
 export function builtFrom(direction: string, answers: Record<string, string>): string[] {
   const directionTag = direction.trim();
   const labels = refinementFor(direction)
@@ -252,7 +252,7 @@ export function towardFor(direction: string): string {
 export const PLAN_C1 = {
   eyebrow: "Your starting point",
   builtFrom: "Built from what you told us",
-  grows: "It sharpens as you go: every draft you make and every conversation you log tells ExecHQ what to do next.",
+  grows: "It sharpens as you go: every draft you make and every conversation you log tells ExecEngine what to do next.",
   thisWeek: "This week",
   why: "Why now:",
   now: "This week",
@@ -734,7 +734,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you lead",
       output: "The story of what you lead",
-      detail: "The version you\u2019d say out loud in a meeting. ExecHQ will write the first draft for you next.",
+      detail: "The version you\u2019d say out loud in a meeting. ExecEngine will write the first draft for you next.",
       why: "Every conversation about a bigger role starts with \u201cwhat do you lead?\u201d",
       fact: {
         text: "46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street.",
@@ -747,7 +747,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "As the start of your LinkedIn About section",
     ],
     horizon: "Stage by stage",
-    after: "Once these stages are done, ExecHQ will plan the next stretch with you, based on what worked and what didn\u2019t.",
+    after: "Once these stages are done, ExecEngine will plan the next stretch with you, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "First",
@@ -787,7 +787,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write how you describe yourself",
       output: "How you describe yourself",
-      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. ExecHQ will write the first draft for you next.",
+      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. ExecEngine will write the first draft for you next.",
       why: "Everything you say in public builds on it.",
       fact: {
         text: "Executive presence accounts for 26% of what it takes to get promoted.",
@@ -800,7 +800,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "Before you post or speak, to check it says the same thing",
     ],
     horizon: "Stage by stage",
-    after: "Once these stages are done, ExecHQ will plan the next stretch with you, based on what worked and what didn\u2019t.",
+    after: "Once these stages are done, ExecEngine will plan the next stretch with you, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "First",
@@ -840,7 +840,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story you\u2019ll tell in the room",
       output: "The story you\u2019ll tell in the room",
-      detail: "What you\u2019ve done, what you want, and why it should be you. ExecHQ will write the first draft for you next.",
+      detail: "What you\u2019ve done, what you want, and why it should be you. ExecEngine will write the first draft for you next.",
       why: "It\u2019s the core of your case, and the thing you\u2019ll rehearse.",
       fact: { text: "A sourced fact is needed here.", placeholder: true },
     },
@@ -850,7 +850,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "In the note that sets up the meeting",
     ],
     horizon: "Between now and the moment",
-    after: "After the moment, ExecHQ will plan what\u2019s next with you, based on how it went.",
+    after: "After the moment, ExecEngine will plan what\u2019s next with you, based on how it went.",
     stages: [
       {
         window: "This week",
@@ -890,7 +890,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you own",
       output: "The story of what you own",
-      detail: "What you\u2019re responsible for, in the words your leadership already uses. ExecHQ will write the first draft for you next.",
+      detail: "What you\u2019re responsible for, in the words your leadership already uses. ExecEngine will write the first draft for you next.",
       why: "Your work gets heard when it\u2019s described in the terms decisions are made in.",
       fact: { text: "A sourced fact is needed here.", placeholder: true },
     },
@@ -900,7 +900,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "When you meet a peer from another team",
     ],
     horizon: "Stage by stage",
-    after: "Once these stages are done, ExecHQ will plan the next stretch with you, based on what worked and what didn\u2019t.",
+    after: "Once these stages are done, ExecEngine will plan the next stretch with you, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "First",
@@ -940,7 +940,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you\u2019re good at",
       output: "The story of what you\u2019re good at",
-      detail: "What you do well, separated from where you\u2019ve done it. ExecHQ will write the first draft for you next.",
+      detail: "What you do well, separated from where you\u2019ve done it. ExecEngine will write the first draft for you next.",
       why: "It shows which strengths go with you anywhere, before you choose where.",
       fact: {
         text: "People who use their strengths every day are six times as likely to be engaged at work.",
@@ -953,7 +953,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "As the start of your LinkedIn About section",
     ],
     horizon: "Stage by stage",
-    after: "Once these stages are done, ExecHQ will plan the next stretch with you, based on what worked and what didn\u2019t.",
+    after: "Once these stages are done, ExecEngine will plan the next stretch with you, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "First",
@@ -1066,7 +1066,7 @@ export const MOCK_LINKEDIN_CONTEXT = {
 export const SIGNALS_C1 = {
   eyebrow: "Optional",
   title: "Build out your signals",
-  hint: "Bring in what\u2019s already out there, and ExecHQ will use it to shape your plan and your drafts.",
+  hint: "Bring in what\u2019s already out there, and ExecEngine will use it to shape your plan and your drafts.",
   later: "You\u2019ll be able to add other signals later.",
   privacy: "Nothing is posted or shared. Delete the file anytime.",
   skip: "Skip for now",
@@ -1919,9 +1919,9 @@ export const DRAFT_EXPORTS = [
 ];
 
 export const CHAT_C2 = {
-  advisor: "ExecHQ",
+  advisor: "ExecEngine",
   role: "Your advisor",
-  welcomeTitle: "Welcome to ExecHQ",
+  welcomeTitle: "Welcome to ExecEngine",
   welcomeQuote: "Somewhere to work on what comes next.",
   welcomeLede:
     "I\u2019m a private career advisor. I take you from \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be\u201d. I don\u2019t just show you the way. I work for you to get you there.",
@@ -2047,7 +2047,7 @@ export const CHAT_C2 = {
    -------------------------------------------------------------------------- */
 
 /**
- * Concept 3 explains as it goes, by decision on 2026-09-24: what ExecHQ is,
+ * Concept 3 explains as it goes, by decision on 2026-09-24: what ExecEngine is,
  * why each thing is asked, what a plan is and how each part helps. It asks
  * what decides the plan, recommends once, then asks what makes it the user's
  * own (2026-09-30), carries a file of what it has learned, and stops to make
@@ -2059,8 +2059,8 @@ export const CHAT_C2 = {
  * percentile.
  */
 export const GUIDE_C3 = {
-  from: "ExecHQ",
-  parts: ["About ExecHQ", "About you", "Your plan", "Your story"],
+  from: "ExecEngine",
+  parts: ["About ExecEngine", "About you", "Your plan", "Your story"],
   /** The answer drawer's own words. */
   drawer: {
     answer: "Answer",
@@ -2076,14 +2076,14 @@ export const GUIDE_C3 = {
   },
   file: { label: "What\u2019s saved", added: "Added" },
   welcome: {
-    wordmark: "ExecHQ",
+    wordmark: "ExecEngine",
     title: "Somewhere to work on what comes next.",
     lede: "Your private career advisor that doesn\u2019t just show you the way \u2014 it works for you and with you to get you there.",
     quote: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be.\u201d",
     cta: "Get started",
   },
   about: {
-    kicker: "What ExecHQ is",
+    kicker: "What ExecEngine is",
     title: "Crafting a plan for your career and the work to carry it out",
     lede: "A private career advisor for modern professionals ready to grow, with no agenda but your own.",
     points: [
@@ -2093,11 +2093,11 @@ export const GUIDE_C3 = {
       },
       {
         title: "Work done, not just advice",
-        detail: "Most steps come with artifacts made for you to use: ExecHQ drafts them, you make them yours.",
+        detail: "Most steps come with artifacts made for you to use: ExecEngine drafts them, you make them yours.",
       },
       {
         title: "Something that grows with you",
-        detail: "Finish a step, share what happened, or change direction, and ExecHQ updates the plan.",
+        detail: "Finish a step, share what happened, or change direction, and ExecEngine updates the plan.",
       },
     ],
     before: [
@@ -2105,7 +2105,7 @@ export const GUIDE_C3 = {
         title: "Private by design",
         detail: [
           "For your eyes only. Not your employer, not your manager, not anyone else.",
-          "Everything ExecHQ makes is yours to keep, edit, and export.",
+          "Everything ExecEngine makes is yours to keep, edit, and export.",
         ],
       },
     ],
@@ -2121,7 +2121,7 @@ export const GUIDE_C3 = {
     inviteYes: "I have an invite code",
     inviteNo: "I don\u2019t have a code",
     inviteField: "Invite code",
-    why: "Everything you tell ExecHQ builds on what came before. Your account is how it remembers, and how you come back to it.",
+    why: "Everything you tell ExecEngine builds on what came before. Your account is how it remembers, and how you come back to it.",
     cta: "Continue",
     /** Google and Apple, as on Login, by decision on 2026-10-08. */
     or: "or",
@@ -2135,27 +2135,27 @@ export const GUIDE_C3 = {
   verify: {
     kicker: "Your account",
     title: "Check your email",
-    lede: (email: string) => `ExecHQ has sent a 6-digit code to ${email}. It works for 10 minutes.`,
+    lede: (email: string) => `ExecEngine has sent a 6-digit code to ${email}. It works for 10 minutes.`,
     ask: "Type the code from the email.",
     why: "So the account is yours: only someone with your inbox can open it, and it\u2019s where your plan and your story come back to you.",
     resendIn: (seconds: number) => `Send it again in ${seconds}s`,
     resend: "Send it again",
     resent: "Sent again.",
     otherAddress: "Use a different address",
-    /** The address she typed, in its own card with Change (designer, 2026-10-13). */
+    /** The address she typed, in its own card with Change. */
     sentTo: "Sent to",
     nothing: "Nothing arrived? Check your junk folder.",
-    arrived: "New email from ExecHQ: Confirm your email.",
+    arrived: "New email from ExecEngine: Confirm your email.",
     /** Login's expired screen, in onboarding's voice (2026-10-08). The wrong
      *  code's words and the screen's heading and button are Login's own. */
     expiredLede: (email: string) =>
-      `Codes work for 10 minutes and only once. ExecHQ can send a new one to ${email}.`,
+      `Codes work for 10 minutes and only once. ExecEngine can send a new one to ${email}.`,
     cta: "Continue",
     /** The drawn email. Neutral, like Login's: nothing about her career. */
     email: {
       subject: "Confirm your email",
       preview: "Here\u2019s the code to finish setting up.",
-      codeLead: "Type this code in ExecHQ to confirm your email:",
+      codeLead: "Type this code in ExecEngine to confirm your email:",
       footer:
         "This code works for 10 minutes and only once. If you didn\u2019t ask for it, you can ignore this email.",
     },
@@ -2163,7 +2163,7 @@ export const GUIDE_C3 = {
   signals: {
     kicker: "Optional",
     title: "Start from how you already show up",
-    lede: "ExecHQ reads how far your posts reach, and who they reach, so your plan starts from where you already are.",
+    lede: "ExecEngine reads how far your posts reach, and who they reach, so your plan starts from where you already are.",
     add: "Add LinkedIn numbers",
     done: "Continue",
     skip: "Skip for now",
@@ -2180,26 +2180,26 @@ export const GUIDE_C3 = {
     /** One option picked: the same page, narrowing it down. */
     narrow: "Narrow it down",
     narrowTitle: "Which is closest?",
-    narrowLede: "A little more detail gives ExecHQ a clearer first step.",
+    narrowLede: "A little more detail gives ExecEngine a clearer first step.",
     narrowWhy: "Your plan needs a first step. The more specific the starting point, the clearer that step is.",
-    firstLede: "ExecHQ will start there, and keep the rest in view.",
+    firstLede: "ExecEngine will start there, and keep the rest in view.",
     /** Why the second question is asked, on its own: the first is already answered. */
     firstWhy: "Your plan needs a first step. Starting from the one that matters most gives it a clear direction, and the rest stay in view.",
-    why: "Everything ExecHQ builds points here. Pick all that are true, and it will start with the one that matters most.",
+    why: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most.",
     cta: "Continue",
   },
   rec: {
-    kicker: "ExecHQ\u2019s recommendation",
-    title: "Here\u2019s where ExecHQ would start",
+    kicker: "ExecEngine\u2019s recommendation",
+    title: "Here\u2019s where ExecEngine would start",
     next: "Next, a few quick questions to make it yours.",
     /** The other directions picked, said so they are not lost. */
     also: (goals: string, count: number) =>
-      `You also picked: ${goals}. ExecHQ will keep ${count > 1 ? "them" : "it"} in view as your plan grows.`,
-    why: "You should get a clear starting point, not a menu of options. ExecHQ will show you how it got there, and you can always change it.",
+      `You also picked: ${goals}. ExecEngine will keep ${count > 1 ? "them" : "it"} in view as your plan grows.`,
+    why: "You should get a clear starting point, not a menu of options. ExecEngine will show you how it got there, and you can always change it.",
     /** What a plan is, said where the plan is chosen. */
     whatIs: "A plan is how you get from where you are to where you want to be. Yours has two parts.",
     /** When the user chose a plan other than the recommended one. */
-    switched: (recommended: string) => `You chose this one instead. ExecHQ recommended ${recommended}.`,
+    switched: (recommended: string) => `You chose this one instead. ExecEngine recommended ${recommended}.`,
     cta: "Use this plan",
     others: "See other plans",
   },
@@ -2229,7 +2229,7 @@ export const GUIDE_C3 = {
   /** The question that decides the plan, asked before anything is recommended
    *  (2026-09-30). Only some directions have one. */
   decide: {
-    kicker: "Before ExecHQ recommends anything",
+    kicker: "Before ExecEngine recommends anything",
   },
   /** The questions that make the plan the user\u2019s own, asked after it. */
   questions: {
@@ -2242,17 +2242,17 @@ export const GUIDE_C3 = {
     why: {
       "scope-kind": "A step up can mean more people, more of the business, or a different seat. Each needs a different case.",
       "scope-when": "The timeline sets the pace: a near-term move and a three-year climb start in different places.",
-      "scope-block": "What\u2019s in the way decides what to do first, so ExecHQ asks it before it recommends a plan.",
-      "influence-where": "Influence is always over something. Knowing what tells ExecHQ where your plan should push.",
-      "influence-who": "Influence travels through people. Knowing whose backing matters most tells ExecHQ where to start.",
-      "influence-block": "What\u2019s holding you back decides what to do first, so ExecHQ asks it before it recommends a plan.",
+      "scope-block": "What\u2019s in the way decides what to do first, so ExecEngine asks it before it recommends a plan.",
+      "influence-where": "Influence is always over something. Knowing what tells ExecEngine where your plan should push.",
+      "influence-who": "Influence travels through people. Knowing whose backing matters most tells ExecEngine where to start.",
+      "influence-block": "What\u2019s holding you back decides what to do first, so ExecEngine asks it before it recommends a plan.",
       "presence-who": "Being seen means being seen by someone. The audience decides the kind of presence you build.",
       "presence-now": "How you\u2019re seen today is the starting line. The plan closes the gap between that and how you want to be seen.",
-      "presence-where": "Where you show up today tells ExecHQ what to build on, and what to start from scratch.",
+      "presence-where": "Where you show up today tells ExecEngine what to build on, and what to start from scratch.",
       "moment-what": "Each kind of moment needs a different kind of preparation.",
       "moment-when": "The date sets how much there\u2019s time for, and what to leave out.",
-      "moment-ready": "How ready you feel tells ExecHQ whether to check your case or help you build it.",
-      "explore-why": "Why you want a change says a lot about where to look, so ExecHQ asks it before it recommends a plan.",
+      "moment-ready": "How ready you feel tells ExecEngine whether to check your case or help you build it.",
+      "explore-why": "Why you want a change says a lot about where to look, so ExecEngine asks it before it recommends a plan.",
       "explore-keep": "What you\u2019d keep narrows the options to the ones worth testing.",
       "explore-when": "How soon decides how much testing there\u2019s time for.",
     } as Record<string, string>,
@@ -2267,7 +2267,7 @@ export const GUIDE_C3 = {
       replies: [
         "Then your work is already visible where it counts. Your plan gets that story to the people you haven\u2019t met yet.",
         "Roughly is a risky place to be: close enough to be trusted, not clear enough to be chosen. A sharper story fixes that.",
-        "Then the gap isn\u2019t your work, it\u2019s the telling. That\u2019s what ExecHQ builds first.",
+        "Then the gap isn\u2019t your work, it\u2019s the telling. That\u2019s what ExecEngine builds first.",
         "Then that\u2019s where to start. It\u2019s hard for anyone to back you if they don\u2019t know what you do.",
       ],
       fact: {
@@ -2313,7 +2313,7 @@ export const GUIDE_C3 = {
       {
         id: "stages",
         title: "Three stages",
-        what: "What your plan builds toward, in order, each with a finish line. When they\u2019re done, ExecHQ plans the next stretch with you.",
+        what: "What your plan builds toward, in order, each with a finish line. When they\u2019re done, ExecEngine plans the next stretch with you.",
         helps: "Each stage sets up the next, so the effort adds up.",
       },
     ],
@@ -2322,7 +2322,7 @@ export const GUIDE_C3 = {
     others: "See other plans",
     use: "Use this plan",
     othersTitle: "The other plans",
-    othersLede: "Each one is built for a different kind of next step. ExecHQ\u2019s recommendation is marked.",
+    othersLede: "Each one is built for a different kind of next step. ExecEngine\u2019s recommendation is marked.",
     othersCta: "Use this one",
   },
   story: {
@@ -2330,16 +2330,16 @@ export const GUIDE_C3 = {
      *  pages say so. The reflection before it is still onboarding. */
     kicker: "Playbook \u00b7 Positioning Builder",
     /** Said once, on the first draft: where this is, and where it will be. */
-    playbookIntro: "This is the Playbook, where ExecHQ makes your drafts. You\u2019ll find it any time from Ask or go.",
+    playbookIntro: "This is the Playbook, where ExecEngine makes your drafts. You\u2019ll find it any time from Ask or go.",
     reflect: {
       title: "Could you say what you lead in one sentence, right now?",
       lede: "Out loud, to someone who\u2019s never met you.",
       label: "Your story, out loud",
       options: ["Yes, easily", "Roughly", "Not really"],
       replies: [
-        "Good. ExecHQ will put it in writing, and you can sharpen it from there.",
-        "That\u2019s the gap to close. ExecHQ will draft that sentence for you next.",
-        "That\u2019s what this next part is for. ExecHQ will draft it from what you\u2019ve shared.",
+        "Good. ExecEngine will put it in writing, and you can sharpen it from there.",
+        "That\u2019s the gap to close. ExecEngine will draft that sentence for you next.",
+        "That\u2019s what this next part is for. ExecEngine will draft it from what you\u2019ve shared.",
       ],
       fact: {
         label: "Worth knowing",
@@ -2364,7 +2364,7 @@ export const GUIDE_C3 = {
         detail: {
           label: "Add more detail",
           // "and a" held together so "and" opens the second line: the first line
-          // is the longest of the three choices (designer, 2026-10-13).
+          // is the longest of the three choices.
           detail: "Your role, what you\u2019re responsible for and\u00a0a result, so it says what you lead.",
         },
         versions: {
@@ -2374,7 +2374,7 @@ export const GUIDE_C3 = {
         later: {
           label: "Save it and come back later",
           // "as next" held together so "as" opens the second line instead of
-          // hanging at the end of the first (designer, 2026-10-13).
+          // hanging at the end of the first.
           detail: "It\u2019s saved. Both of these wait for you as\u00a0next steps on your plan.",
         },
       },
@@ -2386,7 +2386,7 @@ export const GUIDE_C3 = {
       title: "Longer versions",
       lede: "The same story in three lengths, for different places: a line, a paragraph and the full bio.",
       lengthLabel: "Length",
-      gapNote: "The dashed parts are things ExecHQ doesn\u2019t know yet. Add them with the fields, or add more detail to your story.",
+      gapNote: "The dashed parts are things ExecEngine doesn\u2019t know yet. Add them with the fields, or add more detail to your story.",
       fill: {
         ask: "What\u2019s missing from your bio?",
         name: "Your name",
@@ -2514,7 +2514,7 @@ export function decidesPlanC3(questionId: string): boolean {
 }
 
 /** Why a plan fits, said early, from the direction alone. */
-/** Why this plan, said from what the user has told ExecHQ: the direction they
+/** Why this plan, said from what the user has told ExecEngine: the direction they
  *  narrowed to, then what is in their way, in their words. When an answer sent
  *  the plan somewhere else, that reason is the one given. */
 export function recommendationReasonC3(

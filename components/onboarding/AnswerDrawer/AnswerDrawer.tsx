@@ -35,7 +35,7 @@ export interface AnswerDrawerProps {
   hideActions?: boolean;
   /** Folded, the drawer leaves the screen instead of showing its peek bar:
    *  the page carries its own way back. The Plan, whose move card says
-   *  "Where are you with this?" (Kate, 2026-11-11). */
+   *  "Where are you with this?". */
   noPeek?: boolean;
   /** Return in a one-line field sends the answer. */
   className?: string;
@@ -48,7 +48,7 @@ const TEXT_FIELD = 'input:not([type="checkbox"]):not([type="radio"]):not([type="
 /**
  * Concept 3's answers come up in a drawer, by decision on 2026-09-24. Since
  * 2026-09-30 it holds only the answer: the question, what it is for and why
- * ExecHQ is asking stay together on the page above it (option B of three
+ * ExecEngine is asking stay together on the page above it (option B of three
  * tried). Where the drawer's field asks something more particular than the
  * page's heading, the field's own label says so.
  *
@@ -152,7 +152,7 @@ export function AnswerDrawer({
       >
         <button
           type="button"
-          className="answer-drawer__grab"
+          className="drawer__grab"
           aria-expanded
           aria-label={foldLabel}
           onClick={onToggle}

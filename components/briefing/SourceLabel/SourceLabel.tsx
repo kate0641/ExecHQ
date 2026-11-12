@@ -23,7 +23,7 @@ export function SourceLabel({ read, passage, size = "full", className }: SourceL
   return (
     <div className={["source-label", `source-label--${size}`, className].filter(Boolean).join(" ")}>
       <span className="source-label__label">
-        <Icon name="briefing" size={14} />
+        <Icon name="briefing" size={16} />
         {C.provenance}
       </span>
       <span className="source-label__source">{C.sourceLine(read.title, publisher)}</span>

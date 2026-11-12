@@ -9,8 +9,8 @@ export interface AccountPickerProps {
 
 /**
  * A stand-in for the account picker Google or Apple would show. It offers
- * the case that matters for ExecHQ beside the easy one: a work account, or a
- * hidden relay address, neither of which matches her ExecHQ account.
+ * the case that matters for ExecEngine beside the easy one: a work account, or a
+ * hidden relay address, neither of which matches her ExecEngine account.
  */
 export function AccountPicker({ accounts, onChoose, accountClassName }: AccountPickerProps) {
   return (
@@ -19,7 +19,7 @@ export function AccountPicker({ accounts, onChoose, accountClassName }: AccountP
         <li key={account.id}>
           <button
             type="button"
-            className={["account-picker__account", accountClassName].filter(Boolean).join(" ")}
+            className={["card", "account-picker__account", accountClassName].filter(Boolean).join(" ")}
             onClick={() => onChoose(account)}
           >
             <span className="account-picker__avatar" aria-hidden="true">

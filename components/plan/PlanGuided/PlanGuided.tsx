@@ -143,7 +143,7 @@ export function PlanGuided({
     partCount: stages.length,
     after: roadmap,
     // The Plan is a navy place: the page navy, its top section in a darkest-navy card, the drawer stone
-    // (designer, 2026-10-16).
+    //.
     navy: true,
   };
   const sheets = (
@@ -179,7 +179,7 @@ export function PlanGuided({
         >
           {note ? <output className="plan-guided__note">{note}</output> : null}
           {/* What changed is a record, not something to tap: one card with its title in a strip and the changes
-              split by dividers (designer, 2026-10-16). */}
+              split by dividers. */}
           {sparks.length ? (
             <section className="feature-card plan-guided__changed" aria-labelledby={`${headingId}-changed`}>
               <div className="feature-card__head feature-card__head--inverse">
@@ -194,7 +194,7 @@ export function PlanGuided({
               </ul>
             </section>
           ) : null}
-          <ReflectionReply from="ExecHQ" text={G.after} />
+          <ReflectionReply from="ExecEngine" text={G.after} />
         </GuidePage>
         {sheets}
       </>
@@ -246,7 +246,7 @@ export function PlanGuided({
         why={step.whyThis}
         headFoot={
           // The move card asks the question, and the drawer's foot bar is gone: one less bar at the foot,
-          // where the add button, Ask or go and the browser's toolbar already sit (Kate, 2026-11-11). It stays
+          // where the add button, Ask or go and the browser's toolbar already sit. It stays
           // while the drawer is open, filled to say so, and pressing it then folds the drawer.
           answer ? undefined : (
             <button
@@ -318,7 +318,7 @@ export function PlanGuided({
         }
       >
         {!answer && heardOf?.(step) ? <p className="plan-guided__heard">{heardOf(step)}</p> : null}
-        {answer ? <ReflectionReply from="ExecHQ" text={asking ? replyText : answer === "pass" ? [G.passed, passedLine[step.id]].filter(Boolean).join(" ") : replyText} /> : null}
+        {answer ? <ReflectionReply from="ExecEngine" text={asking ? replyText : answer === "pass" ? [G.passed, passedLine[step.id]].filter(Boolean).join(" ") : replyText} /> : null}
         {asking ? (
           <div className="plan-guided__reasons">
             <ChipGroup
@@ -330,7 +330,7 @@ export function PlanGuided({
                 if (picked) pass(picked.id);
               }}
             />
-            {/* A plain underlined link, not another button shape (designer, 2026-10-16). */}
+            {/* A plain underlined link, not another button shape. */}
             <button type="button" className="link link--standalone" onClick={() => pass(undefined)}>
               {G.noReason}
             </button>

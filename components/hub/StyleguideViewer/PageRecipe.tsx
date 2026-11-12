@@ -26,14 +26,14 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "What the page is made of.",
     rules: [
       {
-        rule: "Your day lives in daylight; your plan and your progress live in ExecHQ's room. A page about today (Home, the Briefing, the Playbook and her drafts, onboarding's quiet steps) is stone: she reads, writes and acts there. A page about her direction and where she stands (the Plan, the Signal Picture, Profile, onboarding's ExecHQ moments) is navy. For a new screen, ask: is this about today, or about her trajectory?",
-        why: "Dark text on a light page reads best for long reading and writing, older readers included (Nielsen Norman Group, 2020), and Home's skies need a light ground to show. Navy makes the few-words, look-once pages feel private and focused. The daily check-in on Home is the day; the Plan's stage check-in is the room. The advisor's sheet and drawers keep their own navy look on any page. The doors (the welcome, Login, signed out) keep the dark brand cover. Long text on a navy page sits on a white card, never light on dark (designer, 2026-10-18).",
+        rule: "Your day lives in daylight; your plan and your progress live in ExecEngine's room. A page about today (Home, the Briefing, the Playbook and her drafts, onboarding's quiet steps) is stone: she reads, writes and acts there. A page about her direction and where she stands (the Plan, the Signal Picture, Profile, onboarding's ExecEngine moments) is navy. For a new screen, ask: is this about today, or about her trajectory?",
+        why: "Dark text on a light page reads best for long reading and writing, older readers included (Nielsen Norman Group, 2020), and Home's skies need a light ground to show. Navy makes the few-words, look-once pages feel private and focused. The daily check-in on Home is the day; the Plan's stage check-in is the room. The advisor's sheet and drawers keep their own navy look on any page. The doors (the welcome, Login, signed out) keep the dark brand cover. Long text on a navy page sits on a white card, never light on dark.",
         from: "Home, Plan, Signal Picture, Profile, Onboarding",
         uses: ["--color-surface", "--color-surface-inverse", ".guide--navy", ".signals-page"],
       },
       {
         rule: "Cards come in four levels, named the same on every page. Strong, look here first, is navy on stone and white on navy, at most one on a stone page. Accent, a step below, is light blue on stone; on navy it is not a card, only the mark. Default, the normal card, is white on stone and darker navy on navy. Open is no card, straight on the page. A navy page's opening section may sit in darker navy and lead by coming first, with its yellow headline and its one yellow button.",
-        why: "A card's colour says how much it stands out on that page, and nothing else, so it works on stone and navy alike. Light tints wash toward white on navy, so the accent level turns into a mark there. What a card means (written for her, her words, ExecHQ) is a small mark or band, the same on any page (designer, 2026-10-18).",
+        why: "A card's colour says how much it stands out on that page, and nothing else, so it works on stone and navy alike. Light tints wash toward white on navy, so the accent level turns into a mark there. What a card means (written for her, her words, ExecEngine) is a small mark or band, the same on any page.",
         from: "Signal Picture, Plan, Home",
         uses: ["--color-surface-inverse", "--color-surface-for-her", "--color-surface-raised", "--color-surface-quiet-on-inverse"],
       },
@@ -51,7 +51,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "A card that takes her somewhere, with an icon, an eyebrow, a title and a line of copy, is always the EntryLink card: the icon on the eyebrow's line, the title, the line under it, a chevron at the right and the soft light blue to lime wash. The whole card is the link. Never a one-off restyle of the same content.",
-        why: "Same content, same card: she learns the shape once and reads it on any page. Next on your plan was its own row with a drawing; it is now the same card Navigation uses (designer, 2026-10-27).",
+        why: "Same content, same card: she learns the shape once and reads it on any page. Next on your plan was its own row with a drawing; it is now the same card Navigation uses.",
         from: "Navigation, Playbook",
         uses: ["EntryLink", ".entry-link", "--color-wash-start", "--color-wash-end"],
       },
@@ -94,17 +94,58 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
   },
   {
     title: "Type",
-    note: "Kulim Park for headings only; Inter for everything she reads or presses.",
+    note: "Rethink Sans for headings only; Inter for everything she reads or presses.",
     rules: [
       {
-        rule: "Only paragraphs get the airy 1.7 line spacing. A one-line label, date or note uses tight spacing (1.3), so a card that ends in one doesn't look heavier at the bottom than at the top.",
-        why: "Line spacing adds invisible space above and below each line. On a single line it pads the card's edge, so 20px of padding looks like 25.",
-        from: "Navigation",
-        uses: ["--leading-snug"],
+        rule: "Line spacing follows the job, not the size. Only paragraphs get the airy 1.7. A one-line label, date or note uses tight spacing (1.3), so a card that ends in one doesn't look heavier at the bottom than at the top. Anything read as a sentence over two or more lines, a definition included, gets at least 1.55, never the tight 1.3.",
+        why: "Line spacing adds invisible space above and below each line. On a single line it pads the card's edge, so 20px of padding looks like 25. On a sentence that wraps, tight spacing turns it into fine print: the admin dashboard's definitions read as disclaimers at 1.3.",
+        from: "Navigation, Admin Dashboard",
+        uses: ["--leading-snug", "--leading-normal", "--leading-relaxed"],
+      },
+      {
+        rule: "Hierarchy comes from meaning, not even spacing. Lines that belong together sit tight: a label, then what its number is out of, 2 to 4px apart. A clear break, about 12px, comes before a new kind of information, such as the definition.",
+        why: "Lines spaced evenly read as one paragraph, so the eye can't tell the statement from its explanation.",
+        from: "Admin Dashboard",
+        uses: ["--space-3xs", "--space-2xs", "--space-sm"],
+      },
+      {
+        rule: "What has to be read is never set smaller to make it quieter. Order comes from colour and weight: the line that describes a number in ink, the explanation under it in grey, both the same size.",
+        why: "A 14px grey line under 16px reads as a disclaimer or an asterisk note, even when it holds what the figure means.",
+        from: "Admin Dashboard",
+        uses: ["--color-text-primary", "--color-text-secondary"],
+      },
+      {
+        rule: "Cap the line length: about 40 characters for a short definition beside a figure, about 70 for a note across a card. Short multi-line definitions balance their lines.",
+        why: "Long lines are hard to track and leave a ragged last line; balanced lines read as one considered block.",
+        from: "Admin Dashboard",
+        uses: ["max-width: 40ch", "text-wrap: balance"],
+      },
+      {
+        rule: "Line breaks come from rules that hold at any width, never set by hand. No manual breaks or non-breaking spaces tuned to one screen.",
+        why: "Hand-set breaks look right at one width and wrong at the next, and break again whenever the copy changes. The designer chose a balance rule over their own preferred breaks for this reason (2026-11-03).",
+        from: "Admin Dashboard",
+        uses: ["text-wrap: balance", "text-wrap: pretty"],
+      },
+      {
+        rule: "A figure and its label read as one phrase: \"79% chose a plan\", \"14 pieces of work made\". The line under says what it is out of and when; the definition says how it is counted. Figures share one size across a page, close enough to their label to jump to without touching it.",
+        why: "\"14 · Work made · pieces of work\" read as nonsense. When the number, label and detail form a sentence, nothing needs decoding.",
+        from: "Admin Dashboard",
+        uses: ["--type-figure-size-lg", ".cohort-figure--row"],
+      },
+      {
+        rule: "The type and spacing scale stays tight, as a system's should, phone first. A desktop-only surface steps its roles up once, on its page wrapper, never per card: nothing under 14, sentences at 16 to 18, gaps at 32.",
+        why: "12 and 13px text and 20px gaps read as mobile styles on a laptop. Overriding the roles once keeps every card on that surface consistent and leaves the phone untouched.",
+        from: "Admin Dashboard",
+        uses: [".ent-page", "--type-caption-size", "--type-body-sm-size", "--ent-card-padding", "--ent-card-title", "--ent-divided-item"],
+      },
+      {
+        rule: "Check type by measuring, not by eye: text contrast at least 4.5:1, sizes and line heights read from the page, every last line checked for a word left alone.",
+        why: "Assumptions drift. Measuring caught gaps of 36, 48 and 28 where 32 was meant, and confirmed the grey text at 7.97:1 (2026-11-03).",
+        from: "Admin Dashboard",
       },
       {
         rule: "No text anywhere in the product is cut off with an ellipsis. Titles, headers, previews and placeholders wrap and show every word. An ellipsis written into the words stays: something in progress (Writing your first draft\u2026) and a prompt to type (Ask or go\u2026). One exception: a tool's pinned draft preview stops after two lines, because the card sits over the page and Show draft opens the whole draft.",
-        why: "Cut-off words hide what she needs to read. Keep a navy header short so it rarely needs a second line, but when it does, it wraps (designer, 2026-10-13).",
+        why: "Cut-off words hide what she needs to read. Keep a navy header short so it rarely needs a second line, but when it does, it wraps.",
         from: "Home, Onboarding",
       },
       {
@@ -114,8 +155,8 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--weight-bold", ".u-bold-hold"],
       },
       {
-        rule: "Kulim Park is for display, title and heading. Labels, eyebrows, subheadings, body and captions are Inter.",
-        why: "Kulim gives the page its voice in a few places; Inter keeps everything else calm and easy to read. This covers the advisor's name, the where-you-are chip and chat replies too.",
+        rule: "Rethink Sans is for display, title and heading. Labels, eyebrows, subheadings, body and captions are Inter.",
+        why: "Rethink Sans gives the page its voice in a few places; Inter keeps everything else calm and easy to read. This covers the advisor's name, the where-you-are chip and chat replies too.",
         from: "Home, Navigation",
         uses: ["--type-label-font", "--type-eyebrow-font", "--type-subheading-font"],
       },
@@ -155,13 +196,13 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         from: "Navigation",
       },
       {
-        rule: "Libre Baskerville italic is only for words that are said: a welcome line, ExecHQ speaking, her own words quoted back, a publication's name. Never a title, a label or interface text, and always clearly smaller than the screen's title.",
+        rule: "Libre Baskerville italic is only for words that are said: a welcome line, ExecEngine speaking, her own words quoted back, a publication's name. Never a title, a label or interface text, and always clearly smaller than the screen's title.",
         why: "One clear job keeps the serif meaning the same thing wherever it shows. At 22px under a 28px title it competed with the title on Reflection.",
         from: "Onboarding",
         uses: ["--type-editorial-*"],
       },
       {
-        rule: "The editorial role has four sizes, each with one job. 28px: the web welcome's statement on its dark panel. 18px: ExecHQ speaking on a guided step. 16px: her words quoted back, and the chat's welcome line. 14px, at the 500 weight: a short line under a heading, a quote inside the chat, a publication's name.",
+        rule: "The editorial role has four sizes, each with one job. 28px: the web welcome's statement on its dark panel. 18px: ExecEngine speaking on a guided step. 16px: her words quoted back, and the chat's welcome line. 14px, at the 500 weight: a short line under a heading, a quote inside the chat, a publication's name.",
         why: "The sizes had grown one per screen (14, 16, 22, 28). Four, each named for its job, make the choice obvious, and 14px italic needs the heavier weight to read.",
         from: "Onboarding",
         uses: ["--type-editorial-size", "--type-editorial-size-md", "--type-editorial-size-sm", "--type-editorial-size-xs", "--type-editorial-weight-xs"],
@@ -175,7 +216,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       {
         rule: "No line of copy leaves one word alone on its last line, and no line ends on a single word after a comma: that word drops to the next line.",
         why: "A lone word reads as a mistake and makes a short paragraph look unfinished; \"a result, so\" at a line's end hangs the same way. Both are set as the copy renders, never by editing it.",
-        from: "Onboarding",
+        from: "Onboarding, Admin Dashboard",
         uses: ["text-wrap: pretty", "keepAfterComma()"],
       },
       {
@@ -232,7 +273,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "Hover never carries meaning. Every tap target is at least 44px.",
-        why: "ExecHQ is used on a phone first.",
+        why: "ExecEngine is used on a phone first.",
         from: "Home",
       },
     ],
@@ -254,7 +295,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "The product's places are one row of icon tiles, all six in view, the one she is on in navy. While she chats the row stays put above the conversation.",
-        why: "Destinations stay in reach while chatting. Kate's icon row was kept over text tabs (designer, 2026-10-09).",
+        why: "Destinations stay in reach while chatting. Kate's icon row was kept over text tabs.",
         from: "Navigation",
         uses: ["--color-surface-inverse"],
       },
@@ -351,6 +392,32 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "An answer drawer's main action is full width, and any second action (Skip, Back, Later) is a secondary button the same size under it, a peer and never a smaller link. Onboarding and the Plan's check-ins share it.",
       "An example to follow (What good looks like) is the system's card with a grey eyebrow, like First draft.",
       "Kulim's letters close up: headings keep Kulim's own spacing (0), its text opens 0.01em and its labels 0.02em. The tighter word spacing stays.",
+    ],
+  },
+  {
+    page: "System cleanup and rebrand",
+    date: "9 November 2026",
+    added: [
+      "Rethink Sans replaces Kulim Park for display, title and heading, at the same sizes (its letters stand as tall) and its own spacing: display tracking and word spacing are 0.",
+      "The ExecEngine logo replaces ExecHQ: Exec gold or bright yellow, Engine navy or light blue, sized so its letters match the old mark's height.",
+      "One white card (.card), one card corner (20px, --radius-card), one text link (.text-link), one Close (the 44px icon button), one date tag (Badge tone when).",
+      "Small capitals are one type, the eyebrow at 12px, in blue when it names a card and in grey for dates, steps and publishers.",
+      "A white card of rows has 16px rows and a line that stops at the padding (the --list-* tokens, shared by List, SettingsGroup and .card--reads); rows split by a line outside a card sit 20 either side (--space-divided-item).",
+      "The 44px tap height is --button-target everywhere. The one text cut short with an ellipsis is the pinned draft preview, and Show draft opens it.",
+      "Tokens: one name per palette colour, no unused tokens, no Kulim spacing; unused styles and dated notes removed.",
+    ],
+  },
+  {
+    page: "Every-screen review",
+    date: "11 November 2026",
+    added: [
+      "The large logo is 36px tall everywhere (Welcome, onboarding, chat, Signed out); Login keeps its panel height, the room going above the logo.",
+      "One size each: medium buttons have 20px sides and 14px text, small buttons 14px, every text link 14px, every outline 1px (the outline button too).",
+      "Choice pills are 36 tall wherever they sit, with one of two edges: stone 250 on light surfaces, blue 300 on navy.",
+      "Pinned actions fade in over a 12px gradient from clear to the page, never a shadow.",
+      "Stay on track: every card centres its content in the white space under its band, with Save or the footer links kept at the bottom; a read-back is the band.",
+      "Plan's roadmap shows 40px under every stage card's text, open or closed.",
+      "With the drawn keyboard up, an answer drawer keeps its full height and the page above gives way.",
     ],
   },
 ];

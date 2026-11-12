@@ -20,7 +20,7 @@ const TONES = OUTCOME_OPTIONS.filter((o) => o.type !== "no-longer-relevant");
 /** One thing she did in the stage. */
 export interface CheckInItem {
   id: string;
-  /** Where it came from: one of her steps, something ExecHQ made with her, or something she added. */
+  /** Where it came from: one of her steps, something ExecEngine made with her, or something she added. */
   from: "step" | "execHQ" | "you";
   title: string;
   /** A detail under the title, in regular weight: where something she added ran ("LinkedIn article"). */
@@ -81,7 +81,7 @@ export interface StageCheckInProps {
 }
 
 /**
- * The stage check-in. ExecHQ decides a stage is finished, from her work, and before it builds on it, asks
+ * The stage check-in. ExecEngine decides a stage is finished, from her work, and before it builds on it, asks
  * how it went, one thing a page, with onboarding's page and answer drawer: what she did, with what she has
  * already said; what came of each thing she has not said yet; whether she got what finishing looks like;
  * and how she feels about her plan now. It ends on a read-back in her words. Every part can be skipped,
@@ -141,7 +141,7 @@ export function StageCheckIn({
     go(page + 1);
   };
   const web = useViewport().viewport === "web";
-  // Navy, as every Plan page is (designer, 2026-10-16).
+  // Navy, as every Plan page is.
   const top = { part: C.part, position: stageTitle, partIndex: page, partCount: pages.length, headingId, after: web ? aside : undefined, navy: true };
   const classes = ["stage-checkin", "plan-guided", className].filter(Boolean).join(" ");
   const unreported = items.filter((i) => !i.passed && !i.feedback).length;
@@ -153,7 +153,7 @@ export function StageCheckIn({
         <li key={item.id} className="stage-checkin__thing">
           {/* Where it came from at the left of one eyebrow line and when at the right, as the roadmap's stages
               have it; then what it is; then what came of it: the verdict first, her own words after it in a
-              quieter grey, there if she wants them (designer, 2026-10-16). */}
+              quieter grey, there if she wants them. */}
           <span className="stage-checkin__top">
             <span className="stage-checkin__from">{item.from === "execHQ" ? C.fromExecHQ : item.from === "you" ? C.fromYou : C.fromSteps}</span>
             {item.passed || item.what ? <span className="stage-checkin__when">{item.passed ? C.passed : item.what}</span> : null}
@@ -371,7 +371,7 @@ export function StageCheckIn({
       kicker={C.summaryKicker(stageTitle)}
       title={C.summaryTitle}
       className={classes}
-      // On to the next stage sits in the top card, at its right, not pinned to the foot (designer, 2026-10-21).
+      // On to the next stage sits in the top card, at its right, not pinned to the foot.
       // Not on to the next stage when she is already in it, or when she said this one is not finished yet.
       headAction={
         <Button variant="primary" onClick={onContinue}>
@@ -385,7 +385,7 @@ export function StageCheckIn({
         </Button>
       }
     >
-      <ReflectionReply from="ExecHQ" text={reply} />
+      <ReflectionReply from="ExecEngine" text={reply} />
       <section className="stage-checkin__section" aria-labelledby={`${headingId}-did`}>
         <h2 className="stage-checkin__heading" id={`${headingId}-did`}>
           {C.didHeading}

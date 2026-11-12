@@ -12,11 +12,11 @@ export const outletSuggestionsStates = defineComponentStates({
   status: "draft",
   flows: ["playbook-flow"],
   description:
-    "“Not sure yet” under Who are you pitching? (Kate, 14 Oct): up to three outlets of the kind she is pitching for, each with why it fits. Picking one fills in her answer; she can still type her own. Every outlet here is made up.",
+    "“Not sure yet” under Who are you pitching?: up to three outlets of the kind she is pitching for, each with why it fits. Picking one fills in her answer; she can still type her own. Every outlet here is made up.",
   component: OutletSuggestions,
   notApplicable: {
     disabled: "Every outlet can always be picked.",
-    loading: "The outlets are ExecHQ’s own list; nothing to wait for.",
+    loading: "The outlets are ExecEngine’s own list; nothing to wait for.",
     error: CONTENT_INSIDE.error,
     filled: NOT_AN_INPUT,
   },

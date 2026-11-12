@@ -356,7 +356,7 @@ function MenuPanel({ entries, id, labelledBy, anchor, sub = false, align, focusO
                 onPointerEnter={() => setOpenSub(null)}
               >
                 <span className="menu__mark menu__mark--check" aria-hidden="true">
-                  {entry.checked ? <Icon name="check" size={14} /> : null}
+                  {entry.checked ? <Icon name="check" size={16} /> : null}
                 </span>
                 <span className="menu__label">{entry.label}</span>
                 {entry.hint ? <span className="menu__hint">{entry.hint}</span> : null}
@@ -398,7 +398,7 @@ function MenuPanel({ entries, id, labelledBy, anchor, sub = false, align, focusO
                 </span>
                 <span className="menu__label">{entry.label}</span>
                 {entry.hint ? <span className="menu__hint">{entry.hint}</span> : null}
-                <Icon name="chevron" size={14} className="menu__chevron" />
+                <Icon name="chevron" size={16} className="menu__chevron" />
               </div>
               {isOpen ? (
                 <SubmenuPanel
@@ -504,7 +504,7 @@ export interface DropdownMenuProps {
    *  accessible name: an account menu. */
   avatar?: string;
   /** The icon alone, no words, no edge: a quiet "more" beside a link, as on
-   *  each part of a draft (designer, 2026-10-28). The label stays as its
+   *  each part of a draft. The label stays as its
    *  accessible name. Needs `icon`. */
   iconOnly?: boolean;
   entries: readonly MenuEntry[];
@@ -611,7 +611,7 @@ export function DropdownMenu({
             <span>{label}</span>
             {badge ? <span className="dropdown__badge">{badge}</span> : null}
             {srSuffix ? <span className="u-visually-hidden">{srSuffix}</span> : null}
-            <Icon name="chevron" size={14} className="dropdown__chevron" />
+            <Icon name="chevron" size={16} className="dropdown__chevron" />
           </>
         )}
       </button>

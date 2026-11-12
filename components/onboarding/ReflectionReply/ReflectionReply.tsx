@@ -1,5 +1,5 @@
 export interface ReflectionReplyProps {
-  /** Who is speaking, e.g. "ExecHQ". */
+  /** Who is speaking, e.g. "ExecEngine". */
   from: string;
   text: string;
   /** A fact to go with it, with where it comes from. Until sourced, it is
@@ -9,7 +9,7 @@ export interface ReflectionReplyProps {
 }
 
 /**
- * ExecHQ's answer to a reflection question, set as a pull quote: one of the
+ * ExecEngine's answer to a reflection question, set as a pull quote: one of the
  * editorial moments Libre Baskerville is kept for. A fact can follow. Facts
  * must be real and sourced before this ships, so until then they are drawn as
  * placeholders that cannot be mistaken for copy, and none of them ranks the
@@ -25,7 +25,7 @@ export function ReflectionReply({ from, text, fact, className }: ReflectionReply
         <figcaption>{from}</figcaption>
       </figure>
       {fact ? (
-        <div className={["reflection-reply__fact", fact.placeholder ? "is-placeholder" : null].filter(Boolean).join(" ")}>
+        <div className={["card", "reflection-reply__fact", fact.placeholder ? "is-placeholder" : null].filter(Boolean).join(" ")}>
           <p className="reflection-reply__fact-label">{fact.label}</p>
           <p className="reflection-reply__fact-text">{fact.text}</p>
           {fact.source ? <p className="reflection-reply__fact-source">{fact.source}</p> : null}

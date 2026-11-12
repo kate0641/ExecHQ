@@ -6,8 +6,7 @@ import type { FlowScreens } from "./flow-screens";
 /**
  * One flow's screens side by side, each the real page in its own frame at
  * true phone size, sized to its content so nothing inside is cut off. Each
- * is numbered above its frame, so a review can name a screen by number
- * (designer, 2026-10-21).
+ * is numbered above its frame, so a review can name a screen by number.
  */
 export function ScreenFrames({ flow, concept, title, screens }: FlowScreens) {
   return (

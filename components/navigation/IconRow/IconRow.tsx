@@ -36,7 +36,7 @@ export interface IconRowProps {
 
 /**
  * One row of icons, each over its name, that fits the width however many
- * there are. The advisor's navigation (designer, 2026-10-11): plain icons and
+ * there are. The advisor's navigation: plain icons and
  * their names, no tile and no strip. Only the current page is marked, its
  * icon in a filled circle and its name a step heavier. Nothing changes on
  * hover, which carries no meaning on a phone.

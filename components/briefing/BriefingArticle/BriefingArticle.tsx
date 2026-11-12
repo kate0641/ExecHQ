@@ -26,8 +26,8 @@ function numberNotes(body: ArticlePart[][]): number[][] {
 }
 
 /**
- * Briefing Concept 2's article, read in ExecHQ rather than at the publisher:
- * the whole text, with ExecHQ's notes all the way through. Each noted passage
+ * Briefing Concept 2's article, read in ExecEngine rather than at the publisher:
+ * the whole text, with ExecEngine's notes all the way through. Each noted passage
  * is highlighted and numbered, and its note says why that part matters to
  * her. Notes are for reading, not controls; responding is the reader bar's
  * Write a post.

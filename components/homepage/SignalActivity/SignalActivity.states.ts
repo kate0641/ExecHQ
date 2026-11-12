@@ -19,7 +19,7 @@ export const signalActivityStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "Provisional, until the Signal Picture in Sprint 3. One tracked signal and its last seven days as a dated list of facts, labelled by who can vouch for them: what ExecHQ saw is unmarked (a key says so), what the user reported is marked “Your word”, which opens how ExecHQ knows. No counts, bars or trends. With nothing in the window it shows one quiet line.",
+    "Provisional, until the Signal Picture in Sprint 3. One tracked signal and its last seven days as a dated list of facts, labelled by who can vouch for them: what ExecEngine saw is unmarked (a key says so), what the user reported is marked “Your word”, which opens how ExecEngine knows. No counts, bars or trends. With nothing in the window it shows one quiet line.",
   component: SignalActivity,
   notApplicable: {
     disabled: "“Your word” can always be opened.",
@@ -44,7 +44,7 @@ export const signalActivityStates = defineComponentStates({
     },
     {
       label: "“Your word” opened",
-      description: "Tapping the label says how ExecHQ knows a fact it didn’t see.",
+      description: "Tapping the label says how ExecEngine knows a fact it didn’t see.",
       props: {
         name: ready.signals[0].signal.name,
         entries: ready.signals[0].entries,

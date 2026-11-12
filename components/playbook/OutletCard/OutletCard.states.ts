@@ -13,7 +13,7 @@ export const outletCardStates = defineComponentStates({
   status: "draft",
   flows: ["playbook-flow"],
   description:
-    "Where a pitch goes, above the draft (Kate, 14 Oct): the outlet, what it asks for, the contact, how to send it, and the page it came from with the day it was checked. What the page doesn’t say is a question to her, never a guess. Every outlet here is made up.",
+    "Where a pitch goes, above the draft: the outlet, what it asks for, the contact, how to send it, and the page it came from with the day it was checked. What the page doesn’t say is a question to her, never a guess. Every outlet here is made up.",
   component: OutletCard,
   notApplicable: {
     ...NOT_INTERACTIVE,
@@ -32,7 +32,7 @@ export const outletCardStates = defineComponentStates({
       label: "No page found — failed to find it",
       props: { name: "The Growth Summit", type: "Speaking" as const, today },
       states: ["error"],
-      description: "Somewhere she named that ExecHQ has no page for.",
+      description: "Somewhere she named that ExecEngine has no page for.",
     },
     { label: "Inside her company", props: card("q1-planning-review") },
     {

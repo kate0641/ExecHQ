@@ -7,7 +7,7 @@ export interface BriefingReaderProps {
   read: BriefingRead;
   /** The read's actions (`ReadActions`). */
   actions?: ReactNode;
-  /** The whole article, read in ExecHQ (Concept 2, `BriefingArticle`).
+  /** The whole article, read in ExecEngine (Concept 2, `BriefingArticle`).
    *  Replaces the way out to the publisher's site with a credit. */
   article?: ReactNode;
   /** At the end of the article, after the credit: the way into Thought
@@ -21,11 +21,11 @@ export interface BriefingReaderProps {
 }
 
 /**
- * A read, opened: what ExecHQ says about it, what the publisher says it is
+ * A read, opened: what ExecEngine says about it, what the publisher says it is
  * about, and the way out to the publisher's site, with the read's actions
  * under it. Opening it counts as reading it. In the product the article is
- * read on the publisher's site; ExecHQ never shows the whole of it, except in
- * Concept 2, which reads it here with ExecHQ's notes (`article`).
+ * read on the publisher's site; ExecEngine never shows the whole of it, except in
+ * Concept 2, which reads it here with ExecEngine's notes (`article`).
  */
 export function BriefingReader({ read, actions, article, respond, picture, onClose, headingId, className }: BriefingReaderProps) {
   const publisher = publisherName(read.publisherId);
@@ -57,7 +57,7 @@ export function BriefingReader({ read, actions, article, respond, picture, onClo
       ) : (
         <>
           {/* A stand-in: the product leaves for the publisher's site here. */}
-          <button type="button" className="brief-reader__out" aria-describedby={`${read.id}-out-note`}>
+          <button type="button" className="text-link brief-reader__out" aria-describedby={`${read.id}-out-note`}>
             {C.read.openAt(publisher)}
             <Icon name="link" size={16} />
           </button>

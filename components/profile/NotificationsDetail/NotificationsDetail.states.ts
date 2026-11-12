@@ -12,7 +12,7 @@ export const notificationsDetailStates = defineComponentStates({
   status: "draft",
   flows: ["profile"],
   description:
-    "The only notifications there are: email, one switch for the plan and one for the Daily Briefing. ExecHQ is a website, so nothing else can reach her. Each takes effect at once.",
+    "The only notifications there are: email, one switch for the plan and one for the Daily Briefing. ExecEngine is a website, so nothing else can reach her. Each takes effect at once.",
   component: NotificationsDetail,
   notApplicable: {
     hover: controls,

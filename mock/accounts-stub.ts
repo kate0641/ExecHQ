@@ -1,7 +1,7 @@
 // TEMPORARY. Sprint 3 designs the Signal Picture and replaces this file.
 
 /* V1 has no account connections: LinkedIn and her website are never read or
-   connected, so everything here is what she types or ExecHQ records. The only
+   connected, so everything here is what she types or ExecEngine records. The only
    LinkedIn thing is an optional spreadsheet she uploads, as in onboarding. */
 
 /** The column captions over a start-and-now pair, and the suggestion's caption. */
@@ -152,13 +152,13 @@ export const PRESENCE_STUB = {
 
 export const SPARK_COPY = {
   label: "Recent movement",
-  /** A signal ExecHQ recorded for her, so she knows it did not come from her. */
+  /** A signal ExecEngine recorded for her, so she knows it did not come from her. */
   recordedSource: "Added for you",
   recorded: (title: string) => `“${title}” is on your Signal Picture now.`,
   hide: "Not right? Hide it",
   dismiss: "Dismiss",
   /** Before the source on Home's Signal Picture strip: "Great job! · Press".
-   *  They take turns, so two notes in a row never match (Kate, 2026-10-28). */
+   *  They take turns, so two notes in a row never match. */
   kickers: ["Great job!", "Nice one!", "Well done!"],
   dismissNote: (text: string) => `Dismiss: ${text}`,
   /** The small words above each note, by where it came from. */
@@ -170,7 +170,7 @@ export const SPARK_COPY = {
     other: "Something you added",
   },
   /** The count is the one thing she doesn't already know, so each line leads
-   *  to it; her first of a kind gets its own line (Kate, 2026-10-28). */
+   *  to it; her first of a kind gets its own line. */
   other: (what: string) => `Nice. ${what} is on your Signal Picture.`,
   podcast: (where: string, n: number) =>
     n === 1 ? `${where}! Your first podcast.` : `${where}! That’s podcast number ${n}.`,

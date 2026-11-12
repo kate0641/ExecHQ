@@ -37,7 +37,7 @@ function validate(name: string, size: string, startsOn: string): Partial<Record<
 /**
  * Starting a cohort: its name, how many people the sponsor expects, and when
  * the program starts. A cohort has no end date: it stops growing when the
- * sponsor closes its code (Kate, 2026-10-20). That is all: nothing about the people in it, and no list
+ * sponsor closes its code. That is all: nothing about the people in it, and no list
  * of who to invite, because the sponsor shares one code through its own
  * channels.
  */

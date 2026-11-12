@@ -1,5 +1,6 @@
 "use client";
 
+import { FOCUSABLE } from "@/components/focus";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
@@ -16,9 +17,6 @@ export interface DrawerProps {
   inline?: boolean;
   className?: string;
 }
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
  * A drawer that comes up from the foot of the phone screen, over the

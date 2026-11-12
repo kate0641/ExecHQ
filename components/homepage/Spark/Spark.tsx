@@ -76,7 +76,7 @@ export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAc
       {items.map((item) => (
         <li key={item.id} className="spark__note">
           <span className="spark__mark" aria-hidden="true">
-            <Icon name="spark" size={18} />
+            <Icon name="spark" size={20} />
           </span>
           <div className="spark__text">
             <span className="spark__source">

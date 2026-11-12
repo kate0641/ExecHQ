@@ -61,8 +61,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
     playbookActions.openConcept(concept);
   }, [concept]);
 
-  /* The showroom opens the page on one of its screens with `?screen=` (designer,
-     2026-10-21), so every piece can be reviewed at once: search with nothing
+  /* The showroom opens the page on one of its screens with `?screen=`, so every piece can be reviewed at once: search with nothing
      typed, with matches and with none, an empty folder and the empty library. Only what shows
      changes; nothing she has saved is. */
   const [screen, setScreen] = useState<string | null>(null);
@@ -93,10 +92,10 @@ export function usePlaybookPage(concept: PlaybookPage) {
   /** One artifact as a row, no card (Concept 1's list, brought over 14
    *  Oct): the title, then where it stands (in a folder) or its tool, and
    *  when she last touched it as a tag. Tapping the row opens it; there is
-   *  no menu (Kate, 14 Oct). */
+   *  no menu. */
   /** Inside the Pitches and Posts folders the name's opening words say
    *  nothing new, so the title starts after them: "The Q1 planning review",
-   *  "What three regions taught me about planning" (designer, 2026-10-28).
+   *  "What three regions taught me about planning".
    *  Everywhere else the saved name stays whole. */
   const FOLDER_PREFIX: Partial<Record<ArtifactKind, string>> = {
     pitch: TOOL_COPY.pitchTitle(""),
@@ -110,9 +109,9 @@ export function usePlaybookPage(concept: PlaybookPage) {
   };
 
   /** A positioning statement says what it is for, since she can have one
-   *  for each use (Kate, 28 Oct): a lime tag for each moment she picked in
+   *  for each use: a lime tag for each moment she picked in
    *  the builder, else one saying it came from onboarding. Lime, because
-   *  she chose them (designer, 28 Oct). */
+   *  she chose them. */
   const madeFor = (item: LibraryItem): string[] => {
     if (item.record.kind !== "positioning") return [];
     const moments = (playbook.drafts[item.record.id]?.inputs.context ?? "").split("\n").map((m) => m.trim()).filter(Boolean);
@@ -121,7 +120,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
 
   /** Where it stands, in its folder's words: statements take Draft, Ready
    *  and Archived in the Positioning folder; everything else, and
-   *  statements anywhere else, the Loop's (designer, 2026-10-28). */
+   *  statements anywhere else, the Loop's. */
   const folderStatus = (record: LibraryItem["record"]) =>
     record.kind === "positioning" ? (POSITIONING_FILTERS.find((f) => f.states.includes(record.state))?.label ?? statusLabel(record)) : statusLabel(record);
 
@@ -138,7 +137,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
           {(options.folder || options.mixed) && item.preview ? <span className="library__preview">{item.preview}</span> : null}
           {/* As cards (a folder, web's All tab and search), where it stands
               and when sit over the title as plain words, no tag; across
-              several folders its folder comes first (designer, 2026-10-28). */}
+              several folders its folder comes first. */}
           {cards ? (
             <span className="library__stamp">
               {options.mixed ? `${C.folders.names[record.kind]} · ` : null}
@@ -146,7 +145,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
             </span>
           ) : (
             <>
-              {item.tool} <Badge className="library__when">{when(item)}</Badge>
+              {item.tool} <Badge tone="when" className="library__when">{when(item)}</Badge>
             </>
           )}
           {options.folder && madeFor(item).length ? (
@@ -161,7 +160,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
         </>
       ),
       // As a card the whole of which opens it, it carries the chevron: only
-      // a card with a chevron is tappable (designer, 2026-10-13 and 10-28).
+      // a card with a chevron is tappable.
       // The List takes it in its badge place, the one trailing slot for a node that is not a button.
       trailing: cards ? { badge: <Icon name="chevron" size={16} className="library__go" /> } : undefined,
       href: artifactHref(record.id),
@@ -170,7 +169,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
 
   /** Library rows as a list, no card, a line between each. In a folder,
    *  web's All tab and search each row is its own card with the horizon
-   *  line (designer, 2026-10-28). */
+   *  line. */
   const list = (items: readonly LibraryItem[], options: { folder?: boolean; mixed?: boolean; label?: string } = {}): ReactNode =>
     items.length ? (
       <List
@@ -192,7 +191,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
   );
 
   /** The heading, with the magnifying glass at the right: it opens search
-   *  in a sheet (Kate, 14 Oct). */
+   *  in a sheet. */
   const libraryHeader = (
     <div className="library__header">
       <h2 className="library__heading" id={LIBRARY_ID}>

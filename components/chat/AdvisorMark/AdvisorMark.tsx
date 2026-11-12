@@ -5,7 +5,7 @@ export interface AdvisorMarkProps {
 }
 
 /**
- * ExecHQ's mark in the conversation: a centre with six points gathered
+ * ExecEngine's mark in the conversation: a centre with six points gathered
  * around it — your strengths drawn into one. Drawn in currentColor, so it
  * takes the palette when it lands. Always decorative: the name beside it, or
  * the message it introduces, carries the meaning.

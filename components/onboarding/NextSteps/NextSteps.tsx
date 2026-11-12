@@ -25,7 +25,7 @@ export interface NextStepsProps {
  */
 export function NextSteps({ label, steps, className }: NextStepsProps) {
   return (
-    <section className={["next-steps", className].filter(Boolean).join(" ")} aria-label={label}>
+    <section className={["card", "next-steps", className].filter(Boolean).join(" ")} aria-label={label}>
       <p className="next-steps__label">{label}</p>
       <ul className="next-steps__list">
         {steps.map((step) => (

@@ -11,7 +11,7 @@ export const recommendationCardStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "ExecHQ's recommendation stated as one: a plan and the reason for it. Concept 3 makes it early and tests it with every question after.",
+    "ExecEngine's recommendation stated as one: a plan and the reason for it. Concept 3 makes it early and tests it with every question after.",
   component: RecommendationCard,
   notApplicable: {
     ...NOT_INTERACTIVE,
@@ -28,7 +28,7 @@ export const recommendationCardStates = defineComponentStates({
     {
       label: "Named, with a status",
       props: {
-        lead: "ExecHQ would start you on",
+        lead: "ExecEngine would start you on",
         name: presence.name,
         formalName: presence.formalName,
         forWhom: planForWhom(presence),

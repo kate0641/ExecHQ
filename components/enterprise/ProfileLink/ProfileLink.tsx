@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { conceptHref } from "@/lib/manifest";
 import { PROFILE_LINK_COPY as C, SPONSOR_PERSON } from "@/mock/enterprise";
 
-/** The sponsor profile (Kate, 2026-10-22). */
+/** The sponsor profile. */
 const PROFILE = conceptHref("sponsor-profile", "concept-1");
 
 export interface ProfileLinkProps {
@@ -17,8 +17,7 @@ export interface ProfileLinkProps {
 
 /**
  * The sponsor's initials at the right of the enterprise header, opening
- * their profile (Kate, 2026-10-22: "instead of a dropdown just open the
- * profile"). It replaces the account menu: with Your profile and Sign out
+ * their profile. It replaces the account menu: with Your profile and Sign out
  * its only choices, and Sign out at the foot of the profile, a menu was one
  * step too many. On the profile itself it says so.
  */

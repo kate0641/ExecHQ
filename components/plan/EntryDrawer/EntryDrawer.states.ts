@@ -11,7 +11,7 @@ export const entryDrawerStates = defineComponentStates({
   status: "draft",
   flows: ["signals"],
   description:
-    "How she tells ExecHQ about what she did outside it: one row for each thing, with what it was, when, an optional link or note and how it went, or her LinkedIn followers as of a day. It opens with one row and grows when she wants more, so one thing is as quick as it ever was and several need no other route. Rows she leaves empty are ignored, and each is checked against her picture so she is not asked to add what is already there. She can still read her picture above it while she fills it in. Nothing is looked up and nothing leaves the browser.",
+    "How she tells ExecEngine about what she did outside it: one row for each thing, with what it was, when, an optional link or note and how it went, or her LinkedIn followers as of a day. It opens with one row and grows when she wants more, so one thing is as quick as it ever was and several need no other route. Rows she leaves empty are ignored, and each is checked against her picture so she is not asked to add what is already there. She can still read her picture above it while she fills it in. Nothing is looked up and nothing leaves the browser.",
   component: EntryDrawer,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -44,7 +44,7 @@ export const entryDrawerStates = defineComponentStates({
     },
     {
       label: "Already in her picture — is it this one?",
-      description: "A row's kind and date match something already there, whether ExecHQ recorded it or she added it. It says so and offers to leave that row out.",
+      description: "A row's kind and date match something already there, whether ExecEngine recorded it or she added it. It says so and offers to leave that row out.",
       props: {
         ...base,
         demoRows: [{ type: "published", on: "2026-11-02" }, { type: "press", on: "2026-10-20" }],

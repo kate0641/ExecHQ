@@ -38,7 +38,7 @@ export interface ToolPickerProps {
    *   option A, 15 Oct). With a `lead`, the next step's tool is under them.
    * - `card`: the rail's rows in one card, a hairline between them and
    *   each icon in its dawn, for the phone, so what each tool makes is
-   *   said there too (designer, 2026-10-28). With a `lead`, under them.
+   *   said there too. With a `lead`, under them.
    */
   layout: "tiles" | "chips" | "icons" | "rail" | "card";
   /** `icons`, `rail` and `card`: the tool her next plan step needs, as one row
@@ -78,7 +78,7 @@ export function ToolPicker({ hrefFor, layout, lead, label = "Tools", demo, class
       </nav>
     );
   }
-  // The rail: the tools first, then the step that needs one (Kate, 15 Oct).
+  // The rail: the tools first, then the step that needs one.
   if (shape === "rail" || shape === "card") {
     return (
       <nav className={["tool-picker", `tool-picker--${shape}`, className].filter(Boolean).join(" ")} aria-label={label}>
@@ -126,8 +126,7 @@ export function ToolPicker({ hrefFor, layout, lead, label = "Tools", demo, class
 }
 
 /** The next step's tool as the shared EntryLink card: the tool's icon on
- *  the eyebrow's line, the tool and the step (designer, 2026-10-27: every
- *  icon, eyebrow, title and line card is an EntryLink). */
+ *  the eyebrow's line, the tool and the step. */
 function LeadRow({ lead, demo }: { lead: ToolLead; demo?: ToolPickerProps["demo"] }) {
   return (
     <EntryLink

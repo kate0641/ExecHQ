@@ -14,15 +14,17 @@ export interface RespondLinkProps {
 /**
  * The way from a read into Thought Leadership Builder: "Write a post about
  * this", and what will happen, as one link. Under a read's actions, and at the
- * end of an article read in ExecHQ (Concept 2), where she has just finished
+ * end of an article read in ExecEngine (Concept 2), where she has just finished
  * it. Never a gate: the read is done whether she writes or not.
  */
 export function RespondLink({ href, onClick, demo, className }: RespondLinkProps) {
   return (
     <Link href={href} className={["respond-link", demo ? `is-${demo}` : null, className].filter(Boolean).join(" ")} onClick={onClick}>
-      <Icon name="pencil" size={16} />
       <span className="respond-link__text">
-        <span className="respond-link__label">{C.respond.action}</span>
+        <span className="respond-link__label">
+          <Icon name="pencil" size={16} />
+          {C.respond.action}
+        </span>
         <span className="respond-link__hint">{C.respond.hint}</span>
       </span>
       <Icon name="chevron" size={16} className="respond-link__go" />

@@ -54,7 +54,7 @@ export const settingsGroupStates = defineComponentStates({
     {
       label: "A long label wraps",
       props: {
-        label: "Everything ExecHQ sends to your personal email address",
+        label: "Everything ExecEngine sends to your personal email address",
         children: [row({ kind: "switch", icon: "bell", label: "Loop follow-ups", checked: true, onChange: () => {} }, "f")],
       },
     },

@@ -18,7 +18,7 @@ export interface FlowListProps {
  * flow or a concept there is enough to make it appear here.
  *
  * Concepts kept for a later version (`savedFor`) leave their flow's list and
- * sit in a section of their own after the sprints, "V2" (Kate, 2026-10-26),
+ * sit in a section of their own after the sprints, "V2",
  * each with the flow it belongs to.
  */
 export function FlowList({ compact = false, specs, headingLevel = 3 }: FlowListProps) {

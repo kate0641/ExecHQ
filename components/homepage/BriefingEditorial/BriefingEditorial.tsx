@@ -19,7 +19,7 @@ export interface BriefingEditorialProps {
   /** Today's reads, in the Briefing's order. The first leads. */
   reads: BriefingEditorialRead[];
   /** A photograph across the top that fades into the navy, with the words
-   *  in white on the navy below it (designer, 2026-10-09). */
+   *  in white on the navy below it. */
   cover?: boolean;
   /** Catalogue only: shows a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
@@ -35,7 +35,7 @@ const PAUSE_MS = 500;
  * serif, the product's one editorial face, under a thin top rule, with its
  * publication under it; the other reads follow as small bullets with theirs,
  * so she knows what today holds. Every headline is shown in full, over as
- * many lines as it needs (designer, 2026-10-12): the card grows rather than
+ * many lines as it needs: the card grows rather than
  * cut a headline short. It reads as something to read, not
  * something to do, so it stays visibly apart from plan recommendations. The
  * whole card is one link. On web the lead takes the left and the others the
@@ -91,7 +91,7 @@ export function BriefingEditorial({
     <Link
       ref={ref}
       href={href}
-      className={["briefing-editorial", cover ? "briefing-editorial--cover" : null, demo ? `is-${demo}` : null, className].filter(Boolean).join(" ")}
+      className={["card", "briefing-editorial", cover ? "briefing-editorial--cover" : null, demo ? `is-${demo}` : null, className].filter(Boolean).join(" ")}
     >
       {cover ? (
         <span className="briefing-editorial__light" aria-hidden="true">

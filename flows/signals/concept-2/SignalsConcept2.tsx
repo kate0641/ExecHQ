@@ -11,14 +11,14 @@ import { SignalsPage } from "../SignalsPage";
  * of the things she did, then where she started with its own suggestion: one
  * after the other on a phone, side by side on web, what came of it the wider.
  * One title, one Add button, one next move in Momentum. Only what she put out
- * in the world is on it: work inside ExecHQ, like a draft, is not a signal.
+ * in the world is on it: work inside ExecEngine, like a draft, is not a signal.
  *
  * For the person who wants to know whether she is keeping up before looking
  * at the record.
  */
 export function SignalsConcept2() {
   const p = usePlanPage();
-  // The page is navy (designer, 2026-10-18), so the phone's status bar runs navy to the top edge.
+  // The page is navy, so the phone's status bar runs navy to the top edge.
   useStatusBarTone("inverse");
   // On the web, what her LinkedIn export says sits under what came of it rather than under where she
   // started, so the two columns run about the same length. Phone and tablet keep the order written.

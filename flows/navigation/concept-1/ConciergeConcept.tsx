@@ -1,5 +1,6 @@
 "use client";
 
+import { keepTabInside } from "@/components/focus";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
@@ -218,9 +219,12 @@ export function ConciergeNav(props: NavConceptProps) {
     }
     screen.querySelector<HTMLInputElement>(`#${PANEL_ID} .chat-composer__field`)?.focus();
     function onKey(event: KeyboardEvent) {
-      if (event.key !== "Escape") return;
-      event.preventDefault();
-      closePanel();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closePanel();
+        return;
+      }
+      keepTabInside(event, document.getElementById(PANEL_ID));
     }
     document.addEventListener("keydown", onKey);
     return () => {
@@ -241,7 +245,7 @@ export function ConciergeNav(props: NavConceptProps) {
       {screen
         ? createPortal(
             <div className={`concierge-host concierge-host--${mobile ? "mobile" : "card"}`}>
-              <div className="concierge-host__pill">
+              <div className="concierge-host__pill" inert={concierge.open}>
                 <Pill {...props} />
               </div>
               <button
@@ -393,7 +397,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
                 send(draft.trim(), { kind: "go", flow: goTo.flowSlug });
               }}
             >
-              <Icon name={ICONS[goTo.flowSlug] ?? "home"} size={18} />
+              <Icon name={ICONS[goTo.flowSlug] ?? "home"} size={20} />
               {C.goHint(goTo.label)}
               <Icon name="chevron" size={16} className="concierge-go__go" />
             </button>

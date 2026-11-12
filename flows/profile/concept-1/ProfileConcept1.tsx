@@ -28,7 +28,7 @@ import { PROFILE_COPY as C, type ProfileDetailId } from "@/mock/profile";
  * and tablet a row opens its detail in a sheet; on web the list and the
  * detail sit side by side, with the account open to begin with.
  *
- * Cut on 2026-10-01: the "You" and "Connections" groups, and "What ExecHQ
+ * Cut on 2026-10-01: the "You" and "Connections" groups, and "What ExecEngine
  * uses". Notifications sits open on the page rather than behind a row, so
  * nothing there is hidden.
  *
@@ -81,7 +81,7 @@ function AccountSummary({ account, onEdit }: { account: Account; onEdit: () => v
           <div className="read-head">
             <span className="profile-fact__label">{C.account.nameLabel}</span>
             <button type="button" className="edit-link edit-link--icon" onClick={onEdit}>
-              <Icon name="edit" size={18} />
+              <Icon name="edit" size={20} />
               <span className="u-visually-hidden">{C.account.edit} your account</span>
             </button>
           </div>
@@ -179,7 +179,7 @@ export function ProfileConcept1() {
   const loop = useLoop();
   const account = loop.account;
   const publishers = useBriefing().publishers ?? [];
-  // A navy page (designer, 2026-10-15): the status bar runs the navy to the top.
+  // A navy page: the status bar runs the navy to the top.
   useStatusBarTone("inverse");
 
   /** The sheet that is open, on every viewport. */
@@ -190,7 +190,7 @@ export function ProfileConcept1() {
   const [downloading, setDownloading] = useState(false);
 
   /* The showroom opens the page on one of its screens or sheets with
-     `?screen=` (designer, 2026-10-15), so every piece can be reviewed at once. */
+     `?screen=`, so every piece can be reviewed at once. */
   useEffect(() => {
     const screen = new URLSearchParams(window.location.search).get("screen");
     /* eslint-disable react-hooks/set-state-in-effect -- the URL is only readable after mount */
@@ -284,7 +284,7 @@ export function ProfileConcept1() {
     const copy = ended === "deleted" ? C.delete : C.signOut;
     return (
       <div className="profile-end">
-        <Wordmark tone="light" className="profile-end__mark" />
+        <Wordmark size="xl" tone="light" className="profile-end__mark" />
         <h1 className="profile-end__heading" id="profile-end-heading" tabIndex={-1}>
           {copy.doneHeading}
         </h1>

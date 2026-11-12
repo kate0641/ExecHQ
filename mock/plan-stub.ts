@@ -13,7 +13,7 @@
 
 export type Horizon = "short" | "medium" | "long";
 
-/** `suggested` is an action ExecHQ has put on the map that she has not started
+/** `suggested` is an action ExecEngine has put on the map that she has not started
  *  or turned down (Homepage Concept 4). `deferred` reads the same way there. */
 export type ActionStatus = "accepted" | "declined" | "deferred" | "completed" | "suggested";
 
@@ -32,11 +32,11 @@ export const HORIZONS: HorizonInfo[] = [
 ];
 
 export interface SignalEntry {
-  /** `observed` happened in ExecHQ; `reported` the user told us. */
+  /** `observed` happened in ExecEngine; `reported` the user told us. */
   source: "observed" | "reported";
   text: string;
   on: string;
-  /** For a reported entry: how ExecHQ knows, shown when its label is tapped. */
+  /** For a reported entry: how ExecEngine knows, shown when its label is tapped. */
   how?: string;
 }
 
@@ -287,16 +287,16 @@ export const SIGNAL_COPY = {
   windowDays: 7,
   window: (from: string, to: string) => `Last 7 days · ${from} – ${to}`,
   /* Where a fact comes from, by who can vouch for it (decided 2026-09-29,
-     option B, "Mark the outside"). What ExecHQ saw happen is the baseline and
+     option B, "Mark the outside"). What ExecEngine saw happen is the baseline and
      carries no label; a key says so once. What the user reported is marked
-     "Your word", and tapping it says how ExecHQ knows. */
-  key: "Unmarked lines happened in ExecHQ.",
+     "Your word", and tapping it says how ExecEngine knows. */
+  key: "Unmarked lines happened in ExecEngine.",
   reportedLabel: "Your word",
   /** Read with the label, so it names what the tap does. */
-  reportedLabelHint: "How ExecHQ knows this",
-  howUsed: (date: string) => `You said so on ${date}. ExecHQ can’t see where you used it.`,
+  reportedLabelHint: "How ExecEngine knows this",
+  howUsed: (date: string) => `You said so on ${date}. ExecEngine can’t see where you used it.`,
   howNothingYet: (date: string) => `You told us on ${date} that nothing had come of it yet.`,
-  howOutcome: (date: string) => `You logged this on ${date}. ExecHQ wasn’t there, so it’s in your words.`,
+  howOutcome: (date: string) => `You logged this on ${date}. ExecEngine wasn’t there, so it’s in your words.`,
   /* One line per Loop event. `name` reads mid-sentence: "your leadership story". */
   drafted: (name: string) => `Drafted ${name}`,
   edited: (name: string) => `Worked on ${name}`,

@@ -23,12 +23,12 @@ const READ_HEADING = "briefing-read-heading";
  * A front page as a news app opens on: the first read as the lead story with
  * a big picture, the other two as rows with a small one, each with why it is
  * here, then "That's today's three". Each story opens a reader screen: "1
- * of 3", the picture, the whole article read here in ExecHQ (she never leaves
- * for the publisher) with ExecHQ's notes on highlighted passages all the way
+ * of 3", the picture, the whole article read here in ExecEngine (she never leaves
+ * for the publisher) with ExecEngine's notes on highlighted passages all the way
  * through. Back to the front page sits at the top beside "1 of 3". Where
  * she finishes the article: Save, "Was this worth your time?", the "Write a
  * post about this" card, then Next. No bar at the foot and no Ask or go pill
- * while she reads (Kate, 14 Oct).
+ * while she reads.
  *
  * On web it is one screen, a reading pane (option B, 19 Oct): today's three
  * down the left, each with why it is here and Read once opened, and the open

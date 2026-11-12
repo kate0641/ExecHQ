@@ -1,5 +1,6 @@
 "use client";
 
+import { shortCapsDate } from "@/components/dates";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
@@ -96,7 +97,7 @@ export function usePlanPage() {
   const seeded = loop.homeState !== "first-return";
   const recorded = recordedItems(loop.records, loop.tasks).filter((i) => !notices.hidden.includes(i.id));
   const pictureItems = [...recorded, ...addedItems(items, loop.today)];
-  /* What ExecHQ recorded in the last week, so she can tell it from what she added. */
+  /* What ExecEngine recorded in the last week, so she can tell it from what she added. */
   const freshRecorded = newlyRecorded(recorded, loop.today, notices.hidden);
   const freshKey = freshRecorded.map((i) => i.id).join("|");
   // Being on the Signal Picture is seeing them: the dot on the navigation clears.
@@ -105,8 +106,7 @@ export function usePlanPage() {
   }, [onSignals, freshKey]);
   const editing = editingItem ? items.find((i) => i.id === editingItem.id) : undefined;
 
-  /* The showroom opens the Signal Picture on one of its sheets with `?screen=` (designer,
-     2026-10-15): add, edit, or report on something she added or something the Loop made. Only
+  /* The showroom opens the Signal Picture on one of its sheets with `?screen=`: add, edit, or report on something she added or something the Loop made. Only
      sheets open this way; nothing she has saved is changed. Her picture loads after the page, so
      a sheet that needs a row waits for one, and opens once. */
   const screenOpened = useRef(false);
@@ -127,7 +127,7 @@ export function usePlanPage() {
     const rows = cameOfRows(pictureItems, loop.account.plan.startedOn, loop.today);
     const item = pictureItems.find((i) => i.editable);
     // A row she can still report on (nothing said yet) when the dock's state has one, so the sheet shows
-    // what tapping "Nothing reported yet" opens: for something ExecHQ made, How did it go? first.
+    // what tapping "Nothing reported yet" opens: for something ExecEngine made, How did it go? first.
     const kind = rows.filter((r) => (screen === "report-loop" ? Boolean(r.recordId) : Boolean(r.item)));
     const row = kind.find((r) => !r.came) ?? kind[0];
     /* eslint-disable react-hooks/set-state-in-effect -- the URL is only readable after mount */
@@ -322,7 +322,7 @@ export function usePlanPage() {
   };
   // Why she has this plan, under her direction: what she said in onboarding, or the day she chose it.
   const whyThisPlan = switchedTo ? RM.switchedOn(fullDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? "");
-  // The stage check-in. ExecHQ decides a stage is finished, from her work; the most recent finished stage
+  // The stage check-in. ExecEngine decides a stage is finished, from her work; the most recent finished stage
   // she has not checked in on (or put off) opens the check-in in place of the moves. Older ones stay history.
   const lastDone = [...windows].reverse().find((w) => w.status === "done");
   // Never one behind a stage she has already checked in on, such as one she said is not finished yet.
@@ -350,7 +350,7 @@ export function usePlanPage() {
           id: step.id,
           from: "execHQ",
           title: record.title,
-          what: record.usedOn ? STAGE_CHECKIN_COPY.used(fullDate(record.usedOn)) : step.title,
+          what: record.usedOn ? STAGE_CHECKIN_COPY.used(shortCapsDate(record.usedOn)) : step.title,
           feedback: said ? { tone: record.outcome?.type, words: record.outcome?.detail } : undefined,
           asksTone: true,
         }];
@@ -360,7 +360,7 @@ export function usePlanPage() {
         id: step.id,
         from: "step",
         title: step.title,
-        what: task?.doneOn ? STAGE_CHECKIN_COPY.done(fullDate(task.doneOn)) : "",
+        what: task?.doneOn ? STAGE_CHECKIN_COPY.done(shortCapsDate(task.doneOn)) : "",
         feedback: task?.outcome ? { tone: task.outcome.type, words: task.outcome.detail } : undefined,
         asksTone: true,
       }];
@@ -369,8 +369,7 @@ export function usePlanPage() {
     const added = pictureItems
       .filter((i) => i.source === "added" && w && i.on >= w.start && i.on <= w.end)
       .map((i): CheckInItem => {
-        // Its title, and where it ran as a detail under it, rather than one line joined by a dot (designer,
-        // 2026-10-16). A note she wrote in place of a title stays as it is.
+        // Its title, and where it ran as a detail under it, rather than one line joined by a dot. A note she wrote in place of a title stays as it is.
         const p = items.find((x) => x.id === i.id);
         const split = p && !p.note && p.where;
         return {
@@ -378,7 +377,7 @@ export function usePlanPage() {
         from: "you",
         title: split ? p.title : i.text,
         detail: split ? p.where : undefined,
-        what: STAGE_CHECKIN_COPY.added(fullDate(i.on)),
+        what: STAGE_CHECKIN_COPY.added(shortCapsDate(i.on)),
         feedback: i.impact ? { words: i.impact } : i.editable ? undefined : {},
         asksTone: false,
         };
@@ -517,7 +516,7 @@ export function usePlanPage() {
     />
   );
 
-  // Momentum: her week, counted from her plan, her work in ExecHQ, and the signals she added.
+  // Momentum: her week, counted from her plan, her work in ExecEngine, and the signals she added.
   const momentum = (
     <PlanMomentum
       key={`momentum-${loop.id}`}
@@ -564,7 +563,7 @@ export function usePlanPage() {
   const startedOf = (withLinkedInView: boolean) => (
     <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
       {/* Once she has a starting point, Where you started is a section like What came of it: its heading on
-          the page, the card under it (designer, 2026-10-18). Before, the form carries its own heading. */}
+          the page, the card under it. Before, the form carries its own heading. */}
       {hasBaseline(baseline, seeded) ? (
         <>
         <div className="plan-stub__started">
@@ -589,7 +588,7 @@ export function usePlanPage() {
         </div>
         <div className="plan-stub__linkedin">
           {/* With the view of her export beside it, the upload is that view's footnote, under it; on its own
-              it keeps its heading (designer, 2026-10-21). */}
+              it keeps its heading. */}
           {withLinkedInView && linkedInView ? (
             <>
               {linkedInView}

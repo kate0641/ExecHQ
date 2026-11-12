@@ -50,7 +50,7 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
     setPicked((now) => (now.includes(id) ? now.filter((p) => p !== id) : [...now, id]));
 
   /* Every publisher always shows, in its group's card: a check on the right
-     says it feeds her Briefing (designer, 2026-10-15). */
+     says it feeds her Briefing. */
   const groups = PUBLISHER_GROUPS.map((group) => {
     const titleId = `publisher-group-${group.id}`;
     return (
@@ -66,7 +66,7 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
                 <button type="button" className="publisher-picker__row" aria-pressed={on} onClick={() => toggle(p.id)}>
                   <span className="publisher-picker__name">{p.name}</span>
                   <span className="publisher-picker__check" aria-hidden="true">
-                    {on ? <Icon name="check" size={12} /> : null}
+                    {on ? <Icon name="check" size={16} /> : null}
                   </span>
                 </button>
               </li>
@@ -129,7 +129,7 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
         </>
       ) : (
         <>
-          <section className="publisher-picker__suggested" aria-labelledby="publisher-suggested-heading">
+          <section className="card publisher-picker__suggested" aria-labelledby="publisher-suggested-heading">
             <h3 className="publisher-picker__suggested-heading" id="publisher-suggested-heading">
               {C.suggestedHeading}
             </h3>

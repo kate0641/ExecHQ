@@ -11,7 +11,7 @@ export const briefingArticleStates = defineComponentStates({
   status: "draft",
   flows: ["daily-briefing"],
   description:
-    "Briefing Concept 2's article, read in ExecHQ rather than at the publisher: the whole text with ExecHQ's notes all the way through. Each noted passage is highlighted and numbered; its note sits under the paragraph on a phone and tablet, and in the margin on web. Notes are for reading, not controls.",
+    "Briefing Concept 2's article, read in ExecEngine rather than at the publisher: the whole text with ExecEngine's notes all the way through. Each noted passage is highlighted and numbered; its note sits under the paragraph on a phone and tablet, and in the margin on web. Notes are for reading, not controls.",
   component: BriefingArticle,
   notApplicable: {
     ...NOT_INTERACTIVE,

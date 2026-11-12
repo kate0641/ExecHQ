@@ -21,11 +21,11 @@ export interface SignalActivityProps {
   /** Today, so today's entries say "Today". */
   today?: string;
   /** The key to the labels, under the window: "Unmarked lines happened in
-   *  ExecHQ." Given once per page, where the first list is. */
+   *  ExecEngine." Given once per page, where the first list is. */
   keyLine?: string;
   headingLevel?: 2 | 3;
   headingId?: string;
-  /** Catalogue only: opens one entry's "how ExecHQ knows", or shows the
+  /** Catalogue only: opens one entry's "how ExecEngine knows", or shows the
    *  first label in a state a static page can't reach. */
   demo?: { open?: number; label?: "hover" | "focus" | "active" };
   className?: string;
@@ -40,9 +40,9 @@ function dayLabel(date: string, today?: string): string {
  * One tracked signal and what happened on it recently, as a dated list of
  * facts. PROVISIONAL: a stand-in for the Signal Picture, designed in Sprint 3.
  *
- * Labelled by who can vouch for each fact. What ExecHQ saw happen carries no
+ * Labelled by who can vouch for each fact. What ExecEngine saw happen carries no
  * label (a key line says so); what the user reported is marked "Your word",
- * and tapping that says how ExecHQ knows. The node beside each entry repeats
+ * and tapping that says how ExecEngine knows. The node beside each entry repeats
  * the difference by shape (filled or hollow) and is hidden from assistive
  * technology, so nothing rests on the mark alone. There are no counts, bars
  * or trends: facts only.

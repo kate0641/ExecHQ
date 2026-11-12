@@ -20,7 +20,7 @@ export interface OutletSuggestionsProps {
 }
 
 /**
- * "Not sure yet" under Who are you pitching? (Kate, 14 Oct): up to three
+ * "Not sure yet" under Who are you pitching?: up to three
  * outlets that fit what she is pitching for, each with one line on why.
  * Picking one fills in the answer; she can still type her own.
  */
@@ -39,12 +39,12 @@ export function OutletSuggestions({ outlets, type, chosen, onPick, startOpen = f
         <ul className="outlet-suggest__list">
           {outlets.map((o) => (
             <li key={o.id}>
-              <button type="button" className={["outlet-suggest__option", optionClassName].filter(Boolean).join(" ")} aria-pressed={isChosen(o)} onClick={() => onPick(o.name)}>
+              <button type="button" className={["card", "outlet-suggest__option", optionClassName].filter(Boolean).join(" ")} aria-pressed={isChosen(o)} onClick={() => onPick(o.name)}>
                 <span className="outlet-suggest__name">
                   {o.name}
                   {isChosen(o) ? (
                     <span className="outlet-suggest__chosen">
-                      <Icon name="check" size={14} />
+                      <Icon name="check" size={16} />
                       {C.chosen}
                     </span>
                   ) : null}
