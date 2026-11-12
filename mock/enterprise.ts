@@ -14,7 +14,6 @@
  */
 
 import { shortCapsDate } from "@/components/dates";
-import { shortCapsDate } from "@/components/dates";
 import { fullDate } from "@/lib/loop";
 
 /** No figure is shown for fewer active participants than this. Settled in the
