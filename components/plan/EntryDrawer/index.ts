@@ -1,2 +1,2 @@
 export { EntryDrawer, default } from "./EntryDrawer";
-export type { EntryDrawerProps } from "./EntryDrawer";
+export type { EntryDrawerProps, EntryValues } from "./EntryDrawer";

@@ -614,7 +614,6 @@ export const ENTRY_DRAWER_COPY = {
 } as const;
 
 export const ENTRY_COPY = {
-  title: "Add something you did",
   editTitle: "Edit what you added",
   typeLabel: "What did you do?",
   dateLabel: "When was it?",
@@ -633,13 +632,8 @@ export const ENTRY_COPY = {
   errorFollowers: "Type a whole number, such as 1,310.",
   impactLabel: "How did it go?",
   impactHint: "Optional. A reply, a comment, an invitation, or nothing yet. In your words.",
-  save: "Add",
   saveEdit: "Save",
-  cancel: "Cancel",
   privacy: "Only you see this. Nothing is searched for or shared.",
-  errorType: "Choose what it was.",
-  errorDate: "Say when it happened.",
-  errorFuture: "That date hasn’t happened yet.",
 } as const;
 
 /* -----------------------------------------------------------------------------

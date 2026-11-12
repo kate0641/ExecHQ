@@ -52,7 +52,7 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
       {
         id: "page",
         label: "The page, top to bottom",
-        note: "Momentum, how it went, where she started. The dock's homepage states change what she has; the first one asks where she is starting from. Edit shows only on rows she added herself, none in the sample states; its form is in the component catalogue under SignalEntrySheet.",
+        note: "Momentum, how it went, where she started. The dock's homepage states change what she has; the first one asks where she is starting from. Edit shows only on rows she added herself, none in the sample states; it opens the Add drawer filled in, shown in the component catalogue under EntryDrawer.",
         full: true,
       },
       { id: "add", label: "Add to your picture", note: "Add, on Where you started.", query: "screen=add" },

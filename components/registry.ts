@@ -93,7 +93,6 @@ import { mailNotificationStates } from "./login/MailNotification/MailNotificatio
 import { signInEmailStates } from "./login/SignInEmail/SignInEmail.states";
 import { accountPickerStates } from "./login/AccountPicker/AccountPicker.states";
 import { planSignalPictureStates } from "./plan/PlanSignalPicture/PlanSignalPicture.states";
-import { signalEntrySheetStates } from "./plan/SignalEntrySheet/SignalEntrySheet.states";
 import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.states";
 import { planDirectionStates } from "./plan/PlanDirection/PlanDirection.states";
 import { addToPlanSheetStates } from "./plan/AddToPlanSheet/AddToPlanSheet.states";
@@ -224,7 +223,6 @@ export const registry: RegisteredComponent[] = [
   entryDrawerStates,
   reportDrawerStates,
   linkedInPictureStates,
-  signalEntrySheetStates,
   momentumLabeledStates,
   planDirectionStates,
   addToPlanSheetStates,

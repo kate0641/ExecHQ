@@ -28,6 +28,19 @@ export const entryDrawerStates = defineComponentStates({
       props: { ...base, initial: { type: "published", on: "2026-11-02" } },
     },
     {
+      label: "Editing — a podcast with a link",
+      description: "Edit on a row she added opens the same drawer, one row filled in, with Save. Followers are not offered: they are changed by adding a newer number.",
+      props: { ...base, editing: true, initial: { type: "podcast", on: "2026-10-17", text: "https://example.com/modern-cmo" } },
+    },
+    {
+      label: "Editing — with how it went",
+      props: {
+        ...base,
+        editing: true,
+        initial: { type: "podcast", on: "2026-10-17", text: "https://example.com/modern-cmo", impact: "Two people wrote to me afterwards about their own planning cycles." },
+      },
+    },
+    {
       label: "Rows filled in — several things",
       props: {
         ...base,

@@ -16,10 +16,9 @@ import { StageCheckIn, type CheckInItem } from "@/components/plan/StageCheckIn";
 import { CheckInRecap } from "@/components/plan/CheckInRecap";
 import { PlanDirection } from "@/components/plan/PlanDirection";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
-import { EntryDrawer } from "@/components/plan/EntryDrawer";
+import { EntryDrawer, type EntryValues } from "@/components/plan/EntryDrawer";
 import { LinkedInPicture } from "@/components/plan/LinkedInPicture";
 import { ReportDrawer, type ReportValues } from "@/components/plan/ReportDrawer";
-import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { fullDate, type OutcomeType } from "@/lib/loop";
@@ -625,11 +624,11 @@ export function usePlanPage() {
 
 
   const sheet = (
-    <SignalEntrySheet
+    <EntryDrawer
       key={editingItem ? `signal-${editingItem.id}` : "signal-closed"}
       open={editingItem !== null}
       onClose={() => setEditingItem(null)}
-      onSave={saveEdit}
+      onSave={([values]) => saveEdit(values)}
       today={loop.today}
       editing
       initial={

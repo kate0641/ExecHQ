@@ -12794,19 +12794,6 @@ ul.came-of__rows {
   font-weight: var(--weight-semibold);
 }
 
-.entry-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.entry-form__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-}
-
 .report-drawer {
   display: flex;
   flex-direction: column;
