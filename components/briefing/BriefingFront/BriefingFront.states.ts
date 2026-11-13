@@ -9,6 +9,7 @@ const base = { reads: TODAYS_READS, onOpen: noop };
 export const briefingFrontStates = defineComponentStates({
   name: "BriefingFront",
   group: "cards",
+  feature: "Briefing",
   status: "draft",
   flows: ["daily-briefing"],
   description:

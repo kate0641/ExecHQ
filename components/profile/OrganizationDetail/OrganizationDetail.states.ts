@@ -8,6 +8,7 @@ const controls = "Its one control is a Button, which shows its own states.";
 export const organizationDetailStates = defineComponentStates({
   name: "OrganizationDetail",
   group: "cards",
+  feature: "Profile",
   status: "draft",
   flows: ["profile"],
   description:

@@ -6,6 +6,7 @@ import { ExportLinks } from "./ExportLinks";
 export const exportLinksStates = defineComponentStates({
   name: "ExportLinks",
   group: "form controls",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:

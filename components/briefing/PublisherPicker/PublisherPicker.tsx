@@ -85,25 +85,24 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
   );
 
   if (mode === "settings") {
-    /* The same frame as every Profile sheet: heading, close, the line under it. */
+    /* The same frame as every Profile sheet: heading, the line under it, and Cancel as the link under Save. */
     return (
       <DetailPanel
         heading={S.publishersHeading}
         headingId={headingId}
         lead={C.later}
-        onClose={onCancel}
         className={["publisher-picker", "publisher-picker--settings", className].filter(Boolean).join(" ")}
       >
         <div className="publisher-picker__groups">{groups}</div>
         {count}
-        <div className="publisher-picker__actions">
+        <div className="publisher-picker__actions sheet-actions">
           <Button fullWidth disabled={!enough} onClick={() => onDone(picked)}>
             {S.save}
           </Button>
           {onCancel ? (
-            <Button variant="secondary" fullWidth onClick={onCancel}>
+            <button type="button" className="link link--standalone sheet-actions__out" onClick={onCancel}>
               {S.cancel}
-            </Button>
+            </button>
           ) : null}
         </div>
       </DetailPanel>

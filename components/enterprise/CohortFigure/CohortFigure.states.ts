@@ -9,6 +9,7 @@ const active = figureFor(pilot, "active", "launch");
 export const cohortFigureStates = defineComponentStates({
   name: "CohortFigure",
   group: "cards",
+  feature: "Admin",
   status: "draft",
   flows: ["enterprise"],
   description:

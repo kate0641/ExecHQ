@@ -26,6 +26,7 @@ const card = createElement(NextStepCard, {
 export const mapRingsStates = defineComponentStates({
   name: "MapRings",
   group: "cards",
+  feature: "Home",
   status: "draft",
   flows: ["homepage"],
   description:

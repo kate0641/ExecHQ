@@ -20,6 +20,7 @@ const actions = createElement(ReadActions, {
 export const briefingReaderStates = defineComponentStates({
   name: "BriefingReader",
   group: "cards",
+  feature: "Briefing",
   status: "draft",
   flows: ["daily-briefing"],
   description:

@@ -1,17 +1,18 @@
 import { defineComponentStates } from "@/components/types";
 import { CONTENT_INSIDE, CONTROLS_INSIDE } from "@/components/not-applicable";
-import { AddToPlanSheet } from "./AddToPlanSheet";
+import { AddToPlanDrawer } from "./AddToPlanDrawer";
 
 const noop = () => {};
 
-export const addToPlanSheetStates = defineComponentStates({
-  name: "AddToPlanSheet",
+export const addToPlanDrawerStates = defineComponentStates({
+  name: "AddToPlanDrawer",
   group: "layout",
+  feature: "Plan",
   status: "draft",
   flows: ["plan"],
   description:
-    "Where she adds something of her own to her plan: what it is, and when, in words (this week to next quarter). It slides up over the phone. The words stand for a day underneath, so it lands in the stage that day falls in. Nothing is added until she has written what it is.",
-  component: AddToPlanSheet,
+    "Where she adds something of her own to her plan: what it is, and when, in words (this week to next quarter). A drawer from the foot of the phone, with the plan left in view behind it. The words stand for a day underneath, so it lands in the stage that day falls in. Nothing is added until she has written what it is.",
+  component: AddToPlanDrawer,
   notApplicable: {
     ...CONTROLS_INSIDE,
     ...CONTENT_INSIDE,

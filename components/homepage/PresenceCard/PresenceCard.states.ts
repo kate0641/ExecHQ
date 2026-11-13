@@ -35,6 +35,7 @@ const base = {
 export const presenceCardStates = defineComponentStates({
   name: "PresenceCard",
   group: "cards",
+  feature: "Plan",
   status: "draft",
   flows: ["homepage"],
   description:

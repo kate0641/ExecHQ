@@ -15,6 +15,7 @@ const base = {
 export const readActionsStates = defineComponentStates({
   name: "ReadActions",
   group: "form controls",
+  feature: "Briefing",
   status: "draft",
   flows: ["daily-briefing"],
   description:

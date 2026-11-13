@@ -9,6 +9,7 @@ const controls = "Its controls are Buttons and a text link, which show their own
 export const deletionDetailStates = defineComponentStates({
   name: "DeletionDetail",
   group: "cards",
+  feature: "Profile",
   status: "draft",
   flows: ["profile"],
   description:

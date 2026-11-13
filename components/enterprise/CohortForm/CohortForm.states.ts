@@ -7,6 +7,7 @@ const fields = "Its fields are Inputs and its button a Button, which show their 
 export const cohortFormStates = defineComponentStates({
   name: "CohortForm",
   group: "form controls",
+  feature: "Admin",
   status: "draft",
   flows: ["enterprise"],
   description:

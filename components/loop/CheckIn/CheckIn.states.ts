@@ -21,7 +21,7 @@ export const checkInStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "The one check-in the Loop uses everywhere. It asks for where a draft stands — “Have you used it?” when ready, “How did it go?” when used — or, for a Plan action with no draft, “Have you done this yet?”; it saves an answer on one tap and offers a note after. Drawn three ways: Question first (Concept 1), Stepper (Concept 2), Conversation (Concept 3); the words are the same.",
+    "The one check-in the Loop uses everywhere. It asks for where a draft stands — “Have you used it?” when ready, “How did it go?” when used — or, for a Plan action with no draft, “Have you done this yet?”; it saves an answer on one tap and offers a note after.",
   component: CheckIn,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -30,27 +30,22 @@ export const checkInStates = defineComponentStates({
     empty: "Only shown when there is something to ask about.",
   },
   variants: [
-    { label: "Question first, how it went — default", props: { ...used, layout: "question", headingId: "ci-q-used" } },
-    { label: "Question first, ready to use", props: { ...isReady, layout: "question", headingId: "ci-q-ready" } },
-    { label: "Question first, answered, note offered — filled", props: { ...done, layout: "question", headingId: "ci-q-done" } },
-    { label: "Answered, but she asked to be reminded — no Logged pill", description: "Only an outcome she gave is logged; a \u201ccheck back later\u201d has no pill.", props: { ...done, layout: "question", logged: false, readback: "No problem. I\u2019ll check in again in a couple of days.", headingId: "ci-q-later" } },
-    { label: "Stepper, how it went", props: { ...used, layout: "stepper", headingId: "ci-s-used" } },
-    { label: "Stepper, ready to use", props: { ...isReady, layout: "stepper", headingId: "ci-s-ready" } },
-    { label: "Stepper, answered — filled", props: { ...done, layout: "stepper", headingId: "ci-s-done" } },
-    { label: "Conversation, how it went", props: { ...used, layout: "chat", headingId: "ci-c-used" } },
-    { label: "Conversation, ready to use", props: { ...isReady, layout: "chat", headingId: "ci-c-ready" } },
+    { label: "How it went — default", props: { ...used, headingId: "ci-q-used" } },
+    { label: "Ready to use", props: { ...isReady, headingId: "ci-q-ready" } },
+    { label: "Answered, note offered — filled", props: { ...done, headingId: "ci-q-done" } },
+    { label: "Answered, but she asked to be reminded — no Logged pill", description: "Only an outcome she gave is logged; a \u201ccheck back later\u201d has no pill.", props: { ...done, logged: false, readback: "No problem. I\u2019ll check in again in a couple of days.", headingId: "ci-q-later" } },
     {
-      label: "Question first, an action with no draft",
+      label: "An action with no draft",
       description: "“Have you done this yet?” — done on her word, it fills its ring and counts toward its stage.",
-      props: { ...base, task: {}, today: due.today, about: "Build a documented case for broader scope", layout: "question", headingId: "ci-t-todo" },
+      props: { ...base, task: {}, today: due.today, about: "Build a documented case for broader scope", headingId: "ci-t-todo" },
     },
     {
-      label: "Stepper, action done, how it went",
-      props: { ...base, task: { doneOn: due.today }, today: due.today, about: "Build a documented case for broader scope", layout: "stepper", headingId: "ci-t-done" },
+      label: "Action done, how it went",
+      props: { ...base, task: { doneOn: due.today }, today: due.today, about: "Build a documented case for broader scope", headingId: "ci-t-done" },
     },
     {
       label: "A long action name wraps",
-      props: { ...used, about: "Use your leadership story to open your next 1:1 with your manager, before the planning cycle", layout: "question", headingId: "ci-long" },
+      props: { ...used, about: "Use your leadership story to open your next 1:1 with your manager, before the planning cycle", headingId: "ci-long" },
     },
   ],
 });

@@ -43,7 +43,7 @@ export function DeletionDetail({
   ];
 
   return (
-    <DetailPanel heading={C.heading} headingId={headingId} lead={C.body} onClose={onClose}>
+    <DetailPanel heading={C.heading} headingId={headingId} lead={C.body} onClose={onKeep ? undefined : onClose}>
       {/* Taking a copy sits up here, with the list between it and Delete, so
           one can't be tapped for the other. */}
       <p className="detail-panel__body">
@@ -65,14 +65,15 @@ export function DeletionDetail({
           </li>
         ))}
       </ul>
-      <div className="detail-panel__actions">
+      {/* Delete full width; keeping it is the underlined link under it, and the only way out shown. */}
+      <div className="detail-panel__actions sheet-actions">
         <Button variant="danger" fullWidth onClick={onDelete}>
           {C.confirm}
         </Button>
         {onKeep ? (
-          <Button variant="secondary" fullWidth onClick={onKeep}>
+          <button type="button" className="link link--standalone sheet-actions__out" onClick={onKeep}>
             {C.keep}
-          </Button>
+          </button>
         ) : null}
       </div>
     </DetailPanel>

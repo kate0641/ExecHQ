@@ -8,11 +8,15 @@
  * Adding a component to the catalogue: write `X.states.ts` next to it, then add
  * one line to this file.
  */
-import { COMPONENT_GROUPS, type ComponentGroup, type RegisteredComponent } from "./types";
+import {
+  COMPONENT_GROUPS,
+  FEATURE_AREAS,
+  type ComponentGroup,
+  type FeatureArea,
+  type RegisteredComponent,
+} from "./types";
 
 import { mapRingsStates } from "./homepage/MapRings/MapRings.states";
-import { mapPanelStates } from "./homepage/MapPanel/MapPanel.states";
-import { actionSheetStates } from "./homepage/ActionSheet/ActionSheet.states";
 import { cardCarouselStates } from "./layout/CardCarousel/CardCarousel.states";
 import { stepperStates } from "./form/Stepper/Stepper.states";
 import { numberFieldStates } from "./form/NumberField/NumberField.states";
@@ -31,7 +35,6 @@ import { micButtonStates } from "./form/MicButton/MicButton.states";
 import { chipGroupStates } from "./form/ChipGroup/ChipGroup.states";
 import { panelStates } from "./layout/Panel/Panel.states";
 import { placeholderStateStates } from "./layout/PlaceholderState/PlaceholderState.states";
-import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.states";
 import { stepBarStates } from "./layout/StepBar/StepBar.states";
 import { sheetStates } from "./layout/Sheet/Sheet.states";
 import { drawerStates } from "./layout/Drawer/Drawer.states";
@@ -51,7 +54,6 @@ import { answerDrawerStates } from "./onboarding/AnswerDrawer/AnswerDrawer.state
 import { deviceKeyboardStates } from "./onboarding/DeviceKeyboard/DeviceKeyboard.states";
 import { goodExampleStates } from "./onboarding/GoodExample/GoodExample.states";
 import { guidePageStates } from "./onboarding/GuidePage/GuidePage.states";
-import { advisorFileStates } from "./onboarding/AdvisorFile/AdvisorFile.states";
 import { pointListStates } from "./onboarding/PointList/PointList.states";
 import { reflectionReplyStates } from "./onboarding/ReflectionReply/ReflectionReply.states";
 import { recommendationCardStates } from "./onboarding/RecommendationCard/RecommendationCard.states";
@@ -64,14 +66,11 @@ import { chatMessageStates } from "./chat/ChatMessage/ChatMessage.states";
 import { advisorMarkStates } from "./chat/AdvisorMark/AdvisorMark.states";
 import { quickRepliesStates } from "./chat/QuickReplies/QuickReplies.states";
 import { chatComposerStates } from "./chat/ChatComposer/ChatComposer.states";
-import { chatWelcomeStates, introCardStates } from "./chat/ChatWelcome/ChatWelcome.states";
 import { loopStatusStates } from "./loop/LoopStatus/LoopStatus.states";
 import { destinationStubStates } from "./layout/DestinationStub/DestinationStub.states";
 import { conciergePillStates } from "./navigation/ConciergePill/ConciergePill.states";
 import { conciergePanelStates } from "./navigation/ConciergePanel/ConciergePanel.states";
-import { loopTrackStates } from "./loop/LoopTrack/LoopTrack.states";
 import { nextStepCardStates } from "./homepage/NextStepCard/NextStepCard.states";
-import { briefingEntryStates } from "./homepage/BriefingEntry/BriefingEntry.states";
 import { entryLinkStates } from "./homepage/EntryLink/EntryLink.states";
 import { briefingEditorialStates } from "./homepage/BriefingEditorial/BriefingEditorial.states";
 import { sparkStates } from "./homepage/Spark/Spark.states";
@@ -80,12 +79,7 @@ import { presenceCardStates } from "./homepage/PresenceCard/PresenceCard.states"
 import { loopRowStates } from "./homepage/LoopRow/LoopRow.states";
 import { checkInStates } from "./loop/CheckIn/CheckIn.states";
 import { outcomeNextStates } from "./loop/OutcomeNext/OutcomeNext.states";
-import { recentWorkStates } from "./homepage/RecentWork/RecentWork.states";
-import { ringDetailStates } from "./homepage/RingDetail/RingDetail.states";
-import { signalActivityStates } from "./homepage/SignalActivity/SignalActivity.states";
-import { monogramStates } from "./primitives/Monogram/Monogram.states";
 import { switchStates } from "./form/Switch/Switch.states";
-import { profileHeaderStates } from "./profile/ProfileHeader/ProfileHeader.states";
 import { settingsGroupStates } from "./profile/SettingsGroup/SettingsGroup.states";
 import { settingsRowStates } from "./profile/SettingsRow/SettingsRow.states";
 import { detailPanelStates } from "./profile/DetailPanel/DetailPanel.states";
@@ -99,17 +93,14 @@ import { mailNotificationStates } from "./login/MailNotification/MailNotificatio
 import { signInEmailStates } from "./login/SignInEmail/SignInEmail.states";
 import { accountPickerStates } from "./login/AccountPicker/AccountPicker.states";
 import { planSignalPictureStates } from "./plan/PlanSignalPicture/PlanSignalPicture.states";
-import { signalEntrySheetStates } from "./plan/SignalEntrySheet/SignalEntrySheet.states";
 import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.states";
 import { planDirectionStates } from "./plan/PlanDirection/PlanDirection.states";
-import { addToPlanSheetStates } from "./plan/AddToPlanSheet/AddToPlanSheet.states";
+import { addToPlanDrawerStates } from "./plan/AddToPlanDrawer/AddToPlanDrawer.states";
 import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
 import { stageCheckInStates } from "./plan/StageCheckIn/StageCheckIn.states";
 import { checkInRecapStates } from "./plan/CheckInRecap/CheckInRecap.states";
 import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
-import { roadmapTimelineStates } from "./plan/RoadmapTimeline/RoadmapTimeline.states";
 
-import { briefingReadCardStates } from "./briefing/BriefingReadCard/BriefingReadCard.states";
 import { readActionsStates } from "./briefing/ReadActions/ReadActions.states";
 import { briefingReaderStates } from "./briefing/BriefingReader/BriefingReader.states";
 import { publisherPickerStates } from "./briefing/PublisherPicker/PublisherPicker.states";
@@ -131,7 +122,6 @@ import { versionHistoryStates } from "./playbook/VersionHistory/VersionHistory.s
 import { draftUseBarStates } from "./playbook/DraftUseBar/DraftUseBar.states";
 import { toolPickerStates } from "./playbook/ToolPicker/ToolPicker.states";
 import { iconRowStates } from "./navigation/IconRow/IconRow.states";
-import { artifactActionsStates } from "./playbook/ArtifactActions/ArtifactActions.states";
 import { libraryEmptyStates } from "./playbook/LibraryEmpty/LibraryEmpty.states";
 import { pinnedDraftStates } from "./playbook/PinnedDraft/PinnedDraft.states";
 import { dropdownMenuStates } from "./form/DropdownMenu/DropdownMenu.states";
@@ -143,7 +133,6 @@ import { libraryTabsStates } from "./playbook/LibraryTabs/LibraryTabs.states";
 import { briefingPictureStates } from "./briefing/BriefingPicture/BriefingPicture.states";
 import { briefingFrontStates } from "./briefing/BriefingFront/BriefingFront.states";
 import { cohortFigureStates } from "./enterprise/CohortFigure/CohortFigure.states";
-import { figureDefinitionStates } from "./enterprise/FigureDefinition/FigureDefinition.states";
 import { profileLinkStates } from "./enterprise/ProfileLink/ProfileLink.states";
 import { readinessBarsStates } from "./enterprise/ReadinessBars/ReadinessBars.states";
 import { readinessCheckInStates } from "./homepage/ReadinessCheckIn/ReadinessCheckIn.states";
@@ -168,7 +157,6 @@ export const registry: RegisteredComponent[] = [
   dropdownMenuStates,
   panelStates,
   placeholderStateStates,
-  navPlaceholderStates,
   stepBarStates,
   sheetStates,
   listStates,
@@ -187,7 +175,6 @@ export const registry: RegisteredComponent[] = [
   goodExampleStates,
   answerDrawerStates,
   deviceKeyboardStates,
-  advisorFileStates,
   pointListStates,
   reflectionReplyStates,
   recommendationCardStates,
@@ -199,15 +186,11 @@ export const registry: RegisteredComponent[] = [
   advisorMarkStates,
   quickRepliesStates,
   chatComposerStates,
-  chatWelcomeStates,
-  introCardStates,
   loopStatusStates,
   destinationStubStates,
   conciergePillStates,
   conciergePanelStates,
-  loopTrackStates,
   nextStepCardStates,
-  briefingEntryStates,
   entryLinkStates,
   mapRingsStates,
   cardCarouselStates,
@@ -216,8 +199,6 @@ export const registry: RegisteredComponent[] = [
   numberFieldStates,
   baselineFormStates,
   linkedInMoreStates,
-  mapPanelStates,
-  actionSheetStates,
   briefingEditorialStates,
   presenceCardStates,
   baselineListStates,
@@ -225,12 +206,7 @@ export const registry: RegisteredComponent[] = [
   loopRowStates,
   checkInStates,
   outcomeNextStates,
-  recentWorkStates,
-  ringDetailStates,
-  signalActivityStates,
-  monogramStates,
   switchStates,
-  profileHeaderStates,
   settingsGroupStates,
   settingsRowStates,
   detailPanelStates,
@@ -247,16 +223,13 @@ export const registry: RegisteredComponent[] = [
   entryDrawerStates,
   reportDrawerStates,
   linkedInPictureStates,
-  signalEntrySheetStates,
   momentumLabeledStates,
   planDirectionStates,
-  addToPlanSheetStates,
+  addToPlanDrawerStates,
   planGuidedStates,
   stageCheckInStates,
   checkInRecapStates,
   planAgendaStates,
-  roadmapTimelineStates,
-  briefingReadCardStates,
   readActionsStates,
   briefingReaderStates,
   publisherPickerStates,
@@ -278,7 +251,6 @@ export const registry: RegisteredComponent[] = [
   draftUseBarStates,
   toolPickerStates,
   iconRowStates,
-  artifactActionsStates,
   libraryEmptyStates,
   pinnedDraftStates,
   toolIllustrationStates,
@@ -288,7 +260,6 @@ export const registry: RegisteredComponent[] = [
   briefingPictureStates,
   briefingFrontStates,
   cohortFigureStates,
-  figureDefinitionStates,
   profileLinkStates,
   readinessBarsStates,
   readinessCheckInStates,
@@ -310,15 +281,28 @@ export function getComponent(id: string): RegisteredComponent | undefined {
   return registry.find((component) => componentId(component) === id);
 }
 
-/** The registry grouped by type, in the order declared in `types.ts`, with
- *  empty groups dropped. */
+/** The core library grouped by type, in the order declared in `types.ts`,
+ *  with empty groups dropped. Feature pieces are left out; see
+ *  `registryByFeature`. */
 export function registryByGroup(
   components: RegisteredComponent[] = registry
 ): { group: ComponentGroup; components: RegisteredComponent[] }[] {
   return COMPONENT_GROUPS.map((group) => ({
     group,
     components: components
-      .filter((component) => component.group === group)
+      .filter((component) => !component.feature && component.group === group)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  })).filter((entry) => entry.components.length > 0);
+}
+
+/** Components one feature alone uses, grouped by that feature. */
+export function registryByFeature(
+  components: RegisteredComponent[] = registry
+): { feature: FeatureArea; components: RegisteredComponent[] }[] {
+  return FEATURE_AREAS.map((feature) => ({
+    feature,
+    components: components
+      .filter((component) => component.feature === feature)
       .sort((a, b) => a.name.localeCompare(b.name)),
   })).filter((entry) => entry.components.length > 0);
 }

@@ -10,6 +10,7 @@ const fresh = newCohort({ name: "Leadership Program 2027", expectedSize: 40, sta
 export const dateRangePickerStates = defineComponentStates({
   name: "DateRangePicker",
   group: "form controls",
+  feature: "Admin",
   status: "draft",
   flows: ["enterprise"],
   description:

@@ -8,6 +8,7 @@ const base = { open: true, inline: true, onClose: noop, onSave: noop, did: "Podc
 export const reportDrawerStates = defineComponentStates({
   name: "ReportDrawer",
   group: "layout",
+  feature: "Plan",
   status: "draft",
   flows: ["signals"],
   description:

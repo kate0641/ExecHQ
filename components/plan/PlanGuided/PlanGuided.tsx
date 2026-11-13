@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
-import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
+import { AddToPlanDrawer } from "@/components/plan/AddToPlanDrawer";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { GuidePage } from "@/components/onboarding/GuidePage";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
@@ -148,7 +148,7 @@ export function PlanGuided({
   };
   const sheets = (
     <>
-      <AddToPlanSheet
+      <AddToPlanDrawer
         open={adding}
         onClose={() => setAdding(false)}
         today={today}
@@ -247,12 +247,12 @@ export function PlanGuided({
         headFoot={
           // The move card asks the question, and the drawer's foot bar is gone: one less bar at the foot,
           // where the add button, Ask or go and the browser's toolbar already sit. It stays
-          // while the drawer is open, filled to say so, and pressing it then folds the drawer.
+          // while the drawer is open, and pressing it then folds the drawer.
           answer ? undefined : (
             <button
               ref={askRef}
               type="button"
-              className={["btn btn--outline btn--md btn--full plan-guided__ask", open ? "is-open" : null].filter(Boolean).join(" ")}
+              className="btn btn--secondary btn--md btn--full"
               aria-expanded={open}
               onClick={() => toggle(!open, true)}
             >

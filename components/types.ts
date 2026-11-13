@@ -24,6 +24,26 @@ export const COMPONENT_GROUPS = [
 export type ComponentGroup = (typeof COMPONENT_GROUPS)[number];
 
 /**
+ * The catalogue lists the core library first: parts any screen may use. A
+ * component only one feature uses names that feature here and is listed under
+ * it instead, so "use this anywhere" and "this belongs to Plan" never mix.
+ * When a second feature starts using it, drop its `feature` line.
+ */
+export const FEATURE_AREAS = [
+  "Home",
+  "Onboarding",
+  "Login",
+  "Profile",
+  "Plan",
+  "Playbook",
+  "Briefing",
+  "Admin",
+  "Prototype only",
+] as const;
+
+export type FeatureArea = (typeof FEATURE_AREAS)[number];
+
+/**
  * The states every component is checked for. `components/states-coverage.ts`
  * says how a variant counts as showing one, and the build fails when a
  * component neither shows a state nor says why it does not apply.
@@ -59,6 +79,8 @@ export interface ComponentVariant<P> {
 export interface ComponentStatesSpec<C extends ElementType> {
   name: string;
   group: ComponentGroup;
+  /** Set when one feature alone uses this component. See `FEATURE_AREAS`. */
+  feature?: FeatureArea;
   /** Changed by Kate only, when she says the component has passed review. */
   status: Status;
   /** Flow slugs this component is used in. Empty means shell-only for now. */
@@ -85,6 +107,7 @@ export interface RegisteredVariant {
 export interface RegisteredComponent {
   name: string;
   group: ComponentGroup;
+  feature?: FeatureArea;
   status: Status;
   flows: string[];
   description: string;
@@ -103,6 +126,7 @@ export function defineComponentStates<C extends ElementType>(
   return {
     name: spec.name,
     group: spec.group,
+    feature: spec.feature,
     status: spec.status,
     flows: spec.flows,
     description: spec.description,

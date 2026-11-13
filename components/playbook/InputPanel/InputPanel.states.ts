@@ -12,6 +12,7 @@ const enricher = createElement(EnricherCard, { enricher: ENRICHERS.wins, onAdd: 
 export const inputPanelStates = defineComponentStates({
   name: "InputPanel",
   group: "form controls",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

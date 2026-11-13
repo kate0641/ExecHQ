@@ -8,6 +8,7 @@ const demo = COHORTS.demo.readiness!;
 export const readinessBarsStates = defineComponentStates({
   name: "ReadinessBars",
   group: "cards",
+  feature: "Admin",
   status: "draft",
   flows: ["enterprise"],
   description:

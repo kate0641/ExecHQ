@@ -8,6 +8,7 @@ const s = GUIDE_C3.story;
 export const goodExampleStates = defineComponentStates({
   name: "GoodExample",
   group: "cards",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:

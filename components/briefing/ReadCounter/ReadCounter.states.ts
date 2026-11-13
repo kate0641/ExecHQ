@@ -7,6 +7,7 @@ const noop = () => {};
 export const readCounterStates = defineComponentStates({
   name: "ReadCounter",
   group: "navigation",
+  feature: "Briefing",
   status: "draft",
   flows: ["daily-briefing"],
   description:

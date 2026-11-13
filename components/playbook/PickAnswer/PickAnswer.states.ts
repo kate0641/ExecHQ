@@ -9,6 +9,7 @@ const base = { label: "Who will be there?", mode: "many" as const, options, pick
 export const pickAnswerStates = defineComponentStates({
   name: "PickAnswer",
   group: "form controls",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

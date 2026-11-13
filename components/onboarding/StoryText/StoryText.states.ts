@@ -18,6 +18,7 @@ const filled = {
 export const storyTextStates = defineComponentStates({
   name: "StoryText",
   group: "cards",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:

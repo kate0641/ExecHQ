@@ -33,6 +33,7 @@ const base = {
 export const stageCheckInStates = defineComponentStates({
   name: "StageCheckIn",
   group: "layout",
+  feature: "Plan",
   status: "draft",
   flows: ["plan"],
   description:

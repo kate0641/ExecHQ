@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
+import { AddToPlanDrawer } from "@/components/plan/AddToPlanDrawer";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
@@ -223,7 +223,7 @@ export function PlanAgenda({
         );
         return screen ? createPortal(button, screen) : button;
       })()}
-      <AddToPlanSheet
+      <AddToPlanDrawer
         open={adding}
         onClose={() => setAdding(false)}
         today={today}

@@ -8,6 +8,7 @@ const base = { data: LINKEDIN_EXPORT };
 export const linkedInPictureStates = defineComponentStates({
   name: "LinkedInPicture",
   group: "cards",
+  feature: "Plan",
   status: "draft",
   flows: ["signals"],
   description:

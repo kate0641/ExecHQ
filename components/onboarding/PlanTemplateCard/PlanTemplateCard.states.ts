@@ -7,6 +7,7 @@ const recommended = recommendPlan("I want to lead a larger organization");
 export const planTemplateCardStates = defineComponentStates({
   name: "PlanTemplateCard",
   group: "cards",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:

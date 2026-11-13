@@ -51,14 +51,15 @@ export function OrganizationDetail({
 
   if (confirming) {
     return (
-      <DetailPanel heading={C.confirmHeading(org.name)} headingId={headingId} lead={C.confirmBody} onClose={onClose}>
-        <div className="detail-panel__actions">
+      <DetailPanel heading={C.confirmHeading(org.name)} headingId={headingId} lead={C.confirmBody}>
+        {/* Leave full width; staying is the underlined link under it. In a sheet it closes the sheet. */}
+        <div className="detail-panel__actions sheet-actions">
           <Button variant="danger" fullWidth onClick={onLeave}>
             {C.confirm}
           </Button>
-          <Button variant="secondary" fullWidth onClick={() => setConfirming(false)}>
+          <button type="button" className="link link--standalone sheet-actions__out" onClick={onClose ?? (() => setConfirming(false))}>
             {C.keep}
-          </Button>
+          </button>
         </div>
       </DetailPanel>
     );

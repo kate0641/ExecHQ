@@ -13,6 +13,7 @@ const base = {
 export const briefingEditorialStates = defineComponentStates({
   name: "BriefingEditorial",
   group: "navigation",
+  feature: "Home",
   status: "draft",
   flows: ["homepage"],
   description:

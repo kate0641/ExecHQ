@@ -546,7 +546,7 @@ export function useToolFlow(concept: FlowConcept) {
           <LoopStatus record={r} detail={false} className="library__status" /> {note}
         </>
       ),
-      leading: { type: "icon", name: TOOL_ICONS[r.kind] },
+      icon: TOOL_ICONS[r.kind],
       trailing: {
         actions: (
           <Link href={href} className="btn btn--secondary btn--sm">
@@ -577,7 +577,7 @@ export function useToolFlow(concept: FlowConcept) {
           id: lead.id,
           primary: lead.title,
           secondary: `${GOES_WITH.todaysReadStatus} · ${GOES_WITH.todaysRead}`,
-          leading: { type: "icon", name: "briefing" },
+          icon: "briefing",
           trailing: {
             actions: (
               <Link href={respondHref(lead.id, undefined, concept)} className="btn btn--secondary btn--sm">
@@ -1203,7 +1203,6 @@ export function useToolFlow(concept: FlowConcept) {
         record={record}
         today={loop.today}
         about={record.recommendation}
-        layout="question"
         answered={answeredHere}
         readback={outcomeSaid}
         headingId={outcomeHeading}

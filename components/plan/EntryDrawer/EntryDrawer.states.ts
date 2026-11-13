@@ -8,6 +8,7 @@ const base = { open: true, inline: true, onClose: noop, onSave: noop, today: "20
 export const entryDrawerStates = defineComponentStates({
   name: "EntryDrawer",
   group: "layout",
+  feature: "Plan",
   status: "draft",
   flows: ["signals"],
   description:
@@ -25,6 +26,19 @@ export const entryDrawerStates = defineComponentStates({
       label: "Offered after a piece is published — type and date chosen",
       description: "Opened from the offer: the first row's type and date are filled in.",
       props: { ...base, initial: { type: "published", on: "2026-11-02" } },
+    },
+    {
+      label: "Editing — a podcast with a link",
+      description: "Edit on a row she added opens the same drawer, one row filled in, with Save. Followers are not offered: they are changed by adding a newer number.",
+      props: { ...base, editing: true, initial: { type: "podcast", on: "2026-10-17", text: "https://example.com/modern-cmo" } },
+    },
+    {
+      label: "Editing — with how it went",
+      props: {
+        ...base,
+        editing: true,
+        initial: { type: "podcast", on: "2026-10-17", text: "https://example.com/modern-cmo", impact: "Two people wrote to me afterwards about their own planning cycles." },
+      },
     },
     {
       label: "Rows filled in — several things",
