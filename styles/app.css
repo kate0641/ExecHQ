@@ -9284,6 +9284,8 @@ ol.ring-detail__timeline {
   max-width: none;
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
@@ -14307,6 +14309,19 @@ ul.stage-actions__list {
 
 .login__new {
   text-align: center;
+}
+
+/* Welcome's way in for someone with an account (Kate, 2026-11-13): the mirror of Login's "New to
+   ExecEngine? Start here", under Get started. */
+.guide__login {
+  margin: 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.guide--cover .guide__login {
+  color: var(--color-text-inverse-muted);
 }
 
 .login__privacy {

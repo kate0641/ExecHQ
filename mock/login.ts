@@ -18,9 +18,19 @@
 import { MAYA } from "@/mock/account";
 import { WELCOME } from "@/mock/onboarding";
 
-/** The code in the drawn email. Only this code signs in (2026-10-08), so
- *  the wrong-code error can be seen. */
+/** The code in the drawn email. */
 export const SIGN_IN_CODE = "482913";
+
+/** The one code a reviewer types to see the wrong-code error. */
+export const WRONG_CODE = "000000";
+
+/** Any six digits sign in, so a reviewer never has to open the drawn email
+ *  to move on (Kate, 2026-11-13; was only SIGN_IN_CODE, 2026-10-08). 000000
+ *  still shows the wrong-code error. Prototype only: the product checks the
+ *  real code. */
+export function isAcceptedCode(code: string): boolean {
+  return /^\d{6}$/.test(code) && code !== WRONG_CODE;
+}
 
 /** Wrong tries before a code stops working and shows as expired. */
 export const WRONG_CODE_TRIES = 5;

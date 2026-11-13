@@ -110,6 +110,9 @@ The cover. A large statement on the page surface.
 - Line: "Part coach, part advisor, part confidant. Private to you, and built around where you want to go." (Kate, 2026-11-12, from Eric's why statement; 33 words on the page.)
 - Closing line, in italic serif: "From "I'd like to be" to "I'm going to be.""
 - Button: **Get started.**
+- Under it: "Already have an account? **Log in**", a line with a link, opening Login (Kate, 2026-11-13). It is the mirror of Login's "New to ExecEngine? Start here". On web it sits at the foot of the sheet.
+
+**Welcome is the front door.** A first visit opens Welcome, not Login; someone with an account goes on to Login from it. A returning person, known on the device, opens on Login as before (2026-11-13).
 
 The same wordmark and serif line open Login, so a returning person and a new one see one product. Login's own line is its own and was not changed with this one.
 
@@ -607,7 +610,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Nothing is stored. Answers live in the page and are lost on reload. | The account is created and the flow can be resumed (see Open questions). |
 | Any non-empty email is accepted. Any typed invite code is accepted. | Any address is accepted, as decided; the hint asks for a personal one. The invite code is checked, and an unrecognised one shows the notice. |
 | Google and Apple open a drawn stand-in for their pickers, with marks in one colour. | Their own sign-in windows, with the buttons drawn to Google's and Apple's brand rules. |
-| No email is sent. The code email is drawn on screen; only its code (482913) confirms the address, as on Login. Five wrong tries expire it; on time, it expires only when the email's "Open it again after 10 minutes" is pressed. | A real code is emailed and works once, for 10 minutes. A wrong one shows the error with the cells; an expired one shows the expired screen. |
+| No email is sent. The code email is drawn on screen; any six digits confirm the address, so a reviewer never has to open the drawn email, and 000000 shows the wrong-code error, as on Login (2026-11-13; was only the email's code, 482913). Five wrong tries expire it; on time, it expires only when the email's "Open it again after 10 minutes" is pressed. | A real code is emailed and works once, for 10 minutes. A wrong one shows the error with the cells; an expired one shows the expired screen. |
 | Nothing is sent. "Email me these steps", "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
 | The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
 | A drawn keyboard appears under the drawer on the phone and tablet frames when a field has focus. | The real keyboard. The drawn one is not built. On web the prototype draws none. |
@@ -654,6 +657,7 @@ These are settled. They are the specified behavior. The dates are when they were
 32. **Home opens with a three-stop tour after onboarding:** the Ask or go pill, Go to, and chatting with ExecEngine; skippable; once. The Plan page is not part of it. (2026-11-12)
 33. **Onboarding ends at Done, right after the plan.** The story and first draft are optional: the plan's first step, begun from Done's Get started with your plan, with no progress line. Done's other way on is Go to my homepage. (2026-11-12)
 34. **Most people pick their plan first.** Where do you want to start? comes straight after Account: the five plans, none marked. **I can't decide** takes the long way, Where you are, Direction and the question before the plan, to ExecEngine's pick. On a plan she picks, its own questions follow and the first sets her goal, never skipped. Changing her direction from the Plan still goes the long way. (2026-11-13; Where you are, Direction and the deciding question now come only after I can't decide)
+35. **Welcome is the front door, with Log in.** A first visit opens Welcome, which offers Get started and "Already have an account? Log in". In the prototype any six digits confirm an email code; 000000 shows the wrong-code error. (2026-11-13)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

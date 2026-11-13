@@ -37,6 +37,7 @@ import {
   type PositioningInputs,
 } from "@/flows/onboarding/shared";
 import { loopActions, useLoop } from "@/lib/loop-store";
+import { conceptHref } from "@/lib/manifest";
 import { roadmapAfterEdit } from "@/lib/plan-edit";
 import { saveRoadmap, useRoadmapChoices } from "@/lib/plan-store";
 import { useStatusBarTone } from "@/lib/device-tone";
@@ -85,6 +86,7 @@ import {
   LOGIN_PROVISIONAL,
   RESEND_SECONDS,
   SIGN_IN_CODE,
+  isAcceptedCode,
   WRONG_CODE_TRIES,
   type Provider,
 } from "@/mock/login";
@@ -470,7 +472,16 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   }
 
   switch (pageId) {
-    case "welcome":
+    case "welcome": {
+      // Both ways in (Kate, 2026-11-13): someone with an account goes to Login.
+      const logIn = (
+        <p className="guide__login">
+          {GUIDE_C3.welcome.haveAccount}{" "}
+          <Link className="link" href={conceptHref("login", "concept-1")}>
+            {GUIDE_C3.welcome.logIn}
+          </Link>
+        </p>
+      );
       // On web the welcome splits, as Login's does: the wordmark and the line
       // on a dark panel, the statement and the way in on the sheet.
       if (viewport === "web")
@@ -482,6 +493,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
             headingId={headingId}
             primaryLabel={GUIDE_C3.welcome.cta}
             onPrimary={next}
+            footer={logIn}
             centred
           />
         );
@@ -494,10 +506,12 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           lede={GUIDE_C3.welcome.lede}
           primaryLabel={GUIDE_C3.welcome.cta}
           onPrimary={next}
+          after={logIn}
         >
           <p className="guide__quote">{GUIDE_C3.welcome.quote}</p>
         </GuidePage>
       );
+    }
 
     case "about": {
       const c = GUIDE_C3.about;
@@ -1109,7 +1123,7 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
 
   function confirm() {
     if (code.length !== 6) return;
-    if (code !== SIGN_IN_CODE) {
+    if (!isAcceptedCode(code)) {
       // As on Login: the boxes clear and the cursor goes back to the first.
       // After five wrong tries the code stops working.
       const used = tries + 1;

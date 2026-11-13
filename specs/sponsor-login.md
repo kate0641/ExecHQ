@@ -147,7 +147,7 @@ Copy: `mock/sponsor-login.ts`, which takes the code, the code's rules and the dr
 
 | Prototype | Production |
 | --- | --- |
-| Nothing is sent. The email arrives as a drawn notification. Only the code 482913 signs in. | A real email is sent to the work address. |
+| Nothing is sent. The email arrives as a drawn notification. Any six digits sign in; 000000 shows the wrong-code error (2026-11-13; was only 482913). | A real email is sent to the work address. |
 | The stand-in Google picker offers the admin's work account (matches) and a personal one (doesn't). Apple offers Share my email (matches) and Hide my email (doesn't). | The provider's own window returns an address, compared with the account's work email. |
 | Sign-in goes to the dashboard for the cohort picked in the dock. | The admin's own cohort. |
 | The contact dialog only explains. | The ExecEngine contact checks the account and re-sends an invitation. |

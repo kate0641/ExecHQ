@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "welcome-login-and-codes",
+    title: "Welcome offers Log in; any code works",
+    description:
+      "A first visit opens Welcome, which now offers \"Already have an account? Log in\". In the prototype any six digits confirm an email code; 000000 shows the error (13 Nov).",
+  },
+  {
     slug: "onboarding-pick-plan-first",
     title: "Onboarding: she picks her plan first",
     description:

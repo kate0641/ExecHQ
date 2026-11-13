@@ -2137,6 +2137,10 @@ export const GUIDE_C3 = {
     lede: "Part coach, part advisor, part confidant. Private to you, and built around where you want to go.",
     quote: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be.\u201d",
     cta: "Get started",
+    /** The front door has both ways in (Kate, 2026-11-13): Login's "New to ExecEngine? Start here",
+     *  the other way round. */
+    haveAccount: "Already have an account?",
+    logIn: "Log in",
   },
   /** What ExecEngine is: three statements, the Playbook's tools by name and
    *  privacy in a line, built in one idea at a time (Kate, 2026-11-12; was a

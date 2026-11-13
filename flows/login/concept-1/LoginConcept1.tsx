@@ -26,6 +26,7 @@ import {
   PROVIDER_ACCOUNTS,
   RESEND_SECONDS,
   SIGN_IN_CODE,
+  isAcceptedCode,
   WRONG_CODE_TRIES,
   looksLikeEmail,
   type Provider,
@@ -284,7 +285,7 @@ export function LoginConcept1() {
                 setCode(value);
                 setWrong(false);
                 if (value.length < 6) return;
-                if (value === SIGN_IN_CODE) {
+                if (isAcceptedCode(value)) {
                   signIn();
                   return;
                 }
