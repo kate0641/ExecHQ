@@ -2495,17 +2495,20 @@ ul.chrome__nav-list {
   display: flex;
   flex: none;
   justify-content: center;
-  padding: var(--space-sm) 0 var(--space-md);
+  align-items: center;
+  height: calc(var(--horizon-line-height) + var(--space-lg));
+  padding-top: var(--horizon-line-height);
+  margin-bottom: var(--space-xs);
   cursor: grab;
   touch-action: none;
 }
 
 .concierge-panel__grab::before {
   content: "";
-  width: 40px;
-  height: 5px;
+  width: var(--space-2xl);
+  height: var(--space-2xs);
   border-radius: var(--radius-pill);
-  background-color: var(--color-border);
+  background-color: var(--color-border-strong);
 }
 
 .concierge-panel.is-dragging {
@@ -6644,6 +6647,19 @@ ol.concierge-list {
 
 .sheet__grab {
   align-self: center;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--space-3xl);
+  height: var(--space-lg);
+  /* Up into the panel's top padding, so the row starts under the line like a drawer's, and the content
+     starts where a drawer's does. */
+  margin-top: calc(var(--horizon-line-height) - var(--space-md));
+  margin-bottom: calc(var(--space-sm) - var(--space-md));
+}
+
+.sheet__grab::before {
+  content: "";
   width: var(--space-2xl);
   height: var(--space-2xs);
   border-radius: var(--radius-pill);
@@ -6654,6 +6670,19 @@ ol.concierge-list {
   .sheet__panel {
     animation: sheet-up 0.24s var(--easing-standard);
   }
+}
+
+/* Every sheet and drawer: the horizon line along its top edge, so it reads as in front of the page
+   whatever the colours (navy on navy included). Under it, one handle row: 24 tall, the bar centred,
+   so the bar sits 10 below the line everywhere. */
+.sheet__panel,
+.drawer__panel,
+.answer-drawer,
+.concierge-panel--sheet {
+  background-image: var(--gradient-horizon);
+  background-size: 100% var(--horizon-line-height);
+  background-position: top;
+  background-repeat: no-repeat;
 }
 
 /* The drawer: up from the foot of the screen, with the page behind left alone. */
@@ -6684,11 +6713,10 @@ ol.concierge-list {
   flex-direction: column;
   gap: var(--space-sm);
   max-height: 70vh;
-  padding: var(--space-2xs) var(--space-lg) var(--space-lg);
+  padding: var(--horizon-line-height) var(--space-lg) var(--space-lg);
   overflow-y: auto;
   color: var(--color-text-primary);
   background-color: var(--color-surface);
-  border-top: var(--border-thin);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: var(--shadow-lg);
 }
@@ -6706,6 +6734,7 @@ ol.concierge-list {
 
 .drawer__grab {
   align-self: center;
+  flex: none;
   display: grid;
   place-items: center;
   width: var(--space-3xl);
@@ -7843,21 +7872,9 @@ ol.concierge-list {
 
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer {
   position: relative;
-  /* Room under the line, so the handle sits as far below it as above the
-     first answer (it was 11 over and 22 under). */
-  padding-top: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
-  border-bottom: 0;
+  border-block: 0;
   background-color: var(--color-surface-raised);
-}
-
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: var(--horizon-line-height);
-  background: var(--gradient-horizon);
-  pointer-events: none;
 }
 
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer__actions {
@@ -7969,6 +7986,7 @@ ol.concierge-list {
 
 [data-viewport="web"] .guide--drawer:not(:where([data-viewport="mobile"] *)) .answer-drawer {
   padding: var(--space-lg);
+  background-image: none;
   background-color: var(--color-surface-raised);
   border: var(--border-subtle);
   border-radius: var(--radius-xl);
@@ -8077,9 +8095,8 @@ ol.concierge-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding: var(--space-2xs) var(--space-lg) var(--space-lg);
+  padding: var(--horizon-line-height) var(--space-lg) var(--space-lg);
   background-color: var(--color-surface);
-  border-top: var(--border-thin);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
@@ -8161,11 +8178,6 @@ ol.concierge-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-drawer-groups);
-}
-
-/* Folded: one bar carrying the question. */
-.answer-drawer.is-peek {
-  padding-top: var(--space-xs);
 }
 
 .answer-drawer__peek {
@@ -11082,7 +11094,8 @@ ul.login__never {
 }
 
 .sheet--tall .sheet__grab {
-  margin-top: var(--space-xs);
+  margin-top: var(--horizon-line-height);
+  margin-bottom: 0;
 }
 
 /* Open page rounds its buttons to match the pill fields. */
@@ -14083,6 +14096,7 @@ fieldset.agenda__whens {
 [data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .answer-drawer {
   padding: 0;
   background-color: transparent;
+  background-image: none;
   border: 0;
   border-radius: 0;
   box-shadow: none;
@@ -14121,10 +14135,6 @@ fieldset.agenda__whens {
 
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .drawer__grab::before {
   background-color: var(--color-text-inverse-muted);
-}
-
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer.is-peek {
-  padding-top: var(--space-xs);
 }
 
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
