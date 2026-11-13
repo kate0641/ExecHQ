@@ -73,6 +73,9 @@ import {
   recommendC3,
   refinementFor,
   towardFor,
+  questionsForPlan,
+  goalForPlan,
+  setsGoal,
   type PlanTemplate,
   type TailoredQuestion,
 } from "@/mock/onboarding";
@@ -119,6 +122,7 @@ type PageId =
   | "about"
   | "account"
   | "verify"
+  | "pick"
   | "today"
   | "direction"
   | "decide"
@@ -158,7 +162,12 @@ const PAGES: Page[] = [
   // The emailed code, for a typed address only: Google and Apple have
   // confirmed theirs, so Account moves past it (2026-10-08).
   { id: "verify", label: "Check your email", step: "account", offBar: true, aside: true },
-  // Where she is now, before where she wants to go (Kate, 2026-11-12).
+  // The five plans, straight after Account (Kate, 2026-11-13). She picks one
+  // and its own questions follow; or she can't decide, and goes the long way
+  // below to ExecEngine's pick.
+  { id: "pick", label: "Pick a plan", step: "refinement" },
+  // I can't decide: where she is now, before where she wants to go (Kate,
+  // 2026-11-12), then the question that decides it and ExecEngine's pick.
   { id: "today", label: "Where you are", step: "direction" },
   { id: "direction", label: "Direction", step: "direction" },
   // The question that decides the plan comes first, so the recommendation is
@@ -200,7 +209,7 @@ interface DrawerControl {
 /** What every page is handed about where it sits. */
 /** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecEngine moments
  *  (designer, 2026-10-15). A step with a navy drawer stays light. */
-const NAVY_PAGES = new Set<string>(["about", "rec", "plan-week", "draft", "done"]);
+const NAVY_PAGES = new Set<string>(["about", "pick", "rec", "plan-week", "draft", "done"]);
 
 type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky" | "glow" | "progress">;
 
@@ -230,14 +239,19 @@ const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
  *  direction with no deciding question, fewer questions) make the line move on further, so it is
  *  an estimate and never a count. */
 const PROGRESS_PAGES = PAGES.filter((page) => !page.aside && !page.branch && page.id !== "welcome").map((page) => page.id);
+/** I can't decide's pages: passed by anyone who picks a plan herself. */
+const UNSURE_PAGES: PageId[] = ["today", "direction", "decide", "rec"];
+/** How she reaches her plan: picking it herself, or I can't decide (Kate, 2026-11-13). */
+type Route = "pick" | "unsure";
 const ASIDE_FROM: Partial<Record<PageId, PageId>> = {
   verify: "account",
   sharpen: "draft",
   versions: "draft",
 };
-function progressAt(id: PageId): number | undefined {
-  const at = PROGRESS_PAGES.indexOf(ASIDE_FROM[id] ?? id);
-  return at < 0 ? undefined : (at + 1) / PROGRESS_PAGES.length;
+function progressAt(id: PageId, route: Route): number | undefined {
+  const pages = route === "pick" ? PROGRESS_PAGES.filter((page) => !UNSURE_PAGES.includes(page)) : PROGRESS_PAGES;
+  const at = pages.indexOf(ASIDE_FROM[id] ?? id);
+  return at < 0 ? undefined : (at + 1) / pages.length;
 }
 
 const STEP_NAV = PAGES.filter((page) => !page.offBar).map((page) => ({ id: page.id, label: page.label }));
@@ -287,6 +301,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   const router = useRouter();
 
   const [pageId, setPageId] = useState<PageId>(edit ? "direction" : "welcome");
+  // Changing her direction from the Plan goes the I can't decide way, from the direction.
+  const [route, setRoute] = useState<Route>(edit ? "unsure" : "pick");
   const [reflections, setReflections] = useState<Record<string, string>>({});
   // Where she is today: as many as are true, and her own words for Other.
   const [today, setToday] = useState<TodayAnswer>({ picks: [], other: "" });
@@ -311,15 +327,19 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     setPageId(id);
     setMode("open");
   }
-  const questions = refinementFor(a.direction ?? "");
+  // A plan she picked herself asks its own questions, all after it; I can't
+  // decide asks her direction's, the one that can change the plan first.
+  const pickedPlan = route === "pick" ? planById(a.planId ?? "") : undefined;
+  const questions = pickedPlan ? questionsForPlan(pickedPlan.id) : refinementFor(a.direction ?? "");
   /** The question that can change the plan, asked before it is recommended,
    *  and the ones that only make it the user's own, asked after. */
-  const deciding = questions.filter((q) => decidesPlanC3(q.id));
-  const tailoring = questions.filter((q) => !decidesPlanC3(q.id));
+  const deciding = pickedPlan ? [] : questions.filter((q) => decidesPlanC3(q.id));
+  const tailoring = pickedPlan ? questions : questions.filter((q) => !decidesPlanC3(q.id));
   /** Pages this user never sees: questions their direction doesn't get, and
    *  pages reached only from another page. */
   const passed = (p: Page) =>
     Boolean(p.aside) ||
+    (route === "pick" && UNSURE_PAGES.includes(p.id)) ||
     (p.id === "decide" && deciding.length === 0) ||
     (p.id.startsWith("t-") && Number(p.id.slice(2)) >= tailoring.length) ||
     // A reflection only comes before a question, so two never run together.
@@ -363,6 +383,9 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     const target = PAGES[pageIndex(id as PageId)];
     flow.jumpTo(target.step);
     if (pageIndex(target.id) <= pageIndex("direction")) setAlsoGoals([]);
+    // A jump into I can't decide's pages goes that way; to the plans or before, she chooses again.
+    if (UNSURE_PAGES.includes(target.id)) setRoute("unsure");
+    else if (pageIndex(target.id) <= pageIndex("pick")) setRoute("pick");
     // What only this concept asks is cleared from the target onward.
     setReflections((all) =>
       Object.fromEntries(
@@ -402,14 +425,14 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       value: alsoGoals.length ? `${direction}, and ${joinGoals(alsoGoals)}` : direction,
       target: "direction",
     });
-  refinementFor(direction).forEach((question) => {
+  questions.forEach((question) => {
     const { chosen: picked, typed } = parseAnswer(question, a.refinement[question.id]);
     const value = [...picked.map((o) => o.label), ...(typed ? [typed] : [])].join(", ");
     if (!value) return;
     heardRows.push({
       label: question.question,
       value,
-      target: decidesPlanC3(question.id) ? "decide" : (`t-${tailoring.indexOf(question)}` as PageId),
+      target: deciding.includes(question) ? "decide" : (`t-${tailoring.indexOf(question)}` as PageId),
     });
   });
   /** Where the page sits. The running file was cut from the pages by decision
@@ -418,7 +441,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   function frame(): Frame {
     // Every question sits in its sky panel; a page without a drawer ignores it.
     const glow = GLOW_FOR[pageId];
-    if (!edit) return { headingId, sky: true, glow, progress: progressAt(pageId) };
+    if (!edit) return { headingId, sky: true, glow, progress: progressAt(pageId, route) };
     return {
       headingId,
       sky: true,
@@ -505,6 +528,45 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           onOtherAddress={() => goTo("account")}
         />
       );
+
+    case "pick": {
+      const c = GUIDE_C3.pick;
+      const picked = planById(a.planId ?? "");
+      return (
+        <GuidePage
+          {...frame()}
+          navy
+          kicker={c.kicker}
+          title={c.title}
+          lede={c.lede}
+          primaryLabel={c.cta}
+          primaryDisabled={!picked}
+          onPrimary={() => {
+            setRoute("pick");
+            goTo("reflect-time");
+          }}
+          // An equal choice, as onboarding's skips are: the long way to ExecEngine's pick.
+          secondaryLabel={c.unsure}
+          onSecondary={() => {
+            setRoute("unsure");
+            goTo("today");
+          }}
+        >
+          <div className="plan-set plan-set--choose" role="radiogroup" aria-label={c.title}>
+            {PLAN_TEMPLATES.map((template) => (
+              <PlanTemplateCard
+                key={template.id}
+                plan={template}
+                comparison
+                selected={template.id === picked?.id}
+                name="plan-pick"
+                onSelect={(planId) => dispatch({ type: "select-plan", planId, source: "chosen" })}
+              />
+            ))}
+          </div>
+        </GuidePage>
+      );
+    }
 
     case "today":
       return <TodayPage frame={frame()} drawer={{ mode, setMode }} value={today} onChange={setToday} onDone={next} />;
@@ -614,7 +676,15 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           frame={frame()}
           drawer={{ mode, setMode }}
           question={question}
-          kicker={pageId === "decide" ? GUIDE_C3.decide.kicker : GUIDE_C3.questions.kicker}
+          kicker={
+            pageId === "decide"
+              ? GUIDE_C3.decide.kicker
+              : pickedPlan
+                ? `${GUIDE_C3.questions.kicker} \u00b7 ${pickedPlan.name}`
+                : GUIDE_C3.questions.kicker
+          }
+          // On a plan she picked, the question that names her goal is answered, never skipped.
+          setsGoal={Boolean(pickedPlan) && setsGoal(question.id)}
           onDone={next}
         />
       );
@@ -624,7 +694,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       if (!plan) return null;
       const c = GUIDE_C3.plan;
       const stages = plan.stages ?? [];
-      const goal = towardFor(direction);
+      const goal = pickedPlan ? goalForPlan(pickedPlan.id, a.refinement) : towardFor(direction);
       return (
         <GuidePage
           {...frame()}
@@ -754,7 +824,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           headingId={headingId}
-          progress={edit ? undefined : progressAt("done")}
+          progress={edit ? undefined : progressAt("done", route)}
           kicker={c.kicker}
           title={c.title}
           className="guide--done"
@@ -1493,6 +1563,7 @@ function QuestionPage({
   drawer,
   question,
   kicker,
+  setsGoal: namesGoal = false,
   onDone,
 }: {
   flow: OnboardingFlow;
@@ -1500,6 +1571,8 @@ function QuestionPage({
   drawer: DrawerControl;
   question: TailoredQuestion;
   kicker: string;
+  /** It names her goal: no Skip, and its why says so. */
+  setsGoal?: boolean;
   onDone: () => void;
 }) {
   const { state, dispatch } = flow;
@@ -1525,7 +1598,7 @@ function QuestionPage({
       kicker={kicker}
       title={question.question}
       lede={multi ? c.multiLede : undefined}
-      why={c.why[question.id] ?? c.whyDefault}
+      why={(namesGoal ? c.goalWhy[question.id] : undefined) ?? c.why[question.id] ?? c.whyDefault}
       drawer={
         <AnswerDrawer
           question={question.question}
@@ -1536,11 +1609,15 @@ function QuestionPage({
           primaryLabel={d.next}
           primaryDisabled={!chosenValues.length}
           onPrimary={onDone}
-          secondaryLabel={c.skip}
-          onSecondary={() => {
-            dispatch({ type: "note-skip", id: question.id });
-            onDone();
-          }}
+          secondaryLabel={namesGoal ? undefined : c.skip}
+          onSecondary={
+            namesGoal
+              ? undefined
+              : () => {
+                  dispatch({ type: "note-skip", id: question.id });
+                  onDone();
+                }
+          }
         >
           <ChipGroup
             label={question.question}

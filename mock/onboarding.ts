@@ -986,6 +986,65 @@ const NEED_TO_PLAN: Record<DirectionNeed, string> = {
   exploration: "explore",
 };
 
+/** A plan she picked herself (Kate, 2026-11-13): its own questions, in their own order, the first
+ *  of which sets her goal where the plan has one to ask. */
+export function questionsForPlan(planId: string): TailoredQuestion[] {
+  const need = (Object.keys(NEED_TO_PLAN) as DirectionNeed[]).find((n) => NEED_TO_PLAN[n] === planId) ?? "positioning";
+  return REFINEMENT_BY_NEED[need];
+}
+
+/** Where each plan leads when she picked it herself and hasn't named it: the plan page's
+ *  "Your path to …". */
+const PLAN_GOAL: Record<string, string> = {
+  "leadership-scope": "a bigger leadership role",
+  "executive-presence": "being seen as an executive",
+  "inflection-point": "your next big moment",
+  "current-org": "more weight where you are",
+  explore: "your next step",
+};
+
+/** The first question's answer, as her goal, for the plans that ask it. */
+const GOAL_FROM_ANSWER: Record<string, Record<string, string>> = {
+  "scope-kind": {
+    "My boss\u2019s job": "your boss\u2019s job",
+    "One level up, in my area": "the next level up in your area",
+    "Running a whole function": "running a whole function",
+    "A seat on the exec team": "a seat on the exec team",
+    "A role that doesn\u2019t exist yet": "a role that doesn\u2019t exist yet",
+    "A bigger role in another part of the business": "a bigger role in another part of the business",
+    "General manager of a business": "running a business as its general manager",
+    "A bigger P&L": "a bigger P&L",
+    "A board seat": "a board seat",
+  },
+  "moment-what": {
+    "Promotion conversation": "your promotion conversation",
+    "Performance review": "your performance review",
+    "Board or exec presentation": "your exec presentation",
+    "A negotiation": "your negotiation",
+    "An interview for a role here": "your interview",
+    "Investor or client pitch": "your pitch",
+    "A reorganization": "the reorganization",
+    "A talk or keynote": "your talk",
+    "A difficult conversation": "a difficult conversation, done well",
+  },
+};
+
+/** The questions that set her goal on the pick path: answered, never skipped. */
+export function setsGoal(questionId: string): boolean {
+  return questionId in GOAL_FROM_ANSWER;
+}
+
+/** Her goal when she picked the plan herself: from its first question's answer, or the plan's own. */
+export function goalForPlan(planId: string, answers: Record<string, string>): string {
+  for (const question of questionsForPlan(planId)) {
+    const map = GOAL_FROM_ANSWER[question.id];
+    if (!map) continue;
+    const first = parseAnswer(question, answers[question.id]).chosen[0];
+    if (first && map[first.label]) return map[first.label];
+  }
+  return PLAN_GOAL[planId] ?? "your goal";
+}
+
 /** The rationale must be tied to the user's stated direction, never a generic
  *  description of the template. These are written as "you said X, so Y". */
 const RATIONALES: Record<DirectionNeed, string> = {
@@ -2202,6 +2261,15 @@ export const GUIDE_C3 = {
   },
   /** She chooses her plan, with ExecEngine's pick marked (Kate, 2026-11-12). The plans are the
    *  answers, so the page's own words are the label, the heading and the line. */
+  /** The five plans, straight after Account (Kate, 2026-11-13): she picks, or can't decide and
+   *  goes the long way to ExecEngine's pick. */
+  pick: {
+    kicker: "Your plan",
+    title: "Where do you want to start?",
+    lede: "Pick the one that sounds most like you. The next few questions make it yours.",
+    cta: "Use this plan",
+    unsure: "I can\u2019t decide",
+  },
   rec: {
     kicker: "Your plan",
     title: "Choose your plan",
@@ -2260,6 +2328,11 @@ export const GUIDE_C3 = {
       "explore-why": "What made you think about a move says where to look, so ExecEngine asks it before it recommends a plan.",
       "explore-keep": "Where you’re curious narrows the options to the ones worth testing.",
       "explore-when": "Who you’ve told decides the plan’s first conversation.",
+    } as Record<string, string>,
+    /** Why, when the question sets her goal (she picked the plan herself). */
+    goalWhy: {
+      "scope-kind": "It\u2019s what your plan builds toward, and it sets the case: what proof it needs, and who decides it.",
+      "moment-what": "It\u2019s what your plan builds toward. Each kind of moment needs a different kind of preparation.",
     } as Record<string, string>,
     cta: "Continue",
   },

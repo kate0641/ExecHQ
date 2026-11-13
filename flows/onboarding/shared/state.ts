@@ -14,7 +14,7 @@ import {
  * as three different products.
  */
 
-export type PlanSource = "recommended" | "switched" | "custom";
+export type PlanSource = "recommended" | "switched" | "custom" | "chosen";
 /** How the account was made: a typed email, confirmed by a code, or Google
  *  or Apple, which have confirmed the address already. */
 export type AccountRoute = "email" | "google" | "apple";

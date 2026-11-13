@@ -36,22 +36,23 @@ In the prototype the route is `/onboarding/concept-3` and the flow opens on the 
 
 ## 2. The flow at a glance
 
-The prototype's step bar names twelve steps. A few pages are reached only from another page and have no step of their own.
+The prototype's step bar names thirteen steps. A few pages are reached only from another page and have no step of their own.
 
 | # | Step bar | What happens | Required |
 | --- | --- | --- | --- |
 | 1 | Welcome | The opening statement | — |
 | 2 | What ExecEngine is | What it is, in one page, and the privacy promise | — |
 | 3 | Account | Google, Apple or a personal email, and the invite code. *Aside:* Check your email, for a typed address | An email, confirmed by its code or by Google or Apple, and an invite code |
-| 4 | Where you are | Where the person is today: as many as are true, or their own words under Other | At least one answer |
-| 5 | Direction | Where the person wants to go: pick, then narrow it down | At least one pick |
-| 6 | Choose your plan | A question about what is in the way (for most directions), then the five plans, ExecEngine's pick first and marked; the person chooses | Choose a plan |
-| 7 | Reflection | One question to sit with, with a reply | An answer |
-| 8 | Questions | Up to three "Making it yours" questions, with two more reflections between them | No |
-| 9 | Your plan | The plan as a path: this week, the stages with their finish lines, the goal | — |
-| 10 | Done | This week's step, and two ways on: **Get started with your plan** or **Go to my homepage** | — |
-| 11 | Your story | *Optional, from Get started.* A question to sit with, about saying what they lead | An answer |
-| 12 | First draft | *Optional.* The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Playbook** (Positioning Builder) | — |
+| 4 | Pick a plan | **Where do you want to start?** The five plans, none marked; she picks one, or presses **I can't decide** | A plan, or I can't decide |
+| 5 | Where you are | *After I can't decide.* Where the person is today: as many as are true, or their own words under Other | At least one answer |
+| 6 | Direction | *After I can't decide.* Where the person wants to go: pick, then narrow it down | At least one pick |
+| 7 | Choose your plan | *After I can't decide.* A question about what is in the way (for most directions), then the five plans, ExecEngine's pick first and marked; the person chooses | Choose a plan |
+| 8 | Reflection | One question to sit with, with a reply | An answer |
+| 9 | Questions | Up to three "Making it yours" questions, with two more reflections between them. On a plan she picked, the plan's own, the first setting her goal | No, except the one that sets her goal |
+| 10 | Your plan | The plan as a path: this week, the stages with their finish lines, the goal | — |
+| 11 | Done | This week's step, and two ways on: **Get started with your plan** or **Go to my homepage** | — |
+| 12 | Your story | *Optional, from Get started.* A question to sit with, about saying what they lead | An answer |
+| 13 | First draft | *Optional.* The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Playbook** (Positioning Builder) | — |
 
 Onboarding ends at Done (Kate, 2026-11-12). Your story and First draft are the plan's first step, begun from Done if the person likes; they come after onboarding, not inside it.
 
@@ -59,14 +60,17 @@ Onboarding ends at Done (Kate, 2026-11-12). Your story and First draft are the p
 Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Check your email ─┐
                                 │ (Google or Apple)                         │
                                 ▼                                           │
-                     Where are you today? ◀─────────────────────────────┘
-                                ▼
-                            Direction ─────────▶ Narrow it down ─┐
-                                                                    ▼
-                    The question before the plan (if the direction has one)
-                                                                    ▼
-          Choose your plan (five plans, ExecEngine's pick first and marked)
-                ▼   Use this plan
+                 Where do you want to start? (the five plans) ◀────────────┘
+                   │ Use this plan                   │ I can't decide
+                   │                                 ▼
+                   │                      Where are you today?
+                   │                                 ▼
+                   │                     Direction ─▶ Narrow it down
+                   │                                 ▼
+                   │     The question before the plan (if the direction has one)
+                   │                                 ▼
+                   │     Choose your plan (ExecEngine's pick first and marked)
+                   ▼                                 ▼ Use this plan
           Reflection ─▶ Question ─▶ Reflection ─▶ Question ─▶ Reflection ─▶ Question
                                                                     ▼
                                           Your plan (one page, a path to the goal)
@@ -87,7 +91,7 @@ Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Ch
 
 Home opens with its first-visit tour (3.12) whichever way the person arrives.
 
-The order is a decision, not an accident of the list (see section 10). Three points matter most:
+The order is a decision, not an accident of the list (see section 10). **Most people pick a plan straight after Account** (Kate, 2026-11-13); steps 5 to 7 are the way for someone who can't decide. Three points matter most on that way:
 
 - **The plan is chosen at step 6, before the personalising questions,** so the person knows what they are agreeing to. Steps 7 to 9 make it theirs. They do not reverse it.
 - **The question that can change the plan is asked before the recommendation,** so the recommendation is made once.
@@ -167,11 +171,22 @@ Reached only from Account, for a typed address, by decision on 2026-10-08. It ha
 
 ### 3.4 Signals (removed)
 
-Onboarding no longer has a Signals step or a LinkedIn upload page (Kate, 2026-11-12). LinkedIn lives on the Signals page ("Add more LinkedIn data", Signals spec 5.4), and onboarding does not mention it, Done included. Account goes on to Where are you today (3.4a).
+Onboarding no longer has a Signals step or a LinkedIn upload page (Kate, 2026-11-12). LinkedIn lives on the Signals page ("Add more LinkedIn data", Signals spec 5.4), and onboarding does not mention it, Done included. Account goes on to Where do you want to start? (3.4b).
+
+### 3.4b Where do you want to start?
+
+The five plans, straight after Account (Kate, 2026-11-13). She picks one herself, and it is made hers after; or she presses **I can't decide** and goes the long way to ExecEngine's pick (3.4a to 3.7). 22 words.
+
+- Label **Your plan.** Heading **Where do you want to start?** Line "Pick the one that sounds most like you. The next few questions make it yours."
+- The five plans as cards, the same cards as Choose your plan (3.7): each plan's **name** and when it is for (Appendix C). **None is marked or chosen to start with.** One choice, a radio group named "Where do you want to start?".
+- Two equal buttons, as onboarding's skips are: **Use this plan**, off until a plan is picked, and **I can't decide**.
+- **Use this plan** goes to the first reflection (3.8). The plan's own questions follow, the first setting her goal (3.8, 3.9).
+- **I can't decide** goes to Where are you today? (3.4a). From there everything is as before: Direction, the question before the plan, and Choose your plan with ExecEngine's pick. A plan picked here is forgotten once she gives a direction.
+- **I can't decide is not Find your next direction.** That plan is for someone unsure what move to make; I can't decide is for someone unsure which plan fits.
 
 ### 3.4a Where are you today?
 
-Where the person is now, asked before where they want to go (Kate, 2026-11-12). It is Eric's "assess where they stand", and it names what is happening to senior people now. 25 words.
+*After I can't decide (3.4b).* Where the person is now, asked before where they want to go (Kate, 2026-11-12). It is Eric's "assess where they stand", and it names what is happening to senior people now. 25 words.
 
 - Label **Where you are.** Heading **Where are you today?** Line "Pick as many as are true." "Why this matters": "Your plan starts from where you are, not from a template."
 - In the drawer, six answers, each with a **tick box**, as many as are true: **Doing well, and ready for more · New in my role · Stuck, or passed over · Going through a restructure or merger · My role is changing with AI · Other.**
@@ -183,7 +198,7 @@ This page alone uses tick boxes and Other; every other question keeps the patter
 
 ### 3.5 Direction
 
-The second question, after where the person is today. The heading is **Where do you want to go next?** with "Pick as many as are true." The "Why this matters" note says: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most." The answers come up in the drawer.
+*After I can't decide (3.4b).* The second question, after where the person is today. The heading is **Where do you want to go next?** with "Pick as many as are true." The "Why this matters" note says: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most." The answers come up in the drawer.
 
 **Page one.** Six options, as equal-width buttons, one to a row, and as many as are true can be picked (Appendix A):
 
@@ -215,7 +230,7 @@ For most directions, one question is asked before the recommendation, because it
 
 ### 3.7 Choose your plan
 
-This is where the plan is chosen, and the person chooses it (Kate, 2026-11-12). ExecEngine says which it would pick and why, but all five are on the page as equals to choose from. It replaces the Recommendation page and its "See other plans" page.
+*After I can't decide (3.4b).* This is where the plan is chosen, and the person chooses it (Kate, 2026-11-12). ExecEngine says which it would pick and why, but all five are on the page as equals to choose from. It replaces the Recommendation page and its "See other plans" page.
 
 - Label **Your plan.** Heading **Choose your plan.** Line: "Whichever you choose, the next few questions make it yours." 13 words of the page's own; the plans are the answers.
 - The five plans as cards, one choice (a radio group named "Choose your plan"). Each card is the plan's **name** and when it is for (Appendix C). The plan's focus line is left to the plan page.
@@ -250,11 +265,24 @@ The reflections are:
 
 **The questions** use the same pattern as Direction and the deciding question: equal-width options, five options and **None of these? Show me more options.** The **list-type** questions take several answers ("Pick as many as are true."). The **scale-type** questions, where each option is a point on a line, take one. Buttons: **Next** and **Skip this one.** The full list, by direction, is in Appendix B.
 
+**On a plan she picked herself (3.4b)** the questions are the plan's own, all of them after it, in Appendix B's order for the matching direction: Step Up's are a bigger role's, Make Your Mark's being seen as an executive's, Make the Move's a coming moment's, Lead Where You Are's the influence questions and Find your next direction's a move's. There is no question before the plan and nothing switches it. The label reads **Making it yours · {plan}**, so she can see the questions follow her choice.
+
+- **The first sets her goal** where the plan has one to ask: Step Up's **Which role are you going for?** and Make the Move's **What's coming up?**. It has no **Skip this one**, since the plan needs a goal, and its "Why this matters" says so: "It's what your plan builds toward, and it sets the case: what proof it needs, and who decides it." (Step Up) and "It's what your plan builds toward. Each kind of moment needs a different kind of preparation." (Make the Move).
+
 ### 3.9 Your plan
 
 The plan, one page, drawn as a path to the person's goal (Kate, 2026-11-12; it was two pages, "This week" then "Three stages"). Its stage bar and its first card are the Plan page's own, so the Plan page she opens next looks like the one she has just made.
 
 - Label **Your plan.** Heading **Your path to {the goal}** (for example "Your path to the C-suite within three years").
+- **Where the goal comes from.** After I can't decide, from her direction (section 5). On a plan she picked herself, from the first question's answer, or the plan's own (Kate, 2026-11-13):
+
+  | Plan | Goal |
+  | --- | --- |
+  | Step Up | Her answer to Which role are you going for?, e.g. "a seat on the exec team", "the next level up in your area"; else "a bigger leadership role" |
+  | Make the Move | Her answer to What's coming up?, e.g. "your exec presentation", "your promotion conversation"; else "your next big moment" |
+  | Make Your Mark | being seen as an executive |
+  | Lead Where You Are | more weight where you are |
+  | Find your next direction | your next step |
 - Under it, as the Plan page says it: **{Plan} · Stage 1 of {n} · {first stage}**, with the stage bar, its first segment lit.
 - **The path:** a line with a marker at each point.
   1. **You are here · This week:** this week's step as the Plan page's move card (darkest navy, its headline in yellow), with "ExecEngine drafts it with you next."
@@ -390,7 +418,7 @@ Where ExecEngine writes something, a short state names it. The draft shows "Writ
 
 A thin line at the very top of every page after the Welcome shows how far through onboarding the person is. It has no words, count or percentage. (Kate, 2026-11-12, reversing "no progress" from 2026-09-24.)
 
-- **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first, Done the last and full. In the prototype that is 14 pages, so each fills about 7%. Your story and First draft come after Done and have no line.
+- **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first, Done the last and full. In the prototype that is 11 pages on a plan she picks (about 9% each) and 15 after I can't decide (about 7% each). Your story and First draft come after Done and have no line.
 - **Pages reached from another page** (Check your email, Add more detail, Longer versions) show the fill of the page they came from, and do not move it.
 - **Pages a path passes** move it on. A direction with no deciding question, or with fewer than three questions, passes those pages and the line moves further. That is why it is an estimate, never a count: some paths are shorter than others.
 - **Not in edit mode.** Changing direction from the Plan keeps its own "Change your direction" header, with no line.
@@ -625,6 +653,7 @@ These are settled. They are the specified behavior. The dates are when they were
 31. **The plan is one page, a path to the goal,** with this week's step drawn as the Plan page's move card and the Plan page's stage bar. Each stage's finish line is a sign it's working ("Done when someone repeats your one-line story back to you"); the same lines are the Plan page's stage milestones. The plan page is exempt from the 40-word rule. (2026-11-12)
 32. **Home opens with a three-stop tour after onboarding:** the Ask or go pill, Go to, and chatting with ExecEngine; skippable; once. The Plan page is not part of it. (2026-11-12)
 33. **Onboarding ends at Done, right after the plan.** The story and first draft are optional: the plan's first step, begun from Done's Get started with your plan, with no progress line. Done's other way on is Go to my homepage. (2026-11-12)
+34. **Most people pick their plan first.** Where do you want to start? comes straight after Account: the five plans, none marked. **I can't decide** takes the long way, Where you are, Direction and the question before the plan, to ExecEngine's pick. On a plan she picks, its own questions follow and the first sets her goal, never skipped. Changing her direction from the Plan still goes the long way. (2026-11-13; Where you are, Direction and the deciding question now come only after I can't decide)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
