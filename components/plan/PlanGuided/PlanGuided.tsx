@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
-import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
+import { AddToPlanDrawer } from "@/components/plan/AddToPlanDrawer";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { GuidePage } from "@/components/onboarding/GuidePage";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
@@ -148,7 +148,7 @@ export function PlanGuided({
   };
   const sheets = (
     <>
-      <AddToPlanSheet
+      <AddToPlanDrawer
         open={adding}
         onClose={() => setAdding(false)}
         today={today}

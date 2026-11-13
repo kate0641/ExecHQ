@@ -111,7 +111,7 @@ function AccountDetail({
   const [email, setEmail] = useState(account.email);
   const [errors, setErrors] = useState<{ name?: string; lastName?: string; email?: string }>({});
   return (
-    <DetailPanel heading={C.account.editHeading} headingId={PANE_HEADING} onClose={onClose}>
+    <DetailPanel heading={C.account.editHeading} headingId={PANE_HEADING}>
       <form
         className="detail-panel__form"
         noValidate
@@ -162,13 +162,14 @@ function AccountDetail({
             setErrors((e) => ({ ...e, email: undefined }));
           }}
         />
-        <div className="detail-panel__actions">
+        {/* The main action full width; leaving is the underlined link under it. */}
+        <div className="detail-panel__actions sheet-actions">
           <Button type="submit" fullWidth>
             {C.account.save}
           </Button>
-          <Button variant="secondary" fullWidth onClick={onClose}>
+          <button type="button" className="link link--standalone sheet-actions__out" onClick={onClose}>
             {C.account.cancel}
-          </Button>
+          </button>
         </div>
       </form>
     </DetailPanel>

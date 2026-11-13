@@ -2496,8 +2496,7 @@ ul.chrome__nav-list {
   flex: none;
   justify-content: center;
   align-items: center;
-  height: calc(var(--horizon-line-height) + var(--space-lg));
-  padding-top: var(--horizon-line-height);
+  height: var(--space-lg);
   margin-bottom: var(--space-xs);
   cursor: grab;
   touch-action: none;
@@ -6654,7 +6653,7 @@ ol.concierge-list {
   height: var(--space-lg);
   /* Up into the panel's top padding, so the row starts under the line like a drawer's, and the content
      starts where a drawer's does. */
-  margin-top: calc(var(--horizon-line-height) - var(--space-md));
+  margin-top: calc(-1 * var(--space-md));
   margin-bottom: calc(var(--space-sm) - var(--space-md));
 }
 
@@ -6673,13 +6672,16 @@ ol.concierge-list {
 }
 
 /* Every sheet and drawer: the horizon line along its top edge, so it reads as in front of the page
-   whatever the colours (navy on navy included). Under it, one handle row: 24 tall, the bar centred,
-   so the bar sits 10 below the line everywhere. */
+   whatever the colours (navy on navy included). It is drawn in the top border, which scrolled content
+   never covers: content is clipped inside the border. Under it, one handle row: 24 tall, the bar
+   centred, so the bar sits 10 below the line everywhere. */
 .sheet__panel,
 .drawer__panel,
 .answer-drawer,
 .concierge-panel--sheet {
+  border-top: var(--horizon-line-height) solid transparent;
   background-image: var(--gradient-horizon);
+  background-origin: border-box;
   background-size: 100% var(--horizon-line-height);
   background-position: top;
   background-repeat: no-repeat;
@@ -6713,7 +6715,7 @@ ol.concierge-list {
   flex-direction: column;
   gap: var(--space-sm);
   max-height: 70vh;
-  padding: var(--horizon-line-height) var(--space-lg) var(--space-lg);
+  padding: 0 var(--space-lg) var(--space-lg);
   overflow-y: auto;
   color: var(--color-text-primary);
   background-color: var(--color-surface);
@@ -7872,8 +7874,8 @@ ol.concierge-list {
 
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer {
   position: relative;
-  border: var(--border-width-thin) solid var(--color-border);
-  border-block: 0;
+  border-inline: var(--border-width-thin) solid var(--color-border);
+  border-bottom: 0;
   background-color: var(--color-surface-raised);
 }
 
@@ -8095,7 +8097,7 @@ ol.concierge-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding: var(--horizon-line-height) var(--space-lg) var(--space-lg);
+  padding: 0 var(--space-lg) var(--space-lg);
   background-color: var(--color-surface);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
@@ -11094,7 +11096,7 @@ ul.login__never {
 }
 
 .sheet--tall .sheet__grab {
-  margin-top: var(--horizon-line-height);
+  margin-top: 0;
   margin-bottom: 0;
 }
 
@@ -14125,7 +14127,6 @@ fieldset.agenda__whens {
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
-  border-top: 0;
   /* Links on the navy drawer take its light ink. */
   --color-text-link: var(--color-text-inverse);
   --color-text-link-hover: var(--color-text-inverse);
