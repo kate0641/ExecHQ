@@ -19,13 +19,13 @@ import { GoodExample } from "@/components/onboarding/GoodExample";
 import { StoryDraft } from "@/components/onboarding/StoryDraft";
 import { StoryText } from "@/components/onboarding/StoryText";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
-import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { GuidePage, type SkyGlow } from "@/components/onboarding/GuidePage";
 import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { Icon } from "@/components/primitives/Icon";
 import { PlanPath } from "@/components/onboarding/PlanPath";
+import { PlanOption } from "@/components/onboarding/PlanOption";
 import { ProductIntro } from "@/components/onboarding/ProductIntro";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
 import { Button } from "@/components/primitives/Button";
@@ -303,6 +303,9 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   const router = useRouter();
 
   const [pageId, setPageId] = useState<PageId>(edit ? "direction" : "welcome");
+  // Which plan is open on the plans page, and on Choose your plan (undefined: ExecEngine's pick).
+  const [pickOpen, setPickOpen] = useState<string | null>(null);
+  const [recOpen, setRecOpen] = useState<string | null | undefined>(undefined);
   // Changing her direction from the Plan goes the I can't decide way, from the direction.
   const [route, setRoute] = useState<Route>(edit ? "unsure" : "pick");
   const [reflections, setReflections] = useState<Record<string, string>>({});
@@ -545,38 +548,36 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
 
     case "pick": {
       const c = GUIDE_C3.pick;
-      const picked = planById(a.planId ?? "");
       return (
-        <GuidePage
-          {...frame()}
-          navy
-          kicker={c.kicker}
-          title={c.title}
-          lede={c.lede}
-          primaryLabel={c.cta}
-          primaryDisabled={!picked}
-          onPrimary={() => {
-            setRoute("pick");
-            goTo("reflect-time");
-          }}
-          // An equal choice, as onboarding's skips are: the long way to ExecEngine's pick.
-          secondaryLabel={c.unsure}
-          onSecondary={() => {
-            setRoute("unsure");
-            goTo("today");
-          }}
-        >
-          <div className="plan-set plan-set--choose" role="radiogroup" aria-label={c.title}>
+        <GuidePage {...frame()} navy kicker={c.kicker} title={c.title} lede={c.lede}>
+          {/* Each plan opens in place to say why it's hers, with Use this plan, which moves on at once
+              (Kate, 2026-11-13). I can't decide is a link at the foot of the list, not pinned. */}
+          <div className="plan-set plan-set--choose">
             {PLAN_TEMPLATES.map((template) => (
-              <PlanTemplateCard
+              <PlanOption
                 key={template.id}
                 plan={template}
-                comparison
-                selected={template.id === picked?.id}
-                name="plan-pick"
-                onSelect={(planId) => dispatch({ type: "select-plan", planId, source: "chosen" })}
+                open={pickOpen === template.id}
+                onToggle={() => setPickOpen((open) => (open === template.id ? null : template.id))}
+                signsLabel={c.signs}
+                useLabel={c.cta}
+                onUse={() => {
+                  dispatch({ type: "select-plan", planId: template.id, source: "chosen" });
+                  setRoute("pick");
+                  goTo("reflect-time");
+                }}
               />
             ))}
+            <button
+              type="button"
+              className="link plan-set__unsure"
+              onClick={() => {
+                setRoute("unsure");
+                goTo("today");
+              }}
+            >
+              {c.unsure}
+            </button>
           </div>
         </GuidePage>
       );
@@ -612,32 +613,29 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
         { ...made.plan, rationale: reason },
         ...PLAN_TEMPLATES.filter((template) => template.id !== made.plan.id),
       ];
-      const usePlan = () => {
-        dispatch({
-          type: "select-plan",
-          planId: plan.id,
-          source: plan.id === made.plan.id ? "recommended" : "switched",
-        });
-        next();
-      };
+      // The same cards as the plans page, ExecEngine's pick first and open (Kate, 2026-11-13).
+      const open = recOpen === undefined ? made.plan.id : recOpen;
       return (
-        <GuidePage {...frame()} navy kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={usePlan}>
-          <div className="plan-set plan-set--choose" role="radiogroup" aria-label={c.title}>
+        <GuidePage {...frame()} navy kicker={c.kicker} title={c.title} lede={c.lede}>
+          <div className="plan-set plan-set--choose">
             {ordered.map((template) => (
-              <PlanTemplateCard
+              <PlanOption
                 key={template.id}
                 plan={template}
-                comparison
+                open={open === template.id}
+                onToggle={() => setRecOpen(open === template.id ? null : template.id)}
                 recommended={template.id === made.plan.id}
-                selected={template.id === plan.id}
-                name="plan-c3"
-                onSelect={(planId) =>
+                reason={template.id === made.plan.id ? template.rationale : undefined}
+                signsLabel={GUIDE_C3.pick.signs}
+                useLabel={c.cta}
+                onUse={() => {
                   dispatch({
                     type: "select-plan",
-                    planId,
-                    source: planId === made.plan.id ? "recommended" : "switched",
-                  })
-                }
+                    planId: template.id,
+                    source: template.id === made.plan.id ? "recommended" : "switched",
+                  });
+                  next();
+                }}
               />
             ))}
           </div>

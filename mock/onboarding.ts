@@ -708,6 +708,11 @@ export interface PlanTemplate {
   /** The open end after the last stage: the plan keeps going. */
   after?: string;
   bestFor: string;
+  /** Signs she can see herself in, shown when the plan opens on the plans page (Kate, 2026-11-13).
+   *  From the brief's situation and constraints, in her words. Draft for Eric's sign-off. */
+  pickIf?: string[];
+  /** What she comes away with, after the signs: the brief's desired outcome, in her words. */
+  comeAway?: string;
   emphasis: string;
   /** Why this plan, tied to what the user said. Filled in by `recommendPlan`. */
   rationale?: string;
@@ -721,6 +726,12 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     name: "Step Up",
     formalName: "Increase leadership scope",
     bestFor: "You\u2019re ready for a bigger role and want the remit to match.",
+    pickIf: [
+      "Your results are strong, but your role hasn\u2019t caught up.",
+      "A promotion is the next step, not a new direction.",
+      "The people who decide need to see you as ready.",
+    ],
+    comeAway: "You\u2019ll come away with a clear case for a bigger role, and the story you tell when it\u2019s decided.",
     emphasis: "Your leadership story, proof of what you\u2019ve delivered, and the conversations that decide it.",
     thisWeek: {
       title: "Write the story of what you lead",
@@ -774,6 +785,12 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     name: "Make Your Mark",
     formalName: "Build executive presence",
     bestFor: "You need to be seen, and to have a clear point of view.",
+    pickIf: [
+      "People inside respect your work, but your field doesn\u2019t know you.",
+      "You have views, but rarely say them in public.",
+      "You want to be the name that gets asked.",
+    ],
+    comeAway: "You\u2019ll come away with a point of view in your own words, said where your field will hear it.",
     emphasis: "What you stand for, where you say it, and getting invited to say more.",
     thisWeek: {
       title: "Write how you describe yourself",
@@ -827,6 +844,12 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     name: "Make the Move",
     formalName: "Prepare for a career inflection point",
     bestFor: "A promotion, review, presentation or negotiation is coming up.",
+    pickIf: [
+      "Something big has a date: a promotion talk, a review, the board, a negotiation.",
+      "You have weeks, not months.",
+      "You want to walk in prepared.",
+    ],
+    comeAway: "You\u2019ll come away ready for the room, and with your next move decided after it.",
     emphasis: "A clear brief, a strong case, and a plan for the people in the room.",
     thisWeek: {
       title: "Write the story you\u2019ll tell in the room",
@@ -877,6 +900,12 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     name: "Lead Where You Are",
     formalName: "Strengthen influence in the current organization",
     bestFor: "You want to grow where you already are.",
+    pickIf: [
+      "Your work is solid, but the people above you don\u2019t see it.",
+      "You want more say, without asking for a new title yet.",
+      "Credit for your team\u2019s work goes elsewhere.",
+    ],
+    comeAway: "You\u2019ll come away with the people who matter knowing your work, and coming to you with it.",
     emphasis: "Making your work visible, widening who knows it, and becoming the go-to.",
     thisWeek: {
       title: "Write the story of what you own",
@@ -928,6 +957,12 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     formalName: "Explore and clarify a next direction",
     // A move within her company, not out of it (Kate, 2026-11-12).
     bestFor: "You want a different role here, or aren\u2019t sure yet which.",
+    pickIf: [
+      "You feel stuck or restless, but can\u2019t name what\u2019s next.",
+      "You\u2019re curious about another part of the business.",
+      "You want to choose on evidence, not nerves.",
+    ],
+    comeAway: "You\u2019ll come away with a direction you can commit to, and the plan that gets you there.",
     emphasis: "What you bring anywhere, cheap ways to test options, and a direction you can commit to.",
     thisWeek: {
       title: "Write the story of what you\u2019re good at",
@@ -2272,6 +2307,9 @@ export const GUIDE_C3 = {
     title: "Where do you want to start?",
     lede: "Pick the one that sounds most like you. The next few questions make it yours.",
     cta: "Use this plan",
+    /** Over the signs, when a plan opens (Kate, 2026-11-13). */
+    signs: "Pick this if",
+    /** A link at the foot of the list, not a button pinned to the page. */
     unsure: "I can\u2019t decide",
   },
   rec: {

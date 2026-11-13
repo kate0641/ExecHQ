@@ -181,9 +181,20 @@ Onboarding no longer has a Signals step or a LinkedIn upload page (Kate, 2026-11
 The five plans, straight after Account (Kate, 2026-11-13). She picks one herself, and it is made hers after; or she presses **I can't decide** and goes the long way to ExecEngine's pick (3.4a to 3.7). 22 words.
 
 - Label **Your plan.** Heading **Where do you want to start?** Line "Pick the one that sounds most like you. The next few questions make it yours."
-- The five plans as cards, the same cards as Choose your plan (3.7): each plan's **name** and when it is for (Appendix C). **None is marked or chosen to start with.** One choice, a radio group named "Where do you want to start?".
-- Two equal buttons, as onboarding's skips are: **Use this plan**, off until a plan is picked, and **I can't decide**.
-- **Use this plan** goes to the first reflection (3.8). The plan's own questions follow, the first setting her goal (3.8, 3.9).
+- The five plans as cards: each plan's **name** and when it is for (Appendix C). **None is marked or open to start with.**
+- **Pressing a plan opens it in place** (Kate, 2026-11-13): **Pick this if** and three signs she can see herself in, then what she comes away with, then **Use this plan**. Pressing it again closes it; opening another closes the first, so one is open at a time. No chevron and no Cancel. The card is a disclosure button ("expanded" or "collapsed"). Each plan's words are in its template (`pickIf`, `comeAway`), drafted from its brief for Eric's sign-off:
+
+  | Plan | Pick this if | You come away with |
+  | --- | --- | --- |
+  | Step Up | Your results are strong, but your role hasn't caught up. · A promotion is the next step, not a new direction. · The people who decide need to see you as ready. | A clear case for a bigger role, and the story you tell when it's decided. |
+  | Make Your Mark | People inside respect your work, but your field doesn't know you. · You have views, but rarely say them in public. · You want to be the name that gets asked. | A point of view in your own words, said where your field will hear it. |
+  | Make the Move | Something big has a date: a promotion talk, a review, the board, a negotiation. · You have weeks, not months. · You want to walk in prepared. | Ready for the room, and with your next move decided after it. |
+  | Lead Where You Are | Your work is solid, but the people above you don't see it. · You want more say, without asking for a new title yet. · Credit for your team's work goes elsewhere. | The people who matter knowing your work, and coming to you with it. |
+  | Find your next direction | You feel stuck or restless, but can't name what's next. · You're curious about another part of the business. · You want to choose on evidence, not nerves. | A direction you can commit to, and the plan that gets you there. |
+
+- **Use this plan** chooses that plan and goes straight on to the first reflection (3.8), with no chosen state to confirm.
+- **I can't decide** is a link at the foot of the list, scrolling with it, not a button pinned to the page.
+- After Use this plan, the plan's own questions follow, the first setting her goal (3.8, 3.9).
 - **I can't decide** goes to Where are you today? (3.4a). From there everything is as before: Direction, the question before the plan, and Choose your plan with ExecEngine's pick. A plan picked here is forgotten once she gives a direction.
 - **I can't decide is not Find your next direction.** That plan is for someone unsure what move to make; I can't decide is for someone unsure which plan fits.
 
@@ -236,12 +247,12 @@ For most directions, one question is asked before the recommendation, because it
 *After I can't decide (3.4b).* This is where the plan is chosen, and the person chooses it (Kate, 2026-11-12). ExecEngine says which it would pick and why, but all five are on the page as equals to choose from. It replaces the Recommendation page and its "See other plans" page.
 
 - Label **Your plan.** Heading **Choose your plan.** Line: "Whichever you choose, the next few questions make it yours." 13 words of the page's own; the plans are the answers.
-- The five plans as cards, one choice (a radio group named "Choose your plan"). Each card is the plan's **name** and when it is for (Appendix C). The plan's focus line is left to the plan page.
-- **ExecEngine's pick comes first and is chosen to start with**, so one press of **Use this plan** carries on. It is marked **Recommended** and carries its reason, built from what the person said: where they are today ("Today, you're new in your role and you're going through a restructure or merger."; 2026-11-12), their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used. The other four follow in the usual order.
-- Button **Use this plan.** Choosing another card and pressing it chooses that plan and goes straight on.
+- The five plans as the same cards as Where do you want to start? (3.4b), opening in place with their signs, what she comes away with and **Use this plan** (2026-11-13). Each card is the plan's **name** and when it is for (Appendix C).
+- **ExecEngine's pick comes first and is open to start with**, so one press of **Use this plan** carries on. It is marked **Recommended** and carries its reason, built from what the person said: where they are today ("Today, you're new in your role and you're going through a restructure or merger."; 2026-11-12), their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used. The other four follow in the usual order.
+- **Use this plan** is in each open card. Opening another plan and pressing its button chooses that plan and goes straight on. There is no button at the foot.
 - **Removed with the old page:** what a plan is ("A plan is how you get… two parts"), said on the plan page anyway; "You also picked: {them}…" (the other picks are still kept, and said on the plan page's **Built from what you said**); "You chose this one instead…".
 
-On phone and tablet the list scrolls under a pinned **Use this plan**; about three cards show at once.
+On phone and tablet the list scrolls with the page; the open card carries its own **Use this plan**.
 
 ### 3.8 Reflection and the questions that make it yours
 
@@ -658,6 +669,7 @@ These are settled. They are the specified behavior. The dates are when they were
 33. **Onboarding ends at Done, right after the plan.** The story and first draft are optional: the plan's first step, begun from Done's Get started with your plan, with no progress line. Done's other way on is Go to my homepage. (2026-11-12)
 34. **Most people pick their plan first.** Where do you want to start? comes straight after Account: the five plans, none marked. **I can't decide** takes the long way, Where you are, Direction and the question before the plan, to ExecEngine's pick. On a plan she picks, its own questions follow and the first sets her goal, never skipped. Changing her direction from the Plan still goes the long way. (2026-11-13; Where you are, Direction and the deciding question now come only after I can't decide)
 35. **Welcome is the front door, with Log in.** A first visit opens Welcome, which offers Get started and "Already have an account? Log in". In the prototype any six digits confirm an email code; 000000 shows the wrong-code error. (2026-11-13)
+36. **A plan opens before it is chosen.** On both plans pages, pressing a plan opens it in place with Pick this if, three signs, what she comes away with and Use this plan, which moves straight on. I can't decide is a link at the foot of the list. (2026-11-13)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

@@ -6798,6 +6798,114 @@ ol.ring-detail__timeline {
   display: none;
 }
 
+/* A plan on the plans page (Kate, 2026-11-13): pressed, it opens in place to say why it's hers, with
+   Use this plan. One is open at a time. */
+.plan-option {
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  transition: border-color var(--duration-fast) var(--easing-standard);
+}
+
+.plan-option:has(.plan-option__head:hover),
+.plan-option:has(.plan-option__head:active) {
+  border-color: var(--color-border-strong);
+}
+
+/* Open is a second border width, as a chosen plan card's is, never colour alone. */
+.plan-option.is-open {
+  border-color: var(--color-text-primary);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-text-primary);
+}
+
+.plan-option__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 0;
+  border-radius: inherit;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.plan-option__head:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.plan-option__flag {
+  margin-bottom: var(--space-2xs);
+}
+
+.plan-option__name {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+}
+
+.plan-option__best-for {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.plan-option__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: 0 var(--space-md) var(--space-md);
+}
+
+.plan-option__reason {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+
+.plan-option__label {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* ul.… to outrank the reset's ul[class], which takes the bullets away. */
+ul.plan-option__signs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  list-style: disc;
+  padding-inline-start: var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+
+.plan-option__outcome {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+/* I can't decide: a link at the foot of the list, scrolling with it (Kate, 2026-11-13). */
+.plan-set__unsure {
+  align-self: center;
+  margin-top: var(--space-sm);
+}
+
 .plan-set__actions {
   display: flex;
   flex-wrap: wrap;
