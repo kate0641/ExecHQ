@@ -5,7 +5,7 @@ import { Suspense, useEffect, type ReactNode } from "react";
 import { conceptHref } from "@/lib/manifest";
 import { playbookActions, type ToolFlowPage } from "@/lib/playbook-store";
 
-/** The tool the flow opens on from the hub (Kate, 15 Oct). */
+/** The tool the flow opens on from the hub. */
 const OPENS_ON = "situation-brief";
 
 /** What a tool flow can be opened with. Without one there is nothing to open. */

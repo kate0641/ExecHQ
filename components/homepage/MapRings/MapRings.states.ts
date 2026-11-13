@@ -36,7 +36,7 @@ export const mapRingsStates = defineComponentStates({
     loading: "Written from local data: there is nothing to wait for.",
     error: "Nothing can fail.",
     filled: NOT_AN_INPUT,
-    hover: "No hover tint: the phone has no hover, and a tint read as a second selection beside the chosen ring (designer, 2026-10-11).",
+    hover: "No hover tint: the phone has no hover, and a tint read as a second selection beside the chosen ring.",
   },
   variants: [
     { label: "Default — started, in progress and not started", props: base },

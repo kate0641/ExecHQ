@@ -21,7 +21,7 @@ export interface EntryLinkProps {
  * A way from the homepage to another destination that says what's there:
  * what it is, the one thing it leads to, and why it matters. The whole row
  * is the link, marked with a chevron. The icon sits on the eyebrow's line,
- * and the card carries a soft wash (designer, 2026-10-11).
+ * and the card carries a soft wash.
  */
 export function EntryLink({ href, icon, eyebrow, title, detail, demo, onClick, className }: EntryLinkProps) {
   return (

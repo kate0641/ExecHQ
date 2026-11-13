@@ -1,10 +1,8 @@
 import type { ReactNode } from "react";
 import { STATUS_LABELS, type Status } from "@/lib/manifest";
 
-/** Feedback tones draw a halo dot before the word; the word still carries it. */
-export type FeedbackBadgeTone = "info" | "success" | "warning" | "danger";
-
-export type BadgeTone = "neutral" | "sprint" | Status | FeedbackBadgeTone;
+/** `when` is a date or time in sentence case ("Oct 6", "This week"). */
+export type BadgeTone = "neutral" | "when" | Status;
 
 export interface BadgeProps {
   tone?: BadgeTone;

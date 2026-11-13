@@ -210,13 +210,13 @@ interface DrawerControl {
 
 /** What every page is handed about where it sits. */
 /** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecEngine moments
- *  (designer, 2026-10-15). A step with a navy drawer stays light. */
+ * A step with a navy drawer stays light. */
 const NAVY_PAGES = new Set<string>(["about", "pick", "rec", "plan-week", "draft", "done"]);
 
 type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky" | "glow" | "progress">;
 
 /** The sky's glow moves round the panel from one question to the next, so the yellow heart isn't in the same
- *  corner every time (designer, 2026-10-15). Named per page, so the questions she sees in a row never share
+ *  corner every time. Named per page, so the questions she sees in a row never share
  *  a corner; at dusk and night the left corners move right, clear of the white words. */
 const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
   account: "top-right",
@@ -1232,7 +1232,7 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
         }
       >
         {/* What she typed sits in a card with Change, as all her input does;
-            Change does what Use a different address did (designer, 2026-10-13). */}
+            Change does what Use a different address did. */}
         <Said label={c.sentTo} value={email} onChange={onOtherAddress} />
       </GuidePage>
       <Sheet open={reading} onClose={() => setReading(false)} label={c.email.subject} className="sheet--tall">

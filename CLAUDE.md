@@ -10,9 +10,8 @@ The product was called **ExecHQ** until 2026-11-12, when it became **ExecEngine*
 nobody sees keeps the old name on purpose: the repo and folders, the
 `package.json` name, the `exechq…` `localStorage` keys (renaming them would wipe
 saved state), code identifiers such as `by: "exechq"`, the source PDFs in
-`docs/`, and the dated handoff notes written before the change. The logo's
-"Engine" is set in type as a stand-in until the brand artwork arrives
-(`components/primitives/Logo`).
+`docs/`, and the dated handoff notes written before the change. The logo is
+the ExecEngine brand artwork (`components/primitives/Logo`).
 
 ## Design sessions — read this first
 

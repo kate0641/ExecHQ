@@ -20,7 +20,7 @@ export interface LibraryTabsProps {
    *  panel `${idBase}-panel`. */
   idBase: string;
   /** A row (the default) or a column, as the library's folders on web
-   *  (designer, 2026-10-28): a column moves with the up and down arrows. */
+   *: a column moves with the up and down arrows. */
   orientation?: "horizontal" | "vertical";
   /** Catalogue only: shows the first unchosen tab in a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";

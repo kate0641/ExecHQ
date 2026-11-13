@@ -21,7 +21,7 @@ export interface GuidePageProps {
   partIndex?: number;
   partCount?: number;
   /** How far through onboarding she is, 0 to 1: a thin line at the top of
-   *  the page, with no words (Kate, 2026-11-12). Left off the cover. */
+   *  the page, with no words. Left off the cover. */
   progress?: number;
   /** What ExecEngine knows so far, carried on every page. */
   file?: ReactNode;
@@ -59,25 +59,25 @@ export interface GuidePageProps {
    *  Plan's roadmap under the move, say. It scrolls with the page. */
   after?: ReactNode;
   /** The page's main action straight under its top card, in place of a pinned
-   *  one at the foot: the stage check-in's read-back (designer, 2026-10-21).
+   *  one at the foot: the stage check-in's read-back.
    *  Any foot actions then stay in the page, unpinned. */
   headAction?: ReactNode;
   /** Inside the top card, under the lede: the Plan's "Where are you with
-   *  this?" while its drawer is folded (Kate, 2026-11-11). */
+   *  this?" while its drawer is folded. */
   headFoot?: ReactNode;
   /** Drawn over the top of the page: an email's notification arriving. */
   overlay?: ReactNode;
   /** With a drawer: the question sits in its own panel of the sky Home shows at this hour (dawn, day, dusk,
-   *  night), its glow in the panel's bottom-right corner (designer, 2026-10-14). Onboarding and the Plan. */
+   *  night), its glow in the panel's bottom-right corner. Onboarding and the Plan. */
   sky?: boolean;
   /** Which corner of the sky panel holds the glow; bottom right unless said. Onboarding moves it from question
-   *  to question so the yellow heart isn't in the same place every time (designer, 2026-10-15). */
+   *  to question so the yellow heart isn't in the same place every time. */
   glow?: SkyGlow;
   /** With the sky panel: the panel is plain navy instead of the sky, its headline lime. The Plan's moves, so
-   *  they read apart from onboarding; lime is there when yellow isn't justified (designer, 2026-10-15). */
+   *  they read apart from onboarding; lime is there when yellow isn't justified. */
   navyPanel?: boolean;
   /** Flooded navy: headlines and section labels yellow, white cards on it. Onboarding's steps with no drawer,
-   *  so the flow alternates quiet screens with ExecEngine moments (designer, 2026-10-15), and every Plan page,
+   *  so the flow alternates quiet screens with ExecEngine moments, and every Plan page,
    *  where the top section sits in a darkest-navy card and the drawer turns stone (2026-10-16). */
   navy?: boolean;
   className?: string;

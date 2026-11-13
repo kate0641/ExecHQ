@@ -6,7 +6,7 @@ import { BriefingEditorial } from "./BriefingEditorial";
 const base = {
   href: "/daily-briefing/concept-2",
   heading: B.heading,
-  meta: B.meta("Tuesday, October 20, 2026", B.reads),
+  meta: B.meta("Tue, Oct 20, 2026", B.reads),
   reads: B.list,
 };
 
@@ -27,7 +27,7 @@ export const briefingEditorialStates = defineComponentStates({
   },
   variants: [
     { label: "Today’s three reads with their publications — default", props: base },
-    { label: "With a cover image", description: "A photograph across the top fading into the card; the words in white below it. Not on Home: Home shows the plain card (designer, 2026-10-12).", props: { ...base, cover: true } },
+    { label: "With a cover image", description: "A photograph across the top fading into the card; the words in white below it. Not on Home: Home shows the plain card.", props: { ...base, cover: true } },
     {
       label: "Long headlines wrap, never cut",
       description: "The lead and the bullets each run to as many lines as they need, so every headline is read in full and the card grows to hold it.",

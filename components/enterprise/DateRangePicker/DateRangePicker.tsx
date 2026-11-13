@@ -47,7 +47,7 @@ const earlier = (a: string, b: string) => (a < b ? a : b);
 const monthIndex = (month: Month) => month.y * 12 + month.m;
 
 /**
- * The dashboard's dates (Kate, 2026-10-21): a field showing them, with
+ * The dashboard's dates: a field showing them, with
  * arrows that step to the dates before or after, and a panel with ranges on
  * the left and two months of calendar. Any dates from the program's first
  * day to today, as short as one day. The minimum cohort size still hides
@@ -394,8 +394,8 @@ function RangePanel({ id, cohort, range, align, inline, pickingFrom, anchor, onP
             </div>
           ))}
         </div>
-        {/* Only before the first figures is anything said on screen
-            (Kate, 2026-10-22): greyed days show the bounds, and the page says
+        {/* Only before the first figures is anything said on screen:
+            greyed days show the bounds, and the page says
             the privacy rule. Picking is still announced. */}
         <p className={started ? "u-visually-hidden" : "date-range__status"} aria-live="polite">
           {status}

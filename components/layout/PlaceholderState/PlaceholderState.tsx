@@ -22,7 +22,7 @@ export function PlaceholderState({
 }: PlaceholderStateProps) {
   return (
     <div className="placeholder">
-      <Badge tone="sprint">Sprint {sprint}</Badge>
+      <Badge>Sprint {sprint}</Badge>
       <p className="placeholder__headline">Not yet built — Sprint {sprint}</p>
       <p className="placeholder__title t-editorial">{title}</p>
       {description ? <p className="placeholder__description">{description}</p> : null}

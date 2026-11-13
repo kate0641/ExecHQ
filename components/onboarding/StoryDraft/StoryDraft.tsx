@@ -20,7 +20,7 @@ export interface StoryDraftProps {
   usesLabel: string;
   uses: readonly string[];
   /** What she can do with the draft (Copy, Download, Email), at the foot of the card under a hairline, so
-   *  they sit on the thing they act on (designer, 2026-10-15). Hidden while she edits. */
+   *  they sit on the thing they act on. Hidden while she edits. */
   actions?: ReactNode;
   /** Opens in a state, for the catalogue: the editor, or the editor after
    *  saving an empty version. */
@@ -67,7 +67,7 @@ export function StoryDraft({
 
   return (
     <div className={["story-draft", className].filter(Boolean).join(" ")}>
-      <div className="story-draft__card">
+      <div className="card story-draft__card">
         <div className="read-head">
           <p className="story-draft__label">{label}</p>
           {editing ? null : (
@@ -80,7 +80,7 @@ export function StoryDraft({
                 setEditing(true);
               }}
             >
-              <Icon name="edit" size={18} />
+              <Icon name="edit" size={20} />
             </button>
           )}
         </div>

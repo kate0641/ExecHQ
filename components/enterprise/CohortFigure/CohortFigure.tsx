@@ -19,6 +19,10 @@ export interface CohortFigureProps {
   /** Draws the share as a ring (the number in its middle) or a bar under the
    *  number. Only for figures that are a share, and never while hidden. */
   meter?: "ring" | "bar";
+  /** `row`: the number in a column of its own on the
+   *  left, and the label, what it is out of and its definition read to its
+   *  right, as the hero's three on the right. */
+  layout?: "stack" | "row";
   /** Opens how the figure is measured, from the info icon beside its name.
    *  Every figure has one, so a page always passes it; the catalogue may
    *  leave it off. */
@@ -30,9 +34,12 @@ export interface CohortFigureProps {
   /** The dates the page shows, for the popover's "Covers" line. */
   window?: Period;
   /** One sentence of what it counts, shown under it, so no one has to open
-   *  the icon to read the number (Kate, 2026-10-22). The icon still opens the
+   *  the icon to read the number. The icon still opens the
    *  full definition and its source. */
   brief?: string;
+  /** Anything said about the number before its definition: the hero's key
+   *  to its ring. */
+  children?: React.ReactNode;
   /** Catalogue only: shows a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
   className?: string;
@@ -46,13 +53,13 @@ export interface CohortFigureProps {
  * stated. Hidden, while too few participants are active, which names the
  * rule rather than apologising for it. Nothing here reads as a score: no
  * target and no colour carrying meaning. The one comparison is a direction
- * since last week, in words with an arrow, never a count (Kate, 2026-10-20).
+ * since last week, in words with an arrow, never a count.
  */
-export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, window = "30d", brief, demo, className }: CohortFigureProps) {
+export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, window = "30d", brief, children, layout = "stack", demo, className }: CohortFigureProps) {
   const icon = useRef<HTMLButtonElement>(null);
   const drawn = meter && figure.state !== "suppressed" && figure.fraction !== undefined ? meter : undefined;
   const muted = figure.state === "filling";
-  const classes = ["cohort-figure", `cohort-figure--${size}`, `cohort-figure--${figure.state}`, drawn ? `cohort-figure--${drawn}` : null, className]
+  const classes = ["cohort-figure", `cohort-figure--${size}`, `cohort-figure--${figure.state}`, drawn ? `cohort-figure--${drawn}` : null, layout === "row" ? "cohort-figure--row" : null, className]
     .filter(Boolean)
     .join(" ");
 
@@ -88,6 +95,11 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
           </Meter>
           {figure.detail ? <span className="cohort-figure__detail">{figure.detail}</span> : null}
         </p>
+      ) : layout === "row" ? (
+        <>
+          <p className="cohort-figure__value">{figure.value}</p>
+          {figure.detail ? <p className="cohort-figure__detail">{figure.detail}</p> : null}
+        </>
       ) : (
         <p className="cohort-figure__value">
           {figure.value}
@@ -98,7 +110,7 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
 
       {direction && figure.state !== "suppressed" ? (
         <p className="cohort-figure__direction">
-          <Icon name={direction === "up" ? "arrow-up" : "arrow-down"} size={14} />
+          <Icon name={direction === "up" ? "arrow-up" : "arrow-down"} size={16} />
           {directionText(figure.id, direction)}
         </p>
       ) : null}
@@ -109,6 +121,7 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
         </Badge>
       ) : null}
       {figure.note ? <p className="cohort-figure__note">{figure.note}</p> : null}
+      {children}
       {brief ? <p className="cohort-figure__brief">{brief}</p> : null}
 
     </div>

@@ -51,12 +51,12 @@ export function AddToPlanSheet({ open, onClose, today, onAdd, inline }: AddToPla
         <fieldset className="agenda__whens">
           <legend className="agenda__legend">{A.addWhen}</legend>
           {choices.map((c, i) => (
-            <button key={c.bucket} type="button" className="agenda__chip" aria-pressed={when === i} onClick={() => setWhen(i)}>
+            <button key={c.bucket} type="button" className="choice-pill agenda__chip" aria-pressed={when === i} onClick={() => setWhen(i)}>
               <span className="u-bold-hold" data-label={c.label}>{c.label}</span>
             </button>
           ))}
         </fieldset>
-        {/* The main action full width; leaving is the underlined link under it (designer, 2026-10-16). */}
+        {/* The main action full width; leaving is the underlined link under it. */}
         <div className="agenda__actions sheet-actions">
           <Button type="submit" variant="primary" fullWidth disabled={!draft.trim()}>
             {A.addSubmit}

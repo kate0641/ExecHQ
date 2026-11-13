@@ -20,9 +20,11 @@ export interface RespondLinkProps {
 export function RespondLink({ href, onClick, demo, className }: RespondLinkProps) {
   return (
     <Link href={href} className={["respond-link", demo ? `is-${demo}` : null, className].filter(Boolean).join(" ")} onClick={onClick}>
-      <Icon name="pencil" size={16} />
       <span className="respond-link__text">
-        <span className="respond-link__label">{C.respond.action}</span>
+        <span className="respond-link__label">
+          <Icon name="pencil" size={16} />
+          {C.respond.action}
+        </span>
         <span className="respond-link__hint">{C.respond.hint}</span>
       </span>
       <Icon name="chevron" size={16} className="respond-link__go" />

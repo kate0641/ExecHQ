@@ -39,7 +39,7 @@ export interface SendStepsProps {
 }
 
 /**
- * Send it in four steps (Kate, 14 Oct): under the pitch draft, filled in from
+ * Send it in four steps: under the pitch draft, filled in from
  * Where it goes. Check it against their ask, get the extras, send it their
  * way with a Copy on each part, then mark it sent. Ticks are hers alone;
  * nothing is sent from here.
@@ -70,7 +70,7 @@ export function SendSteps({
 
   const copyButton = (what: SendCopy, label: string) => (
     <Button variant="ghost" size="sm" onClick={() => onCopy?.(what, label)}>
-      <Icon name="copy" size={14} />
+      <Icon name="copy" size={16} />
       {C.send.copy}
       <span className="u-visually-hidden"> {label.toLowerCase()}</span>
     </Button>
@@ -168,7 +168,7 @@ export function SendSteps({
   ];
 
   return (
-    <section className={["send-steps", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["card", "send-steps", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <h2 className="send-steps__heading" id={headingId}>
         {C.heading}
       </h2>
@@ -184,7 +184,7 @@ export function SendSteps({
               {n === 4 ? (
                 <p className="send-steps__mark">
                   <span className="send-steps__box" aria-hidden="true">
-                    {isDone ? <Icon name="check" size={14} /> : null}
+                    {isDone ? <Icon name="check" size={16} /> : null}
                   </span>
                   <span>
                     {`${n}. ${step.title}`}

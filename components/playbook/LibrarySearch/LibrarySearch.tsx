@@ -69,7 +69,7 @@ function marked(title: string, q: string) {
  * Finding something in the library, inside the sheet the magnifying glass
  * opens (Playbook Concept 2, 14 Oct). Each is the library's card: where it
  * stands over the title, what it says under it, the horizon line along its
- * foot and a chevron (designer, 2026-10-28). Before she types, her latest work; as
+ * foot and a chevron. Before she types, her latest work; as
  * she types, the matches update with each letter, the best first, with what
  * she typed marked in the title. Each match is a button that opens it; Tab
  * goes from the field to them, and the count is announced as it changes.
@@ -93,7 +93,7 @@ export function LibrarySearch({ items, onPick, copy, initial = "", limit = 8, de
   return (
     <div className={["library-search", className].filter(Boolean).join(" ")}>
       <div className="library-search__field">
-        <Icon name="search" size={18} className="library-search__icon" />
+        <Icon name="search" size={20} className="library-search__icon" />
         <input
           type="search"
           aria-label={copy.field}
@@ -105,7 +105,7 @@ export function LibrarySearch({ items, onPick, copy, initial = "", limit = 8, de
           className="field__control library-search__input"
         />
       </div>
-      <p className="library-search__heading" id={`${id}-heading`} aria-live="polite">
+      <p className={q && !shown.length ? "library-search__none" : "library-search__heading"} id={`${id}-heading`} aria-live="polite">
         {heading}
       </p>
       {shown.length ? (

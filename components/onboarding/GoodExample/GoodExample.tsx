@@ -16,7 +16,7 @@ export interface GoodExampleProps {
  */
 export function GoodExample({ label, example, whyLabel, why, className }: GoodExampleProps) {
   return (
-    <section className={["good-example", className].filter(Boolean).join(" ")} aria-label={label}>
+    <section className={["card", "good-example", className].filter(Boolean).join(" ")} aria-label={label}>
       <p className="good-example__label">{label}</p>
       <p className="good-example__example">{example}</p>
       <p className="good-example__why">

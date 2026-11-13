@@ -87,7 +87,7 @@ export function focusSoon(id: string): void {
   setTimeout(() => document.getElementById(id)?.focus({ preventScroll: true }), 0);
 }
 
-/** "Monday, October 5, 2026, 9:14": the snapshot's day, the reviewer's time. */
+/** "Mon, Oct 5, 2026, 9:14": the snapshot's day, the reviewer's time. */
 function stamp(today: string): string {
   const now = new Date();
   return `${fullDate(today)}, ${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}`;
@@ -226,7 +226,7 @@ export function useToolFlow(concept: FlowConcept) {
   // Positioning Builder is one artifact: her statement from onboarding. Opened
   // as a tool, from a plan step or from the Playbook, it goes to that artifact.
   // Once built out, the start screen shows first, and starting opens it
-  // (Kate, 15 Oct).
+  //.
   const positioningRecord = loop.records.find((r) => r.kind === "positioning");
   const statementHref = positioningRecord
     ? `${conceptHref("playbook-flow", concept)}?artifact=${positioningRecord.id}${stepId ? `&step=${stepId}` : ""}`
@@ -357,7 +357,7 @@ export function useToolFlow(concept: FlowConcept) {
 
   const currentValues = () => Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)]));
 
-  /** "Not sure yet" under Who are you pitching? (Kate, 14 Oct): up to three
+  /** "Not sure yet" under Who are you pitching?: up to three
    *  outlets of the kind she is pitching for. */
   const outletChoices = kind === "pitch" ? suggestedOutlets(pitchTypeOf(valueOf("type")), { audience: valueOf("audience"), area: step?.area }) : [];
   const fieldExtras: Record<string, ReactNode> =
@@ -486,14 +486,14 @@ export function useToolFlow(concept: FlowConcept) {
   const backHref = conceptHref("playbook", playbookPageFor(concept));
   const header: ReactNode = (
     <div className="tool-flow__bar">
-      <Link href={backHref} className="tool-flow__back">
+      <Link href={backHref} className="text-link">
         <Icon name="chevron" size={16} className="tool-flow__back-icon" />
         {C.back}
         <span className="u-visually-hidden"> ({C.backLabel})</span>
       </Link>
       {draft ? (
         <span className="tool-flow__saved">
-          <Icon name="check" size={14} />
+          <Icon name="check" size={16} />
           {C.saved}
         </span>
       ) : null}
@@ -694,8 +694,7 @@ export function useToolFlow(concept: FlowConcept) {
   const sectionActions = (section: { id: string; heading?: string }): ReactNode => {
     const name = section.heading ?? "";
     const one = version?.sections.filter((x) => x.id === section.id) ?? [];
-    // One quiet menu per part, beside Edit (designer, 2026-10-28; it was a
-    // row of Copy, PDF and Word links on every part).
+    // One quiet menu per part, beside Edit.
     return (
       <DropdownMenu
         label={POSITIONING_COPY.moreFor(name)}
@@ -735,7 +734,7 @@ export function useToolFlow(concept: FlowConcept) {
   const [refreshOffer, setRefreshOffer] = useState(false);
   const refresh: ReactNode =
     refreshOffer && draft && version && artifactId ? (
-      <aside className="tool-flow__refresh" aria-label={POSITIONING_COPY.refresh.heading}>
+      <aside className="card tool-flow__refresh" aria-label={POSITIONING_COPY.refresh.heading}>
         <p className="tool-flow__refresh-heading">{POSITIONING_COPY.refresh.heading}</p>
         <p className="tool-flow__refresh-body">{POSITIONING_COPY.refresh.body}</p>
         <div className="tool-flow__refresh-actions">
@@ -768,7 +767,7 @@ export function useToolFlow(concept: FlowConcept) {
       : USE_COPY.exportable[record.kind]
     : false;
 
-  /** Send it in four steps, under a pitch's draft (Kate, 14 Oct). */
+  /** Send it in four steps, under a pitch's draft. */
   const pitchOutlet = kind === "pitch" ? outletFor(draft?.inputs.target) : undefined;
   const words = (part: string): number | undefined => {
     const section = version?.sections.find((x) => x.id === part);
@@ -826,7 +825,7 @@ export function useToolFlow(concept: FlowConcept) {
       <>
         {refresh}
         <output className="u-visually-hidden">{sectionMessage}</output>
-        {/* A pitch is for one place (Kate, 14 Oct): where it goes, above
+        {/* A pitch is for one place: where it goes, above
             what it says. */}
         {kind === "pitch" && draft.inputs.target?.trim() ? (
           <OutletCard name={draft.inputs.target} type={pitchTypeOf(draft.inputs.type)} outlet={outletFor(draft.inputs.target)} today={loop.today} />
@@ -834,8 +833,7 @@ export function useToolFlow(concept: FlowConcept) {
         <DraftEditor
           key={`${artifactId}-${version.n}`}
           id={DRAFT_LABEL_ID}
-          // Its name, while she edits too (designer, 2026-10-28; it was the
-          // version, "Draft, version 2", which the folded card still says).
+          // Its name, while she edits too.
           label={record?.title ?? DRAFT_COPY.label(version.n)}
           look={look}
           onReopen={onReopen}
@@ -848,15 +846,13 @@ export function useToolFlow(concept: FlowConcept) {
           revising={revising ? REVISION_COPY.revising : undefined}
           header={
             <>
-            {/* What it is for, read right after its name (designer,
-                2026-10-28; it sat above the draft, before the name). */}
+            {/* What it is for, read right after its name. */}
             {forLine}
             <span className="tool-flow__draft-head">
-              {/* No "Still editing" here: she is looking at the draft
-                  (designer, 2026-10-28). Lists elsewhere keep it. */}
+              {/* No "Still editing" here: she is looking at the draft. Lists elsewhere keep it. */}
               {record ? <LoopStatus record={record} detail={false} /> : null}
               {/* That it is kept, beside where it stands, so the bar above
-                  needs no line of its own here (designer, 2026-10-28). */}
+                  needs no line of its own here. */}
               {record ? (
                 <span className="tool-flow__draft-saved">
                   <span aria-hidden="true">·</span>
@@ -865,8 +861,8 @@ export function useToolFlow(concept: FlowConcept) {
               ) : null}
               {/* The draft's actions, in its corner, on every concept. Once it
                   is ready, Copy and the downloads lead, so the bar holds only
-                  "I've used this". Then what the library's row menu held
-                  (Kate, 14 Oct): start a new draft from this one, close it,
+                  "I've used this". Then what the library's row menu held:
+                  start a new draft from this one, close it,
                   delete it. */}
               {record ? (
                 <DropdownMenu
@@ -1023,7 +1019,7 @@ export function useToolFlow(concept: FlowConcept) {
   const sentForm: ReactNode =
     sending && record ? (
       <form
-        className="tool-flow__sent"
+        className="card tool-flow__sent"
         onSubmit={(event) => {
           event.preventDefault();
           const on = sentOn || loop.today;
@@ -1211,6 +1207,7 @@ export function useToolFlow(concept: FlowConcept) {
         answered={answeredHere}
         readback={outcomeSaid}
         headingId={outcomeHeading}
+        headingLevel={2}
         onAnswer={(type) => {
           loopActions.answer(record.id, { type });
           setAnsweredHere(true);

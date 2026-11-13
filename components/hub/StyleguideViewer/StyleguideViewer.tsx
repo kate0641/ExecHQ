@@ -1,5 +1,4 @@
 import { Notice, type NoticeTone } from "@/components/onboarding/Notice";
-import { Badge, type FeedbackBadgeTone } from "@/components/primitives/Badge";
 import { Logo, type LogoTone } from "@/components/primitives/Logo";
 import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
@@ -50,26 +49,26 @@ const BRAND_GROUPS: {
     title: "Primary",
     role: "The colors that make a screen ExecEngine.",
     colours: [
-      { token: "--brand-navy", name: "Navy" },
-      { token: "--brand-bright-yellow", name: "Bright yellow" },
+      { token: "--brand-blue-800", name: "Navy" },
+      { token: "--brand-yellow-400", name: "Bright yellow" },
     ],
   },
   {
     title: "Secondary",
     role: "Supporting colors, used in smaller amounts.",
     colours: [
-      { token: "--brand-gold-yellow", name: "Gold yellow" },
-      { token: "--brand-light-green", name: "Light green" },
-      { token: "--brand-dark-green", name: "Dark green" },
-      { token: "--brand-light-blue", name: "Light blue" },
-      { token: "--brand-orange", name: "Orange" },
+      { token: "--brand-yellow-700", name: "Gold yellow" },
+      { token: "--brand-green-300", name: "Light green" },
+      { token: "--brand-green-800", name: "Dark green" },
+      { token: "--brand-blue-200", name: "Light blue" },
+      { token: "--brand-orange-400", name: "Orange" },
     ],
   },
   {
     title: "Neutral",
     role: "One neutral: stone. Its 100 is the page, its 900 the near-black used in place of black.",
     colours: [
-      { token: "--brand-stone", name: "Stone", role: "Lights" },
+      { token: "--brand-stone-100", name: "Stone", role: "Lights" },
       { token: "--brand-stone-900", name: "Stone 900", role: "Darks" },
       { token: "--brand-white", name: "White", role: "Cards and fields" },
     ],
@@ -78,11 +77,6 @@ const BRAND_GROUPS: {
 
 /** The semantic colour tokens, grouped by the job they do. First match wins. */
 const ROLE_GROUPS: { title: string; note: string; prefixes: string[]; kind?: "samples" }[] = [
-  {
-    title: "Brand slots",
-    note: "What the semantic tokens reach for. Swap a slot and every role built on it follows.",
-    prefixes: ["--brand-primary", "--brand-accent", "--brand-secondary"],
-  },
   {
     title: "Surfaces",
     note: "What a screen is built on, from the canvas up, and how surfaces respond to the pointer.",
@@ -193,7 +187,6 @@ function Sample({
         <Notice tone={set.notice} label={set.label}>
           An example {set.label.toLowerCase()} notice.
         </Notice>
-        <Badge tone={set.tone as FeedbackBadgeTone}>{set.label} tag</Badge>
         <ul className="styleguide__sample-tokens">
           {["dot", "halo", "border", "text", "surface"].map((end) =>
             tokens.has(part(end)) ? (
@@ -333,7 +326,7 @@ const LOGO_RULES: {
     title: "Dark logo",
     role: "Gold and navy. Sits on stone and blue 100. Not on light blue (blue 200): the gold falls to 4.2:1 there.",
     backgrounds: [
-      { token: "--brand-stone", name: "Stone" },
+      { token: "--brand-stone-100", name: "Stone" },
       { token: "--brand-blue-100", name: "Blue 100" },
     ],
   },
@@ -342,9 +335,9 @@ const LOGO_RULES: {
     title: "Light logo",
     role: "Bright yellow and light blue. Sits on a dark color, and in most cases on navy or the darkest navy: the logo stays in some form of navy. Dark green is the secondary choice; stone 900 is kept but largely unused for now.",
     backgrounds: [
-      { token: "--brand-navy", name: "Navy", use: "Primary" },
+      { token: "--brand-blue-800", name: "Navy", use: "Primary" },
       { token: "--brand-blue-900", name: "Darkest navy", use: "Primary" },
-      { token: "--brand-dark-green", name: "Dark green", use: "Secondary" },
+      { token: "--brand-green-800", name: "Dark green", use: "Secondary" },
       { token: "--brand-stone-900", name: "Stone 900", use: "Tertiary" },
     ],
   },
@@ -499,9 +492,9 @@ const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
 
 const TYPE_ROLES: { font: string; token: string; role: string }[] = [
   {
-    font: "Kulim Park",
+    font: "Rethink Sans",
     token: "--font-display",
-    role: "Headings and UI labels. The primary face.",
+    role: "Headings. The primary face.",
   },
   {
     font: "Libre Baskerville",
@@ -545,7 +538,6 @@ function typeLabRoles(tokens: Map<string, Token>): TypeLabRole[] {
         weight: value(`--type-${role.key}-weight`),
         leading: value(`--type-${role.key}-leading`),
         tracking: value(`--type-${role.key}-tracking`),
-        "word-spacing": value(`--type-${role.key}-word-spacing`),
       },
     };
   });

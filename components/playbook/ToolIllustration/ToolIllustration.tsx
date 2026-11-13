@@ -55,7 +55,7 @@ function Microphone({ level }: { level: IllustrationLevel }) {
 }
 
 /** Thought leadership: a lightbulb, an idea worth putting her name to. Not
- *  the pen, which is the Playbook itself in the navigation (Kate, 13 Oct). */
+ *  the pen, which is the Playbook itself in the navigation. */
 const GLASS = "M48 80C48 70 34 64 34 48a26 26 0 0 1 52 0c0 16-14 22-14 32z";
 
 function Bulb({ level }: { level: IllustrationLevel }) {

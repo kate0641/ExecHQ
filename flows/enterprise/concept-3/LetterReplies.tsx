@@ -10,7 +10,7 @@ import { useAssistant } from "../useAssistant";
 const C = ASSISTANT_COPY;
 
 /**
- * Replying to the letter (Kate, 2026-10-20). The letter is already written
+ * Replying to the letter. The letter is already written
  * in ExecEngine's voice, so asking it something is a reply, and the answer comes
  * back under the issue in the same voice: no chat window. Suggested replies
  * first, then a box to write one. Mount it with the issue's number as its
@@ -33,7 +33,7 @@ export function LetterReplies({ issue }: { issue: LetterIssue }) {
               <p className="letter-replies__who">
                 {m.from === "advisor" ? (
                   <>
-                    <AdvisorMark size={14} />
+                    <AdvisorMark size={16} />
                     {C.name}
                   </>
                 ) : (
@@ -45,7 +45,7 @@ export function LetterReplies({ issue }: { issue: LetterIssue }) {
           ))}
           {assistant.typing ? (
             <p className="letter-replies__writing">
-              <AdvisorMark size={14} />
+              <AdvisorMark size={16} />
               {C.writing}
             </p>
           ) : null}
@@ -55,7 +55,7 @@ export function LetterReplies({ issue }: { issue: LetterIssue }) {
       <ul className="letter-replies__suggest" aria-label={C.suggested}>
         {C.prompts.letter.map((prompt) => (
           <li key={prompt.label}>
-            <button type="button" className="letter-replies__chip" onClick={() => assistant.ask(prompt.label, prompt.key)}>
+            <button type="button" className="choice-pill letter-replies__chip" onClick={() => assistant.ask(prompt.label, prompt.key)}>
               {prompt.label}
             </button>
           </li>

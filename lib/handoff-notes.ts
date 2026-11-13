@@ -132,6 +132,12 @@ export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
       "Every on-screen mention, the address bar and the Profile download say ExecEngine; the logo sets \"Engine\" in type until the artwork arrives. Storage keys and code names keep exechq (12 Nov).",
   },
   {
+    slug: "date-format",
+    title: "Dates: short day and month",
+    description:
+      "Every full date is now written short, \"Thu, Nov 12, 2026\", replacing the spelled-out style of 2 Nov (12 Nov). Ranges, times and relative words like \"last Tuesday\" explained.",
+  },
+  {
     slug: "plan-fold-to-card",
     title: "Plan: folding leaves no bar",
     description:

@@ -224,7 +224,7 @@ export const VOICE_SAMPLE = {
 
 /** What the plan was built from, as short tags: the direction, then each
  *  refinement answer. Every answer is shown whole: no text in the product
- *  is cut off with an ellipsis (designer, 2026-10-13). */
+ *  is cut off with an ellipsis. */
 export function builtFrom(direction: string, answers: Record<string, string>): string[] {
   const directionTag = direction.trim();
   const labels = refinementFor(direction)
@@ -2250,7 +2250,7 @@ export const GUIDE_C3 = {
     resend: "Send it again",
     resent: "Sent again.",
     otherAddress: "Use a different address",
-    /** The address she typed, in its own card with Change (designer, 2026-10-13). */
+    /** The address she typed, in its own card with Change. */
     sentTo: "Sent to",
     nothing: "Nothing arrived? Check your junk folder.",
     arrived: "New email from ExecEngine: Confirm your email.",
@@ -2289,7 +2289,7 @@ export const GUIDE_C3 = {
     narrow: "Narrow it down",
     narrowTitle: "Which is closest?",
     narrowLede: "A little more detail gives ExecEngine a clearer first step.",
-    /** "I'm not sure yet" picked on its own (Kate, 2026-11-12). */
+    /** "I'm not sure yet" picked on its own. */
     narrowUnsureLede: "That\u2019s what ExecEngine is for: it will help you figure it out.",
     narrowWhy: "Your plan needs a first step. The more specific the starting point, the clearer that step is.",
     firstLede: "ExecEngine will start there, and keep the rest in view.",
@@ -2298,9 +2298,9 @@ export const GUIDE_C3 = {
     why: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most.",
     cta: "Continue",
   },
-  /** She chooses her plan, with ExecEngine's pick marked (Kate, 2026-11-12). The plans are the
+  /** She chooses her plan, with ExecEngine's pick marked. The plans are the
    *  answers, so the page's own words are the label, the heading and the line. */
-  /** The five plans, straight after Account (Kate, 2026-11-13): she picks, or can't decide and
+  /** The five plans, straight after Account: she picks, or can't decide and
    *  goes the long way to ExecEngine's pick. */
   pick: {
     kicker: "Your plan",
@@ -2472,7 +2472,7 @@ export const GUIDE_C3 = {
         detail: {
           label: "Add more detail",
           // "and a" held together so "and" opens the second line: the first line
-          // is the longest of the three choices (designer, 2026-10-13).
+          // is the longest of the three choices.
           detail: "Your role, what you\u2019re responsible for and\u00a0a result, so it says what you lead.",
         },
         versions: {
@@ -2482,7 +2482,7 @@ export const GUIDE_C3 = {
         later: {
           label: "Save it and go to my homepage",
           // "as next" held together so "as" opens the second line instead of
-          // hanging at the end of the first (designer, 2026-10-13).
+          // hanging at the end of the first.
           detail: "It\u2019s saved. Both of these wait for you as\u00a0next steps on your plan.",
         },
       },

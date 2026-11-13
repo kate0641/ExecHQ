@@ -34,7 +34,7 @@ export const planDirectionStates = defineComponentStates({
     {
       label: "Chose this plan herself",
       description: "When she switched plans, why this plan is the day she chose it.",
-      props: { direction, why: "You chose this plan on Monday, October 19, 2026.", editHref },
+      props: { direction, why: "You chose this plan on Mon, Oct 19, 2026.", editHref },
     },
     {
       label: "Read only — her words alone",

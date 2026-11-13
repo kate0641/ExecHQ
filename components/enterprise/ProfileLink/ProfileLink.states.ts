@@ -8,7 +8,7 @@ export const profileLinkStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise", "sponsor-profile"],
   description:
-    "The sponsor's initials in a round link at the right of the enterprise header, opening their profile, where Sign out sits at the foot (Kate, 2026-10-22). It replaced the account menu. Its name, said to screen readers and in its tooltip, is Your profile. On the profile itself it is marked as the current page.",
+    "The sponsor's initials in a round link at the right of the enterprise header, opening their profile, where Sign out sits at the foot. It replaced the account menu. Its name, said to screen readers and in its tooltip, is Your profile. On the profile itself it is marked as the current page.",
   component: ProfileLink,
   notApplicable: {
     loading: "Who is signed in is known before the page draws: nothing to wait for.",

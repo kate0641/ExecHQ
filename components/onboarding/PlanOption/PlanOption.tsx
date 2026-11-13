@@ -49,7 +49,7 @@ export function PlanOption({
       <button type="button" className="plan-option__head" aria-expanded={open} aria-controls={bodyId} onClick={onToggle}>
         {recommended ? (
           <span className="plan-option__flag">
-            <Badge tone="sprint">{recommendedLabel}</Badge>
+            <Badge>{recommendedLabel}</Badge>
           </span>
         ) : null}
         <span className="plan-option__name">{plan.name}</span>

@@ -20,7 +20,7 @@ export interface RecommendationCardProps {
  */
 export function RecommendationCard({ lead, name, formalName, forWhom, reason, status, className }: RecommendationCardProps) {
   return (
-    <div className={["recommendation", className].filter(Boolean).join(" ")}>
+    <div className={["card", "recommendation", className].filter(Boolean).join(" ")}>
       {lead ? <p className="recommendation__lead">{lead}</p> : null}
       {name ? <p className="recommendation__name">{name}</p> : null}
       {formalName ? <p className="recommendation__formal">{formalName}</p> : null}

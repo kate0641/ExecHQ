@@ -38,7 +38,7 @@ const FEED = "https://www.linkedin.com/feed/";
 
 /**
  * How far her posts reach and who they reach, from her LinkedIn export, as the onboarding spec puts it
- * (designer with Kate, 2026-10-21; three rows of charts before). Only what the export holds: four totals,
+ *. Only what the export holds: four totals,
  * her posts that went furthest by title, date and reach with a link to each, and who
  * she is reaching, one kind of demographic at a time. Counts only: no score, no comparison, and nothing
  * says her work caused any of it.
@@ -57,21 +57,21 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
     data.posts.length ? { key: "seen", value: compact(t.impressions), label: C.seen } : null,
     data.membersReached ? { key: "reached", value: compact(data.membersReached), label: C.reached } : null,
     // The followers she has now, with no change beside it: this is an overview of her year, not a comparison
-    // over time, and only followers could show one (designer, 2026-10-21).
+    // over time, and only followers could show one.
     hasFollowers ? { key: "followers", value: t.followersNow.toLocaleString("en-US"), label: C.followers } : null,
     data.posts.length ? { key: "posts", value: String(t.posts), label: C.posts(t.posts) } : null,
   ].filter((f): f is NonNullable<typeof f> => f !== null);
 
   return (
     <section className={["li-section", className].filter(Boolean).join(" ")} aria-labelledby={id}>
-      {/* The heading and its dates sit on the page above the card, as every section's do (designer, 2026-10-21). */}
+      {/* The heading and its dates sit on the page above the card, as every section's do. */}
       <div className="signal-picture__head li-section__head">
         <h2 className="signal-picture__heading" id={id}>
           {C.heading}
         </h2>
         <p className="signal-picture__intro">{C.intro(monthDayYear(data.from), monthDayYear(data.to))}</p>
       </div>
-      <div className="li-picture">
+      <div className="card li-picture">
 
       {nothing ? (
         <p className="li-picture__empty">{C.empty}</p>
@@ -94,8 +94,7 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
               <ul className="li-posts">
                 {best.map((p) => (
                   <li key={p.id} className="li-post">
-                    {/* The title is the link out, with the external-link icon held to its last word (designer,
-                        2026-10-21; a separate icon button before). Under it, when and how far it went. */}
+                    {/* The title is the link out, with the external-link icon held to its last word. Under it, when and how far it went. */}
                     <a className="link li-post__title" href={p.url ?? FEED} target="_blank" rel="noreferrer">
                       {titleWithIcon(p.title)}
                       <span className="u-visually-hidden"> {C.opensNewTab}</span>

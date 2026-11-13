@@ -6,7 +6,7 @@ const items: LibrarySearchItem[] = [
   { id: "brief", title: "Brief for your manager check-in", detail: "Briefs · Draft · 2 days ago", preview: "Objective: leave Thursday’s check-in with the planning workstream agreed as mine.", href: "#", text: "Thursday check-in scope" },
   { id: "pitch", title: "Podcast pitch: Leading through change", detail: "Pitches · Waiting to hear · 1 week ago", href: "#" },
   { id: "panel", title: "Conference panel pitch", detail: "Pitches · Draft · 2 weeks ago", href: "#" },
-  { id: "story", title: "Your positioning statement", detail: "Positioning · Ready to use · Friday, October 2, 2026", href: "#", text: "I turn regional campaigns into one plan" },
+  { id: "story", title: "Your positioning statement", detail: "Positioning · Ready to use · Fri, Oct 2, 2026", href: "#", text: "I turn regional campaigns into one plan" },
 ];
 
 const copy = {

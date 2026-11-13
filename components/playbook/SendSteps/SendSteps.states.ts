@@ -14,7 +14,7 @@ export const sendStepsStates = defineComponentStates({
   status: "draft",
   flows: ["playbook-flow"],
   description:
-    "Send it in four steps, under a pitch’s draft (Kate, 14 Oct), filled in from Where it goes: check it against their ask, get the extras, send it their way with a Copy on each part, mark it sent. Steps 1 to 3 are hers to tick; step 4 ticks itself when she marks it sent. Nothing is sent from here.",
+    "Send it in four steps, under a pitch’s draft, filled in from Where it goes: check it against their ask, get the extras, send it their way with a Copy on each part, mark it sent. Steps 1 to 3 are hers to tick; step 4 ticks itself when she marks it sent. Nothing is sent from here.",
   component: SendSteps,
   notApplicable: {
     ...CONTROLS_INSIDE,

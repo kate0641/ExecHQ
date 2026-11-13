@@ -138,7 +138,7 @@ export function ToolUseCase({
                 <li key={option}>
                   <button
                     type="button"
-                    className={["tool-use-case__option", i === 0 && demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
+                    className={["card", "tool-use-case__option", i === 0 && demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
                     onClick={() => {
                       choice.onChange(option);
                       onStart?.();

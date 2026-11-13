@@ -33,7 +33,7 @@ export function EnricherCard({ enricher, state = "offered", onAdd, onSkip, added
   return (
     <aside className={classes} aria-label={enricher.title}>
       <span className="enricher__eyebrow">
-        <Icon name="plus" size={14} />
+        <Icon name="plus" size={16} />
         {INPUT_COPY.optional}
       </span>
       <p className="enricher__title">{enricher.title}</p>

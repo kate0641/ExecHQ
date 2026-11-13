@@ -150,11 +150,11 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
               )}
               {error ? (
                 <p className="entry-form__error" role="alert">
-                  <Icon name="flag" size={14} /> {error}
+                  <Icon name="flag" size={16} /> {error}
                 </p>
               ) : null}
               {same.length ? (
-                <div className="entry-form__same" aria-live="polite">
+                <div className="card entry-form__same" aria-live="polite">
                   {same.map((item) => (
                     <p key={item.id}>{(item.source === "recorded" ? E.sameRecorded : E.sameAdded)(item.text, fullDate(item.on))}</p>
                   ))}
@@ -178,11 +178,11 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
       </button>
       {tried && filled.length === 0 ? (
         <p className="entry-form__error" role="alert">
-          <Icon name="flag" size={14} /> {B.errorNone}
+          <Icon name="flag" size={16} /> {B.errorNone}
         </p>
       ) : null}
       <p className="entry-form__privacy">{E.privacy}</p>
-      {/* The main action full width; leaving is the underlined link under it (designer, 2026-10-16). */}
+      {/* The main action full width; leaving is the underlined link under it. */}
       <div className="entry-form__actions sheet-actions">
         <Button type="submit" variant="primary" fullWidth>
           {B.save(valid.length)}

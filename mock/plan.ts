@@ -400,7 +400,7 @@ export type DeclineReason =
   | "other";
 
 /** The reason picker: optional, one tap, no "are you sure?". */
-/* In pairs that fill a phone's row two by two (designer, 2026-10-16): whether the step fits (relevant,
+/* In pairs that fill a phone's row two by two: whether the step fits (relevant,
    effort), how it would happen (timing, channel), then the catch-alls. */
 export const DECLINE_REASONS: { id: DeclineReason; label: string }[] = [
   { id: "not-relevant", label: "Not relevant" },
@@ -949,7 +949,7 @@ export const SPARK_NOTES = {
   },
   /* A cheer only when she finishes something; passing on, putting off and
      changing direction stay neutral. Timing says "planned", not "the draft",
-     so it isn't read as one of her Playbook drafts (Kate, 2026-10-28). */
+     so it isn't read as one of her Playbook drafts. */
   finished: (stage: string, weeks: number, next?: string) => {
     const span = (n: number) => `${n} week${n === 1 ? "" : "s"}`;
     const when =
@@ -1115,7 +1115,7 @@ export const GUIDED_COPY = {
   next: "Next move",
   seeRoad: "See the road",
   after: "Then ExecEngine builds the next stage, from what worked and what didn’t.",
-  /** The title over what changed, the timeline's own words for it (designer, 2026-10-16). */
+  /** The title over what changed, the timeline's own words for it. */
   sparksTitle: TIMELINE_COPY.sparksLabel,
   lastKicker: "The road ahead",
   lastTitle: "That’s this stretch of the plan.",

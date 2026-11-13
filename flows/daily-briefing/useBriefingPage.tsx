@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/primitives/Badge";
 import { useState, useSyncExternalStore, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -126,10 +127,10 @@ export function useBriefingPage() {
   }
 
   /** Saved, at the top right of the page every day, so a read she kept is
-   *  always one tap away (Kate, 14 Oct). It opens her saved reads. */
+   *  always one tap away. It opens her saved reads. */
   const savedButton = (
     <Link href={savedHref} className="briefing-page__saved">
-      <Icon name="bookmark" size={18} />
+      <Icon name="bookmark" size={20} />
       {C.savedReads.button}
       {savedReads.length ? <span className="briefing-page__saved-count">{savedReads.length}</span> : null}
       <span className="u-visually-hidden">{C.savedReads.count(savedReads.length)}</span>
@@ -195,8 +196,8 @@ export function useBriefingPage() {
   const savedPage = (
     <div className="briefing-page saved-page">
       <div className="folder-page__bar">
-        <Link href={pathname} className="folder-page__back">
-          <Icon name="chevron-left" size={18} />
+        <Link href={pathname} className="text-link">
+          <Icon name="chevron-left" size={16} />
           {S.back}
         </Link>
       </div>
@@ -211,7 +212,7 @@ export function useBriefingPage() {
           <output>{S.removed}</output>{" "}
           <button
             type="button"
-            className="saved-page__undo"
+            className="text-link saved-page__undo"
             onClick={() => {
               briefingActions.setSaved(removed, true);
               const id = removed;
@@ -233,7 +234,7 @@ export function useBriefingPage() {
                 <span className="saved-page__headline">{read.title}</span>
                 <span className="saved-page__why">{read.reason}</span>
                 <span className="saved-page__when">
-                  {S.savedWhen} <span className="saved-page__tag">{when}</span>
+                  {S.savedWhen} <Badge tone="when">{when}</Badge>
                 </span>
               </button>
               <button

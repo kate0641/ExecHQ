@@ -32,7 +32,7 @@ import { PROFILE_COPY } from "@/mock/profile";
 import { SPONSOR_LOGIN_COPY as C, SPONSOR_PROVIDER_ACCOUNTS } from "@/mock/sponsor-login";
 
 /**
- * Admin login (was Sponsor login), Concept 1 — Work email (Kate, 2026-10-23).
+ * Admin login (was Sponsor login), Concept 1 — Work email.
  *
  * The participant Login's page for the enterprise side, on the desktop: the
  * dark panel with the wordmark, "Enterprise" and one serif line, beside a
@@ -357,7 +357,7 @@ export function SponsorLoginConcept1() {
       >
         <div className="login">{view.children}</div>
       </WelcomeSplit>
-      <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheetLabel} className={sheet === "email" ? "sheet--tall" : undefined}>
+      <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheetLabel} className={sheet === "email" ? "sheet--admin sheet--tall" : "sheet--admin"}>
         {sheetContent()}
       </Sheet>
       <output className="u-visually-hidden">{message}</output>

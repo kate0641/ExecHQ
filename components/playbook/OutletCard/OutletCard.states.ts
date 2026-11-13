@@ -13,7 +13,7 @@ export const outletCardStates = defineComponentStates({
   status: "draft",
   flows: ["playbook-flow"],
   description:
-    "Where a pitch goes, above the draft (Kate, 14 Oct): the outlet, what it asks for, the contact, how to send it, and the page it came from with the day it was checked. What the page doesn’t say is a question to her, never a guess. Every outlet here is made up.",
+    "Where a pitch goes, above the draft: the outlet, what it asks for, the contact, how to send it, and the page it came from with the day it was checked. What the page doesn’t say is a question to her, never a guess. Every outlet here is made up.",
   component: OutletCard,
   notApplicable: {
     ...NOT_INTERACTIVE,
@@ -24,7 +24,7 @@ export const outletCardStates = defineComponentStates({
     { label: "A form, two fields — default", props: card("marketing-leaders-podcast") },
     { label: "Email, with the editor the outlet names", props: card("commercial-leader-quarterly") },
     { label: "Email, no limit", props: card("planning-leaders-conference") },
-    { label: "Checked over 30 days ago", props: card("commercial-strategy-summit"), description: "The summit’s page was checked on Wednesday, September 2, 2026." },
+    { label: "Checked over 30 days ago", props: card("commercial-strategy-summit"), description: "The summit’s page was checked on Wed, Sep 2, 2026." },
     { label: "Deadline passed", props: { ...card("commercial-strategy-summit"), today: "2026-11-20" } },
     { label: "Nothing published about what they want — empty", props: card("scope-and-scale") },
     { label: "No contact published", props: card("field-notes"), description: "The contact is a question to her." },

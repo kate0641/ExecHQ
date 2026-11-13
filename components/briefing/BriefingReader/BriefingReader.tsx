@@ -57,7 +57,7 @@ export function BriefingReader({ read, actions, article, respond, picture, onClo
       ) : (
         <>
           {/* A stand-in: the product leaves for the publisher's site here. */}
-          <button type="button" className="brief-reader__out" aria-describedby={`${read.id}-out-note`}>
+          <button type="button" className="text-link brief-reader__out" aria-describedby={`${read.id}-out-note`}>
             {C.read.openAt(publisher)}
             <Icon name="link" size={16} />
           </button>

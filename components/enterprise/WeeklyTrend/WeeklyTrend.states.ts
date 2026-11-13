@@ -28,7 +28,7 @@ export const weeklyTrendStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise"],
   description:
-    "People active each week since the program started, Monday to Sunday, as bars (Kate, 2026-10-22). There are no weekly updates, so it shows from the first week; this week, still going, is hatched. It always shows every week and shades the ones the dates chosen touch. A week below 10 is a gap; below the minimum cohort size it is hidden. Hovering picks a week; the figures are also in a table for screen readers.",
+    "People active each week since the program started, Monday to Sunday, as bars. There are no weekly updates, so it shows from the first week; this week, still going, is hatched. It always shows every week and shades the ones the dates chosen touch. A week below 10 is a gap; below the minimum cohort size it is hidden. Hovering picks a week; the figures are also in a table for screen readers.",
   component: WeeklyTrend,
   notApplicable: {
     focus: "Nothing in it takes focus: the weekly figures are in a table for keyboard and screen reader users.",
@@ -42,6 +42,10 @@ export const weeklyTrendStates = defineComponentStates({
     { label: "This week shaded — default, the December demo", props: { trend: demo, highlight: thisWeek } },
     { label: "Last month shaded", props: { trend: demo, highlight: lastMonth } },
     { label: "Every week, with no dates", props: { trend: demo } },
+    { label: "Taller, as on the admin card", props: { trend: demo, height: 240 } },
+    { label: "Fading bars, this week darker, numbers on hover", props: { trend: demo, height: 240, look: "fade" } },
+    { label: "Filling the height it is given", props: { trend: demo, height: "fill", look: "fade" } },
+    { label: "Fading bars, a week picked — hover", props: { trend: demo, height: 240, look: "fade", demoWeek: 7 } },
     { label: "A week picked — hover", props: { trend: demo, highlight: thisWeek, demoWeek: 7 } },
     { label: "A gap where a week was hidden", props: { trend: withGap, highlight: thisWeek } },
     { label: "Three weeks in, the pilot", props: { trend: trendFor(COHORTS.pilot), highlight: presetRange("this-week", COHORTS.pilot) } },

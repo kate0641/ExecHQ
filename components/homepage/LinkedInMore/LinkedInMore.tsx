@@ -15,7 +15,7 @@ export interface LinkedInMoreProps {
   onChoose: (fileName: string) => void;
   onSendSteps: () => void;
   /** Under the view of her export, as its footnote: the heading is for screen readers only and the words
-   *  are small, so the view's own heading is the section's one heading (designer, 2026-10-21). */
+   *  are small, so the view's own heading is the section's one heading. */
   footnote?: boolean;
   /** Catalogue only: opens the upload, in place, to show what is inside. */
   demoOpen?: boolean;

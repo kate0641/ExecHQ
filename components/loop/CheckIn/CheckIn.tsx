@@ -18,6 +18,8 @@ export interface CheckInProps {
   task?: { doneOn?: string; outcome?: { type: OutcomeType; detail?: string } };
   /** The snapshot's today, for "last Tuesday". */
   today: string;
+  /** The question's heading level: 3 under a page section (default), 2 when it sits right under the page's title. */
+  headingLevel?: 2 | 3;
   /** The Plan action it belongs to, named in the context line. */
   about?: string;
   /** How it's drawn: Question first (Concept 1), Stepper (Concept 2) or
@@ -78,8 +80,10 @@ export function CheckIn({
   onAnswer,
   onNote,
   headingId = "check-in-question",
+  headingLevel = 3,
   className,
 }: CheckInProps) {
+  const QuestionHeading = headingLevel === 2 ? "h2" : "h3";
   const [later, setLater] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [note, setNote] = useState("");
@@ -202,7 +206,7 @@ export function CheckIn({
       ? [{ label: C.used(usedVerb) }, { label: C.notYet, quiet: true }]
       : [...MAIN.map((t) => ({ label: labelOf(t) })), ...QUIET.map((t) => ({ label: labelOf(t), quiet: true }))];
     return (
-      <section className={["check-in", "check-in--chat", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+      <section className={["card", "check-in", "check-in--chat", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
         <div className="check-in__thread" role="log" aria-live="polite">
           <ChatMessage from="advisor" lead>
             <span id={headingId} tabIndex={-1}>
@@ -263,7 +267,7 @@ export function CheckIn({
           { label: C.steps.came, when: task?.outcome ? C.stepLogged : task?.doneOn ? C.stepWaiting : "" },
         ];
     return (
-      <section className={["check-in", "check-in--stepper", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+      <section className={["card", "check-in", "check-in--stepper", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
         {about ? <p className="check-in__about">{about}</p> : null}
         <ol className="check-in__steps" aria-label="Where it is in the Loop">
           {steps.map((s, i) => (
@@ -285,9 +289,9 @@ export function CheckIn({
             </>
           ) : (
             <>
-              <h3 className="check-in__question" id={headingId} tabIndex={-1}>
+              <QuestionHeading className="check-in__question" id={headingId} tabIndex={-1}>
                 {question}
-              </h3>
+              </QuestionHeading>
               {ready ? <p className="check-in__sub">{C.readySub}</p> : todo ? <p className="check-in__sub">{C.taskSub}</p> : null}
               {answerButtons}
             </>
@@ -299,7 +303,7 @@ export function CheckIn({
 
   /* Question first: one question, its answers, and a note after. */
   return (
-    <section className={["check-in", "check-in--question", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["card", "check-in", "check-in--question", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       {about ? (
         <p className="check-in__about">
           {C.aboutFor}: {about}
@@ -308,8 +312,7 @@ export function CheckIn({
       {done ? (
         <>
           {/* The pill rides at the top of the white area without taking any
-              of it, so what she said is dead centre in the whole of it
-              (designer, 2026-10-12). */}
+              of it, so what she said is dead centre in the whole of it. */}
           <div className="check-in__logged-body">
             {logged && !later ? <p className="check-in__logged">{C.loggedLabel}</p> : null}
             {shown ? (
@@ -323,9 +326,9 @@ export function CheckIn({
         </>
       ) : (
         <>
-          <h3 className="check-in__question" id={headingId} tabIndex={-1}>
+          <QuestionHeading className="check-in__question" id={headingId} tabIndex={-1}>
             {question}
-          </h3>
+          </QuestionHeading>
           {ready ? <p className="check-in__sub">{C.readySub}</p> : todo ? <p className="check-in__sub">{C.taskSub}</p> : null}
           {answerButtons}
         </>

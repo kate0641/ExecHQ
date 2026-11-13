@@ -50,7 +50,7 @@ export const welcomeSplitStates = defineComponentStates({
     },
     {
       label: "With a suffix, the sponsor login",
-      description: "The wordmark with “Enterprise” after it, and the sponsor’s own line (Kate, 2026-10-23).",
+      description: "The wordmark with “Enterprise” after it, and the sponsor’s own line.",
       props: {
         quote: SPONSOR_LOGIN_COPY.quote,
         suffix: SPONSOR_LOGIN_COPY.suffix,

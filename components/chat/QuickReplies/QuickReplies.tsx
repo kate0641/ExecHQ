@@ -31,7 +31,7 @@ export function QuickReplies({ label, replies, onChoose, className }: QuickRepli
         <li key={reply.label}>
           <button
             type="button"
-            className={["quick-replies__chip", reply.quiet ? "is-quiet" : null].filter(Boolean).join(" ")}
+            className={["choice-pill", "quick-replies__chip", reply.quiet ? "is-quiet" : null].filter(Boolean).join(" ")}
             aria-pressed={reply.pressed}
             onClick={() => onChoose(reply.label)}
           >

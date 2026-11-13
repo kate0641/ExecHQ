@@ -19,7 +19,7 @@ export function AccountPicker({ accounts, onChoose, accountClassName }: AccountP
         <li key={account.id}>
           <button
             type="button"
-            className={["account-picker__account", accountClassName].filter(Boolean).join(" ")}
+            className={["card", "account-picker__account", accountClassName].filter(Boolean).join(" ")}
             onClick={() => onChoose(account)}
           >
             <span className="account-picker__avatar" aria-hidden="true">

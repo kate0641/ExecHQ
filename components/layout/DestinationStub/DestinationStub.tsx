@@ -23,7 +23,7 @@ export function DestinationStub({ heading, body, sprint }: DestinationStubProps)
     <div className="destination-stub">
       <h1 className="destination-stub__heading">{heading}</h1>
       <p className="destination-stub__body">{body}</p>
-      <Badge tone="sprint">Designed in Sprint {sprint}</Badge>
+      <Badge>Designed in Sprint {sprint}</Badge>
     </div>
   );
 }

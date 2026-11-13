@@ -43,13 +43,12 @@ const word = (value: number) => C.answers[value - 1];
  * press. Not now, which costs nothing, is an x in the card's top corner.
  * Behind the words the answers are 1 to 3, for her trend and the
  * dashboard's totals. The read-back ends on what the answer changes in her
- * plan: a lighter step, the plan as it is, or a stretch step offered (Kate,
- * 2026-10-26). Once answered it reads back this
+ * plan: a lighter step, the plan as it is, or a stretch step offered. Once answered it reads back this
  * week against where she started, in the same words, with her answers week
  * by week. Drawn as the other Stay on track cards are.
  */
 export function ReadinessCheckIn({ toward, history, answer, later, stretch, onAnswer, onNotNow, headingId = "readiness-check-in", demo, className }: ReadinessCheckInProps) {
-  const classes = ["check-in", "check-in--question", "readiness-check", className].filter(Boolean).join(" ");
+  const classes = ["card", "check-in", "check-in--question", "readiness-check", className].filter(Boolean).join(" ");
   const start = history[0] ?? answer ?? 0;
   const middle = Math.ceil(C.answers.length / 2);
   const [picked, setPicked] = useState(history[history.length - 1] ?? middle);
@@ -75,7 +74,7 @@ export function ReadinessCheckIn({ toward, history, answer, later, stretch, onAn
               </span>
             ))}
           </div>
-          {/* What the answer changes in her plan (Kate, 2026-10-26). */}
+          {/* What the answer changes in her plan. */}
           <div className="readiness-check__plan" aria-live="polite">
             {answer === 1 ? (
               <p>{C.plan.notYet}</p>
@@ -111,7 +110,12 @@ export function ReadinessCheckIn({ toward, history, answer, later, stretch, onAn
       <section className={classes} aria-labelledby={headingId}>
         <p className="check-in__about">{C.about}</p>
         <p className="check-in__readback" id={headingId} tabIndex={-1}>
-          {C.later}
+          {/* One sentence to a line. */}
+          {C.later.split(/(?<=\.)\s+/).map((sentence) => (
+            <span key={sentence} className="readiness-check__line">
+              {sentence}
+            </span>
+          ))}
         </p>
       </section>
     );
@@ -126,7 +130,7 @@ export function ReadinessCheckIn({ toward, history, answer, later, stretch, onAn
         title={C.notNow}
         onClick={onNotNow}
       >
-        <Icon name="close" size={18} />
+        <Icon name="close" size={20} />
         <span className="u-visually-hidden">{C.notNow}</span>
       </button>
       <h3 className="check-in__question" id={headingId} tabIndex={-1}>
@@ -135,8 +139,7 @@ export function ReadinessCheckIn({ toward, history, answer, later, stretch, onAn
       <p className="check-in__sub readiness-check__why">{C.why}</p>
       <Slider label={C.question(toward)} steps={C.answers} value={picked} onChange={setPicked} demo={demo} />
       {/* Save at the card's right edge, under the right thumb, as every card
-          button that isn't full width; on its left, what it will record
-          (Kate, 2026-10-26). */}
+          button that isn't full width; on its left, what it will record. */}
       <div className="readiness-check__foot">
         {history.length ? (
           <p className="readiness-check__hint" aria-live="polite">

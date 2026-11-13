@@ -299,7 +299,7 @@ export interface DraftSection {
 
 export interface DraftVersion {
   n: number;
-  /** "Monday, October 12, 2026, 9:14". */
+  /** "Mon, Oct 12, 2026, 9:14". */
   when: string;
   /** What made it: "First draft", "Shorter, more direct", "Your edits". */
   what: string;
@@ -351,8 +351,8 @@ const POST_V2: DraftSection[] = [
 ];
 
 export const TL_VERSIONS: readonly DraftVersion[] = [
-  { n: 1, when: "Monday, October 5, 2026, 9:14", what: "First draft", sections: POST_V1 },
-  { n: 2, when: "Monday, October 5, 2026, 9:20", what: "Shorter, more direct", sections: POST_V2 },
+  { n: 1, when: "Mon, Oct 5, 2026, 9:14", what: "First draft", sections: POST_V1 },
+  { n: 2, when: "Mon, Oct 5, 2026, 9:20", what: "Shorter, more direct", sections: POST_V2 },
 ];
 
 export const FLOW_COPY = {
@@ -511,7 +511,7 @@ export const VERSION_COPY = {
   /** What a version brought back says it is, in the list. */
   restoredWhat: (n: number) => `Version ${n}, brought back`,
   count: (n: number) => (n === 1 ? "1 version" : `${n} versions`),
-  /** Each row's number (designer, 2026-10-30; it was in a circle). */
+  /** Each row's number. */
   number: (n: number) => `Version ${n}`,
 } as const;
 

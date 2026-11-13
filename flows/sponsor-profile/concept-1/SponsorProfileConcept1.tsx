@@ -8,15 +8,14 @@ import { SettingsGroup } from "@/components/profile/SettingsGroup";
 import { SettingsRow } from "@/components/profile/SettingsRow";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { useCohortId } from "@/lib/cohort-store";
 import { conceptHref } from "@/lib/manifest";
 import { SPONSOR_PERSON, SPONSOR_PROFILE_COPY as C, abbrevDate, programDay } from "@/mock/enterprise";
 import { PROFILE_COPY } from "@/mock/profile";
-import { useCohort } from "../../enterprise/useCohort";
+import { useCohort, useShownCohortId } from "../../enterprise/useCohort";
 
-/** The dashboard concept chosen (Kate, 2026-10-26). */
+/** The dashboard concept chosen. */
 const DASHBOARD = conceptHref("enterprise", "concept-1b");
-/** Where signing out lands (Kate, 2026-10-23). */
+/** Where signing out lands. */
 const LOGIN = conceptHref("sponsor-login", "concept-1");
 
 /** Their name and job title, changed in place of the group's rows. */
@@ -89,7 +88,7 @@ function YouEdit({
 /** Their cohort at a glance. Changing it happens on the dashboard, where its
  *  code and figures are. */
 function CohortGroup() {
-  const id = useCohortId();
+  const id = useShownCohortId();
   const { cohort } = useCohort(id);
   const started = cohort ? programDay(cohort) > 0 && !cohort.fresh : false;
   return (
@@ -132,7 +131,7 @@ export function SponsorProfileConcept1() {
   const router = useRouter();
   const paneRef = useRef<HTMLElement>(null);
   const wasEditing = useRef(false);
-  const id = useCohortId();
+  const id = useShownCohortId();
   const { cohort } = useCohort(id);
 
   // Closing the form returns focus to the Edit button that opened it.
@@ -183,9 +182,9 @@ export function SponsorProfileConcept1() {
               />
             ))}
           </SettingsGroup>
-          {/* Sign out closes the list (Kate, 2026-10-23). */}
+          {/* Sign out closes the list. */}
           <Button className="sponsor-profile__sign-out" variant="secondary" onClick={() => router.push(LOGIN)}>
-            <Icon name="sign-out" size={18} />
+            <Icon name="sign-out" size={20} />
             {C.signOut.label}
           </Button>
         </nav>
@@ -213,9 +212,10 @@ export function SponsorProfileConcept1() {
                 <SettingsRow kind="static" label={C.you.role} value={person.role} />
                 <SettingsRow kind="static" label={C.you.email} value={SPONSOR_PERSON.email} />
                 <SettingsRow kind="static" label={C.you.org} value={SPONSOR_PERSON.org} />
-                {/* One Edit for the section (Kate, 2026-10-23): the name and
-                    job title, the only two that change here. */}
-                <SettingsRow kind="action" icon="edit" label={C.you.editLabel} description={C.you.editHint} onAction={() => setEditing(true)} />
+                {/* One Edit for the section: the name and
+                    job title, the only two that change here. What it changes sits at
+                    the row's end, lined up with the values above. */}
+                <SettingsRow kind="action" icon="edit" label={C.you.editLabel} value={C.you.editHint} onAction={() => setEditing(true)} />
               </SettingsGroup>
             )
           ) : null}

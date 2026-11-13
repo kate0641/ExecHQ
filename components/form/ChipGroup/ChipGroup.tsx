@@ -75,7 +75,7 @@ export function ChipGroup({
             <button
               key={option}
               type="button"
-              className="chip-group__chip"
+              className="choice-pill chip-group__chip"
               aria-pressed={chosen}
               disabled={full && !chosen}
               onClick={() => toggle(option)}

@@ -120,7 +120,7 @@ export function MapRings({ rings, selected, onSelect, panelId, children, legend,
               <Drawing ring={ring} />
               {ring.complete ? (
                 <span className="map-rings__check" aria-hidden="true">
-                  <Icon name="check" size={14} />
+                  <Icon name="check" size={16} />
                 </span>
               ) : null}
             </span>

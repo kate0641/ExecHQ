@@ -104,7 +104,7 @@ export function ToggleGroup({
                 onChange={() => handleChange(option.value)}
               />
               <label
-                className="toggle-group__option"
+                className={shape === "chips" ? "choice-pill toggle-group__option" : "toggle-group__option"}
                 id={labelId}
                 htmlFor={optionId}
                 // A pointer user gets the same text the label carries, including

@@ -47,7 +47,7 @@ export function PointList({ items, numbered = false, label, helpsLabel = "How it
   );
   if (!label) return <div className={className}>{list}</div>;
   return (
-    <section className={["point-box", className].filter(Boolean).join(" ")} aria-label={label}>
+    <section className={["card", "point-box", className].filter(Boolean).join(" ")} aria-label={label}>
       <p className="point-box__label">{label}</p>
       {list}
     </section>
