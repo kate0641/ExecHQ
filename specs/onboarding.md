@@ -203,12 +203,12 @@ The five plans, straight after Account (Kate, 2026-11-13). She picks one herself
 *After I can't decide (3.4b).* Where the person is now, asked before where they want to go (Kate, 2026-11-12). It is Eric's "assess where they stand", and it names what is happening to senior people now. 25 words.
 
 - Label **Where you are.** Heading **Where are you today?** Line "Pick as many as are true." "Why this matters": "Your plan starts from where you are, not from a template."
-- In the drawer, six answers, each with a **tick box**, as many as are true: **Doing well, and ready for more · New in my role · Stuck, or passed over · Going through a restructure or merger · My role is changing with AI · Other.**
+- In the drawer, six answers, as many as are true, each a pill that turns white with navy words when picked, as on every question (no tick boxes, 2026-11-13): **Doing well, and ready for more · New in my role · Stuck, or passed over · Going through a restructure or merger · My role is changing with AI · Other.**
 - **Other** stands in for "None of these? Show me more options": there are no held-back answers. Ticking it opens a field, **In your own words**, under the list and puts the cursor in it. Unticking it closes the field and clears it. Other can be ticked with any of the others.
 - Button **Next**, off until something is ticked, and while Other is ticked with its field empty. Return in the field does the same as Next. The peek bar says how many are picked.
 - **What it does:** the answers open the reason on ExecEngine's pick (3.7), as "Today, you're new in your role and you're going through a restructure or merger.", her own words quoted as she wrote them. They are said back first on the plan page's **Built from what you said** (3.9), as **Where you are today**, in the list's order with her own words last, with **Change**. They do not change which plan is recommended.
 
-This page alone uses tick boxes and Other; every other question keeps the pattern in 4.3 (Kate, 2026-11-12).
+This page alone uses Other; every other question keeps the pattern in 4.3 (Kate, 2026-11-12). Its tick boxes were removed on 2026-11-13: they were never part of the design system.
 
 ### 3.5 Direction
 
@@ -657,7 +657,7 @@ These are settled. They are the specified behavior. The dates are when they were
 20. **On web the longer versions fill in live,** beside their fields, with no button. On phone and tablet a button applies the answers. (2026-10-02)
 21. **Google and Apple sign up on Account,** the same buttons as Login's, and any account they give is accepted. A typed email is confirmed on a page of its own by a 6-digit code, the same as Login's; Google and Apple pass it, because they have confirmed the address already. A wrong or expired code uses Login's screens and rules: the error under the cells, which clear, and after five wrong tries or 10 minutes **That code has expired** with **Send a new code**. (2026-10-08)
 22. **Forty words or fewer on every screen,** counting the page's own words, not the options, buttons or the person's own words (4.10). (2026-11-12)
-24. **Where are you today? comes before Direction,** as many answers as are true, with tick boxes, and Other opening a field for the person's own words. That page only; the other questions keep their pattern. (2026-11-12)
+24. **Where are you today? comes before Direction,** as many answers as are true, and Other opening a field for the person's own words. That page only; the other questions keep their pattern. (2026-11-12)
 25. **No answer leads out of the person's company.** A move within it is in: "Make a move within my company" (another function, or another part of the business) replaces "Find my next move", and "Get out of where I am" is removed. "Nail an upcoming presentation" drops "board". Find your next direction stays, as the plan for a move inside the company. (2026-11-12)
 26. **The plans take the plan briefs' names:** Step Up, Make Your Mark, Make the Move, Lead Where You Are, everywhere a person sees them (onboarding, Home, the Plan page, Profile). The fifth stays Find your next direction until its brief is rewritten. Stages and first steps are not changed yet (open question 12). (2026-11-12)
 27. **The person chooses the plan.** Choose your plan replaces the Recommendation and See other plans: five cards, ExecEngine's pick first, marked and chosen to start with, its reason on it; "Whichever you choose, the next few questions make it yours." (2026-11-12)
@@ -670,6 +670,7 @@ These are settled. They are the specified behavior. The dates are when they were
 34. **Most people pick their plan first.** Where do you want to start? comes straight after Account: the five plans, none marked. **I can't decide** takes the long way, Where you are, Direction and the question before the plan, to ExecEngine's pick. On a plan she picks, its own questions follow and the first sets her goal, never skipped. Changing her direction from the Plan still goes the long way. (2026-11-13; Where you are, Direction and the deciding question now come only after I can't decide)
 35. **Welcome is the front door, with Log in.** A first visit opens Welcome, which offers Get started and "Already have an account? Log in". In the prototype any six digits confirm an email code; 000000 shows the wrong-code error. (2026-11-13)
 36. **A plan opens before it is chosen.** On both plans pages, pressing a plan opens it in place with Pick this if, three signs, what she comes away with and Use this plan, which moves straight on. I can't decide is a link at the foot of the list. (2026-11-13)
+37. **No tick boxes.** Where are you today? drops its tick boxes; picked answers turn white, as on every question. (2026-11-13)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

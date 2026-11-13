@@ -1331,7 +1331,6 @@ function TodayPage({
             options={options}
             value={value.picks}
             equalWidth
-            ticks
             max={options.length}
             onChange={(picks) => {
               if (picks.includes(c.other) && !otherOn) focusOther.current = true;

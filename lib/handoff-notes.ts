@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-no-tick-boxes",
+    title: "Onboarding: no tick boxes on Where are you today?",
+    description:
+      "The tick boxes go; picked answers turn white, as on every question. Several answers and Other's field are unchanged (13 Nov).",
+  },
+  {
     slug: "onboarding-plans-open-first",
     title: "Onboarding: a plan opens before it's chosen",
     description:

@@ -1,5 +1,5 @@
 import { defineComponentStates } from "@/components/types";
-import { GUIDE_C3, POSITIONING_C1 } from "@/mock/onboarding";
+import { POSITIONING_C1 } from "@/mock/onboarding";
 import { ChipGroup } from "./ChipGroup";
 
 const noop = () => {};
@@ -31,19 +31,6 @@ export const chipGroupStates = defineComponentStates({
         value: ["Be seen as an executive"],
         max: 3,
         equalWidth: true,
-        onChange: noop,
-      },
-    },
-    {
-      label: "With tick boxes",
-      description: "A tick box on each chip says \u201cas many as are true\u201d before the line does; ticked when chosen. Onboarding\u2019s \u201cWhere are you today?\u201d (Kate, 2026-11-12).",
-      props: {
-        label: GUIDE_C3.today.title,
-        options: [...GUIDE_C3.today.options, GUIDE_C3.today.other],
-        value: ["New in my role", "Going through a restructure or merger"],
-        max: 6,
-        equalWidth: true,
-        ticks: true,
         onChange: noop,
       },
     },

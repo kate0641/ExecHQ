@@ -6826,40 +6826,6 @@ ul.plan-option__signs {
   border-radius: var(--radius-lg);
 }
 
-/* A tick box on each chip (Kate, 2026-11-12): says "as many as are true" before the line does. It takes
-   the chip's own text colour, so it follows every surface the chip sits on; the tick shows when chosen. */
-.chip-group--ticks .chip-group__chip {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  text-align: left;
-}
-
-.chip-group__tick {
-  display: grid;
-  place-items: center;
-  flex: none;
-  inline-size: calc(var(--space-md) + var(--space-3xs));
-  block-size: calc(var(--space-md) + var(--space-3xs));
-  border: var(--border-width-medium) solid currentColor;
-  border-radius: var(--radius-sm);
-}
-
-.chip-group__tick svg {
-  inline-size: 75%;
-  block-size: 75%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0;
-}
-
-.chip-group__chip[aria-pressed="true"] .chip-group__tick svg {
-  opacity: 1;
-}
-
 .chip-group__detail {
   font-family: var(--font-body);
   font-size: var(--text-xs);

@@ -23,9 +23,6 @@ export interface ChipGroupProps {
   /** A line under an option's label, by option. Sets the chips as stacked
    *  cards, left-aligned, so a longer line has room. */
   details?: Readonly<Record<string, string>>;
-  /** A tick box on every chip, so "pick as many as are true" reads before the
-   *  line does: onboarding's "Where are you today?" (Kate, 2026-11-12). */
-  ticks?: boolean;
   className?: string;
 }
 
@@ -47,7 +44,6 @@ export function ChipGroup({
   max = 1,
   equalWidth = false,
   details,
-  ticks = false,
   className,
 }: ChipGroupProps) {
   const legendId = useId();
@@ -63,7 +59,7 @@ export function ChipGroup({
   }
 
   return (
-    <fieldset className={["chip-group", equalWidth ? "chip-group--equal" : null, details ? "chip-group--detailed" : null, ticks ? "chip-group--ticks" : null, className].filter(Boolean).join(" ")}>
+    <fieldset className={["chip-group", equalWidth ? "chip-group--equal" : null, details ? "chip-group--detailed" : null, className].filter(Boolean).join(" ")}>
       <legend className={labelHidden ? "u-visually-hidden" : "chip-group__label"} id={legendId}>
         {label}
         {note ? <span className="chip-group__note"> {note}</span> : null}
@@ -80,13 +76,6 @@ export function ChipGroup({
               disabled={full && !chosen}
               onClick={() => toggle(option)}
             >
-              {ticks ? (
-                <span className="chip-group__tick" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" focusable="false">
-                    <path d="M5 12.5l4.5 4.5L19 7.5" />
-                  </svg>
-                </span>
-              ) : null}
               {details?.[option] ? (
                 <>
                   <span className="chip-group__title u-bold-hold" data-label={option}>{option}</span>
