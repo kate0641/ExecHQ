@@ -50,7 +50,7 @@ The prototype's step bar names thirteen steps. A few pages are reached only from
 | 8 | Reflection | One question to sit with, with a reply | An answer |
 | 9 | Questions | Up to three "Making it yours" questions, with two more reflections between them. On a plan she picked, the plan's own, the first setting her goal | No, except the one that sets her goal |
 | 10 | Your plan | The plan as a path: this week, the stages with their finish lines, the goal | — |
-| 11 | Done | This week's step, and two ways on: **Get started with your plan** or **Go to my homepage** | — |
+| 11 | Done | Her plan saved, then this week's step with **Start your first step**, or **Go to my homepage** | — |
 | 12 | Your story | *Optional, from Get started.* A question to sit with, about saying what they lead | An answer |
 | 13 | First draft | *Optional.* The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Playbook** (Positioning Builder) | — |
 
@@ -76,7 +76,7 @@ Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Ch
                                           Your plan (one page, a path to the goal)
                                                                     ▼
                                                                   Done
-                                     Go to my homepage ┌───────────┴───────────┐ Get started with your plan
+                                     Go to my homepage ┌───────────┴───────────┐ Start your first step
                                                        ▼                       ▼
                                                      Home        Your story (a question) ─▶ First draft
                                                        ▲                                        │
@@ -311,7 +311,7 @@ A plan has no end date and no length. A stage is never given a deadline.
 
 ### 3.10 Your story
 
-**Optional** (Kate, 2026-11-12). The story is the plan's first step, begun from Done's **Get started with your plan**; the person can leave it and go home instead. These pages come after onboarding, so they have no progress line (4.9).
+**Optional** (Kate, 2026-11-12). The story is the plan's first step, begun from Done's **Start your first step**; the person can leave it and go home instead. These pages come after onboarding, so they have no progress line (4.9).
 
 **The question.** The reflection above: "Could you say what you lead in one sentence, right now?" with "Out loud, to someone who's never met you." It behaves as in 3.8. Its fact is Gallup's: only 46% of U.S. employees clearly know what is expected of them at work (2025).
 
@@ -345,16 +345,14 @@ None is the default, so leaving it for later is a real choice.
 
 Right after Your plan, and the end of onboarding (Kate, 2026-11-12). The progress line is full.
 
-- Label **You're set up.** Heading **Momentum starts this week.**
-- **Your first step**, as a big card in the Plan page's move-card style: this week's step from the plan (for example "Write the story of what you lead") and the line "ExecEngine drafts it with you, now or later."
-- A tick for what the person has: "Your plan: Step Up, saved", with the plan's name.
-- Two equal buttons, as onboarding's skips are:
-  - **Get started with your plan** begins this week's step: the story question, then the first draft in the Playbook (3.10).
-  - **Go to my homepage** opens Home with its first-visit tour (3.12).
+- **First, what she has** (2026-11-13): a tick and "Your plan: Step Up, saved", with the plan's name, in place of the small label. Then the heading **Momentum starts this week.**
+- **Your first step**, as a big card in the Plan page's move-card style: this week's step from the plan (for example "Write the story of what you lead"), the line "ExecEngine drafts it with you, now or later.", and its own yellow button, **Start your first step** (2026-11-13; was "Get started with your plan" at the foot). It begins this week's step: the story question, then the first draft in the Playbook (3.10).
+- At the foot, **Go to my homepage**, which opens Home with its first-visit tour (3.12).
+- **Room between its parts** (2026-11-13; it read as tight): 32 between the heading, the card and the foot (was 12), 12 between the card's lines and 24 around them, 16 above its button. It still fits the phone's browser without scrolling.
 
 It does not list what is left or summarize answers: the plan page already did, and the Plan page carries the rest. LinkedIn is not mentioned: it lives on the Signals page.
 
-In production **Get started** begins whatever the plan's first step is. In the prototype every plan's first step opens the same story builder.
+In production **Start your first step** begins whatever the plan's first step is. In the prototype every plan's first step opens the same story builder.
 
 ### 3.12 The first visit to Home: a short tour
 
@@ -666,11 +664,12 @@ These are settled. They are the specified behavior. The dates are when they were
 30. **Meatier questions on every path.** Each question is about a real role, person, moment or decision, and some take one answer so the plan has one target (Appendix B). On a move within the company, "What would you keep?" and "How soon?" are replaced by "Which part of the business are you curious about?" and "Who have you talked to about it?". (2026-11-12)
 31. **The plan is one page, a path to the goal,** with this week's step drawn as the Plan page's move card and the Plan page's stage bar. Each stage's finish line is a sign it's working ("Done when someone repeats your one-line story back to you"); the same lines are the Plan page's stage milestones. The plan page is exempt from the 40-word rule. (2026-11-12)
 32. **Home opens with a three-stop tour after onboarding:** the Ask or go pill, Go to, and chatting with ExecEngine; skippable; once. The Plan page is not part of it. (2026-11-12)
-33. **Onboarding ends at Done, right after the plan.** The story and first draft are optional: the plan's first step, begun from Done's Get started with your plan, with no progress line. Done's other way on is Go to my homepage. (2026-11-12)
+33. **Onboarding ends at Done, right after the plan.** The story and first draft are optional: the plan's first step, begun from Done's Start your first step (was Get started with your plan), with no progress line. Done's other way on is Go to my homepage. (2026-11-12)
 34. **Most people pick their plan first.** Where do you want to start? comes straight after Account: the five plans, none marked. **I can't decide** takes the long way, Where you are, Direction and the question before the plan, to ExecEngine's pick. On a plan she picks, its own questions follow and the first sets her goal, never skipped. Changing her direction from the Plan still goes the long way. (2026-11-13; Where you are, Direction and the deciding question now come only after I can't decide)
 35. **Welcome is the front door, with Log in.** A first visit opens Welcome, which offers Get started and "Already have an account? Log in". In the prototype any six digits confirm an email code; 000000 shows the wrong-code error. (2026-11-13)
 36. **A plan opens before it is chosen.** On both plans pages, pressing a plan opens it in place with Pick this if, three signs, what she comes away with and Use this plan, which moves straight on. I can't decide is a link at the foot of the list. (2026-11-13)
 37. **No tick boxes.** Where are you today? drops its tick boxes; picked answers turn white, as on every question. (2026-11-13)
+38. **Done starts the step.** Her plan saved comes first; the first step's card carries its own button, Start your first step; Go to my homepage stays at the foot; more room between the parts. (2026-11-13)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

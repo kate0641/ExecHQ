@@ -25,7 +25,8 @@ export interface GuidePageProps {
   progress?: number;
   /** What ExecEngine knows so far, carried on every page. */
   file?: ReactNode;
-  kicker?: string;
+  /** The small line over the heading. Done gives it a tick: "Your plan: Step Up, saved". */
+  kicker?: ReactNode;
   /** The ExecEngine logo above the title, in place of a kicker: the cover, where
    *  the brand is the first thing on the screen. */
   wordmark?: boolean;

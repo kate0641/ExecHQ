@@ -7955,35 +7955,45 @@ ul.plan-option__signs {
   margin-top: 0;
 }
 
-/* In the phone's browser the last page fits without scrolling: a little less room between its parts. */
-[data-viewport="mobile"] .guide--done {
-  gap: var(--space-sm);
-  padding-top: var(--space-md);
+/* Done: room between its parts, and it still fits the
+   phone's browser without scrolling. */
+.guide--done {
+  gap: var(--space-xl);
 }
 
-/* Done: this week's step as a big card, set a size up from the Plan page's, and a tick
-   for the plan she has. */
-.done__first {
+/* What she has, first: a tick and the plan saved, in place of the small label. */
+.guide--done .guide__kicker {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.done__saved {
+  display: inline-flex;
+  align-items: center;
   gap: var(--space-xs);
-  padding: var(--space-lg) var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse);
+}
+
+.done__tick {
+  flex: none;
+  color: var(--color-headline-on-inverse);
+}
+
+/* This week's step as a big card, a size up from the Plan page's, with its own button. */
+.done__first {
+  gap: var(--space-sm);
+  padding: var(--space-lg);
 }
 
 .done__first .plan-path__move-title {
   font-size: var(--text-2xl);
 }
 
-.done__saved {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  margin: var(--space-sm) 0 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-inverse-muted);
-}
-
-.done__tick {
-  flex: none;
-  color: var(--color-headline-on-inverse);
+.done__first .done__start {
+  margin-top: var(--space-md);
 }
 
 /* A navy page: onboarding's steps with no drawer (Signals, the recommendation,

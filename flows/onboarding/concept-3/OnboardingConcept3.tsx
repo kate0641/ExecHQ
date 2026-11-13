@@ -837,29 +837,37 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
         <GuidePage
           headingId={headingId}
           progress={edit ? undefined : progressAt("done", route)}
-          kicker={c.kicker}
+          // What she has first, then what's next.
+          kicker={
+            plan ? (
+              <span className="done__saved">
+                <Icon name="check" className="done__tick" />
+                {c.saved(plan.name)}
+              </span>
+            ) : (
+              c.kicker
+            )
+          }
           title={c.title}
           className="guide--done"
           navy
-          // Two equal ways on (Kate, 2026-11-12): begin this week's step, or go home. Home opens
-          // with its first-visit tour either way.
-          primaryLabel={c.start}
-          onPrimary={() => goTo("reflect-story")}
-          secondaryLabel={c.home}
-          onSecondary={goHome}
+          // The step's own button is in its card; going home is the way past it. Home opens with its
+          // first-visit tour.
+          foot={
+            <Button variant="secondary" fullWidth onClick={goHome}>
+              {c.home}
+            </Button>
+          }
         >
           {plan?.thisWeek ? (
             <div className="plan-path__move done__first">
               <p className="plan-path__move-label">{c.firstLabel}</p>
               <p className="plan-path__move-title">{plan.thisWeek.title}</p>
               <p className="plan-path__move-line">{c.firstLine}</p>
+              <Button fullWidth className="done__start" onClick={() => goTo("reflect-story")}>
+                {c.start}
+              </Button>
             </div>
-          ) : null}
-          {plan ? (
-            <p className="done__saved">
-              <Icon name="check" className="done__tick" />
-              {c.saved(plan.name)}
-            </p>
           ) : null}
         </GuidePage>
       );

@@ -2547,7 +2547,8 @@ export const GUIDE_C3 = {
     firstLine: "ExecEngine drafts it with you, now or later.",
     /** The tick for what she has: "Your plan: Step Up, saved". */
     saved: (plan: string) => `Your plan: ${plan}, saved`,
-    start: "Get started with your plan",
+    /** In the first step's card, named for it. */
+    start: "Start your first step",
     home: "Go to my homepage",
   },
 } as const;
