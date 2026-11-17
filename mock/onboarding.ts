@@ -2303,9 +2303,9 @@ export const GUIDE_C3 = {
   /** The five plans, straight after Account: she picks, or can't decide and
    *  goes the long way to ExecEngine's pick. */
   pick: {
-    kicker: "Your plan",
+    kicker: "Your first step",
     title: "Where do you want to start?",
-    lede: "Pick the one that sounds most like you. The next few questions make it yours.",
+    lede: "Everyone\u2019s path starts somewhere. Pick one to begin with. You can change it at any time.",
     cta: "Use this plan",
     /** Over the signs, when a plan opens (Kate, 2026-11-13). */
     signs: "Pick this if",

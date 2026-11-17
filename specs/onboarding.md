@@ -178,9 +178,9 @@ Onboarding no longer has a Signals step or a LinkedIn upload page (Kate, 2026-11
 
 ### 3.4b Where do you want to start?
 
-The five plans, straight after Account (Kate, 2026-11-13). She picks one herself, and it is made hers after; or she presses **I can't decide** and goes the long way to ExecEngine's pick (3.4a to 3.7). 22 words.
+The five plans, straight after Account (Kate, 2026-11-13). She picks one herself, and it is made hers after; or she presses **I can't decide** and goes the long way to ExecEngine's pick (3.4a to 3.7). 24 words.
 
-- Label **Your plan.** Heading **Where do you want to start?** Line "Pick the one that sounds most like you. The next few questions make it yours."
+- Label **Your first step.** Heading **Where do you want to start?** Line "Everyone's path starts somewhere. Pick one to begin with. You can change it at any time." The plan she picks is where she begins, not a path for good; she changes it later with Change your direction on the Plan page (2026-11-16).
 - The five plans as cards: each plan's **name** and when it is for (Appendix C). **None is marked or open to start with.**
 - **Pressing a plan opens it in place** (Kate, 2026-11-13): **Pick this if** and three signs she can see herself in, then what she comes away with, then **Use this plan**. Pressing it again closes it; opening another closes the first, so one is open at a time. No chevron and no Cancel. The card is a disclosure button ("expanded" or "collapsed"). Each plan's words are in its template (`pickIf`, `comeAway`), drafted from its brief for Eric's sign-off:
 
@@ -670,6 +670,7 @@ These are settled. They are the specified behavior. The dates are when they were
 36. **A plan opens before it is chosen.** On both plans pages, pressing a plan opens it in place with Pick this if, three signs, what she comes away with and Use this plan, which moves straight on. I can't decide is a link at the foot of the list. (2026-11-13)
 37. **No tick boxes.** Where are you today? drops its tick boxes; picked answers turn white, as on every question. (2026-11-13)
 38. **Done starts the step.** Her plan saved comes first; the first step's card carries its own button, Start your first step; Go to my homepage stays at the foot; more room between the parts. (2026-11-13)
+39. **The plan she picks is a first step.** Where do you want to start? is labelled Your first step, and its line says everyone starts somewhere, to pick one to begin with, and that it can be changed at any time. The plans, the cards and Use this plan are unchanged. (2026-11-16, from the review with Eric)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
