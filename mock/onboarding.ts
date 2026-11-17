@@ -2422,8 +2422,18 @@ export const GUIDE_C3 = {
     kicker: "Your plan",
     title: (goal: string) => `Your path to ${goal}`,
     where: (plan: string, count: number, first: string) => `${plan} \u00b7 Stage 1 of ${count} \u00b7 ${first}`,
-    here: "You are here \u00b7 This week",
-    thisWeekLine: "ExecEngine drafts it with you next.",
+    /** What she has, first, in the label's place: "Your plan: Step Up, saved". */
+    saved: (plan: string) => `Your plan: ${plan}, saved`,
+    nowLabel: "What you\u2019re working on now",
+    /** The three horizons, named as Home's Progress Tracker names them, with how far each looks. */
+    spans: { short: "Quick wins, this week", medium: "Over the next month", long: "A quarter or more" },
+    firstLabel: "Your first step \u00b7 This week",
+    firstLine: "ExecEngine drafts it with you, now or later.",
+    start: "Start your first step",
+    together: "These run side by side. Do the quick wins now, and chip away at the bigger pieces when you have time.",
+    aheadLabel: "The stages ahead",
+    aheadCount: (count: number) => `${count} more`,
+    next: "When stage 1 is done, ExecEngine plans the next with you, from how it went.",
     doneLabel: "Done when",
     /** The answers the plan is built from, folded into one line that opens them. */
     heardLabel: "Built from what you said",
@@ -2431,7 +2441,8 @@ export const GUIDE_C3 = {
     heardToggle: (count: number) => `Built from your ${count} answer${count === 1 ? "" : "s"}`,
     heardOpen: "See or change",
     heardClose: "Hide",
-    continue: "Continue",
+    /** A text link at the foot, so the first step's button is the page's one button. Home, with its tour. */
+    home: "Later, take me to my homepage",
   },
   story: {
     /** The story is made in the Playbook, in its Positioning Builder, so the
@@ -2540,17 +2551,7 @@ export const GUIDE_C3 = {
   },
   /** The end of onboarding, right after the plan (Kate, 2026-11-12): this week's step, and two equal ways
    *  on. The story and its first draft are the plan's first step, done now or later, not setup. */
-  done: {
-    kicker: "You\u2019re set up",
-    title: "Momentum starts this week",
-    firstLabel: "Your first step",
-    firstLine: "ExecEngine drafts it with you, now or later.",
-    /** The tick for what she has: "Your plan: Step Up, saved". */
-    saved: (plan: string) => `Your plan: ${plan}, saved`,
-    /** In the first step's card, named for it. */
-    start: "Start your first step",
-    home: "Go to my homepage",
-  },
+
 } as const;
 
 /**

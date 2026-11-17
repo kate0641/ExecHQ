@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-plan-is-the-last-page",
+    title: "Onboarding: Your plan is the last page",
+    description:
+      "Done folds into Your plan, which shows stage 1 as Home's short-term, medium-term and long-term, with Start your first step on the first; the stages ahead fold away; home is a text link (16 Nov).",
+  },
+  {
     slug: "onboarding-pick-a-first-step",
     title: "Onboarding: pick a first step",
     description:

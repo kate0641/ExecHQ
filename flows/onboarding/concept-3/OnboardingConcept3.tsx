@@ -25,6 +25,7 @@ import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { Icon } from "@/components/primitives/Icon";
 import { PlanPath } from "@/components/onboarding/PlanPath";
+import { ACTIONS, HORIZONS } from "@/mock/plan-stub";
 import { PlanOption } from "@/components/onboarding/PlanOption";
 import { ProductIntro } from "@/components/onboarding/ProductIntro";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
@@ -139,8 +140,7 @@ type PageId =
   | "reflect-story"
   | "draft"
   | "sharpen"
-  | "versions"
-  | "done";
+  | "versions";
 
 interface Page {
   id: PageId;
@@ -152,7 +152,7 @@ interface Page {
   offBar?: boolean;
   /** Reached only from another page, never by moving on. */
   aside?: boolean;
-  /** After onboarding: the plan's first step, begun from Done if she likes.
+  /** After onboarding: the plan's first step, begun from the plan page if she likes.
    *  No progress line, since it is the product rather than setup. */
   branch?: boolean;
 }
@@ -185,13 +185,10 @@ const PAGES: Page[] = [
   { id: "t-1", label: "Question 2", step: "refinement", offBar: true },
   { id: "reflect-conversation", label: "Reflection 3", step: "refinement", offBar: true },
   { id: "t-2", label: "Question 3", step: "refinement", offBar: true },
-  // The plan was chosen on the recommendation. Here it is, tuned to what the
-  // user said, a part at a time.
+  // Her plan, tuned to what she said, and the end of onboarding: what she is
+  // working on now, its first step with Start your first step, and a link home.
   { id: "plan-week", label: "Your plan", step: "plan" },
-  // Onboarding ends here, right after the plan (Kate, 2026-11-12): this
-  // week's step, then "Get started with your plan" or "Go to my homepage".
-  { id: "done", label: "Done", step: "complete" },
-  // The plan's first step, optional and begun from Done: the story's
+  // The plan's first step, optional and begun from the plan page: the story's
   // reflection, then a first draft written from what the user has said. After
   // it the user chooses: add detail now, build longer versions, or save it and
   // go home (2026-10-02, 2026-11-12). The detail questions and the longer
@@ -211,7 +208,7 @@ interface DrawerControl {
 /** What every page is handed about where it sits. */
 /** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecEngine moments
  * A step with a navy drawer stays light. */
-const NAVY_PAGES = new Set<string>(["about", "pick", "rec", "plan-week", "draft", "done"]);
+const NAVY_PAGES = new Set<string>(["about", "pick", "rec", "plan-week", "draft"]);
 
 type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky" | "glow" | "progress">;
 
@@ -236,7 +233,7 @@ const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
 };
 
 /** The progress line (Kate, 2026-11-12): how far through the pages she moves on through, Welcome
- *  excluded, so Done is full. The story and its draft come after Done and have none. A page reached from another (the emailed code, the other plans, the
+ *  excluded, so the plan page is full. The story and its draft come after it and have none. A page reached from another (the emailed code, the other plans, the
  *  draft's detail and lengths) shows the fill of the page it came from. Pages a path passes (a
  *  direction with no deciding question, fewer questions) make the line move on further, so it is
  *  an estimate and never a count. */
@@ -460,7 +457,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     };
   }
 
-  /** Home, with its first-visit tour (Kate, 2026-11-12): from Done, or once the first draft is saved. */
+  /** Home, with its first-visit tour: from the plan page, or once the first draft is saved. */
   function goHome() {
     router.push(`${DONE_C1.homeHref}?tour=1`);
   }
@@ -707,21 +704,61 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       const c = GUIDE_C3.plan;
       const stages = plan.stages ?? [];
       const goal = pickedPlan ? goalForPlan(pickedPlan.id, a.refinement) : towardFor(direction);
+      // Stage 1's work as Home's Progress Tracker shows it, so Home is no surprise.
+      const horizons = HORIZONS.map((horizon) => ({
+        label: horizon.label,
+        span: c.spans[horizon.id],
+        items: ACTIONS.filter((action) => action.horizon === horizon.id && action.status === "accepted").map(
+          (action) => action.title
+        ),
+      }));
       return (
         <GuidePage
           {...frame()}
           navy
-          kicker={c.kicker}
+          className={edit ? undefined : "guide--plan"}
+          // What she has first, in the label's place; changing her direction keeps the plain label.
+          kicker={
+            edit ? (
+              c.kicker
+            ) : (
+              <span className="done__saved">
+                <Icon name="check" className="done__tick" />
+                {c.saved(plan.name)}
+              </span>
+            )
+          }
           title={c.title(goal)}
-          primaryLabel={edit ? EDIT_FLOW_COPY.save : c.continue}
-          onPrimary={edit ? finishEdit : next}
+          primaryLabel={edit ? EDIT_FLOW_COPY.save : undefined}
+          onPrimary={edit ? finishEdit : undefined}
+          // The first step's button is the page's one button; home is a text link under it all.
+          foot={
+            edit ? undefined : (
+              <button type="button" className="link guide__home-link" onClick={goHome}>
+                {c.home}
+              </button>
+            )
+          }
         >
           <PlanPath
             where={c.where(plan.name, stages.length, stages[0]?.title ?? "")}
-            thisWeek={{ label: c.here, title: plan.thisWeek?.title ?? "", line: c.thisWeekLine }}
+            nowLabel={c.nowLabel}
+            first={{ label: c.firstLabel, title: plan.thisWeek?.title ?? "", line: c.firstLine }}
+            firstAction={
+              edit ? undefined : (
+                <Button fullWidth onClick={() => goTo("reflect-story")}>
+                  {c.start}
+                </Button>
+              )
+            }
+            horizons={horizons}
+            together={c.together}
             stages={stages.map((stage) => ({ title: stage.title, done: stage.done }))}
             goal={goal.charAt(0).toUpperCase() + goal.slice(1)}
             doneLabel={c.doneLabel}
+            aheadLabel={c.aheadLabel}
+            aheadCount={c.aheadCount(Math.max(stages.length - 1, 0))}
+            next={c.next}
           />
           {heardRows.length ? (
             <section className="guide__heard-rows" aria-label={c.heardLabel}>
@@ -830,48 +867,6 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           }}
         />
       );
-
-    case "done": {
-      const c = GUIDE_C3.done;
-      return (
-        <GuidePage
-          headingId={headingId}
-          progress={edit ? undefined : progressAt("done", route)}
-          // What she has first, then what's next.
-          kicker={
-            plan ? (
-              <span className="done__saved">
-                <Icon name="check" className="done__tick" />
-                {c.saved(plan.name)}
-              </span>
-            ) : (
-              c.kicker
-            )
-          }
-          title={c.title}
-          className="guide--done"
-          navy
-          // The step's own button is in its card; going home is the way past it. Home opens with its
-          // first-visit tour.
-          foot={
-            <Button variant="secondary" fullWidth onClick={goHome}>
-              {c.home}
-            </Button>
-          }
-        >
-          {plan?.thisWeek ? (
-            <div className="plan-path__move done__first">
-              <p className="plan-path__move-label">{c.firstLabel}</p>
-              <p className="plan-path__move-title">{plan.thisWeek.title}</p>
-              <p className="plan-path__move-line">{c.firstLine}</p>
-              <Button fullWidth className="done__start" onClick={() => goTo("reflect-story")}>
-                {c.start}
-              </Button>
-            </div>
-          ) : null}
-        </GuidePage>
-      );
-    }
   }
 }
 
