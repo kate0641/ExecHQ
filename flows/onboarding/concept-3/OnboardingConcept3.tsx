@@ -717,18 +717,16 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           {...frame()}
           navy
           className={edit ? undefined : "guide--plan"}
-          // What she has first, in the label's place; changing her direction keeps the plain label.
+          // Saved, in the label's place, over the plan's name; changing her direction has no label.
           kicker={
-            edit ? (
-              c.kicker
-            ) : (
+            edit ? undefined : (
               <span className="done__saved">
                 <Icon name="check" className="done__tick" />
-                {c.saved(plan.name)}
+                {c.saved}
               </span>
             )
           }
-          title={c.title(goal)}
+          title={c.title(plan.name)}
           primaryLabel={edit ? EDIT_FLOW_COPY.save : undefined}
           onPrimary={edit ? finishEdit : undefined}
           // The first step's button is the page's one button; home is a text link under it all.
@@ -741,8 +739,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           }
         >
           <PlanPath
-            where={c.where(plan.name, stages.length, stages[0]?.title ?? "")}
             nowLabel={c.nowLabel}
+            stage={c.stage(stages.length, stages[0]?.title ?? "")}
             first={{ label: c.firstLabel, title: plan.thisWeek?.title ?? "", line: c.firstLine }}
             firstAction={
               edit ? undefined : (

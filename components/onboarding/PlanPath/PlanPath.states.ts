@@ -15,8 +15,8 @@ const horizons = HORIZONS.map((horizon) => ({
   items: ACTIONS.filter((action) => action.horizon === horizon.id && action.status === "accepted").map((action) => action.title),
 }));
 const content = {
-  where: c.where(plan.name, stages.length, stages[0]?.title ?? ""),
   nowLabel: c.nowLabel,
+  stage: c.stage(stages.length, stages[0]?.title ?? ""),
   first: { label: c.firstLabel, title: plan.thisWeek?.title ?? "", line: c.firstLine },
   firstAction: createElement(Button, { fullWidth: true } as ComponentProps<typeof Button>, c.start),
   horizons,
@@ -35,7 +35,7 @@ export const planPathStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "Her plan, on the page that ends onboarding: where she is, then what she's working on now in Home's three rows (short-term, medium-term, long-term, side by side), the first step leading the short-term as the Plan page's move card with Start your first step. The later stages and her goal fold under The stages ahead. It builds in once; with reduced motion it shows at rest.",
+    "Her plan, on the page that ends onboarding: what she's working on now, which stage that is, then Home's three rows (short-term, medium-term, long-term, side by side), the first step leading the short-term as the Plan page's move card with Start your first step. The later stages and her goal fold under The stages ahead. It builds in once; with reduced motion it shows at rest.",
   component: PlanPath,
   surface: "inverse",
   notApplicable: {

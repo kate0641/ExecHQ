@@ -17,11 +17,10 @@ export interface PlanPathHorizon {
 }
 
 export interface PlanPathProps {
-  /** Where she is, as the Plan page says it: "Step Up · Stage 1 of 3 · Say
-   *  what you lead". */
-  where: string;
   /** "What you're working on now", over the three horizons. */
   nowLabel: string;
+  /** Which stage that is, under the heading: "Stage 1 of 3 · Say what you lead". */
+  stage: string;
   /** The first step, drawn as the Plan page's move card at the top of the first horizon. */
   first: { label: string; title: string; line: string };
   /** The first step's own button. Left out when the plan is being changed. */
@@ -56,16 +55,16 @@ function onFrom(sentence: string): string {
 }
 
 /**
- * Her plan, on the page that ends onboarding: where she is, then the stage
- * she is in as Home's Progress Tracker shows it (short-term, medium-term and
+ * Her plan, on the page that ends onboarding: the stage she is in, as Home's
+ * Progress Tracker shows it (short-term, medium-term and
  * long-term, side by side), the first step leading the short-term as the Plan
  * page's move card with its own button. The later stages and her goal fold
  * away underneath, so the first screen is about now. Everything is in the
  * page from the start; only its showing waits on the motion.
  */
 export function PlanPath({
-  where,
   nowLabel,
+  stage,
   first,
   firstAction,
   horizons,
@@ -83,17 +82,11 @@ export function PlanPath({
   const ahead = stages.slice(1);
   return (
     <div className={["plan-path", animate ? "plan-path--animate" : null, className].filter(Boolean).join(" ")}>
-      <div className="plan-path__where">
-        <p className="plan-path__where-text">{where}</p>
-        <ol className="plan-path__bar" aria-hidden="true">
-          {stages.map((stage, index) => (
-            <li key={stage.title} className={index === 0 ? "is-now" : undefined} />
-          ))}
-        </ol>
-      </div>
-
       <section className="plan-path__now" aria-label={nowLabel}>
-        <h2 className="plan-path__now-label">{nowLabel}</h2>
+        <div className="plan-path__now-head">
+          <h2 className="plan-path__now-label">{nowLabel}</h2>
+          <p className="plan-path__now-stage">{stage}</p>
+        </div>
         {horizons.map((horizon, index) => (
           <div key={horizon.label} className="plan-path__horizon plan-path__in" style={at(0.2 + index * 0.3)}>
             <div className="plan-path__horizon-head">

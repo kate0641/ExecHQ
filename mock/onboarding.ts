@@ -2419,11 +2419,12 @@ export const GUIDE_C3 = {
   /** The plan, one page, as a path (Kate, 2026-11-12): where she is, this week's step as the Plan
    *  page's move card, three stages each with a sign it's working, and her goal at the end. */
   plan: {
-    kicker: "Your plan",
-    title: (goal: string) => `Your path to ${goal}`,
-    where: (plan: string, count: number, first: string) => `${plan} \u00b7 Stage 1 of ${count} \u00b7 ${first}`,
-    /** What she has, first, in the label's place: "Your plan: Step Up, saved". */
-    saved: (plan: string) => `Your plan: ${plan}, saved`,
+    /** The plan's name is the heading: "Your plan: Step Up". Her goal ends the stages ahead. */
+    title: (plan: string) => `Your plan: ${plan}`,
+    /** Under What you're working on now. */
+    stage: (count: number, first: string) => `Stage 1 of ${count} \u00b7 ${first}`,
+    /** A tick in the label's place, over the heading that names the plan. */
+    saved: "Saved",
     nowLabel: "What you\u2019re working on now",
     /** The three horizons, named as Home's Progress Tracker names them, with how far each looks. */
     spans: { short: "Quick wins, this week", medium: "Over the next month", long: "A quarter or more" },

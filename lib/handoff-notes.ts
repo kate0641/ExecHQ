@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-plan-named-in-heading",
+    title: "Onboarding: Your plan is named in the heading",
+    description:
+      "Your plan's heading is the plan's name, under a tick and Saved; the stage line moves under What you're working on now; the stage bar is gone (17 Nov).",
+  },
+  {
     slug: "onboarding-internal-interview",
     title: "Onboarding: an internal interview",
     description:

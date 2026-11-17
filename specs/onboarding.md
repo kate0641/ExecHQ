@@ -284,8 +284,8 @@ The reflections are:
 
 The end of onboarding: her plan, tuned to what she said, and what she's working on now (2026-11-16, from the review with Eric; it was followed by a separate Done page). Home's Progress Tracker shows short-term, medium-term and long-term work side by side, so this page shows stage 1 the same way, and Home is no surprise. The progress line is full.
 
-- **First, what she has:** a tick and "Your plan: Step Up, saved", with the plan's name, in place of the small label. Then the heading **Your path to {the goal}** (for example "Your path to the C-suite within three years").
-- **Where the goal comes from.** After I can't decide, from her direction (section 5). On a plan she picked herself, from the first question's answer, or the plan's own (Kate, 2026-11-13):
+- **First, what she has:** a tick and **Saved** in place of the small label, then the heading **Your plan: {plan}** (for example "Your plan: Step Up"). (2026-11-17; the heading was "Your path to {the goal}", with "Your plan: Step Up, saved" over it.)
+- **Her goal** ends The stages ahead, with a star (below). **Where the goal comes from.** After I can't decide, from her direction (section 5). On a plan she picked herself, from the first question's answer, or the plan's own (Kate, 2026-11-13):
 
   | Plan | Goal |
   | --- | --- |
@@ -294,8 +294,7 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
   | Make Your Mark | being seen as an executive |
   | Lead Where You Are | more weight where you are |
   | Find your next direction | your next step |
-- Under it, as the Plan page says it: **{Plan} · Stage 1 of {n} · {first stage}**, with the stage bar, its first segment lit.
-- **What you're working on now**, in Home's three rows, each with how far it looks:
+- **What you're working on now**, a section heading, with **Stage 1 of {n} · {first stage}** under it in small capitals. There is no stage bar (2026-11-17). Then Home's three rows, each with how far it looks:
 
   | Row | Line | What is in it |
   | --- | --- | --- |
@@ -308,7 +307,7 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
 - **The stages ahead**, folded, with "{n} more": pressed, it opens to the later stages, numbered from 2, each with **Done when** and a sign it's working (Appendix C), then the goal with a star, then "When stage 1 is done, ExecEngine plans the next with you, from how it went." Pressed again, it folds.
 - **Built from your {n} answers** with **See or change**, a single line that opens the list of the person's answers, each with a **Change** link (and **Hide** to fold it again). The first row is where they are today (3.4a), the second their direction. **Change** on where they are today, or on a question, goes to it and returns here when it is answered. **Change** on the direction starts the questions again from Direction, with their picks kept; a new direction clears the plan they chose for the old one.
 - At the foot, a text link, **Later, take me to my homepage**, which opens Home with its first-visit tour (3.12).
-- **In Change your direction** the page keeps the plain label **Your plan**, the card has no button, and the page's button is **Save my plan**.
+- **In Change your direction** the page has no label over the heading, the card has no button, and the page's button is **Save my plan**.
 - **It builds in once,** each row rising into place after the one before; at rest with reduced motion.
 - It does not summarize answers beyond the folded line, and LinkedIn is not mentioned: it lives on the Signals page.
 
@@ -669,8 +668,9 @@ These are settled. They are the specified behavior. The dates are when they were
 37. **No tick boxes.** Where are you today? drops its tick boxes; picked answers turn white, as on every question. (2026-11-13)
 38. **Done starts the step.** Her plan saved comes first; the first step's card carries its own button, Start your first step; Go to my homepage stays at the foot; more room between the parts. (2026-11-13)
 39. **The plan she picks is a first step.** Where do you want to start? is labelled Your first step, and its line says everyone starts somewhere, to pick one to begin with, and that it can be changed at any time. The plans, the cards and Use this plan are unchanged. (2026-11-16, from the review with Eric)
-40. **Your plan is the last page, and shows what she's working on now.** Done is folded into it. Stage 1 shows as Home's short-term, medium-term and long-term, side by side, the first step leading the short-term with Start your first step, the page's one button; the later stages and the goal fold under The stages ahead; going home is a text link, Later, take me to my homepage. (2026-11-16, from the review with Eric; replaces 33's Done and 38)
+40. **Your plan is the last page, and shows what she's working on now.** Done is folded into it (its head changed by 42). Stage 1 shows as Home's short-term, medium-term and long-term, side by side, the first step leading the short-term with Start your first step, the page's one button; the later stages and the goal fold under The stages ahead; going home is a text link, Later, take me to my homepage. (2026-11-16, from the review with Eric; replaces 33's Done and 38)
 41. **No interview for a role "here".** What's coming up?'s last answer is An internal interview (was An interview for a role here), so it can't read as a job search outside the company; its goal is "your internal interview". Choose your plan takes the label Your first step, as Where do you want to start? does. (2026-11-16, from the review with Eric)
+42. **Your plan is named in the heading.** "Your plan: Step Up" is the heading, under a tick and Saved; What you're working on now carries "Stage 1 of 3 · Say what you lead" under it; the stage bar is gone. Her goal stays at the end of The stages ahead. (2026-11-17, Kate: "there's a lot going on here")
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
