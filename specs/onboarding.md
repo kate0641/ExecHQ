@@ -243,7 +243,7 @@ For most directions, one question is asked before the recommendation, because it
 
 *After I can't decide (3.4b).* This is where the plan is chosen, and the person chooses it (Kate, 2026-11-12). ExecEngine says which it would pick and why, but all five are on the page as equals to choose from. It replaces the Recommendation page and its "See other plans" page.
 
-- Label **Your plan.** Heading **Choose your plan.** Line: "Whichever you choose, the next few questions make it yours." 13 words of the page's own; the plans are the answers.
+- Label **Your first step** (2026-11-16; was Your plan), as on Where do you want to start? Heading **Choose your plan.** Line: "Whichever you choose, the next few questions make it yours." 13 words of the page's own; the plans are the answers.
 - The five plans as the same cards as Where do you want to start? (3.4b), opening in place with their signs, what she comes away with and **Use this plan** (2026-11-13). Each card is the plan's **name** and when it is for (Appendix C).
 - **ExecEngine's pick comes first and is open to start with**, so one press of **Use this plan** carries on. It is marked **Recommended** and carries its reason, built from what the person said: where they are today ("Today, you're new in your role and you're going through a restructure or merger."; 2026-11-12), their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used. The other four follow in the usual order.
 - **Use this plan** is in each open card. Opening another plan and pressing its button chooses that plan and goes straight on. There is no button at the foot.
@@ -670,6 +670,7 @@ These are settled. They are the specified behavior. The dates are when they were
 38. **Done starts the step.** Her plan saved comes first; the first step's card carries its own button, Start your first step; Go to my homepage stays at the foot; more room between the parts. (2026-11-13)
 39. **The plan she picks is a first step.** Where do you want to start? is labelled Your first step, and its line says everyone starts somewhere, to pick one to begin with, and that it can be changed at any time. The plans, the cards and Use this plan are unchanged. (2026-11-16, from the review with Eric)
 40. **Your plan is the last page, and shows what she's working on now.** Done is folded into it. Stage 1 shows as Home's short-term, medium-term and long-term, side by side, the first step leading the short-term with Start your first step, the page's one button; the later stages and the goal fold under The stages ahead; going home is a text link, Later, take me to my homepage. (2026-11-16, from the review with Eric; replaces 33's Done and 38)
+41. **No interview for a role "here".** What's coming up?'s last answer is An internal interview (was An interview for a role here), so it can't read as a job search outside the company; its goal is "your internal interview". Choose your plan takes the label Your first step, as Where do you want to start? does. (2026-11-16, from the review with Eric)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
@@ -743,7 +744,7 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| What’s coming up? | Multiple | Making it yours (skipped when the direction already says it) | Promotion conversation; Performance review; Board or exec presentation; A negotiation; An interview for a role here | Investor or client pitch; A reorganization; A talk or keynote; A difficult conversation |
+| What’s coming up? | Multiple | Making it yours (skipped when the direction already says it) | Promotion conversation; Performance review; Board or exec presentation; A negotiation; An internal interview | Investor or client pitch; A reorganization; A talk or keynote; A difficult conversation |
 | When is it? | Single | Making it yours (skipped when the direction already says it) | This week; This month; Next few months; Not scheduled yet; Tomorrow | In a day or two; In about six months; Next year; It depends on someone else |
 | What’s the hardest part of it? | Multiple | Making it yours | Making the case for myself; One person in the room; The question I can’t answer; Keeping it short; Not knowing what they want | Staying calm under pushback; Numbers I don’t own; Knowing what to ask for; Following up after |
 
