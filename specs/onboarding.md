@@ -282,9 +282,9 @@ The reflections are:
 
 ### 3.9 Your plan
 
-The end of onboarding: her plan, tuned to what she said, and what she's working on now (2026-11-16, from the review with Eric; it was followed by a separate Done page). Home's Progress Tracker shows short-term, medium-term and long-term work side by side, so this page shows stage 1 the same way, and Home is no surprise. It has no progress line (2026-11-17): it is what the setup made, not a step in it.
+The end of onboarding: her plan, tuned to what she said, and what she's working on now (2026-11-16, from the review with Eric; it was followed by a separate Done page). Home shows short-term, medium-term and long-term work side by side under the same heading, What you're working on now (Homepage spec 2.1, 2026-11-17), so this page shows stage 1 the same way, and Home is no surprise. It has no progress line (2026-11-17): it is what the setup made, not a step in it.
 
-- **First, what she has:** a tick and **Saved** in place of the small label, then the heading **Your plan: {plan}** (for example "Your plan: Step Up"). (2026-11-17; the heading was "Your path to {the goal}", with "Your plan: Step Up, saved" over it.)
+- **The heading** is **Your plan: {plan}** (for example "Your plan: Step Up"), with no label over it (2026-11-17; the heading was "Your path to {the goal}", with "Your plan: Step Up, saved" over it, then briefly a tick and Saved).
 - **Her goal** ends The stages ahead, with a star (below). **Where the goal comes from.** After I can't decide, from her direction (section 5). On a plan she picked herself, from the first question's answer, or the plan's own (Kate, 2026-11-13):
 
   | Plan | Goal |
@@ -670,7 +670,8 @@ These are settled. They are the specified behavior. The dates are when they were
 39. **The plan she picks is a first step.** Where do you want to start? is labelled Your first step, and its line says everyone starts somewhere, to pick one to begin with, and that it can be changed at any time. The plans, the cards and Use this plan are unchanged. (2026-11-16, from the review with Eric)
 40. **Your plan is the last page, and shows what she's working on now.** Done is folded into it (its head changed by 42). Stage 1 shows as Home's short-term, medium-term and long-term, side by side, the first step leading the short-term with Start your first step, the page's one button; the later stages and the goal fold under The stages ahead; going home is a text link, Later, take me to my homepage. (2026-11-16, from the review with Eric; replaces 33's Done and 38)
 41. **No interview for a role "here".** What's coming up?'s last answer is An internal interview (was An interview for a role here), so it can't read as a job search outside the company; its goal is "your internal interview". Choose your plan takes the label Your first step, as Where do you want to start? does. (2026-11-16, from the review with Eric)
-42. **Your plan is named in the heading.** "Your plan: Step Up" is the heading, under a tick and Saved; What you're working on now carries "Stage 1 of 3 · Say what you lead" under it; the stage bar is gone. Her goal stays at the end of The stages ahead. The page has no onboarding progress line. (2026-11-17, Kate: "there's a lot going on here")
+42. **Your plan is named in the heading.** "Your plan: Step Up" is the heading, with no label over it (no Saved: the heading says it); What you're working on now carries "Stage 1 of 3 · Say what you lead" under it; the stage bar is gone. Her goal stays at the end of The stages ahead. The page has no onboarding progress line. (2026-11-17, Kate: "there's a lot going on here")
+43. **Home says What you're working on now.** Home's section heading, Your Progress Tracker, becomes What you're working on now, the same words as Your plan's section, and the lines that named it follow (Homepage spec 2.1). Needs the client's sign-off: he chose Your Progress Tracker on 2026-10-06. (2026-11-17)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

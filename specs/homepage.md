@@ -33,7 +33,7 @@ Home uses the `app` chrome (header with the wordmark, and the navigation with Ho
 On phone and tablet the page is one column, in this order. Web rearranges it (2.2).
 
 1. **Greeting and date.** "Good morning, {first name}", then the long date ("Monday 5 October") beneath, smaller.
-2. **Your Progress Tracker** (section heading, a small uppercase label).
+2. **What you're working on now** (section heading; was Your Progress Tracker until 2026-11-17).
    - The **key**: three small shapes with their names: solid "Done", outlined "In progress", dashed "Not started".
    - **The three rings**, side by side.
    - **The card** under the rings (section 3).
@@ -46,7 +46,7 @@ The page has a visually hidden heading, "Home", as its level 1. Every section he
 
 ### 2.1 The name of the section
 
-The section is called **Your Progress Tracker**, as of 2026-10-06 (the client chose it from several alternatives). The heading and the other lines that name it (an empty ring, an added action, a skipped one, a ring's spoken name) all say "your Progress Tracker", and all come from one place in the copy. In this spec, "the map" is shorthand for the same section.
+The section is called **What you're working on now**, as of 2026-11-17: the same words as the plan page that ends onboarding (Onboarding spec 3.9), so Home picks up where onboarding left off. It was **Your Progress Tracker** from 2026-10-06, chosen by the client from several alternatives; the change needs the client's sign-off. The lines that named it now say: "Nothing in progress yet. Open a ring to read about what is in it and start one." · "Nothing in this part yet." · "Added to what you're working on now: {action}. Open it to start it or skip it." · "Skipped: {action}. It is off what you're working on now." · a ring's spoken name "Short-term: nothing here yet." All come from one place in the copy. In this spec, "the map" is shorthand for the same section.
 
 ### 2.2 Layout by viewport
 
@@ -121,7 +121,7 @@ What the card shows is decided by the first of these that is true:
 | 2 | This ring holds their next step (the one action they are on that has not yet reached the Loop) | The **next-step card** with its eyebrow **"Next in {horizon}"** |
 | 3 | The ring has an action in progress, else one not started | The same next-step card for that action. Eyebrow **"Next in {horizon}"** for one in progress, **"Suggested in {horizon}"** for one not started |
 | 4 | Every action in the ring is done | A note: **"Every {horizon} action is done."**, then "New actions come with your plan's next stage." and a **See your Plan** button |
-| 5 | The ring has no actions | A note: **"Nothing in this part of your Progress Tracker yet."** |
+| 5 | The ring has no actions | A note: **"Nothing in this part yet."** |
 
 **The next-step card** has, top to bottom: the eyebrow; the action's title as a heading; three labeled rows, **Why this**, **Why now**, **Why you** (any that has no text is left out); a full-width primary button **Start in the Playbook**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
 
@@ -358,7 +358,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 ## 8. Accessibility
 
 - Home has one level 1 (hidden), and level 2 headings for the map, Stay on track, the Briefing and the Signal Picture, in that order on every viewport.
-- Each ring is a **toggle button**. Its name is the ring's text equivalent, read in place of the drawing: "Short-term: 1 done, 1 in progress, 1 not started." (A state with none is left out of the sentence, and "Short-term: nothing in your Progress Tracker yet." for an empty ring.) It is shown pressed when selected and says which panel it controls.
+- Each ring is a **toggle button**. Its name is the ring's text equivalent, read in place of the drawing: "Short-term: 1 done, 1 in progress, 1 not started." (A state with none is left out of the sentence, and "Short-term: nothing here yet." for an empty ring.) It is shown pressed when selected and says which panel it controls.
 - The three states are told apart by shape and by text, never by tone alone. The key shows the shapes.
 - Focus moves on purpose: to the question after "I've done this", to the heading of a card after an answer, to the Stay on track heading after "used". Every card heading can take focus.
 - Selecting a ring and saving the starting point are announced politely.
@@ -391,7 +391,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 
 Written from the approved prototype. These are choices the prototype makes that nobody has yet confirmed:
 
-1. **The section name.** "Your Progress Tracker" was chosen by the client on 2026-10-06 (2.1). The spec still calls the section "the map" where it describes how it works.
+1. **The section name.** "What you're working on now" replaced the client's choice, "Your Progress Tracker", on 2026-11-17 (2.1), and needs the client's sign-off. The spec still calls the section "the map" where it describes how it works.
 2. **One note of movement,** not two. The prototype's rules allow two, and Home shows one.
 3. **"I'm not doing it"** takes an action off the map. Turning down an action from the Plan page is described by the Plan spec when it is written.
 4. **Check-back days** by kind of draft (2, 5, 7 days) are proposed, not agreed.

@@ -21,7 +21,7 @@ export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
     slug: "onboarding-plan-named-in-heading",
     title: "Onboarding: Your plan is named in the heading",
     description:
-      "Your plan's heading is the plan's name, under a tick and Saved; the stage line moves under What you're working on now; the stage bar is gone (17 Nov).",
+      "Your plan's heading is the plan's name, with no label; the stage line moves under What you're working on now; no stage bar or progress line; Home's Your Progress Tracker becomes What you're working on now (17 Nov).",
   },
   {
     slug: "onboarding-internal-interview",

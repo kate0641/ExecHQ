@@ -2423,10 +2423,8 @@ export const GUIDE_C3 = {
     title: (plan: string) => `Your plan: ${plan}`,
     /** Under What you're working on now. */
     stage: (count: number, first: string) => `Stage 1 of ${count} \u00b7 ${first}`,
-    /** A tick in the label's place, over the heading that names the plan. */
-    saved: "Saved",
     nowLabel: "What you\u2019re working on now",
-    /** The three horizons, named as Home's Progress Tracker names them, with how far each looks. */
+    /** The three horizons, named as Home names them, with how far each looks. */
     spans: { short: "Quick wins, this week", medium: "Over the next month", long: "A quarter or more" },
     firstLabel: "Your first step \u00b7 This week",
     firstLine: "ExecEngine drafts it with you, now or later.",

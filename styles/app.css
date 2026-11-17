@@ -7945,28 +7945,6 @@ ul.plan-option__signs {
   padding-bottom: var(--space-lg);
 }
 
-/* The plan page, the end of onboarding: what she has first, a tick and the
-   plan saved, in place of the small label. */
-.guide--plan .guide__kicker {
-  text-transform: none;
-  letter-spacing: normal;
-}
-
-.done__saved {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-inverse);
-}
-
-.done__tick {
-  flex: none;
-  color: var(--color-headline-on-inverse);
-}
-
 /* Home, as a text link under it all: the first step's button stays the page's one button. */
 .guide__home-link {
   display: block;
@@ -13819,7 +13797,7 @@ ul.map-panel__list {
   min-width: 0;
 }
 
-/* The greeting band and the Progress Tracker keep the section gap. (The
+/* The greeting band and What you’re working on now keep the section gap. (The
    card column spaces its own children, below.) */
 .map-home__lead {
   gap: var(--space-lg);
@@ -13893,7 +13871,7 @@ ul.map-panel__list {
 }
 
 /* On web each Stay on track card is as wide as the column beside Your
-   Progress Tracker (3 parts in 10 of the row, less the column gap), so the
+   What you’re working on now (3 parts in 10 of the row, less the column gap), so the
    cards line up with the Signal Picture card and up to three sit side by
    side. The carousel is the container, so 100cqi is the row's width. */
 [data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__stay .card-carousel--fixed {

@@ -25,7 +25,7 @@ export interface PlanPathProps {
   first: { label: string; title: string; line: string };
   /** The first step's own button. Left out when the plan is being changed. */
   firstAction?: ReactNode;
-  /** Short-term, medium-term and long-term, as Home's Progress Tracker names them. */
+  /** Short-term, medium-term and long-term, as Home names them. */
   horizons: readonly PlanPathHorizon[];
   /** That the horizons run side by side, not one after another. */
   together: string;
@@ -56,7 +56,7 @@ function onFrom(sentence: string): string {
 
 /**
  * Her plan, on the page that ends onboarding: the stage she is in, as Home's
- * Progress Tracker shows it (short-term, medium-term and
+ * What you're working on now shows it (short-term, medium-term and
  * long-term, side by side), the first step leading the short-term as the Plan
  * page's move card with its own button. The later stages and her goal fold
  * away underneath, so the first screen is about now. Everything is in the

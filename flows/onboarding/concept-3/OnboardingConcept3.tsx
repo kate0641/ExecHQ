@@ -23,7 +23,6 @@ import { GuidePage, type SkyGlow } from "@/components/onboarding/GuidePage";
 import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
-import { Icon } from "@/components/primitives/Icon";
 import { PlanPath } from "@/components/onboarding/PlanPath";
 import { ACTIONS, HORIZONS } from "@/mock/plan-stub";
 import { PlanOption } from "@/components/onboarding/PlanOption";
@@ -704,7 +703,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       const c = GUIDE_C3.plan;
       const stages = plan.stages ?? [];
       const goal = pickedPlan ? goalForPlan(pickedPlan.id, a.refinement) : towardFor(direction);
-      // Stage 1's work as Home's Progress Tracker shows it, so Home is no surprise.
+      // Stage 1's work as Home shows it, under the same heading, so Home is no surprise.
       const horizons = HORIZONS.map((horizon) => ({
         label: horizon.label,
         span: c.spans[horizon.id],
@@ -718,16 +717,6 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           // No progress line: this page is what the setup made, not a step in it.
           progress={undefined}
           navy
-          className={edit ? undefined : "guide--plan"}
-          // Saved, in the label's place, over the plan's name; changing her direction has no label.
-          kicker={
-            edit ? undefined : (
-              <span className="done__saved">
-                <Icon name="check" className="done__tick" />
-                {c.saved}
-              </span>
-            )
-          }
           title={c.title(plan.name)}
           primaryLabel={edit ? EDIT_FLOW_COPY.save : undefined}
           onPrimary={edit ? finishEdit : undefined}
