@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { ToolIllustration } from "@/components/playbook/ToolIllustration";
+import { TOOL_ICONS } from "@/components/playbook/ToolPicker/ToolPicker";
 import { Icon } from "@/components/primitives/Icon";
 import type { ArtifactKind } from "@/mock/loop";
 
@@ -102,7 +102,7 @@ export function ProductIntro({ points, toolsLabel, tools, privacy, animate = tru
         <ul className="product-intro__tools">
           {tools.map((tool, index) => (
             <li key={tool.kind} className="product-intro__tool" style={at(AT.tools[index] ?? AT.tools[AT.tools.length - 1])}>
-              <ToolIllustration tool={tool.kind} level="icon" size={22} className="product-intro__tool-art" />
+              <Icon name={TOOL_ICONS[tool.kind]} size={16} className="product-intro__tool-art" />
               <span>{tool.label}</span>
             </li>
           ))}
