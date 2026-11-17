@@ -8,6 +8,7 @@ const read = TODAYS_READS[0];
 export const briefingArticleStates = defineComponentStates({
   name: "BriefingArticle",
   group: "cards",
+  feature: "Briefing",
   status: "draft",
   flows: ["daily-briefing"],
   description:

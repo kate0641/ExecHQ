@@ -59,6 +59,7 @@ const base = {
 export const planGuidedStates = defineComponentStates({
   name: "PlanGuided",
   group: "layout",
+  feature: "Plan",
   status: "draft",
   flows: ["plan"],
   description:

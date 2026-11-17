@@ -4,12 +4,23 @@ import { useState, type FormEvent } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { Drawer } from "@/components/layout/Drawer";
-import type { EntryValues } from "@/components/plan/SignalEntrySheet";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { fullDate, type LoopDate } from "@/lib/loop";
 import { likelyDuplicates, type PictureItem } from "@/lib/signal-picture";
 import { ENTRY_COPY as E, ENTRY_DRAWER_COPY as B, ENTRY_TYPES, FOLLOWERS_CHOICE, type EntryChoice } from "@/mock/plan";
+
+export interface EntryValues {
+  type: EntryChoice;
+  /** The day it happened, or for followers, the day the number is from. */
+  on: LoopDate;
+  /** Her LinkedIn followers, when that is what she is adding. */
+  followers?: number;
+  /** A link or a note, in her words. Optional. */
+  text?: string;
+  /** What came of it, in her words. Optional. */
+  impact?: string;
+}
 
 export interface EntryDrawerProps {
   open: boolean;
@@ -22,6 +33,9 @@ export interface EntryDrawerProps {
   existing?: readonly PictureItem[];
   /** Fills the first row: when it was offered after a piece was published. */
   initial?: Partial<EntryValues>;
+  /** Changing one thing she added, filled in from `initial`: one row, no
+   *  followers choice, and Save. */
+  editing?: boolean;
   /** Render in place instead of over the device screen. For the catalogue. */
   inline?: boolean;
   /** Catalogue only: rows already filled in, to show what a static page cannot reach. */
@@ -49,12 +63,13 @@ const CHOICES = [...ENTRY_TYPES, FOLLOWERS_CHOICE];
  * need no other route. Rows she leaves empty are ignored, and each is checked
  * against her picture so she is not asked to add what is already there. It
  * comes up as a drawer she can leave open and read her picture beside while she fills it
- * in. Nothing is looked up and nothing leaves the browser.
+ * in. Nothing is looked up and nothing leaves the browser. The same drawer
+ * changes something she added, one row, filled in.
  */
-export function EntryDrawer({ open, onClose, onSave, today, existing, initial, inline, demoRows, demoErrors }: EntryDrawerProps) {
+export function EntryDrawer({ open, onClose, onSave, today, existing, initial, editing, inline, demoRows, demoErrors }: EntryDrawerProps) {
   return (
-    <Drawer open={open} onClose={onClose} label={B.title} inline={inline}>
-      <EntryForm onClose={onClose} onSave={onSave} today={today} existing={existing} initial={initial} demoRows={demoRows} demoErrors={demoErrors} />
+    <Drawer open={open} onClose={onClose} label={editing ? E.editTitle : B.title} inline={inline}>
+      <EntryForm onClose={onClose} onSave={onSave} today={today} existing={editing ? undefined : existing} initial={initial} editing={editing} demoRows={demoRows} demoErrors={demoErrors} />
     </Drawer>
   );
 }
@@ -62,7 +77,7 @@ export function EntryDrawer({ open, onClose, onSave, today, existing, initial, i
 let nextKey = 0;
 const blank = (): Draft => ({ key: nextKey++, type: null, on: "", followers: "", text: "", impact: "" });
 
-function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoErrors }: Omit<EntryDrawerProps, "open" | "inline">) {
+function EntryForm({ onClose, onSave, today, existing, initial, editing, demoRows, demoErrors }: Omit<EntryDrawerProps, "open" | "inline">) {
   const [rows, setRows] = useState<Draft[]>(() =>
     demoRows
       ? demoRows.map((r) => ({ ...blank(), type: r.type, on: r.on, followers: r.followers ?? "", text: r.text ?? "", impact: r.impact ?? "" }))
@@ -107,7 +122,7 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
 
   return (
     <form className="entry-drawer" onSubmit={submit} noValidate>
-      <h2 className="entry-drawer__title">{B.title}</h2>
+      <h2 className="entry-drawer__title">{editing ? E.editTitle : B.title}</h2>
       <ol className="entry-drawer__rows">
         {rows.map((row, i) => {
           const isFollowers = row.type === FOLLOWERS_CHOICE.id;
@@ -121,7 +136,7 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
               <ChipGroup
                 label={rows.length > 1 ? `${name}: ${E.typeLabel}` : E.typeLabel}
                 labelHidden={rows.length > 1}
-                options={CHOICES.map((t) => t.label)}
+                options={(editing ? ENTRY_TYPES : CHOICES).map((t) => t.label)}
                 value={row.type ? [CHOICES.find((t) => t.id === row.type)!.label] : []}
                 onChange={([label]) => change(row.key, { type: CHOICES.find((t) => t.label === label)?.id ?? null })}
               />
@@ -173,9 +188,11 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
           );
         })}
       </ol>
-      <button type="button" className="link link--standalone entry-drawer__more" onClick={() => setRows((all) => [...all, blank()])}>
-        {B.addRow}
-      </button>
+      {editing ? null : (
+        <button type="button" className="link link--standalone entry-drawer__more" onClick={() => setRows((all) => [...all, blank()])}>
+          {B.addRow}
+        </button>
+      )}
       {tried && filled.length === 0 ? (
         <p className="entry-form__error" role="alert">
           <Icon name="flag" size={16} /> {B.errorNone}
@@ -185,7 +202,7 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
       {/* The main action full width; leaving is the underlined link under it. */}
       <div className="entry-form__actions sheet-actions">
         <Button type="submit" variant="primary" fullWidth>
-          {B.save(valid.length)}
+          {editing ? E.saveEdit : B.save(valid.length)}
         </Button>
         <button type="button" className="link link--standalone sheet-actions__out" onClick={onClose}>
           {B.cancel}

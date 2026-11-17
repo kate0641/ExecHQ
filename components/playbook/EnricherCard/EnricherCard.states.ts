@@ -9,6 +9,7 @@ const base = { enricher: ENRICHERS.wins, onAdd: noop, onSkip: noop };
 export const enricherCardStates = defineComponentStates({
   name: "EnricherCard",
   group: "cards",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

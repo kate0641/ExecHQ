@@ -7,6 +7,7 @@ const noop = () => {};
 export const draftUseBarStates = defineComponentStates({
   name: "DraftUseBar",
   group: "form controls",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

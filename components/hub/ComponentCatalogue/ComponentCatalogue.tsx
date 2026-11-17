@@ -3,7 +3,12 @@
 import { useId, useMemo, useState } from "react";
 import { Badge, StatusBadge } from "@/components/primitives/Badge";
 import { Input } from "@/components/form/Input";
-import { componentId, registry, registryByGroup } from "@/components/registry";
+import {
+  componentId,
+  registry,
+  registryByFeature,
+  registryByGroup,
+} from "@/components/registry";
 import { missingStates } from "@/components/states-coverage";
 import { STATUS_LABELS, STATUS_ORDER, flows, type Status } from "@/lib/manifest";
 
@@ -37,6 +42,7 @@ export function ComponentCatalogue() {
         needle === "" ||
         component.name.toLowerCase().includes(needle) ||
         component.group.toLowerCase().includes(needle) ||
+        (component.feature?.toLowerCase().includes(needle) ?? false) ||
         component.description.toLowerCase().includes(needle);
       const matchesStatus =
         statusFilter === "all" || component.status === statusFilter;
@@ -46,9 +52,30 @@ export function ComponentCatalogue() {
     });
   }, [query, statusFilter, flowFilter]);
 
-  const groups = registryByGroup(filtered);
+  const sections = [
+    {
+      title: "Core library",
+      note: "Use these on any screen.",
+      groups: registryByGroup(filtered).map(({ group, components }) => ({
+        title: group,
+        components,
+      })),
+    },
+    {
+      title: "Feature pieces",
+      note: "Built for one feature. Reach for the core library first.",
+      groups: registryByFeature(filtered).map(({ feature, components }) => ({
+        title: feature,
+        components,
+      })),
+    },
+  ].filter((section) => section.groups.length > 0);
+  // The menu's order, so the first component shown is the first one listed.
+  const ordered = sections.flatMap((section) =>
+    section.groups.flatMap((group) => group.components)
+  );
   const selected =
-    filtered.find((component) => componentId(component) === selectedId) ?? filtered[0];
+    ordered.find((component) => componentId(component) === selectedId) ?? ordered[0];
 
   return (
     <div className="catalogue">
@@ -105,34 +132,40 @@ export function ComponentCatalogue() {
         </div>
 
         <nav className="catalogue__nav" aria-label="Components">
-          {groups.length === 0 ? (
+          {sections.length === 0 ? (
             <p className="catalogue__empty">
               No components match that search and those filters.
             </p>
           ) : (
-            groups.map(({ group, components }) => (
-              <div className="catalogue__group" key={group}>
-                <h2 className="catalogue__group-title t-eyebrow">{group}</h2>
-                <ul className="catalogue__list">
-                  {components.map((component) => {
-                    const id = componentId(component);
-                    const isSelected = selected && componentId(selected) === id;
-                    return (
-                      <li key={id}>
-                        <button
-                          type="button"
-                          className={`catalogue__item${isSelected ? " is-selected" : ""}`}
-                          onClick={() => setSelectedId(id)}
-                          aria-current={isSelected ? "true" : undefined}
-                        >
-                          <span className="catalogue__item-name">{component.name}</span>
-                          <StatusBadge status={component.status} />
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+            sections.map((section) => (
+              <section className="catalogue__section" key={section.title}>
+                <h2 className="catalogue__section-title">{section.title}</h2>
+                <p className="catalogue__section-note">{section.note}</p>
+                {section.groups.map(({ title, components }) => (
+                  <div className="catalogue__group" key={title}>
+                    <h3 className="catalogue__group-title t-eyebrow">{title}</h3>
+                    <ul className="catalogue__list">
+                      {components.map((component) => {
+                        const id = componentId(component);
+                        const isSelected = selected && componentId(selected) === id;
+                        return (
+                          <li key={id}>
+                            <button
+                              type="button"
+                              className={`catalogue__item${isSelected ? " is-selected" : ""}`}
+                              onClick={() => setSelectedId(id)}
+                              aria-current={isSelected ? "true" : undefined}
+                            >
+                              <span className="catalogue__item-name">{component.name}</span>
+                              <StatusBadge status={component.status} />
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
+              </section>
             ))
           )}
         </nav>
@@ -145,7 +178,7 @@ export function ComponentCatalogue() {
               <div className="catalogue__detail-heading">
                 <h2 className="catalogue__detail-title">{selected.name}</h2>
                 <div className="u-row">
-                  <Badge>{selected.group}</Badge>
+                  <Badge>{selected.feature ?? selected.group}</Badge>
                   <StatusBadge status={selected.status} />
                 </div>
               </div>

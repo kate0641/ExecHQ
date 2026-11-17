@@ -5,6 +5,7 @@ import { DestinationStub } from "./DestinationStub";
 export const destinationStubStates = defineComponentStates({
   name: "DestinationStub",
   group: "layout",
+  feature: "Prototype only",
   status: "draft",
   flows: ["plan", "playbook", "daily-briefing"],
   description:

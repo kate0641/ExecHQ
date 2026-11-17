@@ -5,6 +5,7 @@ import { LibraryEmpty } from "./LibraryEmpty";
 export const libraryEmptyStates = defineComponentStates({
   name: "LibraryEmpty",
   group: "feedback",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook"],
   description:

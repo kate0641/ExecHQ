@@ -91,7 +91,7 @@ export function ToolUseCase({
     <section className={["tool-use-case", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       {noPicture ? null : (
         <div className="tool-use-case__picture">
-          <ToolIllustration tool={tool.kind} level="detailed" size={200} />
+          <ToolIllustration tool={tool.kind} size={200} />
         </div>
       )}
       <div className="tool-use-case__decide">

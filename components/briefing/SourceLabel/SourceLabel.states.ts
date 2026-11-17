@@ -8,6 +8,7 @@ const read = TODAYS_READS[0];
 export const sourceLabelStates = defineComponentStates({
   name: "SourceLabel",
   group: "cards",
+  feature: "Playbook",
   status: "draft",
   flows: ["daily-briefing", "playbook-flow"],
   description:

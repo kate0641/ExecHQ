@@ -4,6 +4,7 @@ import { Meter } from "./Meter";
 export const meterStates = defineComponentStates({
   name: "Meter",
   group: "cards",
+  feature: "Admin",
   status: "draft",
   flows: ["enterprise"],
   description:

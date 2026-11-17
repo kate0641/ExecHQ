@@ -15,6 +15,7 @@ const base = { tabs, value: "all", onChange: noop, label: "Folders", idBase: "ca
 export const libraryTabsStates = defineComponentStates({
   name: "LibraryTabs",
   group: "navigation",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook"],
   description:

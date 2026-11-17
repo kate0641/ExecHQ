@@ -10,6 +10,7 @@ const live = createElement("p", { className: "pinned-draft__live" }, preview);
 export const pinnedDraftStates = defineComponentStates({
   name: "PinnedDraft",
   group: "cards",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

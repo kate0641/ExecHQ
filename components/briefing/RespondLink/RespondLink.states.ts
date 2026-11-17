@@ -7,6 +7,7 @@ const href = "/playbook-flow/concept-3?source=briefing&read=planning-season";
 export const respondLinkStates = defineComponentStates({
   name: "RespondLink",
   group: "navigation",
+  feature: "Briefing",
   status: "draft",
   flows: ["daily-briefing"],
   description:

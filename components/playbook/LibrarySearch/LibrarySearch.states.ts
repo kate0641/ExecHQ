@@ -21,6 +21,7 @@ const noop = () => {};
 export const librarySearchStates = defineComponentStates({
   name: "LibrarySearch",
   group: "form controls",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook"],
   description:

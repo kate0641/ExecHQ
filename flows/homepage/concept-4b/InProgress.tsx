@@ -108,7 +108,6 @@ export function InProgress({ loop }: { loop: LoopView }) {
             task={taskCheck}
             today={loop.today}
             about={pendingTask.title}
-            layout="question"
             answered={Boolean(taskCheck.outcome)}
             readback={taskReadback}
             logged={Boolean(taskCheck.outcome && taskCheck.outcome.type !== "no-response-yet")}
@@ -147,7 +146,6 @@ export function InProgress({ loop }: { loop: LoopView }) {
           record={record}
           today={loop.today}
           about={forAction(record.id)?.title}
-          layout="question"
           answered={isAnswered}
           readback={isAnswered ? readback : undefined}
           logged={isAnswered && Boolean(outcome && outcome.type !== "no-response-yet")}

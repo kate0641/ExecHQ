@@ -8,6 +8,7 @@ const base = { events: THIS_WEEK, today: TODAY, history: 60, nextMove: NEXT_MOVE
 export const momentumLabeledStates = defineComponentStates({
   name: "MomentumLabeled",
   group: "cards",
+  feature: "Plan",
   status: "draft",
   flows: ["signals"],
   description:

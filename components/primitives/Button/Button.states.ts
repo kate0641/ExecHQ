@@ -50,7 +50,6 @@ export const buttonStates = defineComponentStates({
     },
     { label: "Strong — hover", props: { variant: "strong", children: "Answer", className: "is-hover" } },
     { label: "Strong — pressed", props: { variant: "strong", children: "Answer", className: "is-active" } },
-    { label: "Outline — default, for a surface yellow can't go on", props: { variant: "outline", children: "Try this" } },
     { label: "Ghost — default", props: { variant: "ghost", children: "Cancel" } },
     {
       label: "Ghost — hover",

@@ -5,10 +5,11 @@ import { ToolIllustration } from "./ToolIllustration";
 export const toolIllustrationStates = defineComponentStates({
   name: "ToolIllustration",
   group: "primitives",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook"],
   description:
-    "The tools' line drawings, one per tool at three levels of detail (detailed for the lead card, simple for a tool card, icon for small places), from the ILLUSTRATIONS tokens. An ID card for Positioning Builder, a microphone for Pitch Builder, a clipboard for Situation Brief, a lightbulb for Thought Leadership Builder. Placeholders: the finished drawings come from design.",
+    "The tools' line drawings, one per tool, shaded, from the ILLUSTRATIONS tokens. An ID card for Positioning Builder, a microphone for Pitch Builder, a clipboard for Situation Brief, a lightbulb for Thought Leadership Builder. Placeholders: the finished drawings come from design.",
   component: ToolIllustration,
   notApplicable: {
     ...NOT_INTERACTIVE,
@@ -18,14 +19,9 @@ export const toolIllustrationStates = defineComponentStates({
     "long text": "A drawing has no text.",
   },
   variants: [
-    { label: "Situation Brief, detailed — default", props: { tool: "situation-brief", level: "detailed", size: 150 } },
-    { label: "Situation Brief, simple", props: { tool: "situation-brief", level: "simple", size: 80 } },
-    { label: "Situation Brief, icon", props: { tool: "situation-brief", level: "icon", size: 26 } },
-    { label: "Positioning Builder, detailed", props: { tool: "positioning", level: "detailed", size: 150 } },
-    { label: "Pitch Builder, detailed", props: { tool: "pitch", level: "detailed", size: 150 } },
-    { label: "Thought Leadership Builder, detailed", props: { tool: "thought-leadership", level: "detailed", size: 150 } },
-    { label: "Positioning Builder, simple", props: { tool: "positioning", level: "simple", size: 80 } },
-    { label: "Pitch Builder, simple", props: { tool: "pitch", level: "simple", size: 80 } },
-    { label: "Thought Leadership Builder, simple", props: { tool: "thought-leadership", level: "simple", size: 80 } },
+    { label: "Situation Brief — default", props: { tool: "situation-brief", size: 150 } },
+    { label: "Positioning Builder", props: { tool: "positioning", size: 150 } },
+    { label: "Pitch Builder", props: { tool: "pitch", size: 150 } },
+    { label: "Thought Leadership Builder", props: { tool: "thought-leadership", size: 150 } },
   ],
 });

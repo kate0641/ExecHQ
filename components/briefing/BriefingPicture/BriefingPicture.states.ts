@@ -7,6 +7,7 @@ const publisher = "Marlow Management Review";
 export const briefingPictureStates = defineComponentStates({
   name: "BriefingPicture",
   group: "primitives",
+  feature: "Briefing",
   status: "draft",
   flows: ["daily-briefing"],
   description:

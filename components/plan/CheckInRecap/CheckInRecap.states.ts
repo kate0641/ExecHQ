@@ -6,6 +6,7 @@ const noop = () => {};
 export const checkInRecapStates = defineComponentStates({
   name: "CheckInRecap",
   group: "cards",
+  feature: "Plan",
   status: "draft",
   flows: ["plan"],
   description:

@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Input } from "@/components/form/Input";
-import { Sheet } from "@/components/layout/Sheet";
+import { Drawer } from "@/components/layout/Drawer";
 import { Button } from "@/components/primitives/Button";
 import type { LoopDate } from "@/lib/loop";
 import { timeChoices } from "@/lib/time-words";
 import { PLAN_AGENDA_COPY as A } from "@/mock/plan";
 
-export interface AddToPlanSheetProps {
+export interface AddToPlanDrawerProps {
   open: boolean;
   onClose: () => void;
   today: LoopDate;
@@ -19,11 +19,11 @@ export interface AddToPlanSheetProps {
 }
 
 /**
- * Where she adds something of her own to her plan: what it is, and when, in words. A sheet that
- * slides up over the phone. The words stand for a day underneath, so it lands in the stage that day
+ * Where she adds something of her own to her plan: what it is, and when, in words. A drawer that
+ * comes up from the foot of the phone, like every other add, with the plan left in view behind it. The words stand for a day underneath, so it lands in the stage that day
  * falls in. Nothing is added until she has written what it is.
  */
-export function AddToPlanSheet({ open, onClose, today, onAdd, inline }: AddToPlanSheetProps) {
+export function AddToPlanDrawer({ open, onClose, today, onAdd, inline }: AddToPlanDrawerProps) {
   const choices = timeChoices(today);
   const [draft, setDraft] = useState("");
   const [when, setWhen] = useState(0);
@@ -38,7 +38,7 @@ export function AddToPlanSheet({ open, onClose, today, onAdd, inline }: AddToPla
   }
 
   return (
-    <Sheet open={open} onClose={onClose} label={A.addLabel} inline={inline}>
+    <Drawer open={open} onClose={onClose} label={A.addLabel} inline={inline}>
       <form
         className="agenda__add"
         onSubmit={(event) => {
@@ -66,8 +66,8 @@ export function AddToPlanSheet({ open, onClose, today, onAdd, inline }: AddToPla
           </button>
         </div>
       </form>
-    </Sheet>
+    </Drawer>
   );
 }
 
-export default AddToPlanSheet;
+export default AddToPlanDrawer;

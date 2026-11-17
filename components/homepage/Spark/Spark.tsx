@@ -21,22 +21,11 @@ export interface SparkProps {
   onDismiss: (id: string) => void;
   /** What the item's `actionLabel` button does. */
   onAction?: (id: string) => void;
-  /** `note` is the quiet default. `celebrate` is a navy card with no mark:
-   *  the first sentence is a yellow headline beside the source, the rest sits
-   *  under it, and an × dismisses it (Homepage). */
-  tone?: "note" | "celebrate";
   /** Dismiss with an × rather than the word (Home's Signal Picture strip). */
   closeIcon?: boolean;
   /** A word before the source, set off by a dot: "Great job! · Press". */
   kicker?: string;
   className?: string;
-}
-
-/** The first sentence, said as a headline, and the rest. The words are
- *  unchanged; a one-sentence note is all headline. */
-function splitFirst(text: string): [string, string] {
-  const m = /^([^]+?[.!?])\s+(\S[^]*)$/.exec(text);
-  return m ? [m[1], m[2]] : [text, ""];
 }
 
 /**
@@ -48,29 +37,8 @@ function splitFirst(text: string): [string, string] {
  * It sits inline at the top of the signals section, never blocks anything,
  * and goes for good when dismissed. With nothing to note it is not there.
  */
-export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAction, tone = "note", closeIcon, kicker, className }: SparkProps) {
+export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAction, closeIcon, kicker, className }: SparkProps) {
   if (items.length === 0) return null;
-  if (tone === "celebrate") {
-    return (
-      <ul className={["spark", "spark--celebrate", className].filter(Boolean).join(" ")} aria-label={label}>
-        {items.map((item) => {
-          const [headline, rest] = splitFirst(item.text);
-          return (
-            <li key={item.id} className="spark__note">
-              <div className="spark__head">
-                <p className="spark__headline">{headline}</p>
-                <span className="spark__source">{item.source}</span>
-                <Button variant="ghost" size="sm" className="spark__close" aria-label={dismissName(item.text)} onClick={() => onDismiss(item.id)}>
-                  <Icon name="close" size={20} />
-                </Button>
-              </div>
-              {rest ? <p className="spark__body">{rest}</p> : null}
-            </li>
-          );
-        })}
-      </ul>
-    );
-  }
   return (
     <ul className={["spark", className].filter(Boolean).join(" ")} aria-label={label}>
       {items.map((item) => (

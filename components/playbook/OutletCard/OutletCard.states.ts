@@ -10,6 +10,7 @@ const card = (id: string) => ({ name: at(id).name, outlet: at(id), today });
 export const outletCardStates = defineComponentStates({
   name: "OutletCard",
   group: "cards",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

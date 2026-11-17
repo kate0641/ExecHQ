@@ -5,6 +5,7 @@ import { Panel } from "./Panel";
 export const panelStates = defineComponentStates({
   name: "Panel",
   group: "layout",
+  feature: "Prototype only",
   status: "draft",
   flows: [],
   description:

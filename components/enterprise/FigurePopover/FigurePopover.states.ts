@@ -8,6 +8,7 @@ const close = "Its one control, the close button, is an icon button with the sta
 export const figurePopoverStates = defineComponentStates({
   name: "FigurePopover",
   group: "cards",
+  feature: "Admin",
   status: "draft",
   flows: ["enterprise"],
   description:

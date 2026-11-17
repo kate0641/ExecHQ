@@ -22,6 +22,7 @@ const base = {
 export const storyDraftStates = defineComponentStates({
   name: "StoryDraft",
   group: "cards",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:

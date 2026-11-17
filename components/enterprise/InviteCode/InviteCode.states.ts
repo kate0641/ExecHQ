@@ -17,6 +17,7 @@ const pilot = {
 export const inviteCodeStates = defineComponentStates({
   name: "InviteCode",
   group: "cards",
+  feature: "Admin",
   status: "draft",
   flows: ["enterprise"],
   description:

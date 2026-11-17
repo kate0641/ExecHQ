@@ -9,6 +9,7 @@ const controls = "Its controls are switches, which show their own states.";
 export const notificationsDetailStates = defineComponentStates({
   name: "NotificationsDetail",
   group: "cards",
+  feature: "Profile",
   status: "draft",
   flows: ["profile"],
   description:

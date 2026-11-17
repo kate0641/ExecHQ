@@ -421,10 +421,6 @@ export const CHECKIN_COPY = {
   noteLabel: "Anything to add? Optional. Only you see it.",
   saveNote: "Save note",
   skipNote: "Skip",
-  chatSend: "Send",
-  chatDone: "That’s all",
-  chatNoted: "Thanks. That’s saved with it.",
-  steps: { drafted: "Drafted", used: "Used", came: "How it went", accepted: "On your plan", done: "Done" },
   /* An action with no draft, done on her word. */
   taskQuestion: "Have you done this yet?",
   taskSub: "Let me know when it’s done, and how it went.",
@@ -434,9 +430,6 @@ export const CHECKIN_COPY = {
   taskNothingYet: "No problem. I’ll ask again in a couple of days.",
   /** On a next step with no draft: the way to say it's done. */
   markDone: "I’ve done this",
-  stepNotYet: "Not yet",
-  stepWaiting: "Waiting to hear",
-  stepLogged: "Logged",
 } as const;
 
 /* -----------------------------------------------------------------------------

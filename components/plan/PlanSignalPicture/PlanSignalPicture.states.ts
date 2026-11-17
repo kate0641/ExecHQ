@@ -27,6 +27,7 @@ const base = { items, today, startedOn: "2026-10-05", onEdit: noop, onDelete: no
 export const planSignalPictureStates = defineComponentStates({
   name: "PlanSignalPicture",
   group: "cards",
+  feature: "Plan",
   status: "draft",
   flows: ["signals"],
   description:

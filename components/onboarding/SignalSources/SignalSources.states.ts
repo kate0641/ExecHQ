@@ -9,6 +9,7 @@ const base = { onOpenLinkedIn: noop, linkedin: none };
 export const signalSourcesStates = defineComponentStates({
   name: "SignalSources",
   group: "form controls",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:

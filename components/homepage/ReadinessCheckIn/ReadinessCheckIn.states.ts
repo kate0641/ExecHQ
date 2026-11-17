@@ -10,6 +10,7 @@ const noop = () => {};
 export const readinessCheckInStates = defineComponentStates({
   name: "ReadinessCheckIn",
   group: "cards",
+  feature: "Home",
   status: "draft",
   flows: ["homepage"],
   description:

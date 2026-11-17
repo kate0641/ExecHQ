@@ -19,6 +19,7 @@ const noop = () => {};
 export const stepBarStates = defineComponentStates({
   name: "StepBar",
   group: "navigation",
+  feature: "Prototype only",
   status: "draft",
   flows: [],
   description:

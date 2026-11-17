@@ -11,6 +11,7 @@ const href = "/playbook-flow/concept-3";
 export const nextStepCardStates = defineComponentStates({
   name: "NextStepCard",
   group: "cards",
+  feature: "Home",
   status: "draft",
   flows: ["homepage"],
   description:
