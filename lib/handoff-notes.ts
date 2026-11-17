@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "home-stage-line",
+    title: "Home: the stage she is in, and every stage counted",
+    description:
+      "Home's What you're working on now says Stage 1 of 4 · Say what you lead, as the plan page does; onboarding now counts the stage each plan's roadmap adds, so every page says 1 of 4 (17 Nov).",
+  },
+  {
     slug: "onboarding-plan-named-in-heading",
     title: "Onboarding: Your plan is named in the heading",
     description:

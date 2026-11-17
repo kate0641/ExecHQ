@@ -13278,6 +13278,27 @@ ul.login__never {
   color: var(--color-text-inverse);
 }
 
+.device__display:has(.map-home__greeting[data-sky="night"]) .map-home__stage {
+  color: var(--color-text-inverse-muted);
+}
+
+/* The heading and the stage she is in, as on the plan page that ends onboarding. */
+.map-home__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.map-home__stage {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
 .device__display:has(.map-home) > .device__top,
 .device__display:has(.map-home) .map-home__greeting {
   background-image: var(--home-sky-full);

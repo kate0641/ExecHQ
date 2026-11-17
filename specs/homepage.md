@@ -33,7 +33,7 @@ Home uses the `app` chrome (header with the wordmark, and the navigation with Ho
 On phone and tablet the page is one column, in this order. Web rearranges it (2.2).
 
 1. **Greeting and date.** "Good morning, {first name}", then the long date ("Monday 5 October") beneath, smaller.
-2. **What you're working on now** (section heading; was Your Progress Tracker until 2026-11-17).
+2. **What you're working on now** (section heading; was Your Progress Tracker until 2026-11-17), with **Stage {n} of {total} · {stage}** under it in small capitals, for example "Stage 1 of 4 · Say what you lead" (2026-11-17). The stage is the one the Plan page shows as current, worked out the same way, and the total counts every stage of her plan, as the Plan page and onboarding's Your plan do.
    - The **key**: three small shapes with their names: solid "Done", outlined "In progress", dashed "Not started".
    - **The three rings**, side by side.
    - **The card** under the rings (section 3).

@@ -27,7 +27,7 @@ export interface RoadmapStep {
   milestone: string;
   /** What the user will have by the end of it. */
   outcomes: string[];
-  /** Not shown in onboarding's version of this plan. */
+  /** The stage the brief adds to onboarding's plan. Counted everywhere, onboarding included. */
   added?: boolean;
   /** The suggested pace, in weeks. A suggestion that moves as she does, never
    *  a deadline (decided 2026-10-04, replacing 2026-09-29's "no end date"). */

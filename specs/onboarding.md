@@ -294,7 +294,7 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
   | Make Your Mark | being seen as an executive |
   | Lead Where You Are | more weight where you are |
   | Find your next direction | your next step |
-- **What you're working on now**, a section heading, with **Stage 1 of {n} · {first stage}** under it in small capitals. There is no stage bar (2026-11-17). Then Home's three rows, each with how far it looks:
+- **What you're working on now**, a section heading, with **Stage 1 of {n} · {first stage}** under it in small capitals. There is no stage bar (2026-11-17). {n} counts every stage of her plan as the Plan page and Home count them, the stage the plan's brief adds included (for Step Up, Make the case: 4 stages, not the 3 onboarding used to show; 2026-11-17), so all three pages say the same. Then Home's three rows, each with how far it looks:
 
   | Row | Line | What is in it |
   | --- | --- | --- |
@@ -304,7 +304,7 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
 
   Then one line: "These run side by side. Do the quick wins now, and chip away at the bigger pieces when you have time."
 - **Start your first step** begins this week's step: the story question, then the first draft in the Playbook (3.10). It is the page's one button.
-- **The stages ahead**, folded, with "{n} more": pressed, it opens to the later stages, numbered from 2, each with **Done when** and a sign it's working (Appendix C), then the goal with a star, then "When stage 1 is done, ExecEngine plans the next with you, from how it went." Pressed again, it folds.
+- **The stages ahead**, folded, with "{n} more": pressed, it opens to the later stages, numbered from 2, the added stage among them, each with **Done when** and a sign it's working (Appendix C; the added stage's from the Plan page's roadmap), then the goal with a star, then "When stage 1 is done, ExecEngine plans the next with you, from how it went." Pressed again, it folds.
 - **Built from your {n} answers** with **See or change**, a single line that opens the list of the person's answers, each with a **Change** link (and **Hide** to fold it again). The first row is where they are today (3.4a), the second their direction. **Change** on where they are today, or on a question, goes to it and returns here when it is answered. **Change** on the direction starts the questions again from Direction, with their picks kept; a new direction clears the plan they chose for the old one.
 - At the foot, a text link, **Later, take me to my homepage**, which opens Home with its first-visit tour (3.12).
 - **In Change your direction** the page has no label over the heading, the card has no button, and the page's button is **Save my plan**.
@@ -672,6 +672,7 @@ These are settled. They are the specified behavior. The dates are when they were
 41. **No interview for a role "here".** What's coming up?'s last answer is An internal interview (was An interview for a role here), so it can't read as a job search outside the company; its goal is "your internal interview". Choose your plan takes the label Your first step, as Where do you want to start? does. (2026-11-16, from the review with Eric)
 42. **Your plan is named in the heading.** "Your plan: Step Up" is the heading, with no label over it (no Saved: the heading says it); What you're working on now carries "Stage 1 of 3 · Say what you lead" under it; the stage bar is gone. Her goal stays at the end of The stages ahead. The page has no onboarding progress line. (2026-11-17, Kate: "there's a lot going on here")
 43. **Home says What you're working on now.** Home's section heading, Your Progress Tracker, becomes What you're working on now, the same words as Your plan's section, and the lines that named it follow (Homepage spec 2.1). Needs the client's sign-off: he chose Your Progress Tracker on 2026-10-06. (2026-11-17)
+44. **Every stage is counted, onboarding included.** Your plan and Home both say "Stage 1 of {n} · {stage}", and {n} is the Plan page's count, with the stage each plan's brief adds (Step Up: 1 of 4, Make the case among The stages ahead). Onboarding no longer leaves that stage out. (2026-11-17)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

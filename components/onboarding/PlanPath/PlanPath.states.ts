@@ -3,12 +3,13 @@ import { defineComponentStates } from "@/components/types";
 import { FIXED_CONTENT, NOT_AN_INPUT } from "@/components/not-applicable";
 import { Button } from "@/components/primitives/Button";
 import { GUIDE_C3, PLAN_TEMPLATES } from "@/mock/onboarding";
+import { roadmapFor } from "@/mock/plan";
 import { ACTIONS, HORIZONS } from "@/mock/plan-stub";
 import { PlanPath } from "./PlanPath";
 
 const c = GUIDE_C3.plan;
 const plan = PLAN_TEMPLATES[0];
-const stages = (plan.stages ?? []).map((stage) => ({ title: stage.title, done: stage.done }));
+const stages = roadmapFor(plan.id).map((stage) => ({ title: stage.title, done: stage.milestone || undefined }));
 const horizons = HORIZONS.map((horizon) => ({
   label: horizon.label,
   span: c.spans[horizon.id],

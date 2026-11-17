@@ -25,6 +25,7 @@ import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { PlanPath } from "@/components/onboarding/PlanPath";
 import { ACTIONS, HORIZONS } from "@/mock/plan-stub";
+import { roadmapFor } from "@/mock/plan";
 import { PlanOption } from "@/components/onboarding/PlanOption";
 import { ProductIntro } from "@/components/onboarding/ProductIntro";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
@@ -701,7 +702,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     case "plan-week": {
       if (!plan) return null;
       const c = GUIDE_C3.plan;
-      const stages = plan.stages ?? [];
+      // Every stage the Plan page and Home count, the one the brief adds included, so all three say the same.
+      const stages = roadmapFor(plan.id);
       const goal = pickedPlan ? goalForPlan(pickedPlan.id, a.refinement) : towardFor(direction);
       // Stage 1's work as Home shows it, under the same heading, so Home is no surprise.
       const horizons = HORIZONS.map((horizon) => ({
@@ -742,7 +744,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
             }
             horizons={horizons}
             together={c.together}
-            stages={stages.map((stage) => ({ title: stage.title, done: stage.done }))}
+            stages={stages.map((stage) => ({ title: stage.title, done: stage.milestone || undefined }))}
             goal={goal.charAt(0).toUpperCase() + goal.slice(1)}
             doneLabel={c.doneLabel}
             aheadLabel={c.aheadLabel}
