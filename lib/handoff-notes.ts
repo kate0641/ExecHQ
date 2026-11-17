@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-how-it-works-line",
+    title: "Onboarding: What ExecEngine is says how it works",
+    description:
+      "A line under What ExecEngine is's heading: ExecEngine gathers insight from you to create a customized path forward. The page grows to 52 words (17 Nov).",
+  },
+  {
     slug: "home-stage-line",
     title: "Home: the stage she is in, and every stage counted",
     description:

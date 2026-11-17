@@ -117,9 +117,10 @@ The same wordmark and serif line open Login, so a returning person and a new one
 
 ### 3.2 What ExecEngine is
 
-What ExecEngine is, said in a glance and built in one idea at a time (Kate, 2026-11-12; it was a heading, a line, three explained points and a privacy box, about 120 words, which ran below the fold). 40 words. The detail is left for the product, where the person sees it.
+What ExecEngine is, said in a glance and built in one idea at a time (Kate, 2026-11-12; it was a heading, a line, three explained points and a privacy box, about 120 words, which ran below the fold). 52 words, with the line under the heading (decision 45). The detail is left for the product, where the person sees it.
 
 - Label **What ExecEngine is.** Heading: **Everything you need for what comes next.**
+- Under it, the line: "ExecEngine gathers insight from you to create a customized path forward." It says how ExecEngine gets her there, before the questions that do it. It is there from the first frame, with the heading.
 - Three statements, each with a small drawing in a tile:
   1. **Know where you stand** (a pin)
   2. **Plan where you're going** (a path through three points)
@@ -442,7 +443,7 @@ Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
 - **Counts:** the label, the heading, the line, "Why this matters", and every card, reply and "Worth knowing" fact.
 - **Exempt:** the plan page (3.9), which can run longer (Kate, 2026-11-12).
 - **Does not count:** answer options, buttons and links (including "None of these? Show me more options"), the person's own words (what they picked, their draft, what they typed), a fact's source line.
-- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40), Account (29), Where are you today (25), Choose your plan (13, plus the reason on ExecEngine's pick). The Signals step (53) is gone. Most other screens are over: about 110 to 120 words on the plan page's stages and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
+- **Where it stands.** Within it: Welcome (33), Account (29), Where are you today (25), Choose your plan (13, plus the reason on ExecEngine's pick). The Signals step (53) is gone. What ExecEngine is is over, at 52, since its line was added (decision 45). Most other screens are over: about 110 to 120 words on the plan page's stages and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
 
 ---
 
@@ -673,6 +674,7 @@ These are settled. They are the specified behavior. The dates are when they were
 42. **Your plan is named in the heading.** "Your plan: Step Up" is the heading, with no label over it (no Saved: the heading says it); What you're working on now carries "Stage 1 of 3 · Say what you lead" under it; the stage bar is gone. Her goal stays at the end of The stages ahead. The page has no onboarding progress line. (2026-11-17, Kate: "there's a lot going on here")
 43. **Home says What you're working on now.** Home's section heading, Your Progress Tracker, becomes What you're working on now, the same words as Your plan's section, and the lines that named it follow (Homepage spec 2.1). Needs the client's sign-off: he chose Your Progress Tracker on 2026-10-06. (2026-11-17)
 44. **Every stage is counted, onboarding included.** Your plan and Home both say "Stage 1 of {n} · {stage}", and {n} is the Plan page's count, with the stage each plan's brief adds (Step Up: 1 of 4, Make the case among The stages ahead). Onboarding no longer leaves that stage out. (2026-11-17)
+45. **What ExecEngine is says how it works.** Under its heading, the line "ExecEngine gathers insight from you to create a customized path forward.", so she knows why the questions come before she meets them. The page grows from 40 words to 52, over the 40-word rule (4.10); cutting it back means trimming the page elsewhere, not decided. (2026-11-17, Kate)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

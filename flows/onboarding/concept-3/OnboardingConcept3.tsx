@@ -516,7 +516,15 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     case "about": {
       const c = GUIDE_C3.about;
       return (
-        <GuidePage {...frame()} navy kicker={c.kicker} title={c.title} primaryLabel={c.cta} onPrimary={next}>
+        <GuidePage
+          {...frame()}
+          navy
+          kicker={c.kicker}
+          title={c.title}
+          lede={c.lede}
+          primaryLabel={c.cta}
+          onPrimary={next}
+        >
           <ProductIntro points={c.points} toolsLabel={c.toolsLabel} tools={c.tools} privacy={c.privacy} />
         </GuidePage>
       );

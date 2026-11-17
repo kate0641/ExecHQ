@@ -2180,10 +2180,12 @@ export const GUIDE_C3 = {
   /** What ExecEngine is: three statements, the Playbook's tools by name and
    *  privacy in a line, built in one idea at a time (Kate, 2026-11-12; was a
    *  heading, a line, three explained points and a privacy box, about 120
-   *  words). 40 words. */
+   *  words). 52 words, the line under the heading included. */
   about: {
     kicker: "What ExecEngine is",
     title: "Everything you need for what comes next.",
+    /** How it gets there, before the questions that do it. */
+    lede: "ExecEngine gathers insight from you to create a customized path forward.",
     points: [
       { title: "Know where you stand", glyph: "stand" },
       { title: "Plan where you\u2019re going", glyph: "plan" },
