@@ -715,6 +715,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           {...frame()}
+          // No progress line: this page is what the setup made, not a step in it.
+          progress={undefined}
           navy
           className={edit ? undefined : "guide--plan"}
           // Saved, in the label's place, over the plan's name; changing her direction has no label.

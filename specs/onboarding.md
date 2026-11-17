@@ -282,7 +282,7 @@ The reflections are:
 
 ### 3.9 Your plan
 
-The end of onboarding: her plan, tuned to what she said, and what she's working on now (2026-11-16, from the review with Eric; it was followed by a separate Done page). Home's Progress Tracker shows short-term, medium-term and long-term work side by side, so this page shows stage 1 the same way, and Home is no surprise. The progress line is full.
+The end of onboarding: her plan, tuned to what she said, and what she's working on now (2026-11-16, from the review with Eric; it was followed by a separate Done page). Home's Progress Tracker shows short-term, medium-term and long-term work side by side, so this page shows stage 1 the same way, and Home is no surprise. It has no progress line (2026-11-17): it is what the setup made, not a step in it.
 
 - **First, what she has:** a tick and **Saved** in place of the small label, then the heading **Your plan: {plan}** (for example "Your plan: Step Up"). (2026-11-17; the heading was "Your path to {the goal}", with "Your plan: Step Up, saved" over it.)
 - **Her goal** ends The stages ahead, with a star (below). **Where the goal comes from.** After I can't decide, from her direction (section 5). On a plan she picked herself, from the first question's answer, or the plan's own (Kate, 2026-11-13):
@@ -427,7 +427,7 @@ Where ExecEngine writes something, a short state names it. The draft shows "Writ
 
 A thin line at the very top of every page after the Welcome shows how far through onboarding the person is. It has no words, count or percentage. (Kate, 2026-11-12, reversing "no progress" from 2026-09-24.)
 
-- **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first, Your plan the last and full. In the prototype that is 10 pages on a plan she picks (10% each) and 14 after I can't decide (about 7% each). Your story and First draft come after Your plan and have no line.
+- **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first and Your plan the last, 10 pages on a plan she picks (10% each) and 14 after I can't decide (about 7% each). Your plan itself shows no line (2026-11-17), so the last page with one is the last question, at 90% or so: the line never reads full. Your story and First draft come after Your plan and have no line.
 - **Pages reached from another page** (Check your email, Add more detail, Longer versions) show the fill of the page they came from, and do not move it.
 - **Pages a path passes** move it on. A direction with no deciding question, or with fewer than three questions, passes those pages and the line moves further. That is why it is an estimate, never a count: some paths are shorter than others.
 - **Not in edit mode.** Changing direction from the Plan keeps its own "Change your direction" header, with no line.
@@ -670,7 +670,7 @@ These are settled. They are the specified behavior. The dates are when they were
 39. **The plan she picks is a first step.** Where do you want to start? is labelled Your first step, and its line says everyone starts somewhere, to pick one to begin with, and that it can be changed at any time. The plans, the cards and Use this plan are unchanged. (2026-11-16, from the review with Eric)
 40. **Your plan is the last page, and shows what she's working on now.** Done is folded into it (its head changed by 42). Stage 1 shows as Home's short-term, medium-term and long-term, side by side, the first step leading the short-term with Start your first step, the page's one button; the later stages and the goal fold under The stages ahead; going home is a text link, Later, take me to my homepage. (2026-11-16, from the review with Eric; replaces 33's Done and 38)
 41. **No interview for a role "here".** What's coming up?'s last answer is An internal interview (was An interview for a role here), so it can't read as a job search outside the company; its goal is "your internal interview". Choose your plan takes the label Your first step, as Where do you want to start? does. (2026-11-16, from the review with Eric)
-42. **Your plan is named in the heading.** "Your plan: Step Up" is the heading, under a tick and Saved; What you're working on now carries "Stage 1 of 3 · Say what you lead" under it; the stage bar is gone. Her goal stays at the end of The stages ahead. (2026-11-17, Kate: "there's a lot going on here")
+42. **Your plan is named in the heading.** "Your plan: Step Up" is the heading, under a tick and Saved; What you're working on now carries "Stage 1 of 3 · Say what you lead" under it; the stage bar is gone. Her goal stays at the end of The stages ahead. The page has no onboarding progress line. (2026-11-17, Kate: "there's a lot going on here")
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

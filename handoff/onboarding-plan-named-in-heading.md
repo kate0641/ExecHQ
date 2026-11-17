@@ -12,8 +12,9 @@ Your plan had too much going on at the top: a saved line, a long goal heading, t
 | Heading | Your path to the C‑suite within three years | Your plan: Step Up |
 | Stage line | STEP UP · STAGE 1 OF 3 · SAY WHAT YOU LEAD, with the stage bar under it | Gone from here |
 | Section heading | What you're working on now | Unchanged, with STAGE 1 OF 3 · SAY WHAT YOU LEAD under it |
+| Onboarding progress line | Full, at the very top | Gone on this page. The pages before it keep theirs, so the last question is the last with a line |
 
-Everything below is unchanged: the three rows, Start your first step, The stages ahead (her goal is still its last line, with a star), See or change and the link home. The onboarding progress line at the very top stays.
+Everything below is unchanged: the three rows, Start your first step, The stages ahead (her goal is still its last line, with a star), See or change and the link home. 
 
 In Change your direction there is no label over the heading.
 
@@ -22,6 +23,6 @@ In Change your direction there is no label over the heading.
 | Piece | Where |
 | --- | --- |
 | The words | `GUIDE_C3.plan.title`, `.stage`, `.saved` in `mock/onboarding.ts` |
-| The page | `case "plan-week"` in `flows/onboarding/concept-3/OnboardingConcept3.tsx` |
+| The page | `case "plan-week"` in `flows/onboarding/concept-3/OnboardingConcept3.tsx`; `progress={undefined}` drops the line |
 | The component | `components/onboarding/PlanPath`: `stage` replaces `where`; no stage bar |
 | Styles | `.plan-path__now-head`, `.plan-path__now-stage` in `styles/app.css`; the stage bar's styles are removed |
