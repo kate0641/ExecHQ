@@ -23441,6 +23441,11 @@ body > .saved-notice {
   gap: var(--space-3xs) var(--space-sm);
 }
 
+.spark-signals__heading:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
 .spark-signals__heading {
   margin: 0;
   font-family: var(--font-serif);

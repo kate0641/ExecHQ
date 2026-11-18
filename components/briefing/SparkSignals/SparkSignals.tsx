@@ -66,7 +66,7 @@ export function SparkSignals({
   return (
     <section className={["spark-signals", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <div className="spark-signals__head">
-        <h2 className="spark-signals__heading" id={headingId}>
+        <h2 className="spark-signals__heading" id={headingId} tabIndex={-1}>
           {heading}
         </h2>
         <p className="spark-signals__lede">{lede}</p>
@@ -98,7 +98,11 @@ export function SparkSignals({
                 <Link href={item.href} className="btn btn--strong btn--md spark-signal__start">
                   {item.startLabel}
                 </Link>
-                <button type="button" className="spark-signal__pass" aria-label={`${notForMeLabel}: ${item.name}`} onClick={() => onPass(item.id)}>
+                <button type="button" className="spark-signal__pass" aria-label={`${notForMeLabel}: ${item.name}`} onClick={() => {
+                    onPass(item.id);
+                    // The card and its button go: focus moves to the section's heading, not to the page's top.
+                    document.getElementById(headingId)?.focus();
+                  }}>
                   <Icon name="close" size={16} />
                 </button>
               </article>
