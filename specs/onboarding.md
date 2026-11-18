@@ -22,13 +22,13 @@ What it deliberately does not do:
 - **Connect to anything, or ask for LinkedIn.** In V1 there is nothing to connect. The one outside source, a LinkedIn analytics spreadsheet the person exports and uploads, lives on the Signals page, not in onboarding (Kate, 2026-11-12).
 - **Score, rank or compare.** No answer, fact or plan ranks the person against anyone.
 - **Post or share anything.** Nothing leaves the person's account.
-- **Ask for more than it needs.** An email (typed and confirmed, or from Google or Apple), an invite code, a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
-- **Ask the person to type an answer.** Every question is a choice. The only typing is the account email, its 6-digit confirmation code, an invite code, and refining the story (section 3.10).
+- **Ask for more than it needs.** An email (typed and confirmed, or from Google or Apple), an invite code, a choice of plan (or, after I can't decide, a direction and a choice of plan), the question that sets her goal on a plan she picked, and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
+- **Ask the person to type an answer.** Every question is a choice. The only typing is the account email, its 6-digit confirmation code, an invite code, Other on Where are you today, and refining the story (section 3.10).
 - **Show progress as a number.** Progress is a thin line with no words (4.9). There are no step counters or percentages in the flow.
 
 ### Where it appears
 
-Onboarding uses the `minimal` chrome with no header: no navigation, no footer line. It is reached from the product's front door and from Login (**Start here**, and **Start fresh** on the "different account" screen; see the Login spec). It ends on **Home** (Homepage Concept 1), reached from the last page's button.
+Onboarding uses the `minimal` chrome with no header: no navigation, no footer line. It is reached from the product's front door and from Login (**Start here**, and **Start fresh** on the "different account" screen; see the Login spec). It ends on **Home** (Homepage Concept 4b), reached from Your plan's **Later, take me to my homepage** or from the first draft's **Save it and go to my homepage**.
 
 In the prototype the route is `/onboarding/concept-3` and the flow opens on the phone frame.
 
@@ -50,10 +50,10 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | 8 | Reflection | One question to sit with, with a reply | An answer |
 | 9 | Questions | Up to three "Making it yours" questions, with two more reflections between them. On a plan she picked, the plan's own, the first setting her goal | No, except the one that sets her goal |
 | 10 | Your plan | The end of onboarding. Her plan saved; what she's working on now, as Home's short-term, medium-term and long-term, with **Start your first move** on the first; the stages ahead folded; **Later, take me to my homepage** | — |
-| 11 | Your story | *Optional, from Start your first step.* A question to sit with, about saying what they lead | An answer |
+| 11 | Your story | *Optional, from Start your first move.* A question to sit with, about saying what they lead | An answer |
 | 12 | First draft | *Optional.* The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Playbook** (Positioning Builder) | — |
 
-Onboarding ends at Your plan (2026-11-16; it ended at a separate Done page from 2026-11-12). Your story and First draft are the plan's first step, begun from Your plan if the person likes; they come after onboarding, not inside it.
+Onboarding ends at Your plan (2026-11-16; it ended at a separate Done page from 2026-11-12). Your story and First draft are the plan's first move, begun from Your plan if the person likes; they come after onboarding, not inside it.
 
 ```
 Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Check your email ─┐
@@ -73,7 +73,7 @@ Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Ch
           Reflection ─▶ Question ─▶ Reflection ─▶ Question ─▶ Reflection ─▶ Question
                                                                     ▼
                                  Your plan (her plan saved, what she's working on now)
-                     Later, take me to my homepage ┌───────────┴───────────┐ Start your first step
+                     Later, take me to my homepage ┌───────────┴───────────┐ Start your first move
                                                        ▼                       ▼
                                                      Home        Your story (a question) ─▶ First draft
                                                        ▲                                        │
@@ -90,7 +90,7 @@ Home opens with its first-visit tour (3.12) whichever way the person arrives.
 
 The order is a decision, not an accident of the list (see section 10). **Most people pick a plan straight after Account** (Kate, 2026-11-13); steps 5 to 7 are the way for someone who can't decide. Three points matter most on that way:
 
-- **The plan is chosen at step 6, before the personalising questions,** so the person knows what they are agreeing to. Steps 7 to 9 make it theirs. They do not reverse it.
+- **The plan is chosen at step 7, before the personalising questions,** so the person knows what they are agreeing to. Steps 8 and 9 make it theirs. They do not reverse it.
 - **The question that can change the plan is asked before the recommendation,** so the recommendation is made once.
 - **The first draft comes before any extra detail is asked,** so the person has something in hand first, then chooses what to do with it.
 
@@ -100,9 +100,9 @@ The order is a decision, not an accident of the list (see section 10). **Most pe
 
 ### 3.1 Welcome
 
-The cover. A large statement on the page surface.
+The cover. A large statement on navy, with the phone's status bar in white.
 
-- Small label: **ExecEngine**.
+- The **ExecEngine** wordmark, large, at the top.
 - Heading: **Somewhere to work on what comes next.**
 - Line: "Part coach, part advisor, part confidant. Private to you, and built around where you want to go." (Kate, 2026-11-12, from Eric's why statement; 33 words on the page.)
 - Closing line, in italic serif: "From "I'd like to be" to "I'm going to be.""
@@ -151,7 +151,7 @@ Rules:
 - **A personal address is asked for, not enforced** (Kate, 2026-11-12, replacing "any address" from 2026-09-22). The field's name and hint ask for one; a work address is still accepted, because a work domain cannot be told from a personal one reliably. The same goes for Google and Apple: a work Google account and Apple's **Hide my email** relay address both make an account, with no warning. An empty field shows "We need an email address to create the account."
 - **Everyone has an invite code,** so it is a required field, with no "I don't have a code". **Continue** stays off until both the email (or a Google or Apple account) and a code are given. A recognized code is kept. An unrecognized one shows the notice "We do not recognize that code. Check it against the invitation you were sent. A code only changes who pays, never what you get." Coming back to the page, the code is kept, and so is the way in (Google, Apple or a typed email).
 - **Continue sends the answer in one press,** with the keyboard up. Return on a real keyboard does the same.
-- **Where Continue goes.** With Google or Apple, the address is already confirmed, so Continue goes straight to Where are you today. With a typed address it goes to **Check your email** (3.3a), unless that same address has already been confirmed in this session.
+- **Where Continue goes.** With Google or Apple, the address is already confirmed, so Continue goes straight to Where do you want to start? (3.4b). With a typed address it goes to **Check your email** (3.3a), unless that same address has already been confirmed in this session.
 
 ### 3.3a Check your email
 
@@ -159,11 +159,12 @@ Reached only from Account, for a typed address, by decision on 2026-10-08. It ha
 
 - Label **Your account.** Heading: **Check your email.** Line: "ExecEngine has sent a 6-digit code to {email}. It works for 10 minutes."
 - "Why this matters": "So the account is yours: only someone with your inbox can open it, and it's where your plan and your story come back to you."
-- The answer drawer asks **Type the code from the email.** with six code cells (one real field, so pasting and the phone's code suggestion work). Under it, a row with **Send it again** (after a 30-second wait, shown as "Send it again in 29s") and **Use a different address**, which goes back to Account with the address in its field. Then "Nothing arrived? Check your junk folder." Button **Continue**, off until six digits are typed.
+- On the page, under the heading, the address she typed sits in a card, **Sent to** {email}, with **Change**, as all her input does. Change goes back to Account with the address in its field (it replaced the drawer's Use a different address).
+- The answer drawer asks **Type the code from the email.** with six code cells (one real field, so pasting and the phone's code suggestion work). Under it, **Send it again** (after a 30-second wait, shown as "Send it again in 29s"), then "Nothing arrived? Check your junk folder." Button **Continue**, off until six digits are typed.
 - **The email arrives** about 1.6 seconds after the page opens, as the phone's own notification over the top of the page: **ExecEngine**, **Confirm your email**, "Here's the code to finish setting up." Its arrival is announced politely. Tapping it opens the email in a sheet: subject **Confirm your email**, the line "Type this code in ExecEngine to confirm your email:", the code large, and "This code works for 10 minutes and only once. If you didn't ask for it, you can ignore this email." **Inbox** closes it.
 - **The subject and preview say nothing about the person's career,** so nothing private shows on a lock screen, the same rule as Login's email.
 - **Send it again** clears the cells, sends a new email (it arrives the same way) and announces "Sent again."
-- Continue confirms the address and goes on to Where are you today.
+- Continue confirms the address and goes on to Where do you want to start? (3.4b).
 
 **Wrong and expired codes** use Login's screens, by decision on 2026-10-08:
 
@@ -210,7 +211,7 @@ This page alone uses Other; every other question keeps the pattern in 4.3 (Kate,
 
 ### 3.5 Direction
 
-*After I can't decide (3.4b).* The second question, after where the person is today. The heading is **Where do you want to go next?** with "Pick as many as are true." The "Why this matters" note says: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most." The answers come up in the drawer.
+*After I can't decide (3.4b).* The second question, after where the person is today. Label **Where you're going.** The heading is **Where do you want to go next?** with "Pick as many as are true." The "Why this matters" note says: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most." The answers come up in the drawer.
 
 **Page one.** Six options, as equal-width buttons, one to a row, and as many as are true can be picked (Appendix A):
 
@@ -225,7 +226,11 @@ Below them: **None of these? Show me more options** (adds two: Lead a bigger org
 
 No answer leads out of the person's company: ExecEngine doesn't steer anyone out of it, but a move inside it is in (Kate, 2026-11-12). "Get out of where I am" was removed, and "Find my next move" became "Make a move within my company". The drawer's peek bar says how many are picked. The button reads **Narrow it down** with one option picked and **Which matters most?** with more than one. There is no field to type in: every answer is a choice.
 
-**Page two, narrowing.** Each option picked becomes a group of **two more specific versions**, to tap (Appendix A). One is chosen. With several picks the heading is **Which matters most right now?** and the line "ExecEngine will start there, and keep the rest in view." With one pick it is **Which is closest?** and "A little more detail gives ExecEngine a clearer first step.", except when that pick is **I'm not sure yet**, where the line is "That's what ExecEngine is for: it will help you figure it out."
+**Page two, narrowing.** Each option picked becomes a group of **two more specific versions**, to tap (Appendix A). One is chosen. With several picks the heading is **Which matters most right now?** and the line "ExecEngine will start there, and keep the rest in view." With one pick it is **Which is closest?** and "A little more detail gives ExecEngine a clearer first move.", except when that pick is **I'm not sure yet**, where the line is "That's what ExecEngine is for: it will help you figure it out."
+
+Its "Why this matters" is its own: "Your plan needs a first move. The more specific the starting point, the clearer that move is." with one pick, and "Your plan needs a first move. Starting from the one that matters most gives it a clear direction, and the rest stay in view." with several. The drawer's buttons are **Continue** and **Back**, which returns to the picks.
+
+**In Change your direction** (from the Plan page) the page shows "Right now it says: “{direction}”" with **Keep it as it is**, and under it "Everything you've done stays, whichever plan you choose."
 
 What is kept:
 
@@ -258,7 +263,7 @@ After the plan is chosen, up to three more questions make it the person's own. B
 
 Order, with up to three of each: **Reflection (time) → Question → Reflection (CEO) → Question → Reflection (manager) → Question.** A reflection is only ever asked before a question, so if a direction has fewer than three questions, the reflection that would have come before the missing question is left out too.
 
-**A reflection.** Label **A question to sit with.** Heading and line are the question. "Why this matters" is shown until it is answered. Four options (three for the story question) as equal-width buttons. **Answer** sends it. After answering:
+**A reflection.** Label **A question to sit with.** The heading is the question, and each has its own line under it (Time: "Not your job. Your career: thinking about what's next, and working toward it."; Manager: "A real conversation about your career, not your targets."). "Why this matters" is shown until it is answered. Four options (three for the story question) as equal-width buttons. **Answer** sends it. After answering:
 
 - The line and the "Why this matters" note go away.
 - A quiet line shows **You said** with the answer and **Change.**
@@ -273,7 +278,7 @@ The reflections are:
 | Time | How much time do you spend on your career each week? | None, honestly; Under an hour; An hour or two; More than that |
 | CEO | If your CEO described what you do, would they get it right? | Yes, exactly; Roughly; Probably not; They don't know me |
 | Manager | When did you last talk to your manager about what's next for you? | This month; In the last six months; Over a year ago; Never, really |
-| Story (step 10) | Could you say what you lead in one sentence, right now? | Yes, easily; Roughly; Not really |
+| Story (step 11) | Could you say what you lead in one sentence, right now? | Yes, easily; Roughly; Not really |
 
 **The questions** use the same pattern as Direction and the deciding question: equal-width options, five options and **None of these? Show me more options.** The **list-type** questions take several answers ("Pick as many as are true."). The **scale-type** questions, where each option is a point on a line, take one. Buttons: **Next** and **Skip this one.** The full list, by direction, is in Appendix B.
 
@@ -295,32 +300,32 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
   | Make Your Mark | being seen as an executive |
   | Lead Where You Are | more weight where you are |
   | Find your next direction | your next step |
-- **What you're working on now**, a section heading, with **Stage 1 of {n} · {first stage}** under it in small capitals. There is no stage bar (2026-11-17). {n} counts every stage of her plan as the Plan page and Home count them, the stage the plan's brief adds included (for Step Up, Make the case: 4 stages, not the 3 onboarding used to show; 2026-11-17), so all three pages say the same. Then Home's three horizons, each one outlined group headed by its name, how far it looks and its count of steps ("3 steps", "1 step"), so Home's three, one and one come as no surprise (2026-11-18):
+- **What you're working on now**, a section heading, with **Stage 1 of {n} · {first stage}** under it in small capitals. There is no stage bar (2026-11-17). {n} counts every stage of her plan as the Plan page and Home count them, the stage the plan's brief adds included (for Step Up, Make the case: 4 stages, not the 3 onboarding used to show; 2026-11-17), so all three pages say the same. Then Home's three horizons, each one outlined group headed by its name, how far it looks and its count of moves ("3 moves", "1 move"), so Home's three, one and one come as no surprise (2026-11-18):
 
   | Group | Line | Shown | What is in it |
   | --- | --- | --- | --- |
-  | Short-term | Quick wins, this week | Open | **Start here** as the Plan page's move card ("Write the story of what you lead", "ExecEngine drafts it with you, now or later.") with its own yellow button, **Start your first move**; then **Then, this week** over the stage's other short-term actions, as plain rows on hairlines |
-  | Medium-term | Over the next month | Folded | The stage's medium-term action |
+  | Short-term | Quick wins, this week | Open | **Start here** as the Plan page's move card ("Write the story of what you lead", "ExecEngine drafts it with you, now or later.") with its own yellow button, **Start your first move**; then **Then, this week** over the stage's other short-term moves, as plain rows on hairlines |
+  | Medium-term | Over the next month | Folded | The stage's medium-term move |
   | Long-term | A quarter or more | Folded | The stage's long-term milestone |
 
-  A folded group is its heading with a chevron, and the heading is a native disclosure: pressed, the group opens to its step in the same row as the short-term's; pressed again, it folds. Both are folded when the page opens.
+  A folded group is its heading with a chevron, and the heading is a native disclosure: pressed, the group opens to its move in the same row as the short-term's; pressed again, it folds. Both are folded when the page opens.
 
   Then one line: "These run side by side. Do the quick wins now, and chip away at the bigger pieces when you have time."
-- **Start your first move** begins this week's step: the story question, then the first draft in the Playbook (3.10). It is the page's one button.
+- **Start your first move** begins this week's move: the story question, then the first draft in the Playbook (3.10). It is the page's one button.
 - **The stages ahead**, folded, with "{n} more": pressed, it opens to the later stages, numbered from 2, the added stage among them, each with **Done when** and a sign it's working (Appendix C; the added stage's from the Plan page's roadmap), then the goal with a star, then "When stage 1 is done, ExecEngine plans the next with you, from how it went." Pressed again, it folds.
-- **Built from your {n} answers** with **See or change**, a single line that opens the list of the person's answers, each with a **Change** link (and **Hide** to fold it again). The first row is where they are today (3.4a), the second their direction. **Change** on where they are today, or on a question, goes to it and returns here when it is answered. **Change** on the direction starts the questions again from Direction, with their picks kept; a new direction clears the plan they chose for the old one.
+- **Built from your {n} answers** with **See or change**, a single line that opens the list of the person's answers, each with a **Change** link (and **Hide** to fold it again). After I can't decide, the first row is where they are today (3.4a), the second their direction (labelled **Where you're going**), then the questions. On a plan she picked (3.4b) there is no today or direction row: the list is the plan's own questions she answered, the goal question first. **Change** on where they are today, or on a question, goes to it and returns here when it is answered. **Change** on the direction starts the questions again from Direction, with their picks kept; a new direction clears the plan they chose for the old one.
 - At the foot, a text link, **Later, take me to my homepage**, which opens Home with its first-visit tour (3.12).
 - **In Change your direction** the page has no label over the heading, the card has no button, and the page's button is **Save my plan**.
 - **It builds in once,** each group rising into place after the one before; at rest with reduced motion.
 - It does not summarize answers beyond the folded line, and LinkedIn is not mentioned: it lives on the Signals page.
 
-**The actions are an example.** In the prototype the three rows read the example plan Home reads (`mock/plan-stub.ts`, Maya's Step Up), so every plan shows the same actions, as Home does. In production they are the stage's own actions for her plan, the same ones Home's Progress Tracker shows. In production **Start your first move** begins whatever the plan's first step is; in the prototype every plan's first step opens the same story builder.
+**The moves are an example.** In the prototype the three groups read the example plan Home reads (`mock/plan-stub.ts`, Maya's Step Up), so every plan shows the same moves, as Home does. In production they are the stage's own moves for her plan, the same ones Home's What you're working on now shows. In production **Start your first move** begins whatever the plan's first move is; in the prototype every plan's first move opens the same story builder.
 
 A plan has no end date and no length. A stage is never given a deadline.
 
 ### 3.10 Your story
 
-**Optional** (Kate, 2026-11-12). The story is the plan's first step, begun from Your plan's **Start your first move**; the person can leave it and go home instead. These pages come after onboarding, so they have no progress line (4.9).
+**Optional** (Kate, 2026-11-12). The story is the plan's first move, begun from Your plan's **Start your first move**; the person can leave it and go home instead. These pages come after onboarding, so they have no progress line (4.9).
 
 **The question.** The reflection above: "Could you say what you lead in one sentence, right now?" with "Out loud, to someone who's never met you." It behaves as in 3.8. Its fact is Gallup's: only 46% of U.S. employees clearly know what is expected of them at work (2025).
 
@@ -334,7 +339,7 @@ A plan has no end date and no length. A stage is never given a deadline.
 - **What next?** at the foot, three equal choices, each a full-width outlined button with a line saying what it does:
   - **Add more detail:** "Your role, what you're responsible for and a result, so it says what you lead."
   - **Build out longer versions:** "Short, medium and long, for a bio, an introduction or LinkedIn."
-  - **Save it and go to my homepage:** "It's saved. Both of these wait for you as next steps on your plan." It opens Home with its first-visit tour (3.12).
+  - **Save it and go to my homepage:** "It's saved. Both of these wait for you as next moves on your plan." It opens Home with its first-visit tour (3.12).
 
 None is the default, so leaving it for later is a real choice.
 
@@ -342,7 +347,7 @@ None is the default, so leaving it for later is a real choice.
 
 **Longer versions.** Label **Playbook · Positioning Builder.** Heading **Longer versions.** Line "The same story in three lengths, for different places: a line, a paragraph and the full bio."
 
-- A switch for **Short / Medium / Long** shows the same story at each length. A fact ExecEngine doesn't know yet is a **dashed gap** ("To add: your name"), never something made up.
+- A switch for **Short / Medium / Long** shows the same story at each length. It opens on Medium. A fact ExecEngine doesn't know yet is a **dashed gap** ("To add: your name"), never something made up.
 - When there are gaps: "The dashed parts are things ExecEngine doesn't know yet. Add them with the fields, or add more detail to your story." (worded to be true on every viewport, since the fields are below the bio on phone and tablet and beside it on web) and a set of fields, **What's missing from your bio?**: **Your name**, **How big is your team?** (five choices) and **What you're strongest at** (up to three of seven). **Add more detail** goes to the three questions above and returns here.
   - **On web the bio fills in as the fields are answered.** The fields sit right beside it, so there is no button: each answer is kept at once and the text changes as it is given. The card shows its question as a visible title, since the page's heading is far from it.
   - **On phone and tablet the drawer covers the bio,** so **Update my bio** applies what was typed, and "Bio updated." is announced to screen readers.
@@ -352,7 +357,7 @@ None is the default, so leaving it for later is a real choice.
 
 ### 3.11 Done (removed)
 
-Done was folded into Your plan on 2026-11-16 (3.9): her plan saved, the first step's card with Start your first step, and the way home now sit on that page. Going home is a text link, Later, take me to my homepage, so the first step's button is the page's one button.
+Done was folded into Your plan on 2026-11-16 (3.9): her plan saved, the first move's card with Start your first move, and the way home now sit on that page. Going home is a text link, Later, take me to my homepage, so the first move's button is the page's one button.
 
 ### 3.12 The first visit to Home: a short tour
 
@@ -381,6 +386,8 @@ Every page after the Welcome is one **guide page**, in this order: a small label
 - **Heading.** One level-1 heading per page. When the page changes, focus moves to it.
 - **"Why this matters."** A short note saying why the page exists. It is shown before a question is answered and removed after (on reflections), and is left off pages where there is nothing being asked.
 - **Actions** sit at the foot. The primary is a filled button. A skip or alternative is a peer of the same size beside or beneath it, never a smaller link, so skipping reads as a real choice. Where a page's real action is in its body, the foot offers only a quiet way past it.
+- **Navy pages.** What ExecEngine is, Where do you want to start?, Choose your plan, Your plan and First draft have no drawer and are flooded navy, with yellow headings, so the flow alternates quiet question screens with ExecEngine moments. The Welcome cover is navy too. On these the phone's status bar turns white.
+- **The sky panel.** On a page with a drawer, the label, heading and line sit in a panel showing Home's time-of-day sky, and the corner its yellow glow comes from moves round the panel from one question to the next, so no two questions in a row look the same.
 - **Pinned.** On phone and tablet the drawer's buttons stay pinned at its foot (on web, in the card, they sit just below the fields), and the **Continue** on an answered reflection stays in reach at the foot of the screen, so a long page never hides the way on.
 
 ### 4.2 The answer drawer
@@ -399,12 +406,12 @@ Used by Direction, the deciding question, the "Making it yours" questions and th
 2. **Choices only.** There is no field to type an answer in. Where the person's situation is not listed, **None of these? Show me more options** adds more, and **Skip this one** is always there.
 3. **Five options and a way to more.** Where the options are a list, five are shown and **None of these? Show me more options** adds four. It disappears once used.
 4. **Several or one.** List-type questions take as many as are true. Scale-type questions take one. Where one answer is expected, choosing another replaces the first.
-5. **A way past.** Questions have **Skip this one.** Only an email, a direction, and the reflections' answers are required.
+5. **A way past.** Questions have **Skip this one.** Only an email, a choice of plan (or, after I can't decide, a direction), the goal question on a plan she picked, and the reflections' answers are required.
 
 ### 4.4 Voice
 
 - **ExecEngine speaks in the third person.** "ExecEngine will draft that sentence for you next." The product never says "I".
-- **The person's own words stay in the first person:** the options they pick ("Find my next move"), their drafts, and the details they type to refine their story.
+- **The person's own words stay in the first person:** the options they pick ("Make a move within my company"), their drafts, and the details they type to refine their story.
 - **"We" is not used** for ExecEngine. ("Before we begin" and similar inclusive uses were removed.)
 - **No pressure and no scoring.** Replies are warm and specific, never ranking.
 
@@ -414,7 +421,7 @@ What a page explains is said once, and in one place: what a plan is, at the choi
 
 ### 4.6 Facts and data
 
-Every figure shown as data is **real, sourced and shown with its source.** It appears on the reflections ("Worth knowing") and under the plan's "Why now." A fact never ranks the person against others. Until a fact is found, the card shows a **marked placeholder** ("A sourced fact is needed here") in a dashed box that cannot be mistaken for copy. See Open questions for which are still placeholders.
+Every figure shown as data is **real, sourced and shown with its source.** It appears on the reflections ("Worth knowing"). Onboarding no longer shows the plan's "Why now" fact: Your plan has no Why now (3.9), and the fact lives on the Plan page. A fact never ranks the person against others. Until a fact is found, the card shows a **marked placeholder** ("A sourced fact is needed here") in a dashed box that cannot be mistaken for copy. See Open questions for which are still placeholders.
 
 ### 4.7 Waiting
 
@@ -431,7 +438,7 @@ Where ExecEngine writes something, a short state names it. The draft shows "Writ
 A thin line at the very top of every page after the Welcome shows how far through onboarding the person is. It has no words, count or percentage. (Kate, 2026-11-12, reversing "no progress" from 2026-09-24.)
 
 - **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first and Your plan the last, 10 pages on a plan she picks (10% each) and 14 after I can't decide (about 7% each). Your plan itself shows no line (2026-11-17), so the last page with one is the last question, at 90% or so: the line never reads full. Your story and First draft come after Your plan and have no line.
-- **Pages reached from another page** (Check your email, Add more detail, Longer versions) show the fill of the page they came from, and do not move it.
+- **Pages reached from another page.** Check your email shows the fill of Account and does not move it. Add more detail and Longer versions are reached from First draft, which has no line, so they show none.
 - **Pages a path passes** move it on. A direction with no deciding question, or with fewer than three questions, passes those pages and the line moves further. That is why it is an estimate, never a count: some paths are shorter than others.
 - **Not in edit mode.** Changing direction from the Plan keeps its own "Change your direction" header, with no line.
 - **Look.** 3px (`--border-width-thick`) tall, pill ends, the full width of the page's content. The track is the border color and the fill the primary text color, so on a navy page both turn to their inverse colors on their own. On web it spans the question's column, not the answer card.
@@ -496,14 +503,14 @@ A question can hold several chosen options. Each chosen option adds its own sent
 
 ### 5.5 Choosing and changing the plan
 
-- The plan is chosen once, on Choose your plan, by the person; ExecEngine's pick is first and chosen to start with.
+- The plan is chosen once, by the person: on Where do you want to start? (3.4b), or after I can't decide on Choose your plan (3.7), where ExecEngine's pick is first and open to start with.
 - The questions after personalize the plan the person chose. They never change which plan it is.
 - **Changing the direction clears the chosen plan,** because the old choice was for a different goal. Changing a question answer keeps it.
 - Jumping back is possible only through **Change** on the plan page. (The step bar is a prototype tool; see section 9.)
 
 ### 5.6 The plan's content
 
-Each of the five plans has a name, a formal name, who it is for, one task for this week with the reason and data behind it, three stages with what the person will have and a finish line for each, and the places the first draft could be used (Appendix C). The plan page fills the **Built from** list, the task and the stages. The stages are the plan's own; only the goal they build toward is the person's.
+Each of the five plans has a name, a formal name, who it is for, one move for this week with the reason and data behind it, three stages from its template with what the person will have and a finish line for each, and the places the first draft could be used (Appendix C). Four plans add a fourth stage from their brief, taken from the Plan page's roadmap (`roadmapFor` in `mock/plan.ts`), so Your plan, Home and the Plan page all count the same stages: Step Up adds **Make the case** (fourth), Make Your Mark **Keep it going** (fourth), Make the Move **Rehearse the conversations** (third) and Lead Where You Are **Frame the opportunities** (fourth). Find your next direction keeps three. The plan page fills the **Built from** list, the first move and the stages; the reason and data behind the first move are kept for the Plan page and not shown in onboarding. The stages are the plan's own; only the goal they build toward is the person's.
 
 ### 5.7 The draft, the detail and the versions
 
@@ -534,7 +541,7 @@ Use the design tokens in the real build, never the raw numbers. The pixel values
 | Wait before "Send it again" | 30 seconds | none |
 | Email notification | Inset 16px from the top and sides; on web, 24rem wide at the top right | `--space-md` |
 | Generating state | 1.1 seconds (prototype) | none |
-| Focus ring | 1.5px solid, 2px offset | `--focus-ring`, `--focus-ring-offset` |
+| Focus ring | 2px solid, 2px offset | `--focus-ring`, `--focus-ring-offset` |
 
 All colors, type, spacing, radii, borders and shadows are tokens. No color is hard-coded. The product is built in greyscale first, with color switched on from the dock.
 
@@ -556,21 +563,22 @@ In the prototype, responsiveness follows the simulated device frame (`data-viewp
 
 Every interactive control is meant to be at least **44 × 44px** (`--button-target`) on every viewport, as in the Login and Profile specs. WCAG 2.2 AA requires only 24px (SC 2.5.8). 44px is the ExecEngine standard because the product is used one-handed.
 
-**The prototype does not yet meet this.** Measured on the phone frame:
+**The prototype mostly meets it now** (the design system raised buttons and answers to 44px). Measured on the phone frame, 2026-11-18:
 
 | Control | Measured | Meets 44px |
 | --- | --- | --- |
-| Primary and secondary buttons | 345 × 34px | No |
-| Option buttons | 345 × 40px | No |
-| Small buttons ("None of these? Show me more options", "On your phone? Email me these steps") | about 30px tall | No |
+| Primary and secondary buttons | 345 × 44px | Yes |
+| Option buttons | 345 × 44px | Yes |
+| Small buttons ("None of these? Show me more options") | 345 × 36px | No |
+| Your plan's folded groups and The stages ahead | 44px tall | Yes |
+| "Change" links | 65 × 44px | Yes |
+| Edit, on the first draft | 46 × 44px | Yes |
 | Text input | 53px tall | Yes |
 | Length switch (Short, Medium, Long) | 48px tall | Yes |
 | "What next?" buttons | 66px tall | Yes |
 | Drawer fold handle | 64 × 24px | No |
-| "Change" links | 61 × 24px | No |
-| Copy, Download, Email links | 26px tall | No |
-| Edit | 47 × 30px | No |
-| Inline links and disclosures | 17 to 22px tall | No |
+| Copy, Download, Email it to me | 26px tall | No |
+| See or change, on Your plan | 96 × 24px | No |
 
 Production must give every control a tappable area of at least 44px, drawn smaller where the design calls for it, with no two areas overlapping. This is listed again under Open questions.
 
@@ -586,7 +594,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 - **Not by color alone.** A chosen option is shown by fill and by its pressed state, not color. A placeholder fact is shown by a dashed border and its words.
 - **Dragging is never the only way.** The drawer folds with a button.
 - **Pressed state.** Option buttons are toggle buttons with a pressed state, so a screen reader hears what is chosen.
-- **Errors** (an empty email, an unrecognised code, a wrong file) sit with their field and are announced.
+- **Errors** (an empty email, an unrecognised invite code, a wrong confirmation code) sit with their field and are announced.
 - **Motion.** Waiting states and page changes respect `prefers-reduced-motion`.
 - **Change links** carry the question they belong to ("Change: Which role are you going for?"), so a screen reader never hears four identical links.
 
@@ -597,14 +605,17 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Component | Role |
 | --- | --- |
 | `OnboardingConcept3` (in `flows/onboarding/concept-3`) | The flow: the pages, their order, and how the answers become the plan. |
-| `GuidePage` | The page: the progress line (`progress`, 0 to 1), label, heading, line, content, "Why this matters", actions, and the drawer. |
-| `AnswerDrawer`, `DeviceKeyboard` | The drawer that carries the answer, and the drawn keyboard. |
+| `GuidePage` | The page: the progress line (`progress`, 0 to 1), label, heading, line, content, "Why this matters", actions and the drawer; the navy flood (`navy`), the sky panel and its glow (`sky`, `glow`), and the cover. |
+| `AnswerDrawer`, `DeviceKeyboard` | The drawer that carries the answer, and the drawn keyboard inside it. |
 | `ChipGroup`, `Input`, `ToggleGroup` | The options (equal-width, single or several), the fields, and the length switch. |
 | `ProviderButtons`, `AccountPicker` | Continue with Google and Apple, and the stand-in for each provider's picker. Shared with Login. |
 | `CodeField`, `MailNotification`, `SignInEmail`, `Sheet` | The six code cells, the email's notification (carried by `GuidePage`'s overlay), the drawn email with onboarding's wording, and the sheet it opens in. Shared with Login. |
-| `ProductIntro` | What ExecEngine is: the three statements and their drawings, the Playbook's tools and the privacy line, and the build-in. |
-| `PointList`, `PlanTemplateCard`, `ReflectionReply` | Numbered points; the plan cards on Choose your plan; the pull-quote reply and its fact. (`RecommendationCard` is no longer used in onboarding.) |
-| `ThisWeekCard`, `StoryDraft`, `StoryText`, `ExportLinks`, `NextSteps` | The task card with its data; the editable draft; the story with its gaps; Copy, Download and Email; the "What next?" choices. |
+| `ProductIntro` | What ExecEngine is: the three statements and their drawings, the Playbook's tools (with `ToolIllustration` at its icon level) and the privacy line, and the build-in. |
+| `WelcomeSplit` | The web Welcome: the dark panel and the sheet (3.1). `GuidePage` draws the phone cover with the large `Wordmark`. |
+| `DetailPanel` | The panel the Google and Apple stand-in picker opens in, shared with Profile. |
+| `PlanOption`, `ReflectionReply` | A plan card on Where do you want to start? and Choose your plan, opening in place, with the **Recommended** badge on ExecEngine's pick; the pull-quote reply and its fact. |
+| `PlanPath` | Your plan: what she's working on now, the three horizon groups, the first move's card and The stages ahead (3.9). |
+| `StoryDraft`, `StoryText`, `ExportLinks`, `NextSteps` | The editable draft; the story with its gaps; Copy, Download and Email; the "What next?" choices. |
 | `GoodExample`, `GeneratingState`, `Notice` | What good looks like; the waiting state; the invite-code notice. |
 | `Button` | Every button. |
 
@@ -620,12 +631,12 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Any non-empty email is accepted. Any typed invite code is accepted. | Any address is accepted, as decided; the hint asks for a personal one. The invite code is checked, and an unrecognised one shows the notice. |
 | Google and Apple open a drawn stand-in for their pickers, with marks in one colour. | Their own sign-in windows, with the buttons drawn to Google's and Apple's brand rules. |
 | No email is sent. The code email is drawn on screen; any six digits confirm the address, so a reviewer never has to open the drawn email, and 000000 shows the wrong-code error, as on Login (2026-11-13; was only the email's code, 482913). Five wrong tries expire it; on time, it expires only when the email's "Open it again after 10 minutes" is pressed. | A real code is emailed and works once, for 10 minutes. A wrong one shows the error with the cells; an expired one shows the expired screen. |
-| Nothing is sent. "Email me these steps", "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
+| Nothing is sent. "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
 | The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
 | A drawn keyboard appears under the drawer on the phone and tablet frames when a field has focus. | The real keyboard. The drawn one is not built. On web the prototype draws none. |
 | A step bar above the canvas jumps to any step, filling in sample answers, and a dock switches viewport and color. | Neither exists. People move only forward, or back through **Change.** |
 | Plans, options and replies are the fixed content in Appendices A to C. | Content for more plans and options is a content decision (Open questions). |
-| Two plans' "Why now" data are placeholders. | Every figure is real and sourced before this ships. |
+| Two plans' "Why now" data are placeholders (kept for the Plan page; onboarding no longer shows them). | Every figure is real and sourced before this ships. |
 
 ---
 
@@ -655,6 +666,7 @@ These are settled. They are the specified behavior. The dates are when they were
 20. **On web the longer versions fill in live,** beside their fields, with no button. On phone and tablet a button applies the answers. (2026-10-02)
 21. **Google and Apple sign up on Account,** the same buttons as Login's, and any account they give is accepted. A typed email is confirmed on a page of its own by a 6-digit code, the same as Login's; Google and Apple pass it, because they have confirmed the address already. A wrong or expired code uses Login's screens and rules: the error under the cells, which clear, and after five wrong tries or 10 minutes **That code has expired** with **Send a new code**. (2026-10-08)
 22. **Forty words or fewer on every screen,** counting the page's own words, not the options, buttons or the person's own words (4.10). (2026-11-12)
+23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Where do you want to start? (Direction only after I can't decide), and Your plan does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 24. **Where are you today? comes before Direction,** as many answers as are true, and Other opening a field for the person's own words. That page only; the other questions keep their pattern. (2026-11-12)
 25. **No answer leads out of the person's company.** A move within it is in: "Make a move within my company" (another function, or another part of the business) replaces "Find my next move", and "Get out of where I am" is removed. "Nail an upcoming presentation" drops "board". Find your next direction stays, as the plan for a move inside the company. (2026-11-12)
 26. **The plans take the plan briefs' names:** Step Up, Make Your Mark, Make the Move, Lead Where You Are, everywhere a person sees them (onboarding, Home, the Plan page, Profile). The fifth stays Find your next direction until its brief is rewritten. Stages and first steps are not changed yet (open question 12). (2026-11-12)
@@ -677,9 +689,8 @@ These are settled. They are the specified behavior. The dates are when they were
 43. **Home says What you're working on now.** Home's section heading, Your Progress Tracker, becomes What you're working on now, the same words as Your plan's section, and the lines that named it follow (Homepage spec 2.1). Needs the client's sign-off: he chose Your Progress Tracker on 2026-10-06. (2026-11-17)
 44. **Every stage is counted, onboarding included.** Your plan and Home both say "Stage 1 of {n} · {stage}", and {n} is the Plan page's count, with the stage each plan's brief adds (Step Up: 1 of 4, Make the case among The stages ahead). Onboarding no longer leaves that stage out. (2026-11-17)
 45. **What ExecEngine is says how it works.** Under its heading, the line "ExecEngine gathers insight from you to create a customized path forward.", so she knows why the questions come before she meets them. The page grows from 40 words to 52, over the 40-word rule (4.10); cutting it back means trimming the page elsewhere, not decided. (2026-11-17, Kate)
-46. **Each horizon is one group; the medium-term and long-term fold.** On Your plan each horizon is one outlined group with its count of steps. The short-term keeps all its steps (the meeting first asked for one, then agreed the short-term is two or three things this week): the first step leads as the move card, now labelled **Start here**, since the group's heading already says this week, and the others follow under **Then, this week** as plain rows, not boxes. The medium-term and long-term fold to their heading and open to show their step. **Start here** and **Then, this week** may change in Eric's copy pass. (2026-11-18, ExecEngine UX review)
+46. **Each horizon is one group; the medium-term and long-term fold.** On Your plan each horizon is one outlined group with its count of moves. The short-term keeps all its moves (the meeting first asked for one, then agreed the short-term is two or three things this week): the first step leads as the move card, now labelled **Start here**, since the group's heading already says this week, and the others follow under **Then, this week** as plain rows, not boxes. The medium-term and long-term fold to their heading and open to show their move. **Start here** and **Then, this week** may change in Eric's copy pass. (2026-11-18, ExecEngine UX review)
 47. **A thing to do on her plan is a move, everywhere.** On every page the person sees, an item on her plan is a **move**, never a step or an action: "Start your first move", "Your next move", "3 moves", "Every move on your plan is in hand". Step stays for progress through a flow ("Step 2 of 5"), LinkedIn's export steps and the career sense ("A promotion is the next step"). The Enterprise Dashboard's "planned actions" is not changed yet. (2026-11-18, Kate)
-23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
 
@@ -688,17 +699,17 @@ These are settled. They are the specified behavior. The dates are when they were
 These are not decided. They need an answer before this is built.
 
 1. **Two plans have no sourced "Why now" data:** Make the Move and Lead Where You Are. The Step Up figure (LinkedIn @Work study, 46%) needs its original date and sample confirmed.
-2. **Tap targets.** Most controls are 30 to 40px. They need a 44px tappable area (section 6).
+2. **Tap targets.** Buttons, options, Change and the folds are 44px now. The small "None of these?" button (36px), the drawer's fold handle, Copy, Download and Email it to me, and See or change still need a 44px tappable area (section 6).
 3. **Linking an Apple relay address** to the person's real one later is open, as on Login.
 4. **What the invite code does.** The notice says a code "only changes who pays." What the code is, who issues it and how it is checked is not specified.
 5. **Leaving part-way.** Whether a person who leaves can return to where they were, and what is kept, is not designed.
 6. **Reflections cannot be skipped.** Every other question can. Whether that is intended is not decided.
 7. **How the draft and the longer versions are written** for real is not specified. The prototype uses fixed templates with the person's words dropped in.
 8. **More plans and options.** The flow has five plans and eight directions. Whether more are wanted, and who writes them, is a content decision.
-9. **Status.** The concept is approved, but its status in the manifest stays `draft` until Kate says it has passed final review.
+9. **Status.** Settled: the concept is `approved` in the manifest. Changes since (decisions 46 and 47) are not yet reviewed.
 10. **The full privacy promise.** What ExecEngine is now says only "Private. For your eyes only." Where the longer promise (not your employer or manager; everything is yours to keep, edit and export) is said, in onboarding or the product, is not decided.
 11. **Later questions that assume leaving the company:** settled 2026-11-12 (decision 29).
-12. **The plans' stages and first steps** still follow onboarding as built (three stages each), not the plan briefs (three to five, and a different first step for Make the Move, Lead Where You Are and Find your next direction). Lining them up changes the Plan page's roadmap. The names already match (decision 26).
+12. **The plans' first moves** still follow onboarding as built, not the plan briefs (a different first move for Make the Move, Lead Where You Are and Find your next direction). The stages partly line up: four plans now take the fourth stage their brief adds (5.6), but the template's three are unchanged. The names already match (decision 26).
 
 ---
 
@@ -708,7 +719,7 @@ These tables are the content as built. The full wording of every page, reply and
 
 ### A. Directions
 
-The first page shows the five **first options**. "None of these? Show me more options" adds the four **held-back options**. Each option has two narrower versions, shown on the second page. The need and the plan follow the option, never the narrower wording.
+The first page shows six **first options**, I'm not sure yet among them. "None of these? Show me more options" adds the two **held-back options** (3.5). Each option has two narrower versions, shown on the second page. The need and the plan follow the option, never the narrower wording.
 
 | Option | Need | Narrower version 1 | Narrower version 2 |
 | --- | --- | --- | --- |
@@ -766,15 +777,15 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 ### C. Plans
 
-| Plan (formal name) | For when | This week | Why now, with data | The three stages |
+| Plan (formal name) | For when | This week | Why now, with data | The template's three stages |
 | --- | --- | --- | --- | --- |
-| **Step Up** (Increase leadership scope) | You’re ready for a bigger role and want the promotion or remit to match. | Write the story of what you lead | Every conversation about a bigger role starts with “what do you lead?” 46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street. — LinkedIn @Work study | First: Say what you lead; Next: Show the proof; Then: Get in front of the deciders |
+| **Step Up** (Increase leadership scope) | You’re ready for a bigger role and want the remit to match. | Write the story of what you lead | Every conversation about a bigger role starts with “what do you lead?” 46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street. — LinkedIn @Work study | First: Say what you lead; Next: Show the proof; Then: Get in front of the deciders |
 | **Make Your Mark** (Build executive presence) | You need to be seen, and to have a clear point of view. | Write how you describe yourself | Everything you say in public builds on it. Executive presence accounts for 26% of what it takes to get promoted. — Center for Talent Innovation, survey of 268 senior executives, 2012 | First: Decide what you stand for; Next: Say it in public; Then: Get invited |
-| **Make the Move** (Prepare for a career inflection point) | A promotion, review, board presentation or negotiation is coming up. | Write the story you’ll tell in the room | It’s the core of your case, and the thing you’ll rehearse. *Placeholder: a sourced fact is still needed.* | This week: Get the situation on paper; Before the date: Prepare your case; After: Capture what happened |
+| **Make the Move** (Prepare for a career inflection point) | A promotion, review, presentation or negotiation is coming up. | Write the story you’ll tell in the room | It’s the core of your case, and the thing you’ll rehearse. *Placeholder: a sourced fact is still needed.* | This week: Get the situation on paper; Before the date: Prepare your case; After: Capture what happened |
 | **Lead Where You Are** (Strengthen influence in the current organization) | You want to grow where you already are. | Write the story of what you own | Your work gets heard when it’s described in the terms decisions are made in. *Placeholder: a sourced fact is still needed.* | First: Make your work easy to see; Next: Widen who hears about it; Then: Become the go-to |
 | **Find your next direction** (Explore and clarify a next direction) | You want a different role here, or aren’t sure yet which. *(2026-11-12; was "You feel stuck but can’t yet name the next role.")* | Write the story of what you’re good at | It shows which strengths go with you anywhere, before you choose where. People who use their strengths every day are six times as likely to be engaged at work. — Gallup, 2015 | First: Work out what travels; Next: Test it cheaply; Then: Choose your direction |
 
-**Done when, by stage** (2026-11-12): each a sign the stage is working, shown on the plan page and as the Plan page's milestones.
+**Done when, by stage** (2026-11-12): each a sign the stage is working, shown on the plan page and as the Plan page's milestones. The stage four plans add (5.6) takes its finish line from the Plan page's roadmap: Make the case, "You’ve asked for the broader role, with your record behind you."; Keep it going, "You have a rhythm you can keep up, and you know which rooms keep inviting you."; Rehearse the conversations, "You’ve said the hard parts out loud to someone who will push back."; Frame the opportunities, "You’ve put two openings in front of leadership, in terms they care about."
 
 | Plan | First stage | Next | Then |
 | --- | --- | --- | --- |
