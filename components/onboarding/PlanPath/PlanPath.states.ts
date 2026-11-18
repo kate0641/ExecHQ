@@ -19,6 +19,8 @@ const content = {
   nowLabel: c.nowLabel,
   stage: c.stage(stages.length, stages[0]?.title ?? ""),
   first: { label: c.firstLabel, title: plan.thisWeek?.title ?? "", line: c.firstLine },
+  thenLabel: c.thenLabel,
+  stepCount: c.stepCount,
   firstAction: createElement(Button, { fullWidth: true } as ComponentProps<typeof Button>, c.start),
   horizons,
   together: c.together,
@@ -36,7 +38,7 @@ export const planPathStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "Her plan, on the page that ends onboarding: what she's working on now, which stage that is, then Home's three rows (short-term, medium-term, long-term, side by side), the first step leading the short-term as the Plan page's move card with Start your first step. The later stages and her goal fold under The stages ahead. It builds in once; with reduced motion it shows at rest.",
+    "Her plan, on the page that ends onboarding: what she's working on now, which stage that is, then Home's three horizons (short-term, medium-term, long-term, side by side), each one outlined group with its count of steps. The short-term is open: the first step leads as the Plan page's move card with Start your first step, its other steps follow under Then, this week. The medium-term and long-term are folded to their heading and open to show their step. The later stages and her goal fold under The stages ahead. It builds in once; with reduced motion it shows at rest.",
   component: PlanPath,
   surface: "inverse",
   notApplicable: {
@@ -49,13 +51,18 @@ export const planPathStates = defineComponentStates({
     { label: "Building in", description: "As it first appears. Reload the catalogue to watch it again.", props: content },
     { label: "At rest", props: { ...content, animate: false } },
     {
+      label: "Medium-term and long-term open",
+      description: "Each folded horizon opened to show its step, in the same rows as the short-term's.",
+      props: { ...content, animate: false, horizonsOpen: true },
+    },
+    {
       label: "Stages ahead open",
       description: "The fold opened: the later stages, each with its sign it's working, her goal, and what happens after stage 1.",
       props: { ...content, animate: false, aheadOpen: true },
     },
     {
       label: "Hover, focus and pressed",
-      description: "The stages ahead's toggle underlines on hover and draws the focus ring. Point at it or tab to it.",
+      description: "The horizons' and the stages ahead's toggles underline on hover and draw the focus ring. Point at them or tab to them.",
       states: ["hover", "focus", "active"],
       props: { ...content, animate: false },
     },
@@ -71,6 +78,7 @@ export const planPathStates = defineComponentStates({
         ...content,
         animate: false,
         aheadOpen: true,
+        horizonsOpen: true,
         first: { ...content.first, title: "Write the story of what you lead, in the words your leadership already uses" },
         horizons: horizons.map((horizon, index) =>
           index === 1 ? { ...horizon, items: ["Put yourself forward to lead the Q1 planning review, with a one-page note on what you'd change"] } : horizon

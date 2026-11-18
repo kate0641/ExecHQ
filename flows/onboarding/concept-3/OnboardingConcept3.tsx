@@ -743,6 +743,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
             nowLabel={c.nowLabel}
             stage={c.stage(stages.length, stages[0]?.title ?? "")}
             first={{ label: c.firstLabel, title: plan.thisWeek?.title ?? "", line: c.firstLine }}
+            thenLabel={c.thenLabel}
+            stepCount={c.stepCount}
             firstAction={
               edit ? undefined : (
                 <Button fullWidth onClick={() => goTo("reflect-story")}>

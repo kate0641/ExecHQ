@@ -295,13 +295,15 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
   | Make Your Mark | being seen as an executive |
   | Lead Where You Are | more weight where you are |
   | Find your next direction | your next step |
-- **What you're working on now**, a section heading, with **Stage 1 of {n} · {first stage}** under it in small capitals. There is no stage bar (2026-11-17). {n} counts every stage of her plan as the Plan page and Home count them, the stage the plan's brief adds included (for Step Up, Make the case: 4 stages, not the 3 onboarding used to show; 2026-11-17), so all three pages say the same. Then Home's three rows, each with how far it looks:
+- **What you're working on now**, a section heading, with **Stage 1 of {n} · {first stage}** under it in small capitals. There is no stage bar (2026-11-17). {n} counts every stage of her plan as the Plan page and Home count them, the stage the plan's brief adds included (for Step Up, Make the case: 4 stages, not the 3 onboarding used to show; 2026-11-17), so all three pages say the same. Then Home's three horizons, each one outlined group headed by its name, how far it looks and its count of steps ("3 steps", "1 step"), so Home's three, one and one come as no surprise (2026-11-18):
 
-  | Row | Line | What is in it |
-  | --- | --- | --- |
-  | Short-term | Quick wins, this week | **Your first step · This week** as the Plan page's move card ("Write the story of what you lead", "ExecEngine drafts it with you, now or later.") with its own yellow button, **Start your first step**, then the stage's other short-term actions |
-  | Medium-term | Over the next month | The stage's medium-term action |
-  | Long-term | A quarter or more | The stage's long-term milestone |
+  | Group | Line | Shown | What is in it |
+  | --- | --- | --- | --- |
+  | Short-term | Quick wins, this week | Open | **Start here** as the Plan page's move card ("Write the story of what you lead", "ExecEngine drafts it with you, now or later.") with its own yellow button, **Start your first step**; then **Then, this week** over the stage's other short-term actions, as plain rows on hairlines |
+  | Medium-term | Over the next month | Folded | The stage's medium-term action |
+  | Long-term | A quarter or more | Folded | The stage's long-term milestone |
+
+  A folded group is its heading with a chevron, and the heading is a native disclosure: pressed, the group opens to its step in the same row as the short-term's; pressed again, it folds. Both are folded when the page opens.
 
   Then one line: "These run side by side. Do the quick wins now, and chip away at the bigger pieces when you have time."
 - **Start your first step** begins this week's step: the story question, then the first draft in the Playbook (3.10). It is the page's one button.
@@ -309,7 +311,7 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
 - **Built from your {n} answers** with **See or change**, a single line that opens the list of the person's answers, each with a **Change** link (and **Hide** to fold it again). The first row is where they are today (3.4a), the second their direction. **Change** on where they are today, or on a question, goes to it and returns here when it is answered. **Change** on the direction starts the questions again from Direction, with their picks kept; a new direction clears the plan they chose for the old one.
 - At the foot, a text link, **Later, take me to my homepage**, which opens Home with its first-visit tour (3.12).
 - **In Change your direction** the page has no label over the heading, the card has no button, and the page's button is **Save my plan**.
-- **It builds in once,** each row rising into place after the one before; at rest with reduced motion.
+- **It builds in once,** each group rising into place after the one before; at rest with reduced motion.
 - It does not summarize answers beyond the folded line, and LinkedIn is not mentioned: it lives on the Signals page.
 
 **The actions are an example.** In the prototype the three rows read the example plan Home reads (`mock/plan-stub.ts`, Maya's Step Up), so every plan shows the same actions, as Home does. In production they are the stage's own actions for her plan, the same ones Home's Progress Tracker shows. In production **Start your first step** begins whatever the plan's first step is; in the prototype every plan's first step opens the same story builder.
@@ -675,6 +677,7 @@ These are settled. They are the specified behavior. The dates are when they were
 43. **Home says What you're working on now.** Home's section heading, Your Progress Tracker, becomes What you're working on now, the same words as Your plan's section, and the lines that named it follow (Homepage spec 2.1). Needs the client's sign-off: he chose Your Progress Tracker on 2026-10-06. (2026-11-17)
 44. **Every stage is counted, onboarding included.** Your plan and Home both say "Stage 1 of {n} · {stage}", and {n} is the Plan page's count, with the stage each plan's brief adds (Step Up: 1 of 4, Make the case among The stages ahead). Onboarding no longer leaves that stage out. (2026-11-17)
 45. **What ExecEngine is says how it works.** Under its heading, the line "ExecEngine gathers insight from you to create a customized path forward.", so she knows why the questions come before she meets them. The page grows from 40 words to 52, over the 40-word rule (4.10); cutting it back means trimming the page elsewhere, not decided. (2026-11-17, Kate)
+46. **Each horizon is one group; the medium-term and long-term fold.** On Your plan each horizon is one outlined group with its count of steps. The short-term keeps all its steps (the meeting first asked for one, then agreed the short-term is two or three things this week): the first step leads as the move card, now labelled **Start here**, since the group's heading already says this week, and the others follow under **Then, this week** as plain rows, not boxes. The medium-term and long-term fold to their heading and open to show their step. **Start here** and **Then, this week** may change in Eric's copy pass. (2026-11-18, ExecEngine UX review)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

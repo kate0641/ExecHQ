@@ -2428,7 +2428,12 @@ export const GUIDE_C3 = {
     nowLabel: "What you\u2019re working on now",
     /** The three horizons, named as Home names them, with how far each looks. */
     spans: { short: "Quick wins, this week", medium: "Over the next month", long: "A quarter or more" },
-    firstLabel: "Your first step \u00b7 This week",
+    /** The first step's label; its group's heading already says this week. */
+    firstLabel: "Start here",
+    /** Over the short-term's other steps, under the first step's card. */
+    thenLabel: "Then, this week",
+    /** Beside each horizon's name, so Home's three, one and one come as no surprise. */
+    stepCount: (count: number) => `${count} step${count === 1 ? "" : "s"}`,
     firstLine: "ExecEngine drafts it with you, now or later.",
     start: "Start your first step",
     together: "These run side by side. Do the quick wins now, and chip away at the bigger pieces when you have time.",

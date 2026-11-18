@@ -23,6 +23,10 @@ export interface PlanPathProps {
   stage: string;
   /** The first step, drawn as the Plan page's move card at the top of the first horizon. */
   first: { label: string; title: string; line: string };
+  /** Over the first horizon's other steps: "Then, this week". */
+  thenLabel: string;
+  /** Each horizon's count, beside its name: "3 steps", "1 step". */
+  stepCount: (count: number) => string;
   /** The first step's own button. Left out when the plan is being changed. */
   firstAction?: ReactNode;
   /** Short-term, medium-term and long-term, as Home names them. */
@@ -41,6 +45,8 @@ export interface PlanPathProps {
   next: string;
   /** The stages ahead start unfolded. For the catalogue; the page starts folded. */
   aheadOpen?: boolean;
+  /** The medium-term and long-term start unfolded. For the catalogue; the page starts folded. */
+  horizonsOpen?: boolean;
   /** Builds in once, when the page arrives. Off: at rest, as it is whenever
    *  reduced motion is asked for. */
   animate?: boolean;
@@ -57,8 +63,12 @@ function onFrom(sentence: string): string {
 /**
  * Her plan, on the page that ends onboarding: the stage she is in, as Home's
  * What you're working on now shows it (short-term, medium-term and
- * long-term, side by side), the first step leading the short-term as the Plan
- * page's move card with its own button. The later stages and her goal fold
+ * long-term, side by side). Each horizon is one outlined group headed by its
+ * name, how far it looks and its count of steps, so Home's three, one and one
+ * come as no surprise. The short-term is open: the first step leads as the
+ * Plan page's move card with its own button, its other steps follow under
+ * "Then, this week". The medium-term and long-term are folded to their
+ * heading, and open to show their step. The later stages and her goal fold
  * away underneath, so the first screen is about now. Everything is in the
  * page from the start; only its showing waits on the motion.
  */
@@ -66,6 +76,8 @@ export function PlanPath({
   nowLabel,
   stage,
   first,
+  thenLabel,
+  stepCount,
   firstAction,
   horizons,
   together,
@@ -76,6 +88,7 @@ export function PlanPath({
   aheadCount,
   next,
   aheadOpen = false,
+  horizonsOpen = false,
   animate = true,
   className,
 }: PlanPathProps) {
@@ -87,29 +100,60 @@ export function PlanPath({
           <h2 className="plan-path__now-label">{nowLabel}</h2>
           <p className="plan-path__now-stage">{stage}</p>
         </div>
-        {horizons.map((horizon, index) => (
-          <div key={horizon.label} className="plan-path__horizon plan-path__in" style={at(0.2 + index * 0.3)}>
-            <div className="plan-path__horizon-head">
-              <h3 className="plan-path__horizon-label">{horizon.label}</h3>
-              <p className="plan-path__horizon-span">{horizon.span}</p>
-            </div>
-            <ul className="plan-path__items">
-              {index === 0 ? (
-                <li className="plan-path__move">
-                  <p className="plan-path__move-label">{first.label}</p>
-                  <p className="plan-path__move-title">{first.title}</p>
-                  <p className="plan-path__move-line">{first.line}</p>
-                  {firstAction ? <div className="plan-path__move-action">{firstAction}</div> : null}
-                </li>
-              ) : null}
-              {horizon.items.map((item) => (
-                <li key={item} className="plan-path__item">
+        {horizons.map((horizon, index) => {
+          const head = (
+            <>
+              <span className="plan-path__group-name">
+                <h3 className="plan-path__horizon-label">{horizon.label}</h3>
+                <span className="plan-path__horizon-span">{horizon.span}</span>
+              </span>
+              <span className="plan-path__group-count">
+                {stepCount(horizon.items.length + (index === 0 ? 1 : 0))}
+              </span>
+            </>
+          );
+          const rows = (items: readonly string[]) => (
+            <ul className="plan-path__rows">
+              {items.map((item) => (
+                <li key={item} className="plan-path__row">
                   {item}
                 </li>
               ))}
             </ul>
-          </div>
-        ))}
+          );
+          return index === 0 ? (
+            <section
+              key={horizon.label}
+              className="plan-path__group plan-path__in"
+              style={at(0.2)}
+              aria-label={horizon.label}
+            >
+              <div className="plan-path__group-head">{head}</div>
+              <div className="plan-path__move">
+                <p className="plan-path__move-label">{first.label}</p>
+                <p className="plan-path__move-title">{first.title}</p>
+                <p className="plan-path__move-line">{first.line}</p>
+                {firstAction ? <div className="plan-path__move-action">{firstAction}</div> : null}
+              </div>
+              {horizon.items.length ? (
+                <div className="plan-path__then">
+                  <p className="plan-path__then-label">{thenLabel}</p>
+                  {rows(horizon.items)}
+                </div>
+              ) : null}
+            </section>
+          ) : (
+            <details
+              key={horizon.label}
+              className="plan-path__group plan-path__group--fold plan-path__in"
+              style={at(0.2 + index * 0.3)}
+              open={horizonsOpen || undefined}
+            >
+              <summary className="plan-path__group-head plan-path__group-toggle">{head}</summary>
+              {rows(horizon.items)}
+            </details>
+          );
+        })}
         <p className="plan-path__together plan-path__in" style={at(0.2 + horizons.length * 0.3)}>
           {together}
         </p>

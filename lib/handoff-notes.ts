@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-plan-horizons-grouped",
+    title: "Onboarding: Your plan groups each horizon",
+    description:
+      "Each horizon on Your plan is one group with its count of steps; the short-term stays open under Start here and Then, this week; the medium-term and long-term fold until opened (18 Nov).",
+  },
+  {
     slug: "onboarding-how-it-works-line",
     title: "Onboarding: What ExecEngine is says how it works",
     description:
