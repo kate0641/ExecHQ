@@ -95,6 +95,16 @@ What ExecEngine knows (their role and direction) is never asked. On the last que
 
 "Writing your first draft…" for a moment, then the draft (5). The artifact is created in the Loop as a draft, filed in its tool's folder, and the address moves to the artifact, so a reload or the library comes straight back here.
 
+
+**Saved to your library** (2026-11-18, UX review). As the first draft opens, in every builder, a card appears over it once, so she knows her work is safe and where it lives:
+
+- A check that draws itself in a navy circle, **Draft saved to your library**, "You can find it any time.", and the text link **Open your library**, to the library on the Playbook page.
+- The page behind dims slightly. The card is centered on the screen, at most 20rem wide, with an × in its corner.
+- **It goes on its own after about five seconds,** fading out. The ×, Escape or a tap outside it closes it sooner; the link closes it and opens the library.
+- **It waits while she holds it:** while the pointer is on it or focus is inside it, the five seconds don't run (WCAG 2.2.1).
+- **It never takes focus.** Focus goes to the draft, as before; the card's words are announced politely ("Draft saved to your library. You can find it any time."). Its link and × are reachable with Tab.
+- With reduced motion, the check is drawn at rest and nothing fades.
+- It shows once per draft, when it is written, not when a saved draft is opened again.
 ---
 
 ## 5. The draft

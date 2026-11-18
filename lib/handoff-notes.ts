@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "draft-saved-to-library",
+    title: "Draft saved to your library",
+    description:
+      "In every builder, as a first draft opens: a card with a drawn check, Draft saved to your library, and Open your library; gone in about five seconds, paused while held (18 Nov).",
+  },
+  {
     slug: "positioning-builder-moments-first",
     title: "Positioning Builder: the moment first",
     description:

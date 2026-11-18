@@ -328,6 +328,7 @@ function Interview() {
     return (
       <div className="tool-flow tool-flow--interview tool-flow--page">
         {f.header}
+        {f.savedNotice}
         <div className="tool-flow__desk">
           <div className="tool-flow__rail">{rail}</div>
           <div className="tool-flow__sheet">
@@ -456,6 +457,7 @@ function Interview() {
           is for now sits under the draft's name. */}
       {hasDraft && expanded ? f.origin : null}
       {hasDraft && !expanded ? draftTop : null}
+      {f.savedNotice}
       {pinned}
       {underDraft}
       {expanded ? null : interview}

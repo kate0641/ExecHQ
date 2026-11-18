@@ -117,6 +117,7 @@ import { toolUseCaseStates } from "./playbook/ToolUseCase/ToolUseCase.states";
 import { inputPanelStates } from "./playbook/InputPanel/InputPanel.states";
 import { pickAnswerStates } from "./playbook/PickAnswer/PickAnswer.states";
 import { enricherCardStates } from "./playbook/EnricherCard/EnricherCard.states";
+import { savedNoticeStates } from "./playbook/SavedNotice/SavedNotice.states";
 import { outletCardStates } from "./playbook/OutletCard/OutletCard.states";
 import { sendStepsStates } from "./playbook/SendSteps/SendSteps.states";
 import { outletSuggestionsStates } from "./playbook/OutletSuggestions/OutletSuggestions.states";
@@ -250,6 +251,7 @@ export const registry: RegisteredComponent[] = [
   inputPanelStates,
   pickAnswerStates,
   enricherCardStates,
+  savedNoticeStates,
   outletCardStates,
   sendStepsStates,
   outletSuggestionsStates,

@@ -1716,3 +1716,12 @@ export const PICK_COPY = {
   /** On the drawer's fold: what it holds. */
   peek: "Tap to answer",
 } as const;
+
+/** Over a new draft, for about five seconds (UX review, 2026-11-18): it's
+ *  safe, and where it lives. */
+export const SAVED_NOTICE_COPY = {
+  title: "Draft saved to your library",
+  body: "You can find it any time.",
+  link: "Open your library",
+  close: "Close",
+} as const;

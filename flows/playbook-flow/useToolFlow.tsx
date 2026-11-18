@@ -7,6 +7,7 @@ import type { StepNavItem } from "@/lib/step-nav";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { EnricherCard } from "@/components/playbook/EnricherCard";
+import { SavedNotice } from "@/components/playbook/SavedNotice";
 import { OutletCard } from "@/components/playbook/OutletCard";
 import { OutletSuggestions } from "@/components/playbook/OutletSuggestions";
 import { SendSteps, type SendCopy } from "@/components/playbook/SendSteps";
@@ -50,6 +51,7 @@ import {
   LIBRARY_SEED,
   PITCH_INPUTS,
   POSITIONING_COPY,
+  SAVED_NOTICE_COPY,
   POSITIONING_INPUTS,
   SEED_INPUTS,
   WINS_INPUT,
@@ -439,10 +441,13 @@ export function useToolFlow(concept: FlowConcept) {
     return id;
   }
 
+  /** Says a new draft is in the library, once, as it opens. */
+  const [savedShown, setSavedShown] = useState(false);
+
   function write() {
     setWriting(true);
     window.setTimeout(() => {
-      writeWith(currentValues());
+      if (writeWith(currentValues())) setSavedShown(true);
       setWriting(false);
       focusSoon(DRAFT_LABEL_ID);
     }, 900);
@@ -1316,6 +1321,17 @@ export function useToolFlow(concept: FlowConcept) {
   /** Concept 3: the written draft's opening, marked, for its collapsed card. */
   const draftPreview = (): ReactNode => (version ? marked(version.sections, edits) : null);
 
+  const savedNotice: ReactNode = savedShown ? (
+    <SavedNotice
+      title={SAVED_NOTICE_COPY.title}
+      body={SAVED_NOTICE_COPY.body}
+      linkLabel={SAVED_NOTICE_COPY.link}
+      href={`${backHref}#library-heading`}
+      closeLabel={SAVED_NOTICE_COPY.close}
+      onClose={() => setSavedShown(false)}
+    />
+  ) : null;
+
   return {
     concept,
     kind,
@@ -1333,6 +1349,7 @@ export function useToolFlow(concept: FlowConcept) {
     rest,
     firstChoice,
     startsWithButton,
+    savedNotice,
     notFirst,
     valueOf,
     setValue,
