@@ -33,7 +33,7 @@ Home uses the `app` chrome (header with the wordmark, and the navigation with Ho
 On phone and tablet the page is one column, in this order. Web rearranges it (2.2).
 
 1. **Greeting and date.** "Good morning, {first name}", then the long date ("Monday 5 October") beneath, smaller.
-2. **What you're working on now** (section heading; was Your Progress Tracker until 2026-11-17), with **Stage {n} of {total} · {stage}** under it in small capitals, for example "Stage 1 of 4 · Say what you lead" (2026-11-17). The stage is the one the Plan page shows as current, worked out the same way, and the total counts every stage of her plan, as the Plan page and onboarding's Your plan do.
+2. **What you're working on now** (section heading; was Your Progress Tracker until 2026-11-17; signed off by Eric in the 2026-11-18 UX review), with **Stage {n} of {total} · {stage}** under it in small capitals, for example "Stage 1 of 4 · Say what you lead" (2026-11-17). The stage is the one the Plan page shows as current, worked out the same way, and the total counts every stage of her plan, as the Plan page and onboarding's Your plan do.
    - The **key**: three small shapes with their names: solid "Done", outlined "In progress", dashed "Not started".
    - **The three rings**, side by side.
    - **The card** under the rings (section 3).
@@ -389,11 +389,10 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 
 Written from the approved prototype. These are choices the prototype makes that nobody has yet confirmed:
 
-1. **The section name.** "What you're working on now" replaced the client's choice, "Your Progress Tracker", on 2026-11-17 (2.1), and needs the client's sign-off. The spec still calls the section "the map" where it describes how it works.
-2. **One note of movement,** not two. The prototype's rules allow two, and Home shows one.
-3. **"I'm not doing it"** takes an action off the map. Turning down an action from the Plan page is described by the Plan spec when it is written.
-4. **Check-back days** by kind of draft (2, 5, 7 days) are proposed, not agreed.
-5. **The greeting** says "Good morning" at any hour in the prototype.
-6. **Telling the person their answer counts in their organization's totals.** The card no longer says so (removed 2026-10-26). The privacy policy, which Eric is updating, has to cover it.
+1. **One note of movement,** not two. The prototype's rules allow two, and Home shows one.
+2. **"I'm not doing it"** takes an action off the map. Turning down an action from the Plan page is described by the Plan spec when it is written.
+3. **Check-back days** by kind of draft (2, 5, 7 days) are proposed, not agreed.
+4. **The greeting** says "Good morning" at any hour in the prototype.
+5. **Telling the person their answer counts in their organization's totals.** The card no longer says so (removed 2026-10-26). The privacy policy, which Eric is updating, has to cover it.
 
 Settled for the weekly check-in (2026-10-23 to 26): in Stay on track, after the cards about their work; one question with their own direction in it, in the hand-written form for each of the 16 directions (4.6); three answers on a slider; Save at the right edge with what it records beside it; "Not now" as an ×; every 7 days; the first answer is the starting point; each answer changes the next step and the read-back says how (4.7); the Admin Dashboard sees totals only, once 10 have answered twice.
