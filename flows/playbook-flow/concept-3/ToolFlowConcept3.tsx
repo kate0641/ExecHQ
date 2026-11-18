@@ -343,10 +343,10 @@ function Interview() {
   // question starts the interview.
   if (!hasDraft && at < 0) {
     return (
-      <div className="tool-flow tool-flow--interview">
+      <div className={["tool-flow", "tool-flow--interview", f.startsWithButton ? "tool-flow--pinned" : null].filter(Boolean).join(" ")}>
         {f.header}
         {f.moment ? <p className="tool-flow__moment">{C.momentLine(f.moment)}</p> : null}
-        {f.useCase({ onStart: () => go(0), choiceStarts: true, noGoesWith: true, noPicture: true })}
+        {f.useCase({ onStart: () => go(0), choiceStarts: true, noGoesWith: true, noPicture: true, pinStart: true })}
       </div>
     );
   }

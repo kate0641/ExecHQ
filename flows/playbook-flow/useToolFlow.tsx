@@ -605,7 +605,25 @@ export function useToolFlow(concept: FlowConcept) {
     setRebuilding(true);
     onStart?.();
   };
-  const useCase = (options: { onStart?: () => void; noStart?: boolean; choiceStarts?: boolean; noGoesWith?: boolean; noPicture?: boolean; brief?: boolean; noChoice?: boolean } = {}): ReactNode => (
+  /** Whether the start screen ends in a start button (rather than starting
+   *  when she taps an answer): Positioning Builder, whose first question
+   *  leads the interview instead (Kate, 2026-11-18). */
+  const startsWithButton = !firstChoice || Boolean(firstChoice.many);
+  const useCase = (
+    options: { onStart?: () => void; noStart?: boolean; choiceStarts?: boolean; noGoesWith?: boolean; noPicture?: boolean; brief?: boolean; noChoice?: boolean; pinStart?: boolean } = {}
+  ): ReactNode => {
+    const startLabel = startsOnStatement ? POSITIONING_COPY.openIt : firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined;
+    const onStart = startsOnStatement && statementHref ? () => router.push(statementHref) : options.onStart;
+    const noStart = options.noStart ?? !options.onStart;
+    // The start button at the foot of the page, not under the last line (Kate, 2026-11-18).
+    const pinned = Boolean(options.pinStart && !noStart && startsWithButton);
+    const buildAgain =
+      startsOnStatement && options.onStart ? (
+        <Button variant="secondary" fullWidth onClick={() => rebuild(options.onStart)}>
+          {POSITIONING_COPY.buildAgain}
+        </Button>
+      ) : null;
+    return (
     <>
     <ToolUseCase
       tool={tool}
@@ -626,9 +644,9 @@ export function useToolFlow(concept: FlowConcept) {
             }
           : undefined
       }
-      startLabel={startsOnStatement ? POSITIONING_COPY.openIt : firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined}
-      onStart={startsOnStatement && statementHref ? () => router.push(statementHref) : options.onStart}
-      noStart={options.noStart ?? !options.onStart}
+      startLabel={startLabel}
+      onStart={onStart}
+      noStart={pinned || noStart}
       choiceStarts={options.choiceStarts}
       noPicture={options.noPicture}
       brief={options.brief}
@@ -636,13 +654,19 @@ export function useToolFlow(concept: FlowConcept) {
       headingLevel={1}
       headingId={TOOL_TITLE_ID}
     />
-    {startsOnStatement && options.onStart ? (
-      <Button variant="secondary" fullWidth onClick={() => rebuild(options.onStart)}>
-        {POSITIONING_COPY.buildAgain}
-      </Button>
-    ) : null}
+    {pinned ? (
+      <div className="tool-flow__step-actions tool-flow__step-actions--pinned">
+        <Button fullWidth onClick={onStart}>
+          {startLabel ?? tool.start}
+        </Button>
+        {buildAgain}
+      </div>
+    ) : (
+      buildAgain
+    )}
     </>
-  );
+    );
+  };
 
   /** Positioning Builder offers her accomplishments; the draft never waits. */
   const enricher: ReactNode =
@@ -1308,6 +1332,7 @@ export function useToolFlow(concept: FlowConcept) {
     asked,
     rest,
     firstChoice,
+    startsWithButton,
     notFirst,
     valueOf,
     setValue,
