@@ -397,3 +397,30 @@ export const BRIEFING_COPY = {
     emailHint: "Each morning at 8 am, your time. The same three reads, with links back here.",
   },
 } as const;
+
+/* -----------------------------------------------------------------------------
+   SPARK SIGNALS (UX review, 2026-11-18)
+   Opportunities to be seen, picked for where she is going, after today's reads:
+   a show to pitch, an event to speak at, a publication to write for. Drawn from
+   Pitch Builder's outlets, so the two always agree. All inside her field; none
+   is a way out of her company.
+   -------------------------------------------------------------------------- */
+
+/** This week's, by outlet id in `OUTLETS` (mock/playbook.ts), in order. */
+export const SPARK_SIGNAL_IDS: readonly string[] = ["marketing-leaders-podcast", "commercial-strategy-summit", "commercial-leader-quarterly"];
+
+export const SPARK_SIGNALS_COPY = {
+  heading: "Spark Signals",
+  lede: "Opportunities to be seen, picked for where you’re going. New ones each Monday.",
+  /** The kind, over each card, from the outlet's pitch type. */
+  kind: { Podcast: "Podcast", Speaking: "Event", Press: "Publication" } as Record<string, string>,
+  why: "Why you:",
+  due: (date: string) => `Due ${date}`,
+  /** The button: what it starts in Pitch Builder. */
+  start: { Podcast: "Start a pitch", Speaking: "Start a proposal", Press: "Start a pitch" } as Record<string, string>,
+  form: "Through its own form",
+  notForMe: "Not for me",
+  passed: "Got it. You’ll see fewer like this.",
+  none: "That’s this week’s. New ones come on Monday.",
+  honest: "Picked by ExecEngine from your plan and your field. Check the details before you reach out.",
+} as const;

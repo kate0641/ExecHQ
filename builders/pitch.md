@@ -36,6 +36,7 @@
 
 - **In the prototype's mock plan:** "Pitch yourself to a podcast the people above you follow" (arrives with Podcast chosen), "Draft a talk proposal for the leadership forum" (Speaking, the leadership forum), and "Put yourself forward for the Q1 planning review" (Speaking, the Q1 planning review).
 - **From "What's on your mind?"** when what she says names a pitch, podcast, conference, panel, speaking, "a talk", a keynote, press, an editor, a journalist or a call for proposals.
+- **From a Spark Signal** in the Daily Briefing (18 Nov): **Start a pitch** or **Start a proposal** on a card opens Pitch Builder with that outlet chosen, its kind as What are you pitching for? and its name as Who are you pitching?.
 - **From the Playbook or the library,** and from her last pitch ("Your last pitch. Start from it instead of a blank page."), which starts a new pitch linked back to it.
 
 ### 1.2 When another builder fits better

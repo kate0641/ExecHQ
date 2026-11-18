@@ -50,6 +50,7 @@ import {
   LIBRARY_COPY,
   LIBRARY_SEED,
   PITCH_INPUTS,
+  OUTLETS,
   POSITIONING_COPY,
   SAVED_NOTICE_COPY,
   POSITIONING_INPUTS,
@@ -195,6 +196,8 @@ export function useToolFlow(concept: FlowConcept) {
    *  brief from a pitch that went well. */
   const afterId = params.get("after") ?? undefined;
   const moment = params.get("moment") ?? undefined;
+  /** Started from a Spark Signal in the Briefing: the outlet she is pitching, chosen. */
+  const outletId = params.get("outlet") ?? undefined;
 
   const draft: DraftState | undefined = artifactId ? playbook.drafts[artifactId] : undefined;
   const record = artifactId ? loop.records.find((r) => r.id === artifactId) : undefined;
@@ -297,6 +300,8 @@ export function useToolFlow(concept: FlowConcept) {
   // What she said was coming up is a topic for a post, but for a brief or a
   // pitch it only says what kind of moment it is; the rest is still asked.
   const guessed = moment ? (kind === "pitch" ? pitchType(moment) : kind === "situation-brief" ? momentType(moment) : undefined) : undefined;
+  const pitchedOutlet = kind === "pitch" && outletId ? OUTLETS.find((o) => o.id === outletId) : undefined;
+  const fromOutlet: Record<string, string> = pitchedOutlet ? { type: pitchedOutlet.type, target: pitchedOutlet.name } : {};
   const fromMoment: Record<string, string> = moment
     ? kind === "thought-leadership"
       ? { topic: moment }
@@ -319,7 +324,9 @@ export function useToolFlow(concept: FlowConcept) {
   const inputs: readonly ToolInput[] = baseInputs.map((input) =>
     fromStep[input.id]
       ? { ...input, value: fromStep[input.id], source: input.kind === "choice" ? undefined : ("plan" as const) }
-      : fromMoment[input.id]
+      : fromOutlet[input.id]
+        ? { ...input, value: fromOutlet[input.id] }
+        : fromMoment[input.id]
         ? { ...input, value: fromMoment[input.id] }
         : fromEarlier[input.id]
           ? { ...input, value: fromEarlier[input.id] }
@@ -327,7 +334,7 @@ export function useToolFlow(concept: FlowConcept) {
   );
   // A new start (another tool, plan step, read or earlier work) begins with
   // nothing typed: moving between builders keeps this hook, not her answers.
-  const startKey = artifactId ? "" : `${kind}|${stepId ?? ""}|${readId ?? ""}|${afterId ?? ""}|${moment ?? ""}`;
+  const startKey = artifactId ? "" : `${kind}|${stepId ?? ""}|${readId ?? ""}|${afterId ?? ""}|${moment ?? ""}|${outletId ?? ""}`;
   const [lastStart, setLastStart] = useState(startKey);
   if (startKey && startKey !== lastStart) {
     setLastStart(startKey);

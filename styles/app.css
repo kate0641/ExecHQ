@@ -23422,3 +23422,171 @@ body > .saved-notice {
     transition: none;
   }
 }
+
+/* --- Spark Signals: opportunities to be seen, after today's reads (2026-11-18) ---------------- */
+.spark-signals {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  /* The cards' own width inside the navy, so the next one peeks in. */
+  --card-carousel-width: 18rem;
+}
+
+.spark-signals__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.spark-signals__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-headline-on-inverse);
+}
+
+.spark-signals__lede,
+.spark-signals__none {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse-muted);
+}
+
+.spark-signals__honest {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-inverse-muted);
+}
+
+output.spark-signals__said {
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse);
+}
+
+output.spark-signals__said:empty {
+  display: none;
+}
+
+/* The carousel's controls, on navy. */
+.spark-signals .card-carousel__controls > .btn {
+  border-color: var(--color-border-inverse);
+  background-color: transparent;
+  color: var(--color-text-inverse);
+}
+
+.spark-signals .card-carousel__controls > .btn:hover:not(:disabled) {
+  background-color: var(--color-surface-inverse-hover);
+}
+
+.spark-signals .card-carousel__controls > .btn:disabled {
+  border-color: var(--color-border-inverse);
+  color: var(--color-text-inverse-muted);
+  opacity: 0.5;
+}
+
+.spark-signals .card-carousel__controls > .btn:focus-visible,
+.spark-signals .card-carousel__dots--buttons button:focus-visible {
+  outline-color: var(--color-focus-inverse);
+}
+
+.spark-signals .card-carousel__position {
+  color: var(--color-text-inverse-muted);
+}
+
+.spark-signals .card-carousel__dots i {
+  border-color: var(--color-border-inverse);
+}
+
+.spark-signals .card-carousel__dots i.is-now {
+  border-color: var(--color-headline-on-inverse);
+  background-color: var(--color-headline-on-inverse);
+}
+
+.spark-signal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  block-size: 100%;
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+.spark-signal__kind {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
+}
+
+.spark-signal__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.spark-signal__why {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.spark-signal__why b {
+  color: var(--color-text-primary);
+}
+
+.spark-signal__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin: var(--space-3xs) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.spark-signal__facts li {
+  padding: var(--space-3xs) var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  font-size: var(--text-xs);
+}
+
+.spark-signal__facts li.is-due {
+  border-color: var(--color-accent-soft);
+  background-color: var(--color-accent-soft);
+  font-weight: var(--weight-semibold);
+}
+
+.spark-signal__contact {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.spark-signal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-block-start: auto;
+  padding-block-start: var(--space-xs);
+}
+
+.spark-signal__pass {
+  min-block-size: var(--button-target);
+  font-size: var(--text-sm);
+}

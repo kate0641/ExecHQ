@@ -75,6 +75,19 @@ Opening a read scrolls to the top of the page and moves focus to its headline. O
 
 **That's today's three.** (level 2), then "Tomorrow's arrive in the morning." Once all three are opened it says **You've read today's three.** Under it, **Change publishers in Profile**, which opens Profile.
 
+### 3.4a Spark Signals (2026-11-18)
+
+From the 18 November UX review: alongside the news, the Briefing offers a few **opportunities to be seen**, picked for where the person is going: a show to pitch, an event to speak at, a publication to write for. It sits after the three reads and before the close, so the news reads straight through first; on web, in the list column under the three reads.
+
+- **A navy section**, headed **Spark Signals**, with "Opportunities to be seen, picked for where you're going. New ones each Monday."
+- **One card at a time, in a carousel** (as Home's In progress): the next card peeks in, cards snap as she swipes, with Previous and Next either side of the dots and "1 of 3". The arrow buttons and dots work by keyboard.
+- **Each card:** its kind in small capitals (**Podcast**, **Event** or **Publication**), its name, **Why you:** with why it fits her plan, what they want ("A 40-minute recorded conversation"), its closing date ("Due Fri, Nov 13, 2026", highlighted) or how often it reads pitches, and how to reach it (a named editor, an address, or "Through its own form").
+- **Start a pitch** (**Start a proposal** for an event) opens Pitch Builder with that outlet chosen: its kind as What are you pitching for? and its name as Who are you pitching?.
+- **Not for me** takes it off, says "Got it. You'll see fewer like this.", and it does not come back. With none left: "That's this week's. New ones come on Monday."
+- **Under the cards, always:** "Picked by ExecEngine from your plan and your field. Check the details before you reach out." ExecEngine finds them; it does not vouch for them.
+- **Up to three a week, refreshed on Monday.** Big events, shows and publications in her field, not local meetups. **Inside her company's world only:** her field, never a way out (no job boards, recruiters or board seats elsewhere).
+- They are not part of "only ever three": the three are reads; these are opportunities, in their own section.
+
 ### 3.5 The read's actions
 
 - **Save** (a toggle, with a bookmark; **Saved** when on). Saving says "Saved. Find it in Saved, at the top of your Briefing."; un-saving says "Removed from your saved reads."
@@ -148,6 +161,7 @@ In Profile, under **Daily Briefing**, the **Publishers** row opens the same list
 | `RespondLink` | Write a post about this |
 | `BriefingEnd` | That's today's three |
 | `PublisherPicker` | The first visit, and Profile's Publishers sheet |
+| `SparkSignals` | The opportunities after the reads (3.4a), in a `CardCarousel` |
 | `Sheet` | A saved read, opened from Saved |
 
 ---
@@ -162,6 +176,7 @@ In Profile, under **Daily Briefing**, the **Publishers** row opens the same list
 | Relevance is acknowledged and kept, but changes nothing | It feeds which reads are picked |
 | Four reads are saved on earlier days, so the Saved page has something to show; the dock's reset brings them back | Saved holds only what they saved |
 | Everything is kept in the browser, and the dock's reset clears it | Publishers, saved reads, read state and relevance are kept on the account |
+| The same three Spark Signals, drawn from Pitch Builder's invented outlets; Not for me only hides one | Up to three found each week by ExecEngine (AI) from her plan, direction and field, checked for a live page and a date; Not for me teaches it what to leave out |
 
 ---
 

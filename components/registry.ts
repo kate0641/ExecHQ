@@ -111,6 +111,7 @@ import { briefingArticleStates } from "./briefing/BriefingArticle/BriefingArticl
 import { respondLinkStates } from "./briefing/RespondLink/RespondLink.states";
 import { sourceLabelStates } from "./briefing/SourceLabel/SourceLabel.states";
 import { readCounterStates } from "./briefing/ReadCounter/ReadCounter.states";
+import { sparkSignalsStates } from "./briefing/SparkSignals/SparkSignals.states";
 import { briefingEndStates } from "./briefing/BriefingEnd/BriefingEnd.states";
 import { toolUseCaseStates } from "./playbook/ToolUseCase/ToolUseCase.states";
 import { inputPanelStates } from "./playbook/InputPanel/InputPanel.states";
@@ -245,6 +246,7 @@ export const registry: RegisteredComponent[] = [
   sourceLabelStates,
   readCounterStates,
   briefingEndStates,
+  sparkSignalsStates,
   toolUseCaseStates,
   inputPanelStates,
   pickAnswerStates,

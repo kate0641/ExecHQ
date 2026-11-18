@@ -28,9 +28,11 @@ export interface ReadState {
 export interface BriefingState {
   publishers: readonly string[] | null;
   reads: Readonly<Record<string, ReadState>>;
+  /** Spark Signals she said Not for me to, by outlet id. */
+  passed: readonly string[];
 }
 
-const INITIAL: BriefingState = { publishers: null, reads: {} };
+const INITIAL: BriefingState = { publishers: null, reads: {}, passed: [] };
 
 let cached: BriefingState | undefined;
 const listeners = new Set<() => void>();
@@ -43,6 +45,7 @@ function read(): BriefingState {
     return {
       publishers: Array.isArray(parsed.publishers) ? parsed.publishers.filter((id) => typeof id === "string") : null,
       reads: parsed.reads && typeof parsed.reads === "object" ? parsed.reads : {},
+      passed: Array.isArray(parsed.passed) ? parsed.passed.filter((id) => typeof id === "string") : [],
     };
   } catch {
     return INITIAL;
@@ -83,6 +86,8 @@ export const briefingActions = {
   setSaved: (id: string, saved: boolean) => updateRead(id, { saved }),
   /** Undefined takes the answer back. */
   setRelevance: (id: string, relevance: Relevance | undefined) => updateRead(id, { relevance }),
+  /** Not for me, on a Spark Signal: it goes, and fewer like it come. */
+  passSignal: (id: string) => write({ ...get(), passed: [...get().passed.filter((p) => p !== id), id] }),
 };
 
 /** Back to the first visit, nothing read. The dock's reset calls this. */

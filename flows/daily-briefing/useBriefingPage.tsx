@@ -8,6 +8,7 @@ import { BriefingReader } from "@/components/briefing/BriefingReader";
 import { BriefingPicture } from "@/components/briefing/BriefingPicture";
 import { PublisherPicker } from "@/components/briefing/PublisherPicker";
 import { ReadActions } from "@/components/briefing/ReadActions";
+import { SparkSignals, type SparkSignal } from "@/components/briefing/SparkSignals";
 import { Sheet } from "@/components/layout/Sheet";
 import { Icon } from "@/components/primitives/Icon";
 import { briefingActions, respondHref, useBriefing, type ReadState, type Relevance } from "@/lib/briefing-store";
@@ -16,7 +17,8 @@ import { READ_BRIEFING_STEP } from "@/lib/playbook-links";
 import { flowFor, usePlaybook } from "@/lib/playbook-store";
 import { addDays, fullDate } from "@/lib/loop";
 import { touchedTag } from "@/lib/library";
-import { BRIEFING_COPY as C, EARLIER_SAVED, publisherName, TODAYS_READS, type BriefingRead } from "@/mock/briefing";
+import { BRIEFING_COPY as C, EARLIER_SAVED, publisherName, SPARK_SIGNAL_IDS, SPARK_SIGNALS_COPY as SC, TODAYS_READS, type BriefingRead } from "@/mock/briefing";
+import { OUTLETS, type Outlet } from "@/mock/playbook";
 
 export const PROFILE_HREF = "/profile/concept-1";
 export const TITLE_ID = "briefing-title";
@@ -46,6 +48,42 @@ export function useBriefingPage() {
   // The hand-off lands in the tool flow concept the reviewer last opened.
   const flowConcept = flowFor(usePlaybook());
   const respond = (readId: string, from?: "passage" | "selection") => respondHref(readId, from, flowConcept);
+
+  /** Spark Signals: this week's opportunities, after the reads, less any she passed on. */
+  const [passedNow, setPassedNow] = useState(false);
+  const contactOf = (o: Outlet): string | undefined =>
+    o.contact?.person ?? (o.contact?.route === "email" ? o.contact.address : o.contact?.route === "form" ? SC.form : undefined);
+  const signals: SparkSignal[] = SPARK_SIGNAL_IDS.filter((id) => !state.passed.includes(id))
+    .map((id) => OUTLETS.find((o) => o.id === id))
+    .filter((o): o is Outlet => Boolean(o))
+    .map((o) => ({
+      id: o.id,
+      kind: SC.kind[o.type] ?? o.type,
+      name: o.name,
+      why: o.fits ?? "",
+      format: o.ask?.format,
+      when: o.ask?.deadline ? SC.due(fullDate(o.ask.deadline)) : o.ask?.cycle,
+      dated: Boolean(o.ask?.deadline),
+      contact: contactOf(o),
+      startLabel: SC.start[o.type] ?? SC.start.Podcast,
+      href: `/playbook-flow/${flowConcept}?tool=pitch&outlet=${o.id}`,
+    }));
+  const sparkSignals: ReactNode = (
+    <SparkSignals
+      items={signals}
+      heading={SC.heading}
+      lede={SC.lede}
+      whyLabel={SC.why}
+      notForMeLabel={SC.notForMe}
+      passedNote={passedNow ? SC.passed : undefined}
+      noneNote={SC.none}
+      honest={SC.honest}
+      onPass={(id) => {
+        briefingActions.passSignal(id);
+        setPassedNow(true);
+      }}
+    />
+  );
 
   // Opened from the Plan's "Read today's Briefing": reading one item, or
   // starting a post from one, completes the step. Opened any other way, the
@@ -274,6 +312,7 @@ export function useBriefingPage() {
 
   return {
     reads,
+    sparkSignals,
     respond,
     completeStep,
     setSaved,

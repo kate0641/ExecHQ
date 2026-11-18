@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "briefing-spark-signals",
+    title: "Briefing: Spark Signals",
+    description:
+      "Up to three opportunities a week after the Briefing's reads, in a navy carousel: a show, event or publication picked for her, with Start a pitch (Pitch Builder, outlet chosen) and Not for me (18 Nov).",
+  },
+  {
     slug: "add-to-your-plan-cut",
     title: "Plan: Add to your plan is cut",
     description:
