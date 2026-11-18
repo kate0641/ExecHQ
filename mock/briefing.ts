@@ -411,7 +411,7 @@ export const SPARK_SIGNAL_IDS: readonly string[] = ["marketing-leaders-podcast",
 
 export const SPARK_SIGNALS_COPY = {
   heading: "Spark Signals",
-  lede: "Opportunities to be seen, picked for where you’re going. New ones each Monday.",
+  lede: "Picked for you this week",
   /** The kind, over each card, from the outlet's pitch type. */
   kind: { Podcast: "Podcast", Speaking: "Event", Press: "Publication" } as Record<string, string>,
   why: "Why you:",
@@ -422,5 +422,5 @@ export const SPARK_SIGNALS_COPY = {
   notForMe: "Not for me",
   passed: "Got it. You’ll see fewer like this.",
   none: "That’s this week’s. New ones come on Monday.",
-  honest: "Picked by ExecEngine from your plan and your field. Check the details before you reach out.",
+  honest: "Picked by ExecEngine from your plan. Check before you reach out.",
 } as const;

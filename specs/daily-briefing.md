@@ -79,12 +79,12 @@ Opening a read scrolls to the top of the page and moves focus to its headline. O
 
 From the 18 November UX review: alongside the news, the Briefing offers a few **opportunities to be seen**, picked for where the person is going: a show to pitch, an event to speak at, a publication to write for. It sits after the three reads and before the close, so the news reads straight through first; on web, in the list column under the three reads.
 
-- **A navy section**, headed **Spark Signals**, with "Opportunities to be seen, picked for where you're going. New ones each Monday."
-- **One card at a time, in a carousel** (as Home's In progress): the next card peeks in, cards snap as she swipes, with Previous and Next either side of the dots and "1 of 3". The arrow buttons and dots work by keyboard.
-- **Each card:** its kind in small capitals (**Podcast**, **Event** or **Publication**), its name, **Why you:** with why it fits her plan, what they want ("A 40-minute recorded conversation"), its closing date ("Due Fri, Nov 13, 2026", highlighted) or how often it reads pitches, and how to reach it (a named editor, an address, or "Through its own form").
-- **Start a pitch** (**Start a proposal** for an event) opens Pitch Builder with that outlet chosen: its kind as What are you pitching for? and its name as Who are you pitching?.
-- **Not for me** takes it off, says "Got it. You'll see fewer like this.", and it does not come back. With none left: "That's this week's. New ones come on Monday."
-- **Under the cards, always:** "Picked by ExecEngine from your plan and your field. Check the details before you reach out." ExecEngine finds them; it does not vouch for them.
+- **On the page like the reads** (cleaned up the same day, option 2): a hairline, then **Spark Signals** in the serif with "Picked for you this week" at the right. No coloured box.
+- **One light card at a time, in a carousel** (as Home's In progress): the next card peeks in, cards snap as she swipes, and dots under them jump to each card. No arrow buttons; the dots and the track work by keyboard, and the position is said to assistive technology.
+- **Each card:** its kind in small capitals (**Podcast**, **Event** or **Publication**), its name in the serif, why it fits her plan, then one line of what they want and when ("A 300-word abstract for a 30-minute talk · **Due Fri, Nov 13, 2026**", the date in bold) or how often it reads pitches. How to reach it is not on the card: Pitch Builder shows it once she starts.
+- **Start a pitch** (**Start a proposal** for an event), a navy button, opens Pitch Builder with that outlet chosen: its kind as What are you pitching for? and its name as Who are you pitching?.
+- **An × in the card's corner is Not for me** (named "Not for me: {name}"). It takes the card off, says "Got it. You'll see fewer like this.", and it does not come back. With none left: "That's this week's. New ones come on Monday."
+- **Under the cards, always:** "Picked by ExecEngine from your plan. Check before you reach out." ExecEngine finds them; it does not vouch for them.
 - **Up to three a week, refreshed on Monday.** Big events, shows and publications in her field, not local meetups. **Inside her company's world only:** her field, never a way out (no job boards, recruiters or board seats elsewhere).
 - They are not part of "only ever three": the three are reads; these are opportunities, in their own section.
 

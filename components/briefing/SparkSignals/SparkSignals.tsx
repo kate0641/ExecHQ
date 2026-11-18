@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CardCarousel } from "@/components/layout/CardCarousel";
+import { Icon } from "@/components/primitives/Icon";
 
 export interface SparkSignal {
   id: string;
@@ -14,7 +15,7 @@ export interface SparkSignal {
   when?: string;
   /** True when `when` is a closing date, so it stands out. */
   dated?: boolean;
-  /** How to reach it: an address, a named editor, or its own form. */
+  /** How to reach it: an address, a named editor, or its own form. Shown in Pitch Builder, not on the card. */
   contact?: string;
   /** The button: "Start a pitch", "Start a proposal". */
   startLabel: string;
@@ -40,13 +41,14 @@ export interface SparkSignalsProps {
 }
 
 /**
- * Spark Signals (UX review, 18 Nov): after today's reads, a navy section of
- * opportunities to be seen, picked for where she is going: a show to pitch, an
- * event to speak at, a publication to write for. One card at a time in a
- * carousel, the next peeking in, with its kind, why it fits her, what they
- * want, its date or reading cycle, how to reach it, a way to start the pitch
- * in Pitch Builder, and Not for me. Said plainly as picked by ExecEngine, to
- * check before she acts.
+ * Spark Signals (UX review, 18 Nov): after today's reads, on the page like
+ * them, under a hairline with a serif heading (option 2 of the clean-up). Up
+ * to three opportunities to be seen, picked for where she is going: a show to
+ * pitch, an event to speak at, a publication to write for. One light card at a
+ * time in a carousel, the next peeking in, with dots: its kind, its name, why
+ * it fits her, one line of what they want and when, a navy button to start
+ * the pitch in Pitch Builder, and an × in the corner for Not for me. Said
+ * plainly as picked by ExecEngine, to check before she reaches out.
  */
 export function SparkSignals({
   items,
@@ -73,6 +75,7 @@ export function SparkSignals({
         <CardCarousel
           label={heading}
           className="spark-signals__carousel"
+          arrows={false}
           items={items.map((item) => ({
             id: item.id,
             node: (
@@ -82,24 +85,22 @@ export function SparkSignals({
                   {item.name}
                 </h3>
                 <p className="spark-signal__why">
-                  <b>{whyLabel}</b> {item.why}
+                  <span className="u-visually-hidden">{whyLabel} </span>
+                  {item.why}
                 </p>
                 {item.format || item.when ? (
-                  <ul className="spark-signal__facts">
-                    {item.format ? <li>{item.format}</li> : null}
-                    {item.when ? <li className={item.dated ? "is-due" : undefined}>{item.when}</li> : null}
-                  </ul>
+                  <p className="spark-signal__meta">
+                    {item.format}
+                    {item.format && item.when ? <span aria-hidden="true"> · </span> : null}
+                    {item.when ? <span className={item.dated ? "spark-signal__due" : undefined}>{item.when}</span> : null}
+                  </p>
                 ) : null}
-                {item.contact ? <p className="spark-signal__contact">{item.contact}</p> : null}
-                <div className="spark-signal__actions">
-                  <Link href={item.href} className="btn btn--primary btn--md">
-                    {item.startLabel}
-                  </Link>
-                  <button type="button" className="link spark-signal__pass" onClick={() => onPass(item.id)}>
-                    {notForMeLabel}
-                    <span className="u-visually-hidden">: {item.name}</span>
-                  </button>
-                </div>
+                <Link href={item.href} className="btn btn--strong btn--md spark-signal__start">
+                  {item.startLabel}
+                </Link>
+                <button type="button" className="spark-signal__pass" aria-label={`${notForMeLabel}: ${item.name}`} onClick={() => onPass(item.id)}>
+                  <Icon name="close" size={16} />
+                </button>
               </article>
             ),
           }))}

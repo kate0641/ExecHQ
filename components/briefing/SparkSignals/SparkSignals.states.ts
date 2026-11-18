@@ -58,7 +58,7 @@ export const sparkSignalsStates = defineComponentStates({
   status: "draft",
   flows: ["daily-briefing"],
   description:
-    "Opportunities to be seen, after today's reads (UX review, 18 Nov): a navy section, Spark Signals, with a carousel of up to three cards, each a show, event or publication picked for where she is going: its kind, Why you, what they want, its closing date or reading cycle, how to reach it, Start a pitch (or a proposal) in Pitch Builder with that outlet chosen, and Not for me. Always says ExecEngine picked them, to check before she reaches out.",
+    "Opportunities to be seen, after today's reads (UX review, 18 Nov): on the page like the reads, under a hairline and a serif heading, a carousel of up to three light cards with dots, each a show, event or publication picked for where she is going: its kind, its name, why it fits, one line of what they want and when, Start a pitch (or a proposal) in Pitch Builder with that outlet chosen, and an × for Not for me. Always says ExecEngine picked them, to check before she reaches out.",
   component: SparkSignals,
   notApplicable: {
     loading: "Picked before the Briefing opens: there is nothing to wait for on the page.",
@@ -70,7 +70,7 @@ export const sparkSignalsStates = defineComponentStates({
     { label: "Three this week — default", props: { ...base, headingId: "ss-default" } },
     {
       label: "Hover, focus and pressed",
-      description: "Start a pitch, Not for me and the carousel's controls. Point at them or tab to them.",
+      description: "Start a pitch, the × (Not for me) and the dots. Point at them or tab to them.",
       states: ["hover", "focus", "active"],
       props: { ...base, headingId: "ss-states" },
     },

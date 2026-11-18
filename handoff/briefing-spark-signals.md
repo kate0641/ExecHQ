@@ -6,22 +6,23 @@ From the 18 November ExecEngine UX review (edit 20). The MVP pointed people at r
 
 ## The section
 
+Cleaned up the same day (option 2 of three): on the page like the reads, not in a navy box.
+
 | Part | Words |
 | --- | --- |
-| Heading | Spark Signals |
-| Line | Opportunities to be seen, picked for where you're going. New ones each Monday. |
-| Card | Kind (Podcast, Event, Publication) · name · **Why you:** {why it fits} · what they want · closing date ("Due Fri, Nov 13, 2026", highlighted) or reading cycle · how to reach it |
-| Buttons | **Start a pitch** (**Start a proposal** for an event) · **Not for me** |
+| Heading | Spark Signals (serif), with "Picked for you this week" at the right, under a hairline |
+| Card | Kind (Podcast, Event, Publication) · name (serif) · why it fits · one line: what they want · closing date in bold ("Due Fri, Nov 13, 2026") or reading cycle |
+| Buttons | **Start a pitch** (**Start a proposal** for an event), navy · an × in the corner, named "Not for me: {name}" |
 | Passed | Got it. You'll see fewer like this. |
 | None left | That's this week's. New ones come on Monday. |
-| Under the cards | Picked by ExecEngine from your plan and your field. Check the details before you reach out. |
+| Under the cards | Picked by ExecEngine from your plan. Check before you reach out. |
 
 ## How it behaves
 
-- **Where:** after the three reads, before "That's today's three." On web, in the list column under the reads. Navy, as the Plan's moments are.
-- **A carousel,** one card at a time with the next peeking, as Home's In progress: swipe, or Previous and Next and the dots. One card: no controls.
-- **Start a pitch** opens Pitch Builder with the outlet chosen (`?tool=pitch&outlet={id}`): its kind as What are you pitching for? and its name as Who are you pitching?.
-- **Not for me** removes it for good and is announced. In production it also tells ExecEngine what to leave out.
+- **Where:** after the three reads, before "That's today's three." On web, in the list column under the reads.
+- **A carousel** of light cards, one at a time with the next peeking, as Home's In progress, with dots and no arrow buttons. One card: no controls.
+- **Start a pitch** opens Pitch Builder with the outlet chosen (`?tool=pitch&outlet={id}`): its kind as What are you pitching for? and its name as Who are you pitching?. How to reach it shows there, not on the card.
+- **The ×** removes it for good and is announced. In production it also tells ExecEngine what to leave out.
 - **Up to three a week,** in her field: big events, shows and publications, not local meetups. Never a way out of her company.
 
 ## Where they come from
