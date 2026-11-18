@@ -15,11 +15,11 @@ export const libraryEmptyStates = defineComponentStates({
     ...FIXED_CONTENT,
     hover: "Its one link shares the plain link hover.",
     active: "Its one link goes straight to the step.",
-    disabled: "Her first step is always there.",
+    disabled: "Her first move is always there.",
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "Her first step — default, empty", props: { step: "Use your leadership story in your next 1:1", stepHref: "/plan/concept-3" }, states: ["focus"] },
+    { label: "Her first move — default, empty", props: { step: "Use your leadership story in your next 1:1", stepHref: "/plan/concept-3" }, states: ["focus"] },
     { label: "A long step wraps", props: { step: "Plan your first conversation with the review’s sponsor before the planning cycle opens", stepHref: "/plan/concept-3" } },
   ],
 });

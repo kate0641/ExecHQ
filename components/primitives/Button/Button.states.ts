@@ -74,6 +74,6 @@ export const buttonStates = defineComponentStates({
       props: { variant: "danger", children: "Delete my account", disabled: true },
     },
     { label: "Small", props: { size: "sm", children: "Edit" } },
-    { label: "Full width", props: { fullWidth: true, children: "Show me a first step" } },
+    { label: "Full width", props: { fullWidth: true, children: "Show me a first move" } },
   ],
 });

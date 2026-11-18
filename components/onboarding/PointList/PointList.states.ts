@@ -23,7 +23,7 @@ export const pointListStates = defineComponentStates({
         items: [
           { title: "A plan for where you want to go", detail: "Short-, medium-, and long-term steps with clear benchmarks." },
           { title: "Work done, not just advice", detail: "Most steps come with drafts made for you to use." },
-          { title: "Something that grows with you", detail: "Finish a step or change direction, and the plan updates." },
+          { title: "Something that grows with you", detail: "Finish a move or change direction, and the plan updates." },
         ],
         numbered: true,
       },

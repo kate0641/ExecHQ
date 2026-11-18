@@ -14,7 +14,7 @@ export const STEP_LABELS: Record<OnboardingStep, string> = {
   interpretation: "Interpretation",
   plan: "Plan",
   "plan-confirmed": "Plan confirmed",
-  action: "First step",
+  action: "First move",
   artifact: "Draft",
   connect: "Connections",
   complete: "Done",

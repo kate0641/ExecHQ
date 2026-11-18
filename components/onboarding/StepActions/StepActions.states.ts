@@ -28,7 +28,7 @@ export const stepActionsStates = defineComponentStates({
       label: "With skip path",
       props: {
         primaryLabel: "Answer this",
-        skipLabel: "Skip and show my first step",
+        skipLabel: "Skip and show my first move",
       },
     },
     {
@@ -37,7 +37,7 @@ export const stepActionsStates = defineComponentStates({
       props: {
         primaryLabel: "Continue",
         primaryDisabled: true,
-        skipLabel: "Skip and show my first step",
+        skipLabel: "Skip and show my first move",
       },
     },
     {
@@ -45,7 +45,7 @@ export const stepActionsStates = defineComponentStates({
       description: "Back is tertiary. It is never where the skip path lives.",
       props: {
         primaryLabel: "Answer this",
-        skipLabel: "Skip and show my first step",
+        skipLabel: "Skip and show my first move",
         backLabel: "Back",
       },
     },

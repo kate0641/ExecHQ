@@ -1966,7 +1966,7 @@ export function quickWinFor(
     : {
         title: "Sharpen your story",
         detail: "Add your role and one result, so your draft is ready to say in a meeting.",
-        why: plan?.thisWeek?.why ?? "Every next step starts with saying what you lead.",
+        why: plan?.thisWeek?.why ?? "Every next move starts with saying what you lead.",
       };
 }
 
@@ -2290,13 +2290,13 @@ export const GUIDE_C3 = {
     /** One option picked: the same page, narrowing it down. */
     narrow: "Narrow it down",
     narrowTitle: "Which is closest?",
-    narrowLede: "A little more detail gives ExecEngine a clearer first step.",
+    narrowLede: "A little more detail gives ExecEngine a clearer first move.",
     /** "I'm not sure yet" picked on its own. */
     narrowUnsureLede: "That\u2019s what ExecEngine is for: it will help you figure it out.",
-    narrowWhy: "Your plan needs a first step. The more specific the starting point, the clearer that step is.",
+    narrowWhy: "Your plan needs a first move. The more specific the starting point, the clearer that move is.",
     firstLede: "ExecEngine will start there, and keep the rest in view.",
     /** Why the second question is asked, on its own: the first is already answered. */
-    firstWhy: "Your plan needs a first step. Starting from the one that matters most gives it a clear direction, and the rest stay in view.",
+    firstWhy: "Your plan needs a first move. Starting from the one that matters most gives it a clear direction, and the rest stay in view.",
     why: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most.",
     cta: "Continue",
   },
@@ -2305,7 +2305,7 @@ export const GUIDE_C3 = {
   /** The five plans, straight after Account: she picks, or can't decide and
    *  goes the long way to ExecEngine's pick. */
   pick: {
-    kicker: "Your first step",
+    kicker: "Your first move",
     title: "Where do you want to start?",
     lede: "Everyone\u2019s path starts somewhere. Pick one to begin with. You can change it at any time.",
     cta: "Use this plan",
@@ -2315,7 +2315,7 @@ export const GUIDE_C3 = {
     unsure: "I can\u2019t decide",
   },
   rec: {
-    kicker: "Your first step",
+    kicker: "Your first move",
     title: "Choose your plan",
     lede: "Whichever you choose, the next few questions make it yours.",
     cta: "Use this plan",
@@ -2331,7 +2331,7 @@ export const GUIDE_C3 = {
       options: ["None, honestly", "Under an hour", "An hour or two", "More than that"],
       replies: [
         "That\u2019s an honest answer, and a useful one. Your plan starts with work you already do and makes each piece count.",
-        "Then every minute has to count. Your plan puts the highest-value step first.",
+        "Then every minute has to count. Your plan puts the highest-value move first.",
         "That\u2019s enough to move, if it\u2019s aimed. Your plan gives that time a direction.",
         "Then the question isn\u2019t effort, it\u2019s aim. Your plan makes sure that time builds toward one thing.",
       ],
@@ -2433,9 +2433,9 @@ export const GUIDE_C3 = {
     /** Over the short-term's other steps, under the first step's card. */
     thenLabel: "Then, this week",
     /** Beside each horizon's name, so Home's three, one and one come as no surprise. */
-    stepCount: (count: number) => `${count} step${count === 1 ? "" : "s"}`,
+    stepCount: (count: number) => `${count} move${count === 1 ? "" : "s"}`,
     firstLine: "ExecEngine drafts it with you, now or later.",
-    start: "Start your first step",
+    start: "Start your first move",
     together: "These run side by side. Do the quick wins now, and chip away at the bigger pieces when you have time.",
     aheadLabel: "The stages ahead",
     aheadCount: (count: number) => `${count} more`,
@@ -2471,7 +2471,7 @@ export const GUIDE_C3 = {
         text: "Only 46% of U.S. employees clearly know what is expected of them at work.",
         source: "Gallup, 2025",
       },
-      why: "Every next step, a promotion conversation, a post, an introduction, starts with this sentence.",
+      why: "Every next move, a promotion conversation, a post, an introduction, starts with this sentence.",
     },
     /** The first draft, written from what the user has said, by decision on
      *  2026-09-28. Its lede answers the reflection before it. */
@@ -2500,7 +2500,7 @@ export const GUIDE_C3 = {
           label: "Save it and go to my homepage",
           // "as next" held together so "as" opens the second line instead of
           // hanging at the end of the first.
-          detail: "It\u2019s saved. Both of these wait for you as\u00a0next steps on your plan.",
+          detail: "It\u2019s saved. Both of these wait for you as\u00a0next moves on your plan.",
         },
       },
       cta: "Save it and go to my homepage",

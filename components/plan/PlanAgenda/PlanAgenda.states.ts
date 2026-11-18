@@ -44,7 +44,7 @@ export const planAgendaStates = defineComponentStates({
     filled: "The add field is a text field, which shows its own filled state.",
   },
   variants: [
-    { label: "First stage and first step open — default", props: { ...base, headingId: "pa-h-default" } },
+    { label: "First stage and first move open — default", props: { ...base, headingId: "pa-h-default" } },
     { label: "Another stage opened", props: { ...base, demoStage: 1, demoStep: "add-wins", headingId: "pa-h-other" } },
     { label: "Every stage closed", props: { ...base, demoStage: null, demoStep: null, headingId: "pa-h-closed" } },
     { label: "Empty — nothing in the stage yet", props: { ...base, items: items.filter((i) => i.stage !== 3), demoStage: 3, demoStep: null, headingId: "pa-h-empty" } },

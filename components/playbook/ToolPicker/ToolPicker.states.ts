@@ -12,7 +12,7 @@ export const toolPickerStates = defineComponentStates({
   status: "draft",
   flows: ["playbook"],
   description:
-    "The four tools, always first on the Playbook: each row the icon, the name and what it makes, with the next step on her plan under them when there is one. On the phone the rows sit in one card, a hairline between them (Concept 2); on web they are the rail down the left of the page (Concept 2, option A).",
+    "The four tools, always first on the Playbook: each row the icon, the name and what it makes, with the next move on her plan under them when there is one. On the phone the rows sit in one card, a hairline between them (Concept 2); on web they are the rail down the left of the page (Concept 2, option A).",
   component: ToolPicker,
   notApplicable: {
     ...FIXED_CONTENT,
@@ -23,10 +23,10 @@ export const toolPickerStates = defineComponentStates({
   },
   variants: [
     { label: "Card (Concept 2, phone) — default", props: { layout: "card", hrefFor } },
-    { label: "Card with the next step under (Concept 2, phone)", props: { layout: "card", lead, hrefFor } },
+    { label: "Card with the next move under (Concept 2, phone)", props: { layout: "card", lead, hrefFor } },
     { label: "Card — focus", props: { layout: "card", hrefFor, demo: "focus" } },
     { label: "Rail (Concept 2, web)", props: { layout: "rail", hrefFor } },
-    { label: "Rail with the next step under (Concept 2, web)", props: { layout: "rail", lead, hrefFor } },
+    { label: "Rail with the next move under (Concept 2, web)", props: { layout: "rail", lead, hrefFor } },
     { label: "Rail — hover", props: { layout: "rail", hrefFor, demo: "hover" } },
     { label: "Rail — focus", props: { layout: "rail", hrefFor, demo: "focus" } },
     { label: "Rail — pressed", props: { layout: "rail", hrefFor, demo: "active" } },

@@ -50,7 +50,7 @@ export const BUILDER_BRIEFS: readonly BuilderBriefEntry[] = [
     slug: "thought-leadership",
     title: "Thought Leadership Builder",
     makes: "LinkedIn posts and articles",
-    description: "Her point of view in public, from her own idea, a plan step or a Briefing read.",
+    description: "Her point of view in public, from her own idea, a plan move or a Briefing read.",
   },
 ];
 

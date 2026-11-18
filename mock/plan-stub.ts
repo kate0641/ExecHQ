@@ -307,7 +307,7 @@ export const SIGNAL_COPY = {
   /** A signal with nothing in the window gets one quiet line, never a verdict. */
   quiet: "Nothing logged in the last 7 days.",
   quietStarted: (when: string) => `Your plan started ${when}. Nothing logged here yet.`,
-  focalEyebrow: "Your next step adds to",
+  focalEyebrow: "Your next move adds to",
   answeredEyebrow: "What you logged adds to",
   followUpAbout: "Adds to your signal",
   othersHeading: "Your other signals",

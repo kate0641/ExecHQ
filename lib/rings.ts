@@ -90,14 +90,14 @@ export function nextToFill(rings: Ring[]): { ring: Ring; segment: RingSegment } 
  *  "Short-term: 1 of 2 actions confirmed." */
 export function ringText(ring: Ring): string {
   const n = ring.segments.length;
-  return `${ring.label}: ${ring.confirmed} of ${n} ${n === 1 ? "action" : "actions"} confirmed.`;
+  return `${ring.label}: ${ring.confirmed} of ${n} ${n === 1 ? "move" : "moves"} confirmed.`;
 }
 
 /** Where the ring stands, in words under it. Neutral either way: an empty
  *  ring is "ready to start", never behind. */
 export function ringCount(ring: Ring): string {
   const n = ring.segments.length;
-  if (ring.confirmed === 0) return `${n === 1 ? "1 action" : `${n} actions`}, ready to start`;
+  if (ring.confirmed === 0) return `${n === 1 ? "1 move" : `${n} moves`}, ready to start`;
   return `${ring.confirmed} of ${n} confirmed`;
 }
 

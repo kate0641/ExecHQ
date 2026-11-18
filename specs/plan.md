@@ -253,7 +253,7 @@ An open stage shows **Finishing looks like** {the stage's milestone}, then what 
 
 Each line has its time in words on a pill, then its title.
 
-- **A step** is a button that opens it, one at a time: the start button (as 4.2; "I've done this" for a step with no tool that is already on their plan), then **Ask ExecEngine** with three rows, "Why this step?", "What will it take?" and "Ask something else", each opening the chat on its answer. On the roadmap under a move, the stage opens with every step closed, because the move above already offers the way to start it.
+- **A step** is a button that opens it, one at a time: the start button (as 4.2; "I've done this" for a step with no tool that is already on their plan), then **Ask ExecEngine** with three rows, "Why this move?", "What will it take?" and "Ask something else", each opening the chat on its answer. On the roadmap under a move, the stage opens with every step closed, because the move above already offers the way to start it.
 - **Something they added** shows its title and "· Yours", and does not open.
 
 A step goes in the stage its day falls in. A step still to do always goes in the stage they are in or the one they are about to start, never in one they have finished.
@@ -281,7 +281,7 @@ ExecEngine decides a stage is finished, from their work: every step they took on
 The check-in uses the same page and answers as the moves, with "Stage check-in · {stage}" where the plan's name was, and a segment for each of its pages.
 
 1. **What you did.** Kicker "Stage {n} of {total} · Finished", heading "You finished {stage}!", and "Here's what you did. Tell me how it went, and I'll build on it." (2026-10-28) Then one card per thing from the stage:
-   - its source: **Your steps**, **In ExecEngine** (something made with ExecEngine) or **Yours** (something they added),
+   - its source: **Your moves**, **In ExecEngine** (something made with ExecEngine) or **Yours** (something they added),
    - its title, and what happened when ("Used 13 Oct", "Done 9 Oct", "Added 17 Oct"),
    - what they have said came of it ("It went well." and their words in the serif), or a **Not reported yet** tag,
    - steps they passed on, listed with "You passed on it" and never asked about.

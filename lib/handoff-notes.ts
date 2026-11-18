@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "plan-items-are-moves",
+    title: "Every plan item is a move",
+    description:
+      "Everything on a person's plan is a move on every page they see: Start your first move, Your next move, 3 moves; step stays for progress through a flow; the Enterprise Dashboard's planned actions is unchanged (18 Nov).",
+  },
+  {
     slug: "onboarding-plan-horizons-grouped",
     title: "Onboarding: Your plan groups each horizon",
     description:

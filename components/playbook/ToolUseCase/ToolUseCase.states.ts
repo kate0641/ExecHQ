@@ -55,6 +55,6 @@ export const toolUseCaseStates = defineComponentStates({
     },
     { label: "Name and what it makes only (Concept 2)", props: { tool: TOOLS["situation-brief"], noStart: true, headingLevel: 2, noPicture: true, brief: true } },
     { label: "Without its own start button", props: { tool: TOOLS.pitch, choice: { ...pitchChoice, note: undefined, value: "" }, noStart: true, headingLevel: 2 } },
-    { label: "Situation Brief, a long plan step wraps", props: { tool: TOOLS["situation-brief"], planStep: "Brief your manager before Thursday’s check-in about the planning workstream and what it means for the Q1 review", onStart: noop, headingLevel: 2 } },
+    { label: "Situation Brief, a long plan move wraps", props: { tool: TOOLS["situation-brief"], planStep: "Brief your manager before Thursday’s check-in about the planning workstream and what it means for the Q1 review", onStart: noop, headingLevel: 2 } },
   ],
 });

@@ -75,7 +75,7 @@ function nextUse(article: boolean, nextStep?: string, fromRead = false): DraftSe
         ? ""
         : "Post it on a weekday morning, and reply to comments the same day.",
     fromRead ? "Your Briefing is a good place to find your next post: when a read speaks to what you lead, start one from it." : "",
-    nextStep ? `It serves your next step: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "",
+    nextStep ? `It serves your next move: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "",
     "When someone responds, answer in your own words. ExecEngine will ask how it landed in a week.",
   ].filter(Boolean);
   return { id: "next-use", heading: "Recommended next use", segments: [ex(parts.join(" "))] };
@@ -741,7 +741,7 @@ export function positioningDraft(v: Record<string, string>, name: string, nextSt
   const nextUse = [
     // "A speaker bio" → "your speaker bio"; "LinkedIn About section" keeps its capital.
     made ? `Start with the version made for your ${format!.replace(/^(a|an) /i, "")}.` : bio ? `Start with the ${bio.label} for your ${format!.replace(/^(a|an) /i, "")}.` : "Use the short bio wherever you are introduced.",
-    nextStep ? `Then use the narrative for your next step: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "Use the narrative to open your next conversation about scope.",
+    nextStep ? `Then use the narrative for your next move: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "Use the narrative to open your next conversation about scope.",
   ].join(" ");
   sections.push({ id: "next-use", heading: "Recommended next use", segments: [ex(nextUse)] });
   return sections;

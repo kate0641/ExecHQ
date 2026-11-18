@@ -251,7 +251,7 @@ export function understand(
   if (/\b(what came|what happened|remind me|how did|what have i|so far)\b/.test(t)) {
     return { kind: "recall", recordId: recordMentioned(t, records)?.id };
   }
-  if (/\b(what.?s next|next step|next on|what should i do|what now)\b/.test(t)) return { kind: "next" };
+  if (/\b(what.?s next|next step|next move|next on|what should i do|what now)\b/.test(t)) return { kind: "next" };
   if (/\b(scope|promot|bigger role|ask for more|raise|title|remit)/.test(t)) return { kind: "scope" };
   if (/\b(manager|boss|stakeholder|difficult|politic|influence|peers?)\b/.test(t)) return { kind: "politics" };
   // He asked how it went and could not tell: ask again, with the answers.

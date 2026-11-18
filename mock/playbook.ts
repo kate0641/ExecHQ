@@ -89,7 +89,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     kind: "thought-leadership",
     label: "Thought leadership",
     name: "Thought Leadership Builder",
-    makes: "A LinkedIn post or an article in your voice, from your own idea, a step on your plan or something you read.",
+    makes: "A LinkedIn post or an article in your voice, from your own idea, a move on your plan or something you read.",
     short: "A post or article in your voice",
     when: "Use it when you have a view worth putting your name to.",
     needs: ["Your point of view, in a line", "One example from your own work"],
@@ -571,7 +571,7 @@ export const USE_CASE_COPY = {
   needsHeading: "You’ll need",
   planHeading: "On your plan",
   /** Under the first choice, when her plan step chose it (option C). */
-  fromPlan: "Chosen from your plan step. Change it if it’s not right.",
+  fromPlan: "Chosen from the move on your plan. Change it if it’s not right.",
   /** In the answer row her plan step chose, where each answer starts the tool. */
   fromPlanShort: "From your plan",
   /** In the row she chose, when she comes back to the start. */
@@ -674,7 +674,7 @@ export const LIBRARY_COPY = {
    *  her first action step, never to a blank state. */
   empty: {
     heading: "Nothing here yet",
-    body: "Your first draft starts from the first step on your plan.",
+    body: "Your first draft starts from the first move on your plan.",
   },
   actions: {
     open: "Open",
@@ -1613,7 +1613,7 @@ export const AFTER_ANSWER: Record<ArtifactKind, Record<OutcomeType, AfterAnswer>
 };
 
 export const NEXT_STEP_COPY = {
-  heading: "Your next step",
+  heading: "Your next move",
   notNow: "Not now",
   /** A note is hers to add, never asked for: every feedback card has it. */
   addNote: "Add a note",

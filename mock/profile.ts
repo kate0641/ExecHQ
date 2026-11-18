@@ -58,7 +58,7 @@ export const PROFILE_COPY = {
     /** Email is the only way ExecEngine reaches a person, said on the page. */
     lead: "ExecEngine sends these by email. There are no app or push notifications.",
     items: {
-      plan: { label: "Plan and follow-ups", hint: "A question after you use something, and a nudge when a step is due." },
+      plan: { label: "Plan and follow-ups", hint: "A question after you use something, and a nudge when a move is due." },
       briefing: { label: "Daily Briefing", hint: "Three reads, once a day." },
     },
     savedOn: (label: string) => `${label} emails: on.`,

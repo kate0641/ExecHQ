@@ -110,7 +110,7 @@ export const NEXT_STEP_AFTER: Record<string, Recommendation> = {
 
 export const FALLBACK_NEXT_STEP: Recommendation = {
   id: "plan-next",
-  title: "Pick your next step from your plan",
+  title: "Pick your next move from your plan",
   why: "What you just logged is on your plan now.",
 };
 

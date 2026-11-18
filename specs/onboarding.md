@@ -49,7 +49,7 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | 7 | Choose your plan | *After I can't decide.* A question about what is in the way (for most directions), then the five plans, ExecEngine's pick first and marked; the person chooses | Choose a plan |
 | 8 | Reflection | One question to sit with, with a reply | An answer |
 | 9 | Questions | Up to three "Making it yours" questions, with two more reflections between them. On a plan she picked, the plan's own, the first setting her goal | No, except the one that sets her goal |
-| 10 | Your plan | The end of onboarding. Her plan saved; what she's working on now, as Home's short-term, medium-term and long-term, with **Start your first step** on the first; the stages ahead folded; **Later, take me to my homepage** | — |
+| 10 | Your plan | The end of onboarding. Her plan saved; what she's working on now, as Home's short-term, medium-term and long-term, with **Start your first move** on the first; the stages ahead folded; **Later, take me to my homepage** | — |
 | 11 | Your story | *Optional, from Start your first step.* A question to sit with, about saying what they lead | An answer |
 | 12 | First draft | *Optional.* The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Playbook** (Positioning Builder) | — |
 
@@ -178,7 +178,7 @@ Onboarding no longer has a Signals step or a LinkedIn upload page (Kate, 2026-11
 
 The five plans, straight after Account (Kate, 2026-11-13). She picks one herself, and it is made hers after; or she presses **I can't decide** and goes the long way to ExecEngine's pick (3.4a to 3.7). 24 words.
 
-- Label **Your first step.** Heading **Where do you want to start?** Line "Everyone's path starts somewhere. Pick one to begin with. You can change it at any time." The plan she picks is where she begins, not a path for good; she changes it later with Change your direction on the Plan page (2026-11-16).
+- Label **Your first move.** Heading **Where do you want to start?** Line "Everyone's path starts somewhere. Pick one to begin with. You can change it at any time." The plan she picks is where she begins, not a path for good; she changes it later with Change your direction on the Plan page (2026-11-16).
 - The five plans as cards: each plan's **name** and when it is for (Appendix C). **None is marked or open to start with.**
 - **Pressing a plan opens it in place** (Kate, 2026-11-13): **Pick this if** and three signs she can see herself in, then what she comes away with, then **Use this plan**. Pressing it again closes it; opening another closes the first, so one is open at a time. No chevron and no Cancel. The card is a disclosure button ("expanded" or "collapsed"). Each plan's words are in its template (`pickIf`, `comeAway`), drafted from its brief for Eric's sign-off:
 
@@ -244,7 +244,7 @@ For most directions, one question is asked before the recommendation, because it
 
 *After I can't decide (3.4b).* This is where the plan is chosen, and the person chooses it (Kate, 2026-11-12). ExecEngine says which it would pick and why, but all five are on the page as equals to choose from. It replaces the Recommendation page and its "See other plans" page.
 
-- Label **Your first step** (2026-11-16; was Your plan), as on Where do you want to start? Heading **Choose your plan.** Line: "Whichever you choose, the next few questions make it yours." 13 words of the page's own; the plans are the answers.
+- Label **Your first move** (2026-11-16; was Your plan), as on Where do you want to start? Heading **Choose your plan.** Line: "Whichever you choose, the next few questions make it yours." 13 words of the page's own; the plans are the answers.
 - The five plans as the same cards as Where do you want to start? (3.4b), opening in place with their signs, what she comes away with and **Use this plan** (2026-11-13). Each card is the plan's **name** and when it is for (Appendix C).
 - **ExecEngine's pick comes first and is open to start with**, so one press of **Use this plan** carries on. It is marked **Recommended** and carries its reason, built from what the person said: where they are today ("Today, you're new in your role and you're going through a restructure or merger."; 2026-11-12), their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used. The other four follow in the usual order.
 - **Use this plan** is in each open card. Opening another plan and pressing its button chooses that plan and goes straight on. There is no button at the foot.
@@ -299,14 +299,14 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
 
   | Group | Line | Shown | What is in it |
   | --- | --- | --- | --- |
-  | Short-term | Quick wins, this week | Open | **Start here** as the Plan page's move card ("Write the story of what you lead", "ExecEngine drafts it with you, now or later.") with its own yellow button, **Start your first step**; then **Then, this week** over the stage's other short-term actions, as plain rows on hairlines |
+  | Short-term | Quick wins, this week | Open | **Start here** as the Plan page's move card ("Write the story of what you lead", "ExecEngine drafts it with you, now or later.") with its own yellow button, **Start your first move**; then **Then, this week** over the stage's other short-term actions, as plain rows on hairlines |
   | Medium-term | Over the next month | Folded | The stage's medium-term action |
   | Long-term | A quarter or more | Folded | The stage's long-term milestone |
 
   A folded group is its heading with a chevron, and the heading is a native disclosure: pressed, the group opens to its step in the same row as the short-term's; pressed again, it folds. Both are folded when the page opens.
 
   Then one line: "These run side by side. Do the quick wins now, and chip away at the bigger pieces when you have time."
-- **Start your first step** begins this week's step: the story question, then the first draft in the Playbook (3.10). It is the page's one button.
+- **Start your first move** begins this week's step: the story question, then the first draft in the Playbook (3.10). It is the page's one button.
 - **The stages ahead**, folded, with "{n} more": pressed, it opens to the later stages, numbered from 2, the added stage among them, each with **Done when** and a sign it's working (Appendix C; the added stage's from the Plan page's roadmap), then the goal with a star, then "When stage 1 is done, ExecEngine plans the next with you, from how it went." Pressed again, it folds.
 - **Built from your {n} answers** with **See or change**, a single line that opens the list of the person's answers, each with a **Change** link (and **Hide** to fold it again). The first row is where they are today (3.4a), the second their direction. **Change** on where they are today, or on a question, goes to it and returns here when it is answered. **Change** on the direction starts the questions again from Direction, with their picks kept; a new direction clears the plan they chose for the old one.
 - At the foot, a text link, **Later, take me to my homepage**, which opens Home with its first-visit tour (3.12).
@@ -314,13 +314,13 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
 - **It builds in once,** each group rising into place after the one before; at rest with reduced motion.
 - It does not summarize answers beyond the folded line, and LinkedIn is not mentioned: it lives on the Signals page.
 
-**The actions are an example.** In the prototype the three rows read the example plan Home reads (`mock/plan-stub.ts`, Maya's Step Up), so every plan shows the same actions, as Home does. In production they are the stage's own actions for her plan, the same ones Home's Progress Tracker shows. In production **Start your first step** begins whatever the plan's first step is; in the prototype every plan's first step opens the same story builder.
+**The actions are an example.** In the prototype the three rows read the example plan Home reads (`mock/plan-stub.ts`, Maya's Step Up), so every plan shows the same actions, as Home does. In production they are the stage's own actions for her plan, the same ones Home's Progress Tracker shows. In production **Start your first move** begins whatever the plan's first step is; in the prototype every plan's first step opens the same story builder.
 
 A plan has no end date and no length. A stage is never given a deadline.
 
 ### 3.10 Your story
 
-**Optional** (Kate, 2026-11-12). The story is the plan's first step, begun from Your plan's **Start your first step**; the person can leave it and go home instead. These pages come after onboarding, so they have no progress line (4.9).
+**Optional** (Kate, 2026-11-12). The story is the plan's first step, begun from Your plan's **Start your first move**; the person can leave it and go home instead. These pages come after onboarding, so they have no progress line (4.9).
 
 **The question.** The reflection above: "Could you say what you lead in one sentence, right now?" with "Out loud, to someone who's never met you." It behaves as in 3.8. Its fact is Gallup's: only 46% of U.S. employees clearly know what is expected of them at work (2025).
 
@@ -678,6 +678,7 @@ These are settled. They are the specified behavior. The dates are when they were
 44. **Every stage is counted, onboarding included.** Your plan and Home both say "Stage 1 of {n} · {stage}", and {n} is the Plan page's count, with the stage each plan's brief adds (Step Up: 1 of 4, Make the case among The stages ahead). Onboarding no longer leaves that stage out. (2026-11-17)
 45. **What ExecEngine is says how it works.** Under its heading, the line "ExecEngine gathers insight from you to create a customized path forward.", so she knows why the questions come before she meets them. The page grows from 40 words to 52, over the 40-word rule (4.10); cutting it back means trimming the page elsewhere, not decided. (2026-11-17, Kate)
 46. **Each horizon is one group; the medium-term and long-term fold.** On Your plan each horizon is one outlined group with its count of steps. The short-term keeps all its steps (the meeting first asked for one, then agreed the short-term is two or three things this week): the first step leads as the move card, now labelled **Start here**, since the group's heading already says this week, and the others follow under **Then, this week** as plain rows, not boxes. The medium-term and long-term fold to their heading and open to show their step. **Start here** and **Then, this week** may change in Eric's copy pass. (2026-11-18, ExecEngine UX review)
+47. **A thing to do on her plan is a move, everywhere.** On every page the person sees, an item on her plan is a **move**, never a step or an action: "Start your first move", "Your next move", "3 moves", "Every move on your plan is in hand". Step stays for progress through a flow ("Step 2 of 5"), LinkedIn's export steps and the career sense ("A promotion is the next step"). The Enterprise Dashboard's "planned actions" is not changed yet. (2026-11-18, Kate)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
