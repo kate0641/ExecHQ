@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "ux-review-2026-11-18",
+    title: "UX review, 18 November: everything to build",
+    description:
+      "One page for the build: every change from the 18 Nov UX review, each with its spec and dated brief, and what is still open.",
+  },
+  {
     slug: "no-boards",
     title: "No boards",
     description:
