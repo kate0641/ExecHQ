@@ -23,7 +23,7 @@
 **When another plan fits better**
 
 - There is no moment yet, and she needs to build the case first → **Step Up**.
-- She wants a change but does not yet know what to aim for → **Chart a New Course**.
+- She wants a change inside the company but does not yet know what to aim for → **Find your next direction**.
 
 ### 1.2 Pace
 
@@ -236,6 +236,6 @@ It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
 1. **Several moments.** If she has two moments at once, such as an interview and a review, does the plan track both, or one at a time?
 2. **After the moment.** Should stage 4 always end by offering another plan, or can Make the Move run again for the next moment?
-3. **Board positions.** A board seat often comes from a slower search than a promotion conversation. Does it belong here, or in Chart a New Course until a specific seat is in view?
+3. **Board positions.** A board seat often comes from a slower search than a promotion conversation. Does it belong here, or outside V1? (It once pointed to Chart a New Course, now Find your next direction, a move inside the company.)
 4. **Materials with no tool (2.2).** CVs and promotion packets have no V1 tool. Are they in scope?
 5. **No date.** What happens when she has a moment but no date: does the agent ask for one, or plan to a default window?

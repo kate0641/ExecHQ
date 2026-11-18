@@ -32,7 +32,7 @@
 | Make Your Mark | 1.1 Write how she describes herself, in her words, not her employer's; 1.2 Name three to five topics she is willing to defend; 2.2 Bring her LinkedIn profile in line with her point of view |
 | Make the Move | 1.2 Write the story she will tell in the room; 2.1 Gather proof for every claim in her story; 2.2 Prepare the materials the moment calls for (a bio); 2.3 Make sure her public profile tells the same story |
 | Lead Where You Are | 1.2 Write the story of what she owns, in the words her leadership already uses; 2.1 Reframe one recent win as impact on the business |
-| Chart a New Course | 1.2 Write what she is good at, separated from where she has done it; 4.1 Write the story that makes the move look deliberate; 4.2 Bring her public profile quietly in line with the narrative |
+| Find your next direction | 1.1 Write the story of what she's good at, separated from where she's done it; 3.2 Write the story that makes the move look deliberate |
 
 - **In the prototype's mock plan:** "Write your bio" (`bio`), "Use your leadership story in your next 1:1" (`use-story`) and "Build a documented case for broader scope" (`scope-case`).
 - **From "What's on your mind?"** when what she says names a bio, an introduction, a promotion, positioning, a new boss, manager or role, "about me" or her profile.

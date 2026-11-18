@@ -51,10 +51,10 @@ export const PLAN_BRIEFS: readonly PlanBriefEntry[] = [
     description: "For more weight and visibility inside the organization she is in.",
   },
   {
-    slug: "chart-a-new-course",
-    title: "Chart a New Course",
-    template: "Explore and clarify a new opportunity or direction",
-    description: "For someone who wants something different but can't name it yet.",
+    slug: "find-your-next-direction",
+    title: "Find your next direction",
+    template: "Explore and clarify a next direction",
+    description: "For a move within the company, to another function or part of the business, or for someone who can't yet name what's next.",
   },
 ];
 

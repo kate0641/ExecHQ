@@ -27,7 +27,7 @@
 | Step Up | 2.1 Choose one relevant visibility channel and create a credible proof-of-value artifact or activity (when the channel is published content) |
 | Make Your Mark | 2.1 Write and publish a first piece under her own name on one of her topics; 2.3 Respond to a Briefing read with a short post; 4.3 Turn what she has published into a body of work |
 | Lead Where You Are | 3.3 Share a point of view on her area where people inside will see it |
-| Chart a New Course | 3.1 Try one small, new thing in a direction she is drawn to; 3.2 Respond to a Briefing read in a direction she is curious about |
+| Find your next direction | 2.5 Respond to a Briefing read about an area she is curious about |
 
 - **In the prototype's mock plan:** "Post what you lead on LinkedIn" (`linkedin-post`), which arrives with the topic "What I lead, and where it is going".
 - **From "What's on your mind?"** when what she says names a post, LinkedIn, an article, a blog, a newsletter, an essay, an op-ed, writing or reading.

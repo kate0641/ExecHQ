@@ -250,7 +250,7 @@ Limits:
 - **One change a week**, from the check-in. Steps they have already started are never changed.
 - **Stage timing is untouched.** Pace already follows what they actually finish.
 - **"Not yet" twice in a row:** Spark offers to talk it through, with nothing changed until they answer.
-- **"Not yet" three times in a row:** Spark can offer a different plan (for example Chart a New Course), only by asking, as the plan briefs allow. It never moves them without asking.
+- **"Not yet" three times in a row:** Spark can offer a different plan (for example Find your next direction), only by asking, as the plan briefs allow. It never moves them without asking.
 - **Ready with no stretch step left** on the plan reads as Getting there.
 
 **What it feeds:** the answers count 1 to 3. The organization's admin sees only the cohort's totals: the average at the start and now, and how many moved up, once 10 or more have answered twice. They never see a person's answer. Answers belong to the person, like the rest of their account.

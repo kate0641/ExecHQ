@@ -16,7 +16,7 @@ Five plan templates make up V1. They are the routing backbone of onboarding and 
 | **Make Your Mark** | Enhance overall executive presence | `plans/make-your-mark.md` |
 | **Make the Move** | Prepare for a career inflection point (promotion, new role, new career path, board position, and so on) | `plans/make-the-move.md` |
 | **Lead Where You Are** | Strengthen influence and presence in your current organization | `plans/lead-where-you-are.md` |
-| **Chart a New Course** *(shown as Find your next direction until rewritten for a move within the company, 2026-11-12)* | Explore and clarify a new opportunity or direction | `plans/chart-a-new-course.md` |
+| **Find your next direction** *(a move within the company; rewritten 2026-11-18, was Chart a New Course)* | Explore and clarify a next direction | `plans/find-your-next-direction.md` |
 
 The user only ever sees the user-facing name. The template name is for the agent and the team.
 
@@ -35,7 +35,7 @@ She may describe a role, broader scope, professional presence, a specific moment
 | "I want to lead a larger marketing organization" | Step Up |
 | "I want to be more visible as a leader in my field" | Make Your Mark |
 | "I have a promotion conversation in six weeks" | Make the Move |
-| "I know I want something different, but I cannot name the role yet" | Chart a New Course |
+| "I want to move to another part of the business" | Find your next direction |
 
 **Still to write:** the rest of the 10 to 15 answers, including at least one that routes to Lead Where You Are, which none of the examples does yet.
 

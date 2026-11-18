@@ -28,11 +28,11 @@
 | Step Up | 2.1 Choose one relevant visibility channel and create a credible proof-of-value artifact or activity (when the channel is a stage or show) |
 | Make Your Mark | 3.2 Send a tailored pitch to one event, podcast or publication on her list |
 | Make the Move | 3.1 Prepare the ninety-second version and say it out loud (also the Situation Brief's: CEO, 19 Oct) |
-| Chart a New Course | 2.2 Talk to people already doing the work in each direction (an outreach note: in Pitch Builder for now, CEO 19 Oct; with a Spark on Home, Kate 19 Oct) |
+| Find your next direction | 2.2 Talk to people already doing the work (an outreach note to a colleague: in Pitch Builder for now, CEO 19 Oct; with a Spark on Home, Kate 19 Oct) |
 
 **The ninety-second version belongs to both builders** (CEO, 19 Oct): Make the Move 3.1 offers Pitch Builder and the Situation Brief, and she picks. In Pitch Builder it is the short version, written to be said out loud; in the Situation Brief, the opening statement. (Kate, 19 Oct)
 
-**Outreach comes with a Spark** (the CEO's suggestion; Kate, 19 Oct). While Chart a New Course 2.2 is on her plan, Home's Spark says: "Someone already does the work you're heading toward. A short note could open the door." Its button opens Pitch Builder's outreach note.
+**Outreach comes with a Spark** (the CEO's suggestion; Kate, 19 Oct). While Find your next direction 2.2 is on her plan, Home's Spark says: "Someone already does the work you're heading toward. A short note could open the door." Its button opens Pitch Builder's outreach note.
 
 - **In the prototype's mock plan:** "Pitch yourself to a podcast the people above you follow" (arrives with Podcast chosen), "Draft a talk proposal for the leadership forum" (Speaking, the leadership forum), and "Put yourself forward for the Q1 planning review" (Speaking, the Q1 planning review).
 - **From "What's on your mind?"** when what she says names a pitch, podcast, conference, panel, speaking, "a talk", a keynote, press, an editor, a journalist or a call for proposals.

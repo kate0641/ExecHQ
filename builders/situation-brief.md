@@ -25,6 +25,7 @@
 | Make Your Mark | 3.3 Prepare for an accepted talk, panel, interview or podcast |
 | Make the Move | 1.1 Put the moment on paper; 2.2 Prepare the materials the moment calls for (a case document); 3.2 Prepare answers to the two hardest objections; 3.3 Prepare for each conversation around the moment; 3.1 Prepare the ninety-second version and say it out loud (with Pitch Builder: CEO, 19 Oct; the opening statement is the version she says, Kate 19 Oct) |
 | Lead Where You Are | 3.1 Lead or present one moment the right people will see; 4.1 Name one problem that should come to her by default; 4.2 Raise the opportunity with the right person |
+| Find your next direction | 2.3 See the work up close (the ask, if her manager has to agree); 3.3 Find someone who can help her get it |
 
 - **In the prototype's mock plan:** "Brief your manager before Thursday's check-in" (step `brief-manager`), which arrives with the moment and who will be there filled in.
 - **From "What's on your mind?"** when what she says names a review, board, meeting, negotiation, check-in, 1:1, interview, offsite, presentation, her manager or boss, "talk about" or scope.

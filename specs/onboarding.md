@@ -460,7 +460,7 @@ Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
 
 ### 5.1 From direction to plan
 
-Every direction has a **need.** The need picks the recommended plan. The plans' names are the plan briefs' (`plans/`), from 2026-11-12, except the fifth: the brief calls it Chart a New Course, but it is shown as Find your next direction until the brief is rewritten for a move within the company.
+Every direction has a **need.** The need picks the recommended plan. The plans' names are the plan briefs' (`plans/`), from 2026-11-12. The fifth's brief was rewritten for a move within the company on 2026-11-18 and takes the product's name, Find your next direction (it was Chart a New Course).
 
 | Need | Recommended plan |
 | --- | --- |
