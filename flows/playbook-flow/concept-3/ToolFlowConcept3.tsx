@@ -17,6 +17,17 @@ import { draftSteps, focusSoon, questionStep, TOOL_TITLE_ID, useToolFlow } from 
 
 const STEP_HEADING = "tool-step-heading";
 
+/** A field's height in lines. One that can hold a lot (`rows`, Paste a bio)
+ *  starts at three, so the question above stays in view with the keyboard up,
+ *  and grows with what she pastes or types, up to `rows` (Kate, 2026-11-18).
+ *  Others stay at four. */
+function rowsFor(input: ToolInput, value: string): number {
+  if (!input.rows) return 4;
+  // About 38 characters to a line on the phone.
+  const lines = value.split("\n").reduce((n, line) => n + Math.max(1, Math.ceil(line.length / 38)), 0);
+  return Math.min(input.rows, Math.max(3, lines));
+}
+
 function Interview() {
   const f = useToolFlow("concept-3");
   const web = useViewport().viewport === "web";
@@ -179,7 +190,7 @@ function Interview() {
         value={f.valueOf(input.id)}
         type={input.kind === "date" ? "date" : undefined}
         multiline={input.kind === "long"}
-        rows={input.rows ?? 4}
+        rows={rowsFor(input, f.valueOf(input.id))}
         error={missing ? INPUT_COPY.missing : undefined}
         onChange={(event) => {
           setMissing(false);

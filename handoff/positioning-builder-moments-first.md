@@ -14,7 +14,7 @@ From the 18 November ExecEngine UX review (edits 10, 11, 13 and 14). Onboarding 
 | Start screen, the moments | Introductions for particular moments, Pick any, or none., three chips | Gone from the start screen |
 | The interview's first question | What are you known for? | **Which moments is this one for?** (pick all that apply, Other, Skip). Step bar: Moments |
 | Check what ExecEngine has | Your positioning statement · From onboarding, your role, where you're headed | Your role, where you're headed |
-| Paste a bio you already have | A four-line field; Built with your positioning statement, role and direction. | An eight-line field; Built with your role and direction. |
+| Paste a bio you already have | A four-line field; Built with your positioning statement, role and direction. | A field that starts at three lines and grows with what she pastes, up to eight; Built with your role and direction. |
 
 ## How it behaves
 
@@ -22,6 +22,7 @@ From the 18 November ExecEngine UX review (edits 10, 11, 13 and 14). Onboarding 
 - **With no statement of her own,** the draft's Positioning statement is written from her answers: "I'm known for {what she's known for}, and I'm building toward {where she's headed}."
 - **Building out the statement she already has** (her onboarding story, if she wrote it): it is still version 1, and still the draft's statement. It is carried quietly, not asked or shown on the start screen.
 - The other three builders keep their first question on the start screen.
+- **With the keyboard up, the question stays in view** on every drawer page: when it doesn't fit above the drawer, its label and heading stay at the top and the rest scrolls (Onboarding spec 4.2).
 
 ## Where it is in the prototype
 

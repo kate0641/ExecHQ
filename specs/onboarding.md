@@ -396,6 +396,7 @@ Every page after the Welcome is one **guide page**, in this order: a small label
 - **Open** by default when a page arrives. It carries only the answer; the question and its reason stay on the page above, so the two are read together.
 - **Fold (phone and tablet).** A handle folds the drawer to a **peek bar** carrying the question and a status ("Tap to answer", "3 picked", "Answered"); the bar brings it back. Both are real buttons, so nothing needs dragging (WCAG 2.2 SC 2.5.7).
 - **The keyboard (phone and tablet).** While a text field in the drawer has focus, a drawn phone keyboard sits under it, with its return key labeled with the drawer's button. Pressing the return key, pressing Return on a real keyboard, or pressing the drawer's own button all send the answer, and none of them first closes the keyboard. If drawer and keyboard together are taller than the screen, the drawer scrolls and its buttons stay pinned at its foot.
+- **The question stays in view with the keyboard up** (2026-11-18). The question above the drawer gives way to the drawer and keyboard, sitting at the foot of the space left while it fits. When it doesn't fit, its label and heading stay at the top of that space and the rest scrolls; the heading is never cut off.
 - **One press.** Pressing a button in the drawer never takes focus from the field, so the press always lands.
 
 ### 4.3 The answer pattern

@@ -135,7 +135,8 @@ export interface ToolInput {
   /** Asked first in the interview, and so not on the start screen: what
    *  this one is for, before anything else. */
   leads?: boolean;
-  /** A long answer's field, in lines; four when left out. */
+  /** A long answer's field that grows with what she writes: it starts at
+   *  three lines and stops at this many. Four, fixed, when left out. */
   rows?: number;
 }
 

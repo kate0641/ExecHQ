@@ -8930,12 +8930,13 @@ ul.plan-option__signs {
   flex-direction: column;
 }
 
-/* With the drawn keyboard up, the drawer keeps its full height and the question above gives way,
-   scrolled to its foot, as a phone scrolls the page to keep the field in view. */
+/* With the drawn keyboard up, the drawer keeps its full height and the question above gives way.
+   It sits at the foot of the space while it fits; when it doesn't, its top (the label and the
+   question) stays in view and the rest scrolls, so the question is never cut off (2026-11-18). */
 [data-viewport] .guide.guide--drawer:has(.device-keyboard) > .guide__page {
   min-height: 0;
   overflow-y: auto;
-  justify-content: flex-end;
+  justify-content: safe flex-end;
 }
 
 .answer-drawer {
