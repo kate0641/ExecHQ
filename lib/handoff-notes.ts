@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "add-to-your-plan-cut",
+    title: "Plan: Add to your plan is cut",
+    description:
+      "The floating + and Add to your plan, their sheet, and items marked Yours on the roadmap are gone from V1; ExecEngine's own offer of a move after a draft stays (18 Nov).",
+  },
+  {
     slug: "draft-saved-to-library",
     title: "Draft saved to your library",
     description:

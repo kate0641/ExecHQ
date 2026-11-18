@@ -99,7 +99,6 @@ import { accountPickerStates } from "./login/AccountPicker/AccountPicker.states"
 import { planSignalPictureStates } from "./plan/PlanSignalPicture/PlanSignalPicture.states";
 import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.states";
 import { planDirectionStates } from "./plan/PlanDirection/PlanDirection.states";
-import { addToPlanDrawerStates } from "./plan/AddToPlanDrawer/AddToPlanDrawer.states";
 import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
 import { stageCheckInStates } from "./plan/StageCheckIn/StageCheckIn.states";
 import { checkInRecapStates } from "./plan/CheckInRecap/CheckInRecap.states";
@@ -234,7 +233,6 @@ export const registry: RegisteredComponent[] = [
   linkedInPictureStates,
   momentumLabeledStates,
   planDirectionStates,
-  addToPlanDrawerStates,
   planGuidedStates,
   stageCheckInStates,
   checkInRecapStates,

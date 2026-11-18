@@ -13,18 +13,17 @@ const stages: AgendaStage[] = [
 ];
 const step = (id: string, stage: number, date: string, accepted = true): AgendaItem => {
   const s = stepById(id)!;
-  return { id, stage, title: s.title, date, kind: "step", step: s, accepted };
+  return { id, stage, title: s.title, date, step: s, accepted };
 };
 const items: AgendaItem[] = [
   step("use-story", 0, "2026-10-13"),
   step("brief-manager", 0, "2026-10-08"),
-  { id: "yours-1", stage: 0, title: "Growth Summit panel", date: "2026-10-29", kind: "yours" },
   step("add-wins", 1, "2026-10-16", false),
   step("ask-manager-scope", 1, "2026-10-27", false),
   step("q1-review", 2, "2026-10-30"),
   step("scope-case", 3, "2027-01-11"),
 ];
-const base = { stages, items, today, startHref: "/playbook-flow/concept-3", onAsk: noop, onAccept: noop, onComplete: noop, onAdd: noop };
+const base = { stages, items, today, startHref: "/playbook-flow/concept-3", onAsk: noop, onAccept: noop, onComplete: noop };
 
 export const planAgendaStates = defineComponentStates({
   name: "PlanAgenda",
@@ -41,30 +40,36 @@ export const planAgendaStates = defineComponentStates({
     active: "Its controls are Buttons and chips, which show their own states.",
     loading: "Read from the plan data: there is nothing to wait for.",
     error: "Read from the plan data: nothing can fail.",
-    filled: "The add field is a text field, which shows its own filled state.",
+    filled: "Not an input: she opens moves and presses their buttons.",
   },
   variants: [
     { label: "First stage and first move open — default", props: { ...base, headingId: "pa-h-default" } },
     { label: "Another stage opened", props: { ...base, demoStage: 1, demoStep: "add-wins", headingId: "pa-h-other" } },
     { label: "Every stage closed", props: { ...base, demoStage: null, demoStep: null, headingId: "pa-h-closed" } },
+    {
+      label: "Disabled — a move whose tool is not designed yet",
+      description: "Its button is shown but off, until that builder is designed.",
+      props: {
+        ...base,
+        items: items.map((i, n) => (n === 0 ? { ...i, step: { ...i.step, stubbed: true } } : i)),
+        demoStage: items[0]?.stage ?? 0,
+        demoStep: items[0]?.id ?? null,
+        headingId: "pa-disabled",
+      },
+    },
     { label: "Empty — nothing in the stage yet", props: { ...base, items: items.filter((i) => i.stage !== 3), demoStage: 3, demoStep: null, headingId: "pa-h-empty" } },
     {
       label: "Long text wraps",
       props: {
         ...base,
         items: [
-          { id: "long", stage: 0, title: "Present the planning cycle proposal to the leadership team and take questions on headcount and budget", date: "2026-10-27", kind: "yours" },
-          ...items.filter((i) => i.stage === 0 && i.kind === "step"),
+          ...items
+            .filter((i) => i.stage === 0)
+            .map((i, n) => (n === 0 ? { ...i, title: "Present the planning cycle proposal to the leadership team and take questions on headcount and budget" } : i)),
         ],
         headingId: "pa-h-long",
       },
     },
     { label: "Another stage opened, deeper in", props: { ...base, demoStage: 2, demoStep: "q1-review", headingId: "pa-s-other" } },
-    { label: "Adding something of her own", props: { ...base, demoAdding: true, headingId: "pa-s-add" } },
-    {
-      label: "Disabled — Add waits for a title",
-      description: "The Add button is off until she has written what it is.",
-      props: { ...base, demoAdding: true, headingId: "pa-disabled" },
-    },
   ],
 });

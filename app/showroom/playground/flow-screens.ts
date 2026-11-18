@@ -115,7 +115,6 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
       { id: "passed", label: "Not for me: passed on", note: "After the reason. What was offered in its place shows here when there is one.", query: "screen=plan-passed" },
       { id: "last", label: "The last page: where the plan stands", note: "After the last move: what changed on her plan.", query: "screen=plan-last" },
       { id: "none", label: "Nothing to answer right now", note: "When she has no live moves.", query: "screen=plan-none" },
-      { id: "add", label: "Add something of your own", note: "Add, on the last page.", query: "screen=plan-add" },
       {
         id: "checkin",
         label: "Stage check-in: what you did",

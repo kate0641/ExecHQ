@@ -664,111 +664,6 @@ export const MOMENTUM_COPY = {
 } as const;
 
 /* -----------------------------------------------------------------------------
-   HER OWN CALENDAR (Concept 1 tweak, 2026-10-04)
-   Her calendar holds what she adds herself, by hand: V1
-   has no connections, so nothing syncs from Google or Outlook.
-   -------------------------------------------------------------------------- */
-
-/** Something she put on her own calendar. Plan steps are separate: they come
- *  from the plan and carry their own dates. */
-export interface CalendarItem {
-  id: string;
-  title: string;
-  /** The day, as YYYY-MM-DD. */
-  date: string;
-  note?: string;
-}
-
-/** A plan step as the calendar and the agenda show it: read-only there, since she changes a step
- *  from its card. `suggested` until she accepts it or moves it. */
-export interface CalendarStep {
-  id: string;
-  title: string;
-  date: string;
-  suggested: boolean;
-}
-
-/** What her calendar holds before she changes it: two things she told us about. */
-export const CALENDAR_SEED: CalendarItem[] = [
-  { id: "seed-1", title: "Growth Summit panel", date: "2026-10-29", note: "Panel: planning for growth" },
-  { id: "seed-2", title: "Leadership forum talk proposal due", date: "2026-11-13" },
-];
-
-/* -----------------------------------------------------------------------------
-   THE ROADMAP AS AN AGENDA (Concept 1)
-   Stages stacked as cards, each with its period, what finishing looks like and
-   what she has on her calendar inside it. Periods are a suggested pace: they
-   move as she does and are never a deadline.
-   -------------------------------------------------------------------------- */
-
-export const AGENDA_COPY = {
-  summary: (stages: number, weeks: number) => `${stages} stages · about ${weeks} weeks`,
-  /** When a stage is aimed at, in words: where its suggested end falls. */
-  suggested: (when: string) => `Aim for: ${when.toLowerCase()}`,
-  pace: "A suggested pace, not a deadline.",
-  stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
-  about: (weeks: number) => `about ${weeks} week${weeks === 1 ? "" : "s"}`,
-  states: { current: "You are here", done: "Done", recommended: "Recommended next" },
-  finishing: "Finishing looks like",
-  outcomes: "By the end you’ll have",
-  nothingYet: "Nothing on your calendar in this stage yet.",
-  finish: "I’ve finished this stage",
-  thenNext: (n: number, name: string) => `Then we’ll recommend Stage ${n}, ${name}.`,
-  thenAfter: "Then we’ll plan the next stretch with you, from what worked and what didn’t.",
-  suggestTitle: "You’ve done what this stage asks.",
-  suggestBody: "Mark it finished and we’ll recommend the next stage. Or keep going.",
-  markFinished: "Mark stage finished",
-  notYet: "Not yet",
-  pastPace: "You’re past the suggested pace for this stage. That’s fine. Finish it when you’re ready.",
-  recommendedTitle: (n: number, name: string) => `Stage ${n}: ${name}`,
-  recommendedBody: (when: string, weeks: number) => `Aim for ${when.toLowerCase()} · about ${weeks} weeks.`,
-  start: "Start this stage",
-  allDone: "That’s every stage.",
-  allDoneBody: "ExecEngine plans the next stretch with you, from what worked and what didn’t.",
-  outside: "Outside the stage windows",
-  yours: "Yours",
-  step: "Move from your plan",
-} as const;
-
-/* -----------------------------------------------------------------------------
-   THE CALENDAR
-   -------------------------------------------------------------------------- */
-
-export const CALENDAR_COPY = {
-  heading: "Your calendar",
-  legend: "Stages",
-  legendItem: (n: number, name: string) => `${n} · ${name}`,
-  prev: "Previous month",
-  next: "Next month",
-  gridHint: "Use the arrow keys to move between days.",
-  today: "today",
-  stageStart: (n: number) => `Stage ${n} starts`,
-  inStage: (n: number) => `stage ${n}`,
-  items: (n: number) => `${n} item${n === 1 ? "" : "s"}`,
-  more: (n: number) => `+${n} more`,
-  outside: "Outside the roadmap’s windows",
-  nothingDay: "Nothing on this day.",
-  add: "Add to my calendar",
-  addTo: (day: string) => `Add to ${day}`,
-  yours: "Yours",
-  step: "Move from your plan",
-  suggested: "Suggested",
-  pinned: "On your plan",
-  openStep: "Open this move",
-  edit: "Edit",
-  delete: "Delete",
-  deleteAsk: "Delete this?",
-  deleteYes: "Delete",
-  deleteNo: "Keep it",
-  agenda: "Agenda",
-  calendar: "Calendar",
-  view: "View",
-  addStage: "Add to this stage",
-  manualOnly: "Only you add to this. Nothing syncs from another calendar.",
-} as const;
-
-
-/* -----------------------------------------------------------------------------
    WHEN A STEP FALLS ON HER CALENDAR (Concept 1 tweak)
    A step has a window in the product (1 to 7 days, 8 to 30, a quarter), not a
    date. It gets a suggested day from its window, or from the event it is tied
@@ -1050,26 +945,18 @@ export const STEP_ANSWERS = {
 /* -----------------------------------------------------------------------------
    THE AGENDA (Concept 2 rework, 2026-10-06)
    The roadmap as an agenda: a drawer for each stage, only the one she is on open, and
-   in it her steps and what she added herself, each with a time in words.
+   in it her moves, each with a time in words. (Add to your plan was cut from V1, 2026-11-18.)
    -------------------------------------------------------------------------- */
 export const PLAN_AGENDA_COPY = {
   heading: "Your roadmap",
   stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
   finishing: "Finishing looks like",
-  yours: "Yours",
   done: "Done",
   askLabel: "Ask ExecEngine",
   getStarted: "Get started",
   /** Sprint 4: the step already has a draft, so the button opens it. */
   openDraft: "Open your draft",
   doneIt: "I’ve done this",
-  addLabel: "Add to your plan",
-  addTitle: "What is it?",
-  addPlaceholder: "A talk, a meeting, a deadline",
-  addWhen: "When",
-  addSubmit: "Add to my plan",
-  addCancel: "Cancel",
-  added: (stage: string, when: string) => `Added to ${stage}, ${when.toLowerCase()}.`,
   nothing: "Nothing in this stage yet.",
   nothingDone: "Nothing left to do in this stage.",
 } as const;
@@ -1115,7 +1002,6 @@ export const GUIDED_COPY = {
   lastTitle: "That’s this stretch of the plan.",
   lastLede: "Here is where your plan stands.",
   again: "Go through them again",
-  add: "Add to your plan",
   noneTitle: "Nothing to answer right now.",
   noneLede: "Your plan offers the next move when one fits.",
 } as const;

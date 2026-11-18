@@ -235,7 +235,7 @@ samp {
 /* --- SHARED PATTERNS --- */
 
 /* Choice pill: a white pill she taps to pick or send something (ChipGroup, ToggleGroup chips, quick replies,
-   read actions, add-to-plan). Each component keeps its own selected and hover states. */
+   read actions). Each component keeps its own selected and hover states. */
 .choice-pill {
   min-height: var(--pill-height);
   padding: var(--pill-padding-block) var(--pill-padding-inline);
@@ -7558,28 +7558,6 @@ ul.plan-option__signs {
   color: var(--color-headline-on-inverse);
 }
 
-.guide--navy .agenda__fab,
-.device__screen:has(.guide--navy.plan-guided) .agenda__fab {
-  background-color: var(--color-action);
-  color: var(--color-text-on-action);
-}
-
-.guide--navy .agenda__fab:hover,
-.device__screen:has(.guide--navy.plan-guided) .agenda__fab:hover {
-  background-color: var(--color-action-hover);
-}
-
-.guide--navy .agenda__fab:active,
-.device__screen:has(.guide--navy.plan-guided) .agenda__fab:active {
-  background-color: var(--color-action-active);
-}
-
-.guide--navy .agenda__fab,
-.device__screen:has(.guide--navy.plan-guided) .agenda__fab {
-  border-radius: 50%;
-  box-shadow: 0 0 0 var(--border-width-thin) var(--color-action-edge), var(--shadow-lg);
-}
-
 /* Folded on a phone or a tablet, the stone drawer runs to the foot of the screen and the Ask or go bar sits
    in it, so the two read as one surface instead of stone, navy, white. Only the stage check-in still
    folds to a peek; the move pages' drawer leaves the screen. */
@@ -14363,15 +14341,6 @@ ol.entry-drawer__rows {
   line-height: var(--leading-snug);
 }
 
-output.agenda__note {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-output.agenda__note:empty {
-  display: none;
-}
-
 .agenda__stages {
   display: flex;
   flex-direction: column;
@@ -14483,10 +14452,6 @@ ul.agenda__list {
   cursor: pointer;
 }
 
-.agenda__line.is-static {
-  cursor: default;
-}
-
 .agenda__line:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
@@ -14497,16 +14462,6 @@ ul.agenda__list {
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
-}
-
-.agenda__yours {
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--type-eyebrow-weight);
-  line-height: var(--type-eyebrow-leading);
-  letter-spacing: var(--type-eyebrow-tracking);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
 }
 
 .agenda__reveal {
@@ -14582,99 +14537,6 @@ ul.agenda__ask-list {
 .agenda__ask-pill:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
-}
-
-fieldset.agenda__whens {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-between-pills);
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.agenda__chip {
-  font-family: inherit;
-  line-height: inherit;
-}
-
-.agenda__chip:hover {
-  background-color: var(--color-surface-active);
-}
-
-.agenda__chip[aria-pressed="true"] {
-  background-color: var(--color-selected);
-  border-color: var(--color-selected);
-  color: var(--color-text-on-selected);
-}
-
-.agenda__chip:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-/* The add button floats over the phone's screen, above the Ask or go pill, and the sheet slides up from it. */
-.agenda__fab {
-  position: absolute;
-  inset-inline-end: var(--space-screen-side);
-  inset-block-end: calc(var(--space-lg) + 3.5rem + var(--space-sm));
-  z-index: 15;
-  display: grid;
-  place-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  border: 0;
-  border-radius: var(--radius-xl);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-lg);
-  cursor: pointer;
-  transition: opacity var(--duration-base);
-}
-
-.agenda__fab:hover {
-  background-color: var(--color-surface-inverse-hover);
-}
-
-.agenda__fab:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.agenda__fab--inline {
-  position: static;
-  align-self: flex-end;
-}
-
-.device__screen[data-concierge="open"] .agenda__fab {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.agenda__add {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.agenda__add-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-}
-
-.agenda__legend {
-  margin-bottom: var(--space-xs);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.agenda__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
 }
 
 /* Stack: cards that overlap, each in its stage colour, the open one grown to hold its steps. */
@@ -14873,11 +14735,6 @@ fieldset.agenda__whens {
   transform: rotate(-90deg);
 }
 
-.agenda--stack .agenda__yours {
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-label);
-}
-
 /* --- THE GUIDED CHECK-IN (Plan, Concept 3) --- */
 .device__screen:has(.concierge-host) .chrome__main:has(> .plan-guided) {
   padding-bottom: var(--space-4xl);
@@ -14907,17 +14764,6 @@ fieldset.agenda__whens {
   padding-bottom: 0;
 }
 
-/* The roadmap's add button steps aside with the pill. Hidden, not faded, so it leaves the tab order
-   while the drawer covers the roadmap. */
-.device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .agenda__fab {
-  visibility: hidden;
-}
-
-/* Folded to a peek (the stage check-in), the peek bar sits above the pill, so the add button rises clear of both. */
-.device__screen:has(.plan-guided .answer-drawer.is-peek) .agenda__fab {
-  inset-block-end: calc(var(--space-4xl) + var(--space-3xl) + var(--space-lg));
-}
-
 /* On the web the answer drawer is a card beside the page, never the foot of the screen, so the pill
    stays where it is and the page keeps its room for it. */
 [data-viewport="web"] .device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .concierge-host__pill:not(:where([data-viewport="mobile"] *)) {
@@ -14933,11 +14779,6 @@ fieldset.agenda__whens {
 
 [data-viewport="web"] .device__screen:has(.concierge-host) .chrome__main:has(> .plan-guided):not(:where([data-viewport="mobile"] *)) {
   padding-bottom: var(--space-4xl);
-}
-
-/* Adding on the web: a plain button at the foot of the road. */
-.agenda__add {
-  align-self: flex-start;
 }
 
 [data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) {
@@ -15442,11 +15283,6 @@ fieldset.agenda__whens {
 
 .plan-guided__reasons > .link {
   margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
-}
-
-.plan-guided__note {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
 }
 
 ul.plan-guided__sparks {
