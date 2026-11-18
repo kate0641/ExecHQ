@@ -116,7 +116,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Done when** | She saves a short list of at least five outlets, each with why its audience matters to her. |
 | **Evidence ExecEngine keeps** | The saved list, a completion timestamp. |
 | **Plan area and signal** | Plan area: external audiences. Signals: foundation for speaking, podcasts and press. |
-| **Tool** | None in V1. |
+| **Tool** | None in V1 to keep the list itself. **Spark Signals** in the Daily Briefing suggest up to three outlets a week that fit her (18 Nov); starting a pitch from one adds it to her list. **Proposed.** |
 | **Follow-up** | None. |
 
 #### 3.2 Send a tailored pitch to one event, podcast or publication on her list
@@ -128,7 +128,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Done when** | She marks the pitch sent and names where it went. |
 | **Evidence ExecEngine keeps** | The pitch's lifecycle state, the target and date she reports, the outcome when she gives it. |
 | **Plan area and signal** | Plan area: external audiences. Signal: speaking, podcasts or press, depending on the outlet. |
-| **Tool** | Pitch Builder. |
+| **Tool** | Pitch Builder. A pitch started from a Spark Signal in the Briefing counts, with that outlet already chosen (18 Nov). **Proposed.** |
 | **Follow-up** | The Loop asks for an answer after the check-back period: accepted, declined, or no reply. |
 
 #### 3.3 Prepare for an accepted talk, panel, interview or podcast

@@ -69,7 +69,7 @@ Shown on the last screen to check, each with where it came from and Edit (the PR
 | Who do you want to reach? | Audience | One choice, her direction's audience first ("Marketing and commercial leaders"), then Senior executives, Operators and practitioners, Founders and investors, or her words | Yes | Asked, not taken from her direction, because an outlet's audience can differ from hers (CEO, 19 Oct). Asked before Who, so "Not sure yet" can suggest outlets that reach it. Goes into the pitch and its why now. |
 | What would you talk about? | Angle | Her words | Yes | "The topic, in a line, as you'd say it to the person deciding." |
 | One or two things you can prove | Proof | Her words, long | Yes | "Something you led or delivered. Leave out what you can't share." |
-| Who are you pitching? | Who | Her words, or one of ExecEngine's suggestions | Yes (Kate, 14 Oct) | "The event, show or publication." Arrives filled from an action step. "Not sure yet" offers up to three from a list ExecEngine keeps by audience and plan area (CEO, 19 Oct), each with one line on why it fits; she picks one. |
+| Who are you pitching? | Who | Her words, or one of ExecEngine's suggestions | Yes (Kate, 14 Oct) | "The event, show or publication." Arrives filled from a Spark Signal (18 Nov), or from an action step. "Not sure yet" offers up to three from a list ExecEngine keeps by audience and plan area (CEO, 19 Oct), each with one line on why it fits; she picks one. |
 | Links or earlier talks | Links | Her words | No | "A post, a recording, a past talk." Goes into the expanded version. |
 
 ### 2.3 Enrichers
