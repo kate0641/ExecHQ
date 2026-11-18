@@ -1,6 +1,6 @@
 # Onboarding — interaction spec
 
-Approved concept: **Concept 3 — Guided**, as refined on 2026-10-02. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production", and what is still undecided is listed under "Open questions". Concepts 1 and 2 were not chosen and are archived on the `scratch` branch.
+Approved concept: **Concept 3 — Guided**, as refined on 2026-11-18. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production". Nothing is left open: every question raised along the way is settled under "Decisions". Concepts 1 and 2 were not chosen and are archived on the `scratch` branch.
 
 ---
 
@@ -136,7 +136,7 @@ What ExecEngine is, said in a glance and built in one idea at a time (Kate, 2026
 - **With reduced motion asked for,** the page shows at rest, with no movement.
 - It plays again only if the person comes back to the page.
 
-The privacy promise is said here, before anything personal is asked. There is no separate privacy page. Its longer wording ("Not your employer, not your manager, not anyone else. Everything ExecEngine makes is yours to keep, edit, and export.") is no longer on this page. Where the product says it in full is open (section 11).
+The privacy promise is said here, before anything personal is asked. There is no separate privacy page. Its longer wording ("Not your employer, not your manager, not anyone else. Everything ExecEngine makes is yours to keep, edit, and export.") is no longer on this page. The product says it in full in Login's **Only you see this** (decision 56).
 
 ### 3.3 Account
 
@@ -421,7 +421,7 @@ What a page explains is said once, and in one place: what a plan is, at the choi
 
 ### 4.6 Facts and data
 
-Every figure shown as data is **real, sourced and shown with its source.** It appears on the reflections ("Worth knowing"). Onboarding no longer shows the plan's "Why now" fact: Your plan has no Why now (3.9), and the fact lives on the Plan page. A fact never ranks the person against others. Until a fact is found, the card shows a **marked placeholder** ("A sourced fact is needed here") in a dashed box that cannot be mistaken for copy. See Open questions for which are still placeholders.
+Every figure shown as data is **real, sourced and shown with its source.** It appears on the reflections ("Worth knowing"). Onboarding no longer shows the plan's "Why now" fact: Your plan has no Why now (3.9), and the fact lives on the Plan page. A fact never ranks the person against others. Until a fact is found, the card shows a **marked placeholder** ("A sourced fact is needed here") in a dashed box that cannot be mistaken for copy. Every fact onboarding shows is sourced; the two placeholders left are Plan-page "Why now" facts (decision 48).
 
 ### 4.7 Waiting
 
@@ -450,9 +450,9 @@ A thin line at the very top of every page after the Welcome shows how far throug
 Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
 
 - **Counts:** the label, the heading, the line, "Why this matters", and every card, reply and "Worth knowing" fact.
-- **Exempt:** the plan page (3.9), which can run longer (Kate, 2026-11-12).
+- **Exempt:** Your plan (3.9), which can run longer (Kate, 2026-11-12); What ExecEngine is, at 52 (decision 45); and the Playbook's pages after onboarding (First draft, Add more detail, Longer versions), which follow the Playbook's own rules (decision 59).
 - **Does not count:** answer options, buttons and links (including "None of these? Show me more options"), the person's own words (what they picked, their draft, what they typed), a fact's source line.
-- **Where it stands.** Within it: Welcome (33), Account (29), Where are you today (25), Choose your plan (13, plus the reason on ExecEngine's pick). The Signals step (53) is gone. What ExecEngine is is over, at 52, since its line was added (decision 45). Most other screens are over: about 110 to 120 words on the plan page's stages and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
+- **Where it stands.** Within it: Welcome (33), Account (29), Where are you today (25), Choose your plan (13, plus the reason on ExecEngine's pick). Every other onboarding screen is held to 40 in production; the exempt pages above are the only ones allowed more.
 
 ---
 
@@ -580,7 +580,7 @@ Every interactive control is meant to be at least **44 × 44px** (`--button-targ
 | Copy, Download, Email it to me | 26px tall | No |
 | See or change, on Your plan | 96 × 24px | No |
 
-Production must give every control a tappable area of at least 44px, drawn smaller where the design calls for it, with no two areas overlapping. This is listed again under Open questions.
+Production must give every control a tappable area of at least 44px, drawn smaller where the design calls for it, with no two areas overlapping. (Decision 49.)
 
 ---
 
@@ -627,15 +627,15 @@ Production must give every control a tappable area of at least 44px, drawn small
 
 | Prototype | Production |
 | --- | --- |
-| Nothing is stored. Answers live in the page and are lost on reload. | The account is created and the flow can be resumed (see Open questions). |
+| Nothing is stored. Answers live in the page and are lost on reload. | The account is created at Account, and every answer is kept as it is given, so the flow can be resumed (decision 52). |
 | Any non-empty email is accepted. Any typed invite code is accepted. | Any address is accepted, as decided; the hint asks for a personal one. The invite code is checked, and an unrecognised one shows the notice. |
 | Google and Apple open a drawn stand-in for their pickers, with marks in one colour. | Their own sign-in windows, with the buttons drawn to Google's and Apple's brand rules. |
 | No email is sent. The code email is drawn on screen; any six digits confirm the address, so a reviewer never has to open the drawn email, and 000000 shows the wrong-code error, as on Login (2026-11-13; was only the email's code, 482913). Five wrong tries expire it; on time, it expires only when the email's "Open it again after 10 minutes" is pressed. | A real code is emailed and works once, for 10 minutes. A wrong one shows the error with the cells; an expired one shows the expired screen. |
 | Nothing is sent. "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
-| The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
+| The first draft, the versions and the replies are written from fixed templates. | They are written by ExecEngine for the person, with the same rules (decision 54). |
 | A drawn keyboard appears under the drawer on the phone and tablet frames when a field has focus. | The real keyboard. The drawn one is not built. On web the prototype draws none. |
 | A step bar above the canvas jumps to any step, filling in sample answers, and a dock switches viewport and color. | Neither exists. People move only forward, or back through **Change.** |
-| Plans, options and replies are the fixed content in Appendices A to C. | Content for more plans and options is a content decision (Open questions). |
+| Plans, options and replies are the fixed content in Appendices A to C. | V1 has these five plans and eight directions (decision 55). |
 | Two plans' "Why now" data are placeholders (kept for the Plan page; onboarding no longer shows them). | Every figure is real and sourced before this ships. |
 
 ---
@@ -669,7 +669,7 @@ These are settled. They are the specified behavior. The dates are when they were
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Where do you want to start? (Direction only after I can't decide), and Your plan does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 24. **Where are you today? comes before Direction,** as many answers as are true, and Other opening a field for the person's own words. That page only; the other questions keep their pattern. (2026-11-12)
 25. **No answer leads out of the person's company.** A move within it is in: "Make a move within my company" (another function, or another part of the business) replaces "Find my next move", and "Get out of where I am" is removed. "Nail an upcoming presentation" drops "board". Find your next direction stays, as the plan for a move inside the company. (2026-11-12)
-26. **The plans take the plan briefs' names:** Step Up, Make Your Mark, Make the Move, Lead Where You Are, everywhere a person sees them (onboarding, Home, the Plan page, Profile). The fifth stays Find your next direction until its brief is rewritten. Stages and first steps are not changed yet (open question 12). (2026-11-12)
+26. **The plans take the plan briefs' names:** Step Up, Make Your Mark, Make the Move, Lead Where You Are, everywhere a person sees them (onboarding, Home, the Plan page, Profile). The fifth stays Find your next direction until its brief is rewritten. Stages and first steps are not changed yet (see decision 58). (2026-11-12)
 27. **The person chooses the plan.** Choose your plan replaces the Recommendation and See other plans: five cards, ExecEngine's pick first, marked and chosen to start with, its reason on it; "Whichever you choose, the next few questions make it yours." (2026-11-12)
 28. **No deciding question on the influence path.** What's holding you back? is dropped; the influence directions go from narrowing straight to Choose your plan, and "Too junior on paper" no longer sends anyone to Step Up. (2026-11-12)
 29. **Meatier influence questions, and nothing that assumes leaving.** The influence path asks which decision in the next few months the person wants a say in, and who decides it and how well they know her work, one answer each. Answers that assumed leaving the company are swapped for ones inside it (Appendix B); "Wrong company for it" no longer sends anyone to Find your next direction. (2026-11-12)
@@ -688,28 +688,21 @@ These are settled. They are the specified behavior. The dates are when they were
 42. **Your plan is named in the heading.** "Your plan: Step Up" is the heading, with no label over it (no Saved: the heading says it); What you're working on now carries "Stage 1 of 3 · Say what you lead" under it; the stage bar is gone. Her goal stays at the end of The stages ahead. The page has no onboarding progress line. (2026-11-17, Kate: "there's a lot going on here")
 43. **Home says What you're working on now.** Home's section heading, Your Progress Tracker, becomes What you're working on now, the same words as Your plan's section, and the lines that named it follow (Homepage spec 2.1). Needs the client's sign-off: he chose Your Progress Tracker on 2026-10-06. (2026-11-17)
 44. **Every stage is counted, onboarding included.** Your plan and Home both say "Stage 1 of {n} · {stage}", and {n} is the Plan page's count, with the stage each plan's brief adds (Step Up: 1 of 4, Make the case among The stages ahead). Onboarding no longer leaves that stage out. (2026-11-17)
-45. **What ExecEngine is says how it works.** Under its heading, the line "ExecEngine gathers insight from you to create a customized path forward.", so she knows why the questions come before she meets them. The page grows from 40 words to 52, over the 40-word rule (4.10); cutting it back means trimming the page elsewhere, not decided. (2026-11-17, Kate)
+45. **What ExecEngine is says how it works.** Under its heading, the line "ExecEngine gathers insight from you to create a customized path forward.", so she knows why the questions come before she meets them. The page grows from 40 words to 52, over the 40-word rule (4.10); it stays at 52 as an exception, like the plan page (settled 2026-11-18). (2026-11-17, Kate)
 46. **Each horizon is one group; the medium-term and long-term fold.** On Your plan each horizon is one outlined group with its count of moves. The short-term keeps all its moves (the meeting first asked for one, then agreed the short-term is two or three things this week): the first step leads as the move card, now labelled **Start here**, since the group's heading already says this week, and the others follow under **Then, this week** as plain rows, not boxes. The medium-term and long-term fold to their heading and open to show their move. **Start here** and **Then, this week** may change in Eric's copy pass. (2026-11-18, ExecEngine UX review)
 47. **A thing to do on her plan is a move, everywhere.** On every page the person sees, an item on her plan is a **move**, never a step or an action: "Start your first move", "Your next move", "3 moves", "Every move on your plan is in hand". Step stays for progress through a flow ("Step 2 of 5"), LinkedIn's export steps and the career sense ("A promotion is the next step"). The Enterprise Dashboard's "planned actions" is not changed yet. (2026-11-18, Kate)
-
----
-
-## 11. Open questions
-
-These are not decided. They need an answer before this is built.
-
-1. **Two plans have no sourced "Why now" data:** Make the Move and Lead Where You Are. The Step Up figure (LinkedIn @Work study, 46%) needs its original date and sample confirmed.
-2. **Tap targets.** Buttons, options, Change and the folds are 44px now. The small "None of these?" button (36px), the drawer's fold handle, Copy, Download and Email it to me, and See or change still need a 44px tappable area (section 6).
-3. **Linking an Apple relay address** to the person's real one later is open, as on Login.
-4. **What the invite code does.** The notice says a code "only changes who pays." What the code is, who issues it and how it is checked is not specified.
-5. **Leaving part-way.** Whether a person who leaves can return to where they were, and what is kept, is not designed.
-6. **Reflections cannot be skipped.** Every other question can. Whether that is intended is not decided.
-7. **How the draft and the longer versions are written** for real is not specified. The prototype uses fixed templates with the person's words dropped in.
-8. **More plans and options.** The flow has five plans and eight directions. Whether more are wanted, and who writes them, is a content decision.
-9. **Status.** Settled: the concept is `approved` in the manifest. Changes since (decisions 46 and 47) are not yet reviewed.
-10. **The full privacy promise.** What ExecEngine is now says only "Private. For your eyes only." Where the longer promise (not your employer or manager; everything is yours to keep, edit and export) is said, in onboarding or the product, is not decided.
-11. **Later questions that assume leaving the company:** settled 2026-11-12 (decision 29).
-12. **The plans' first moves** still follow onboarding as built, not the plan briefs (a different first move for Make the Move, Lead Where You Are and Find your next direction). The stages partly line up: four plans now take the fourth stage their brief adds (5.6), but the template's three are unchanged. The names already match (decision 26).
+48. **"Why now" facts belong to the Plan page.** Onboarding no longer shows one (3.9), so the two unsourced ones (Make the Move, Lead Where You Are) and confirming the Step Up figure's date and sample are tracked with the Plan page, not here. Every fact onboarding shows is sourced. (2026-11-18)
+49. **Every control has a 44px tappable area in production.** Where the design draws a control smaller (the "None of these?" button, the drawer's fold handle, Copy, Download and Email it to me, See or change), the tappable area around it is 44px, centered, with no two areas overlapping, as on Login. (2026-11-18)
+50. **An Apple relay address is not linked** to the person's real one in V1, as on Login: the relay address is the account's address. (2026-11-18, following Login)
+51. **The invite code says who pays.** It comes with the invitation from the person's organization, is checked when Continue is pressed, and ties the account to that organization's cohort, where it is counted among codes redeemed on the Enterprise Dashboard, never as a person. It never changes what the person gets. (2026-11-18)
+52. **Leaving part-way loses nothing.** The account exists from Account on, and every answer is kept as it is given. Coming back (from Login) opens the first page not yet answered; once Your plan has been reached, it opens Home. (2026-11-18)
+53. **Reflections are answered, not skipped,** on purpose: each is one tap, and it is the reflections' answers that ExecEngine's replies and the plan's tone come from. (2026-11-18)
+54. **The draft and the longer versions are written by ExecEngine for the person** from their answers and the facts they add, keeping the prototype's rules: written in their voice, a missing fact shown as a marked gap, nothing made up. (2026-11-18)
+55. **Five plans and eight directions in V1.** More plans or options are content for after V1. (2026-11-18)
+56. **The full privacy promise is Login's "Only you see this".** Onboarding says it in one line, on Welcome ("Private to you") and on What ExecEngine is ("Private. For your eyes only."); the longer promise (your employer, colleagues and network) is Login's Learn more dialog (Login spec 3.7). (2026-11-18)
+57. **Status.** Onboarding Concept 3 is `approved` in the manifest. (Kate)
+58. **The first moves stay as built** for V1: the plan briefs' different first move for Make the Move, Lead Where You Are and Find your next direction is not adopted. Four plans take the extra stage their brief adds (5.6); the template's three stages are otherwise unchanged. (2026-11-18)
+59. **The Playbook's pages are outside the 40-word rule.** First draft, Add more detail and Longer versions come after onboarding and are the Playbook's (decision 18), so they follow its rules, not 4.10. (2026-11-18)
 
 ---
 
