@@ -2853,6 +2853,13 @@ ul.chrome__nav-list {
   color: var(--color-text-primary);
 }
 
+/* The product's start screen has no logo over it, so its heading says who
+   answers, a step up from the small label. */
+.concierge-start__title--lead {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+
 ul.icon-row,
 ul.concierge-suggest {
   margin: 0;

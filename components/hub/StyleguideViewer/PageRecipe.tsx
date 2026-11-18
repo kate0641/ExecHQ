@@ -168,7 +168,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "A labelled read inside a card is a grey eyebrow, then the words. Blue eyebrows introduce a heading; grey ones label a read.",
-        why: "Why this / Why now / Why you on Home; Name and Email on Profile; Go to and Ask me in the advisor panel. One look for one job.",
+        why: "Why this / Why now / Why you on Home; Name and Email on Profile; Go to in the advisor panel. One look for one job.",
         from: "Home, Profile, Navigation",
         uses: [".read", "--type-eyebrow-*", "--color-text-secondary"],
       },
@@ -364,7 +364,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
     date: "7 October 2026",
     added: [
       "A list of choices is one card with hairlines, not a stack of boxes.",
-      "Grey eyebrows label groups inside a panel (Go to, Ask me).",
+      "Grey eyebrows label groups inside a panel (Go to).",
       "Kulim Park out of the chat: advisor name, reply chips and the where-you-are chip are Inter.",
       "Reply buttons are the light-blue secondary; her messages are light blue, not navy.",
       "Chat streamlined: slim header, 28px between messages, full-pill field, replies at the left.",

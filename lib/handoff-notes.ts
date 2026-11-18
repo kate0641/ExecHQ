@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "advisor-without-the-logo",
+    title: "Ask your advisor, without the logo",
+    description:
+      "The Ask or go panel's start screen loses the ExecEngine logo; Your advisor and Ask me become one heading, Ask your advisor. The Enterprise Dashboard's advisor is unchanged (18 Nov).",
+  },
+  {
     slug: "inside-the-company-only",
     title: "Inside the company only",
     description:

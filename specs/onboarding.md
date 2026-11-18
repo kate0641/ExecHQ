@@ -367,7 +367,7 @@ The first time the person reaches Home after onboarding, from Your plan or after
 | --- | --- | --- |
 | 1 of 3 | The Ask or go pill | **Everything starts here.** "Tap to go anywhere, or ask ExecEngine anything." |
 | 2 of 3 | Go to, in the panel (it opens for this stop) | **Six places, one tap away.** "Your plan, your signals, your Playbook, the daily briefing and your profile." |
-| 3 of 3 | Ask me and the field to type in, together | **Chat with ExecEngine.** "Ask anything about your plan, or tap a question to start. It knows what you've told it." |
+| 3 of 3 | Ask your advisor and the field to type in, together | **Chat with ExecEngine.** "Ask anything about your plan, or tap a question to start. It knows what you've told it." |
 
 - Each card has **Next** (on the last, **Got it**) and **Skip the tour**. The card sits above what is lit when it is low on the screen, below it otherwise.
 - **Got it** ends the tour with the panel still open and the cursor in its field, so she can type at once. **Skip the tour** (or Escape) ends it and closes the panel.

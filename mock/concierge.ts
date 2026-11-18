@@ -27,7 +27,8 @@ export const CONCIERGE_COPY = {
   /** The empty panel's sections. */
   goTo: "Go to",
   resumeEyebrow: "Pick up where you left off",
-  askMe: "Ask me",
+  /** The start screen's heading over the suggestions; says who answers, with no logo. */
+  askMe: "Ask your advisor",
 
   /** Suggested questions, by what is going on. */
   suggest: {

@@ -7,7 +7,7 @@ import { createPortal } from "react-dom";
 import { ChatComposer } from "@/components/chat/ChatComposer";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { QuickReplies } from "@/components/chat/QuickReplies";
-import { AdvisorWho, ConciergePanel } from "@/components/navigation/ConciergePanel";
+import { ConciergePanel } from "@/components/navigation/ConciergePanel";
 import { ConciergePill } from "@/components/navigation/ConciergePill";
 import { IconRow } from "@/components/navigation/IconRow";
 import { Icon, type IconName } from "@/components/primitives/Icon";
@@ -645,8 +645,7 @@ function Start({
       ) : null}
 
       <section aria-labelledby="concierge-ask">
-        <AdvisorWho name={C.name} role={C.role} brand className="concierge-start__who" />
-        <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
+        <h2 id="concierge-ask" className="concierge-start__title concierge-start__title--lead">{C.askMe}</h2>
         <ul className="concierge-suggest">
           {suggestions(ctx).map((s) => (
             <li key={s.label}>

@@ -143,7 +143,7 @@ Three sections:
 
 1. **Go to.** One row of the six destinations, each an icon above its name, as equal-width buttons. The row never wraps: the buttons share the width evenly however many destinations there are, so a seventh would narrow them rather than start a second line. On the phone each is about 54px wide, which fits the longest label ("Playbook", "Briefing") at the small text size. The current destination is shown filled (dark). Home shows the quiet accent dot when a follow-up is due. Selecting one goes there and closes the panel.
 2. **Pick up where you left off.** Shown only if there is a draft or in-progress artifact. It is one card: the artifact's title, and "Drafted 5 Oct" or "Edited 5 Oct" (the most recent record of those two kinds, by latest history entry). Selecting it opens the Playbook flow and closes the panel. If nothing is open, the section is absent entirely (no empty state).
-3. **Ask me.** The advisor's mark, name and role, then up to four suggested questions as full-width buttons. Which four depends on the user's situation (section 7).
+3. **Ask your advisor.** A heading, with no logo over it (2026-11-18, UX review: they know which app they're in; it was the ExecEngine wordmark and "Your advisor" over a small "Ask me"), then up to four suggested questions as full-width buttons. Which four depends on the user's situation (section 7).
 
 ### Conversation (after the first message)
 
