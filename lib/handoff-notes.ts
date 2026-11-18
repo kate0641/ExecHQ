@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "inside-the-company-only",
+    title: "Inside the company only",
+    description:
+      "Recruiters, boards and a way out are gone from the product: Positioning Builder's audience, the bio's audience and why, A board seat, Explore what else is out there, and the unused Get out of where I am (18 Nov).",
+  },
+  {
     slug: "plan-items-are-moves",
     title: "Every plan item is a move",
     description:

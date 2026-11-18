@@ -1387,7 +1387,7 @@ export const POSITIONING_INPUTS: readonly ToolInput[] = [
     label: "Who is it mainly for?",
     kind: "choice",
     optional: true,
-    options: ["Senior leaders where I work", "An external audience", "Recruiters and boards"],
+    options: ["Senior leaders where I work", "An external audience"],
   },
   {
     id: "format",
@@ -1693,7 +1693,7 @@ export const INTERVIEW_PICKS: Record<ArtifactKind, Record<string, InterviewPick>
     knownFor: { mode: "many", fromHer: true, options: ["Bringing teams together", "Calm in a hard room", "Building teams others want to join"] },
     strengths: { mode: "many", options: ["Calm in a hard room", "Turning data into a decision", "Cross-team leadership", "Coaching people up"] },
     context: { mode: "many", options: ["A promotion conversation", "An executive introduction", "A conference program"] },
-    audience: { mode: "one", options: ["Senior leaders where I work", "An external audience", "Recruiters and boards"] },
+    audience: { mode: "one", options: ["Senior leaders where I work", "An external audience"] },
     format: { mode: "one", options: ["LinkedIn About section", "A speaker bio", "An internal profile", "An email introduction"] },
   },
 };

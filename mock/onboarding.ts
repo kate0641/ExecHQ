@@ -130,13 +130,6 @@ export const PROMPTED_DIRECTIONS: PromptedDirection[] = [
     need: "preparation",
   },
   {
-    id: "leaving",
-    label: "Get out of where I am",
-    text: "I want out of the industry I am in, but I have not worked out what replaces it.",
-    blurb: "Out of the industry, before you have named what replaces it.",
-    need: "exploration",
-  },
-  {
     id: "unsure",
     label: "I do not know yet",
     text: "I have hit a ceiling and I cannot name the next role.",
@@ -178,8 +171,7 @@ export const DIRECTION_NARROWER_C3: Record<string, [string, string]> = {
   "Make a move within my company": ["Move into another function, like marketing to sales", "Move to another part of the business"],
   "Lead a bigger organization": ["Run a larger business or division", "Lead across more functions or regions"],
   "Carry more weight where I am": ["Have more say in company decisions", "Be trusted with bigger, more visible work"],
-  "Get out of where I am": ["Leave my industry for something new", "Leave my company, but stay in my field"],
-  "I do not know yet": ["Understand why I\u2019ve hit a ceiling", "Explore what else is out there"],
+  "I do not know yet": ["Understand why I\u2019ve hit a ceiling", "Explore other parts of the business"],
 };
 
 const SPECIFIC_PARENT: Record<string, string> = Object.fromEntries(
@@ -241,7 +233,6 @@ const PROMPT_TOWARD: Record<string, string> = {
   "Make a move within my company": "a move within your company",
   "Lead a bigger organization": "a bigger organization to lead",
   "Carry more weight where I am": "more weight where you are",
-  "Get out of where I am": "a way out of where you are",
   "I do not know yet": "your next step",
 };
 
@@ -447,7 +438,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "Which role are you going for?",
       hint: REFINEMENT_C1.instruction,
       options: opts("My boss’s job", "One level up, in my area", "Running a whole function", "A seat on the exec team", "A role that doesn’t exist yet").map(withHeard("You’re going for your boss’s job, so the case is about being the obvious successor.", "You’re going for the next level up in your area, so the case is about readiness, not reinvention.", "You’re going for a whole function, so the case is about running all of it.", "You’re going for a seat on the exec team, where the big calls get made.", "You’re after a role that doesn’t exist yet, so part of the work is making the case for it.")),
-      more: opts("A bigger role in another part of the business", "General manager of a business", "A bigger P&L", "A board seat").map(withHeard("You’re going for a bigger role in another part of the business, so the step up may come from across the company.", "You’re going for general manager of a business, owning the whole of it.", "You want a bigger P&L, with more of the numbers resting on your decisions.", "You’re going for a board seat, which is a slower, quieter path.")),
+      more: opts("A bigger role in another part of the business", "General manager of a business", "A bigger P&L", "A company-wide role").map(withHeard("You’re going for a bigger role in another part of the business, so the step up may come from across the company.", "You’re going for general manager of a business, owning the whole of it.", "You want a bigger P&L, with more of the numbers resting on your decisions.", "You’re going for a company-wide role, with reach across every part of the business.")),
     },
     {
       id: "scope-when",
@@ -611,7 +602,6 @@ const PROMPT_READBACK: Record<string, string> = {
   "Make a move within my company": "You want to make a move within your company.",
   "Lead a bigger organization": "You want to lead a bigger organization.",
   "Carry more weight where I am": "You want to carry more weight where you are.",
-  "Get out of where I am": "You want out of where you are, and haven\u2019t yet named what comes next.",
   "I do not know yet": "You\u2019re not sure yet where you\u2019re headed.",
 };
 
@@ -975,7 +965,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       },
     },
     uses: [
-      "In a first coffee with someone in a field you\u2019re curious about",
+      "In a first coffee with someone in a part of the business you\u2019re curious about",
       "When someone asks what you\u2019re looking for",
       "As the start of your LinkedIn About section",
     ],
@@ -1049,7 +1039,7 @@ const GOAL_FROM_ANSWER: Record<string, Record<string, string>> = {
     "A bigger role in another part of the business": "a bigger role in another part of the business",
     "General manager of a business": "running a business as its general manager",
     "A bigger P&L": "a bigger P&L",
-    "A board seat": "a board seat",
+    "A company-wide role": "a company-wide role",
   },
   "moment-what": {
     "Promotion conversation": "your promotion conversation",
@@ -1440,7 +1430,7 @@ export const POSITIONING_C1 = {
     label: "Who will hear it first?",
     note: "Adds an opener for them",
     none: "None for now",
-    options: ["My manager", "The exec team", "Recruiters", "A board", "My industry", "None for now"],
+    options: ["My manager", "The exec team", "Leaders across the company", "My industry", "None for now"],
   },
   showFirst: { label: "Show me first" },
   name: { label: "Your name" },
@@ -1530,7 +1520,6 @@ const PROMPT_GOALS: Record<string, [string, string]> = {
   "Make a move within my company": ["a move within my company", "a move within their company"],
   "Lead a bigger organization": ["leading a bigger organization", "leading a bigger organization"],
   "Carry more weight where I am": ["more weight where I am", "more weight where they are"],
-  "Get out of where I am": ["a way out of where I am", "a way out of where they are"],
   "I do not know yet": ["working out what\u2019s next for me", "working out what\u2019s next for them"],
 };
 
@@ -1726,7 +1715,6 @@ const PROMPT_TOWARD_LINE: Record<string, string> = {
   "Make a move within my company": "I’m working out my next move within my company.",
   "Lead a bigger organization": "I’m building toward leading a bigger organization.",
   "Carry more weight where I am": "I want more influence where I am.",
-  "Get out of where I am": "I’m ready to move on from where I am.",
   "I do not know yet": "I’m not sure yet what comes next.",
 };
 
@@ -1742,7 +1730,7 @@ const SAID: Record<string, string[]> = {
     "The step up may come from another part of the business, and I’m open to that.",
     "I’m going for general manager of a business.",
     "I want a bigger P&L, with more of the numbers resting on my decisions.",
-    "I’m working toward a board seat.",
+    "I’m working toward a company-wide role.",
   ],
   "scope-when": [
     "My next real chance is the next promotion round.",
@@ -1961,7 +1949,7 @@ export function quickWinFor(
     ? {
         title: "Write your bio",
         detail: "Short, medium and long, built from your story and ready to send ahead of you.",
-        why: "It’s what goes ahead of you: to a recruiter, an event, a new boss.",
+        why: "It’s what goes ahead of you: to the exec team, an event, a new team.",
       }
     : {
         title: "Sharpen your story",

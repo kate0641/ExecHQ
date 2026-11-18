@@ -723,7 +723,7 @@ The first page shows six **first options**, I'm not sure yet among them. "None o
 | Make a move within my company *(was "Find my next move")* | exploration | Move into another function, like marketing to sales | Move to another part of the business |
 | Lead a bigger organization *(held back)* | positioning | Run a larger business or division | Lead across more functions or regions |
 | Carry more weight where I am *(held back)* | influence | Have more say in company decisions | Be trusted with bigger, more visible work |
-| I'm not sure yet *(shown with the first five from 2026-11-12; was "I do not know yet", held back)* | exploration | Understand why I’ve hit a ceiling | Explore what else is out there |
+| I'm not sure yet *(shown with the first five from 2026-11-12; was "I do not know yet", held back)* | exploration | Understand why I’ve hit a ceiling | Explore other parts of the business *(was "Explore what else is out there", 2026-11-18)* |
 
 ### B. Questions
 
@@ -733,7 +733,7 @@ The first page shows six **first options**, I'm not sure yet among them. "None o
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| Which role are you going for? | Single | Making it yours | My boss’s job; One level up, in my area; Running a whole function; A seat on the exec team; A role that doesn’t exist yet | A bigger role in another part of the business; General manager of a business; A bigger P&L; A board seat |
+| Which role are you going for? | Single | Making it yours | My boss’s job; One level up, in my area; Running a whole function; A seat on the exec team; A role that doesn’t exist yet | A bigger role in another part of the business; General manager of a business; A bigger P&L; A company-wide role *(was A board seat, 2026-11-18)* |
 | When is the next real chance at it? | Single | Making it yours (skipped when the direction already says it) | The next promotion round; When my boss moves on; At the next reorganization; Within a year, no set moment; I don’t know when | At year-end reviews; When a new role is created; In two to three years; It depends on someone else |
 | What would the people deciding say you’re missing? | Multiple | Deciding | Proof I can run something bigger; Being known above my boss; A clear case for why me; My boss behind me; A role to step into | Experience outside my area; Seen as too operational; A reorganization has stalled things; I don’t know what they’d say |
 

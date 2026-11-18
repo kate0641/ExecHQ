@@ -42,7 +42,7 @@ export const PLAN_BRIEFS: readonly PlanBriefEntry[] = [
     slug: "make-the-move",
     title: "Make the Move",
     template: "Prepare for a career inflection point",
-    description: "For a specific moment ahead: a promotion, a new role, a new path, a board seat.",
+    description: "For a specific moment ahead: a promotion conversation, a review, an internal interview.",
   },
   {
     slug: "lead-where-you-are",

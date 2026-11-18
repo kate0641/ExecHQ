@@ -83,7 +83,7 @@ const REC = {
   bio: {
     id: "bio",
     title: "Write your bio",
-    why: "It’s what goes ahead of you: to a recruiter, an event, a new boss.",
+    why: "It’s what goes ahead of you: to the exec team, an event, a new team.",
   },
   stakeholderMap: {
     id: "stakeholder-map",

@@ -626,7 +626,6 @@ const BIO_FOR_FORMAT: Record<string, { label: string }> = {
 const AUDIENCE_QUESTION: Record<string, string> = {
   "Senior leaders where I work": "Which result would your leadership remember you for?",
   "An external audience": "Where have you spoken or been published?",
-  "Recruiters and boards": "Which decision best shows your judgment?",
 };
 
 /** A pasted bio's first sentence, for what came before her current role. */

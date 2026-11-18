@@ -208,7 +208,7 @@ Added 2026-10-23 and settled 2026-10-26. One question, once a week, that tells t
 
 ### 4.6 The direction in the question
 
-Onboarding has no free text: the person picks a direction and narrows it to one of two versions (see the Onboarding spec, 3.5), so there are 18 directions. Each has a fixed form that reads after "How ready do you feel to". It is written by hand, not generated (decided 2026-10-26). Most are the narrower version itself with its first letter lowered. "My" becomes "your" and "I" becomes "you":
+Onboarding has no free text: the person picks a direction and narrows it to one of two versions (see the Onboarding spec, 3.5), so there are 16 directions. Each has a fixed form that reads after "How ready do you feel to". It is written by hand, not generated (decided 2026-10-26). Most are the narrower version itself with its first letter lowered. "My" becomes "your" and "I" becomes "you":
 
 | Option | Narrower version | In the question: "How ready do you feel to …?" |
 | --- | --- | --- |
@@ -218,18 +218,16 @@ Onboarding has no free text: the person picks a direction and narrows it to one 
 | | Own a bigger area of the business | own a bigger area of the business |
 | Be seen as an executive | Be seen as an executive by my own leadership | be seen as an executive by your own leadership |
 | | Be seen as an executive beyond my company | be seen as an executive beyond your company |
-| Nail an upcoming board presentation | Win the board's backing for a proposal | win the board's backing for a proposal |
+| Nail an upcoming presentation | Win backing for a proposal | win backing for a proposal |
 | | Present results and the plan ahead with confidence | present results and the plan ahead with confidence |
-| Find my next move | Move to a new company in my field | move to a new company in your field |
-| | Move into a different role or industry | move into a different role or industry |
+| Make a move within my company | Move into another function, like marketing to sales | move into another function |
+| | Move to another part of the business | move to another part of the business |
 | Lead a bigger organization | Run a larger business or division | run a larger business or division |
 | | Lead across more functions or regions | lead across more functions or regions |
 | Carry more weight where I am | Have more say in company decisions | have more say in company decisions |
 | | Be trusted with bigger, more visible work | be trusted with bigger, more visible work |
-| Get out of where I am | Leave my industry for something new | leave your industry for something new |
-| | Leave my company, but stay in my field | leave your company, but stay in your field |
-| I do not know yet | Understand why I've hit a ceiling | understand why you've hit a ceiling |
-| | Explore what else is out there | explore what else is out there |
+| I'm not sure yet | Understand why I've hit a ceiling | understand why you've hit a ceiling |
+| | Explore other parts of the business | explore other parts of the business |
 
 - **Several picks:** the question uses the one they chose as mattering most, which is their direction.
 - **When the direction changes** (in onboarding's "Change", or later on the Plan), the question changes with it from the next check-in.
@@ -398,4 +396,4 @@ Written from the approved prototype. These are choices the prototype makes that 
 5. **The greeting** says "Good morning" at any hour in the prototype.
 6. **Telling the person their answer counts in their organization's totals.** The card no longer says so (removed 2026-10-26). The privacy policy, which Eric is updating, has to cover it.
 
-Settled for the weekly check-in (2026-10-23 to 26): in Stay on track, after the cards about their work; one question with their own direction in it, in the hand-written form for each of the 18 directions (4.6); three answers on a slider; Save at the right edge with what it records beside it; "Not now" as an ×; every 7 days; the first answer is the starting point; each answer changes the next step and the read-back says how (4.7); the Admin Dashboard sees totals only, once 10 have answered twice.
+Settled for the weekly check-in (2026-10-23 to 26): in Stay on track, after the cards about their work; one question with their own direction in it, in the hand-written form for each of the 16 directions (4.6); three answers on a slider; Save at the right edge with what it records beside it; "Not now" as an ×; every 7 days; the first answer is the starting point; each answer changes the next step and the read-back says how (4.7); the Admin Dashboard sees totals only, once 10 have answered twice.
