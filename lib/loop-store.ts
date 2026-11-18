@@ -245,7 +245,7 @@ export const loopActions = {
    *  answer on one tap, and offers the note after). Keeps "just answered". */
   noteOutcome: (id: string, detail: string) =>
     updateRecord(id, (r) => (r.outcome ? { ...r, outcome: { ...r.outcome, detail } } : r), id),
-  /** "It hasn't happened yet", with the new date: ExecHQ asks the day after
+  /** "It hasn't happened yet", with the new date: ExecEngine asks the day after
    *  it (the Situation Brief, 13 October). */
   rescheduleTo: (id: string, date: string) =>
     updateRecord(id, (r) => ({ ...r, checkBackOn: addDays(date, 1) }), id),

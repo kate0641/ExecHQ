@@ -6,7 +6,7 @@
  *   Concept 1 use, `isDone` in `lib/rings.ts`). Nothing else fills a segment.
  * - `in-progress`: she has taken it up: pressed Start, or work on it is already
  *   in the Loop. Accepting it into her plan does not count.
- * - `not-started`: ExecHQ has suggested it and she has neither started it nor
+ * - `not-started`: ExecEngine has suggested it and she has neither started it nor
  *   turned it down, including one she accepted into her plan and has not touched.
  *   Starting it from the card under the rings makes it in progress.
  *
@@ -96,7 +96,7 @@ export function nextNewAction(horizon: Horizon, asked: string[] | undefined): La
 /** The ring's text equivalent, read in place of the drawing. */
 export function mapRingText(ring: MapRing): string {
   const n = ring.segments.length;
-  if (n === 0) return `${ring.label}: nothing in your Progress Tracker yet.`;
+  if (n === 0) return `${ring.label}: nothing here yet.`;
   const inProgress = ring.segments.filter((s) => s.state === "in-progress").length;
   const notStarted = ring.segments.filter((s) => s.state === "not-started").length;
   const parts = [`${ring.done} done`, `${inProgress} in progress`, `${notStarted} not started`].filter((p) => !p.startsWith("0 ") || p === `${ring.done} done`);

@@ -3,10 +3,10 @@
  * came from, and the things that read it.
  *
  * Two sources, never blended without the label:
- *  - "recorded": ExecHQ saw it in the Loop (drafting, finishing, using, the
+ *  - "recorded": ExecEngine saw it in the Loop (drafting, finishing, using, the
  *    outcome she logged, a step she marked done);
  *  - "added": she told us, through the add flow, about something outside
- *    ExecHQ it cannot see.
+ *    ExecEngine it cannot see.
  *
  * Each Signals concept draws it differently: months along a path, dots in four
  * territories, or rows of a thing and what came of it. Nothing here returns a
@@ -65,7 +65,7 @@ export function activityOfKind(kind: string): ActivityType {
   return kind === "writing" ? "publishing" : kind === "speaking" || kind === "podcast" || kind === "press" ? kind : "other";
 }
 
-/** Everything ExecHQ recorded: the Loop's history, and steps she marked done. */
+/** Everything ExecEngine recorded: the Loop's history, and steps she marked done. */
 export function recordedItems(records: LoopRecord[], tasks?: Record<string, TaskCheck>): PictureItem[] {
   const out: PictureItem[] = [];
   for (const record of records) {
@@ -73,7 +73,7 @@ export function recordedItems(records: LoopRecord[], tasks?: Record<string, Task
     const activity = activityOfRecord(record);
     entriesFor(record).forEach((entry, i) => {
       // Only what she put out in the world is a signal: drafting, working on or readying something in
-      // ExecHQ is not, so those stay off her picture. What she used, sent or published, and what came of it, stays.
+      // ExecEngine is not, so those stay off her picture. What she used, sent or published, and what came of it, stays.
       if (entry.source === "observed") return;
       out.push({
         id: `${record.id}:${i}`,
@@ -97,7 +97,7 @@ export function recordedItems(records: LoopRecord[], tasks?: Record<string, Task
 }
 
 /**
- * What ExecHQ recorded for her in the last week that she has not hidden,
+ * What ExecEngine recorded for her in the last week that she has not hidden,
  * newest first: the things the page tells her it added, so she is not left to
  * wonder whether she added them herself.
  */
@@ -112,7 +112,7 @@ export function newlyRecorded(recorded: readonly PictureItem[], today: LoopDate,
  * Things already in her picture that may be what she is about to add: the same
  * kind of thing, within three days of the date she gave, closest first. Not
  * "something else", which is too loose to say. Used to ask "is it this one?"
- * before she adds a second copy of what ExecHQ recorded or she added earlier.
+ * before she adds a second copy of what ExecEngine recorded or she added earlier.
  */
 export function likelyDuplicates(items: readonly PictureItem[], kind: string, on: LoopDate, ignoreId?: string): PictureItem[] {
   const activity = activityOfKind(kind);
@@ -162,7 +162,7 @@ export interface CameOfRow {
 
 /**
  * A row for each thing she did and what she says came of it, newest first.
- *  - Things she added from outside ExecHQ (published, spoke, a podcast, press)
+ *  - Things she added from outside ExecEngine (published, spoke, a podcast, press)
  *    always get a row, with her note of what came of it or none yet.
  *  - A Loop record she has used gets a row when she has logged an outcome in
  *    her own words, or when she has said it went out and nothing has come yet.

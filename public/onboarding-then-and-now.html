@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Onboarding, then and now · ExecEngine prototype</title>
+<!-- A review page, not product UI: the approved onboarding and the edited one, both live, side by side.
+     No colours of its own (the token rule): the page takes the browser's own, and edges use currentColor. -->
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, "Helvetica Neue", Arial, sans-serif; font-size: 15px; line-height: 1.5; padding: 24px 16px 40px; }
+.wrap { max-width: 1240px; margin: 0 auto; display: grid; gap: 20px; }
+header { display: grid; gap: 6px; max-width: 820px; }
+.eyebrow { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+h1 { margin: 0; font-size: clamp(26px, 4vw, 36px); line-height: 1.1; }
+p { margin: 0; }
+.lead { opacity: .75; }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 560px), 1fr)); gap: 20px; }
+.side { display: grid; gap: 8px; align-content: start; }
+.side-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+.tag { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 10px; border: 1px solid currentColor; border-radius: 999px; }
+.side-title { font-weight: 700; font-size: 17px; }
+.open { margin-left: auto; font-size: 14px; font-weight: 600; }
+.frame { width: 100%; height: 1000px; border: 1px solid currentColor; border-radius: 14px; opacity: 1; display: block; }
+.note { font-size: 14px; opacity: .75; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">ExecEngine onboarding</p>
+    <h1>Onboarding, then and now</h1>
+    <p class="lead">The approved onboarding on the left, the edited one on the right. Both are the live prototype: tap through each phone, or use the step bar at the top of each side to jump to a page.</p>
+  </header>
+  <div class="pair">
+    <section class="side" aria-labelledby="then-h">
+      <div class="side-head">
+        <span class="tag">Then</span>
+        <span class="side-title" id="then-h">Approved onboarding</span>
+        <a class="open" href="https://exechq-prototype-mf9i4opvw-kate-7269s-projects.vercel.app/onboarding/concept-3" target="_blank" rel="noopener">Open on its own ↗</a>
+      </div>
+      <iframe class="frame" title="Approved onboarding, live prototype" src="https://exechq-prototype-mf9i4opvw-kate-7269s-projects.vercel.app/onboarding/concept-3"></iframe>
+      <p class="note">The production site as of 12 Nov: the onboarding as approved, in ZM's design system. Fixed: it won't change.</p>
+    </section>
+    <section class="side" aria-labelledby="now-h">
+      <div class="side-head">
+        <span class="tag">Now</span>
+        <span class="side-title" id="now-h">Edited onboarding</span>
+        <a class="open" href="/onboarding/concept-3" target="_blank" rel="noopener">Open on its own ↗</a>
+      </div>
+      <iframe class="frame" title="Edited onboarding, live prototype" src="/onboarding/concept-3"></iframe>
+      <p class="note">This branch, with every edit so far. It updates with each new edit.</p>
+    </section>
+  </div>
+</div>
+</body>
+</html>

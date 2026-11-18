@@ -153,8 +153,8 @@ export const DIRECTION_PROMPTS_C1: PromptedDirection[] = [
   { id: "c-suite", label: "Reach the C-suite within three years", text: "Reach the C-suite within three years", blurb: "A seat at the top table, with a date on it.", need: "positioning" },
   { id: "leadership", label: "Take on a bigger leadership role", text: "Take on a bigger leadership role", blurb: "More scope or a bigger remit, where you are.", need: "influence" },
   { id: "executive", label: "Be seen as an executive", text: "Be seen as an executive", blurb: "Read as an executive, not only a strong operator.", need: "visibility" },
-  { id: "board", label: "Nail an upcoming board presentation", text: "Nail an upcoming board presentation", blurb: "A specific moment coming up that needs to land.", need: "preparation" },
-  { id: "next-move", label: "Find my next move", text: "Find my next move", blurb: "Working out where to go before choosing.", need: "exploration" },
+  { id: "board", label: "Nail an upcoming presentation", text: "Nail an upcoming presentation", blurb: "A specific moment coming up that needs to land.", need: "preparation" },
+  { id: "next-move", label: "Make a move within my company", text: "Make a move within my company", blurb: "A move inside the company: another function, or another part of the business.", need: "exploration" },
 ];
 
 /** Narrowing it down, in Concept 3: two more specific versions of each option,
@@ -171,11 +171,11 @@ export const DIRECTION_NARROWER_C3: Record<string, [string, string]> = {
     "Be seen as an executive by my own leadership",
     "Be seen as an executive beyond my company",
   ],
-  "Nail an upcoming board presentation": [
-    "Win the board\u2019s backing for a proposal",
+  "Nail an upcoming presentation": [
+    "Win backing for a proposal",
     "Present results and the plan ahead with confidence",
   ],
-  "Find my next move": ["Move to a new company in my field", "Move into a different role or industry"],
+  "Make a move within my company": ["Move into another function, like marketing to sales", "Move to another part of the business"],
   "Lead a bigger organization": ["Run a larger business or division", "Lead across more functions or regions"],
   "Carry more weight where I am": ["Have more say in company decisions", "Be trusted with bigger, more visible work"],
   "Get out of where I am": ["Leave my industry for something new", "Leave my company, but stay in my field"],
@@ -208,8 +208,9 @@ const softCase = (text: string) => (/^[A-Z][a-z]/.test(text) ? lowerFirst(text) 
 export const DIRECTION_MORE_C3: PromptedDirection[] = [
   { id: "bigger-org", label: "Lead a bigger organization", text: "Lead a bigger organization", blurb: "A larger remit than the one you have now.", need: "positioning" },
   { id: "weigh-more", label: "Carry more weight where I am", text: "Carry more weight where I am", blurb: "More say where you already are, without moving to get it.", need: "influence" },
-  { id: "leaving", label: "Get out of where I am", text: "Get out of where I am", blurb: "Out of where you are, before you have named what replaces it.", need: "exploration" },
-  { id: "unsure", label: "I do not know yet", text: "I do not know yet", blurb: "A ceiling you can feel but cannot put a title to.", need: "exploration" },
+  // "Get out of where I am" was here: removed, ExecEngine doesn't steer anyone out of their company (Kate, 2026-11-12).
+  // Shown with the first five in Concept 3 (Kate, 2026-11-12), worded as she'd say it.
+  { id: "unsure", label: "I\u2019m not sure yet", text: "I do not know yet", blurb: "A ceiling you can feel but cannot put a title to.", need: "exploration" },
 ];
 
 /** What the simulated mic "hears". The prototype has no speech input, so the
@@ -236,8 +237,8 @@ const PROMPT_TOWARD: Record<string, string> = {
   "Reach the C-suite within three years": "the C-suite within three years",
   "Take on a bigger leadership role": "a bigger leadership role where you are",
   "Be seen as an executive": "being seen as an executive",
-  "Nail an upcoming board presentation": "your board presentation",
-  "Find my next move": "your next move",
+  "Nail an upcoming presentation": "your presentation",
+  "Make a move within my company": "a move within your company",
   "Lead a bigger organization": "a bigger organization to lead",
   "Carry more weight where I am": "more weight where you are",
   "Get out of where I am": "a way out of where you are",
@@ -443,78 +444,68 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
   positioning: [
     {
       id: "scope-kind",
-      multi: true,
-      question: "What kind of step up?",
+      question: "Which role are you going for?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Bigger team", "Broader remit", "A seat at the top table", "A new title", "More budget and say").map(withHeard("A bigger team matters most to you: more people, and the weight that comes with leading them.", "A broader remit matters most to you: owning more of the business, not just more of the same work.", "A seat at the top table matters most to you: being in the room where the big calls get made.", "The title matters most to you: being named for the role, not just doing the work.", "More budget and say matters to you: owning the decisions, not just carrying them out.")),
-      more: opts("A move to another company", "A bigger P&L", "Visibility with the board", "A role that doesn’t exist yet").map(withHeard("A move to another company matters to you, so the step up may come from outside.", "A bigger P&L matters to you: more of the numbers resting on your decisions.", "Being seen by the board matters to you, not just by your own line.", "You’re after a role that doesn’t exist yet, so part of the work is making the case for it.")),
+      options: opts("My boss’s job", "One level up, in my area", "Running a whole function", "A seat on the exec team", "A role that doesn’t exist yet").map(withHeard("You’re going for your boss’s job, so the case is about being the obvious successor.", "You’re going for the next level up in your area, so the case is about readiness, not reinvention.", "You’re going for a whole function, so the case is about running all of it.", "You’re going for a seat on the exec team, where the big calls get made.", "You’re after a role that doesn’t exist yet, so part of the work is making the case for it.")),
+      more: opts("A bigger role in another part of the business", "General manager of a business", "A bigger P&L", "A board seat").map(withHeard("You’re going for a bigger role in another part of the business, so the step up may come from across the company.", "You’re going for general manager of a business, owning the whole of it.", "You want a bigger P&L, with more of the numbers resting on your decisions.", "You’re going for a board seat, which is a slower, quieter path.")),
     },
     {
       id: "scope-when",
-      question: "When do you want to get there?",
+      question: "When is the next real chance at it?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Within a year", "1\u20132 years", "3+ years", "No fixed timeline", "When the right role opens").map(withHeard("You want it within a year, so this is a near-term move, not a long campaign.", "You\u2019re giving it one to two years, which is enough time to build the case properly.", "You\u2019re playing a longer game of three years or more, so there\u2019s room to build step by step.", "You haven\u2019t set a timeline, so the pace can fit around your job.", "You’ll move as soon as the right role opens, so being ready matters more than a date.")),
-      more: opts("Within six months", "In about five years", "After my next promotion", "Depends on the company").map(withHeard("You want it within six months, so the plan has to start with the essentials.", "You’re thinking about five years, so there’s time to build the foundations properly.", "You want to get there after your next promotion, so that step comes first.", "It depends on the company’s plans, so part of the work is learning what they are.")),
+      options: opts("The next promotion round", "When my boss moves on", "At the next reorganization", "Within a year, no set moment", "I don’t know when").map(withHeard("The next promotion round is your chance, so the case has to be ready before it.", "Your chance comes when your boss moves on, so being the obvious successor is the work.", "The next reorganization is your chance, so you want to be placed well in it.", "You want it within a year, with no set moment, so the plan builds steadily.", "You don’t know when the chance comes, so finding that out is part of the plan.")),
+      more: opts("At year-end reviews", "When a new role is created", "In two to three years", "It depends on someone else").map(withHeard("Year-end reviews are your chance, so the evidence needs to be in by then.", "Your chance comes when a new role is created, so part of the work is shaping it.", "You’re looking at two to three years, so there’s room to build step by step.", "It depends on someone else, so knowing their timing comes first.")),
       skipIf: SAYS_WHEN,
     },
     {
       id: "scope-block",
       multi: true,
-      question: "What\u2019s in the way?",
+      question: "What would the people deciding say you’re missing?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("No clear path up", "Nobody sees my work", "I can\u2019t make my case", "Wrong company for it", "My boss isn\u2019t backing me").map(withHeard("Right now there\u2019s no clear path up, so part of the job is finding one, or making one.", "Right now nobody sees your work. The results are there; the people deciding just aren\u2019t looking at them.", "Right now you can\u2019t quite make your case. You know you\u2019re ready; it\u2019s putting it into words that\u2019s hard.", "You suspect you\u2019re in the wrong company for it, so the next step may not be where you are now.", "Your boss isn\u2019t backing you yet, so winning that support comes before anything else.")),
-      more: opts("The role I want is taken", "I don\u2019t have the experience yet", "A reorganization has stalled things", "I don\u2019t know what it would take").map(withHeard("The role you want is already filled, so the path may need to go around it.", "You don\u2019t have all the experience yet, so the plan builds the missing proof.", "A reorganization has stalled things, so the plan works with the change rather than waiting it out.", "You don\u2019t know what it would take, so finding that out comes first.")),
+      options: opts("Proof I can run something bigger", "Being known above my boss", "A clear case for why me", "My boss behind me", "A role to step into").map(withHeard("They’d say you’re missing proof you can run something bigger, so the plan builds it.", "They’d say you’re not known above your boss yet, so being seen one level up comes first.", "They’d say there’s no clear case for why you, so putting it into words comes first.", "They’d say your boss isn’t behind you yet, so winning that support comes before anything else.", "They’d say there’s no role to step into yet, so part of the job is finding or making one.")),
+      more: opts("Experience outside my area", "Seen as too operational", "A reorganization has stalled things", "I don’t know what they’d say").map(withHeard("They’d say you need experience outside your area, so the plan finds some.", "They’d say you’re seen as too operational, so the plan shows you shaping direction.", "A reorganization has stalled things, so the plan works with the change rather than waiting it out.", "You don’t know what they’d say, so finding out comes first.")),
     },
   ],
   influence: [
+    // Meatier (Kate, 2026-11-12): a real decision, coming up, and who makes it; one answer each.
     {
       id: "influence-where",
-      multi: true,
-      question: "Where do you want more say?",
+      question: "Which decision in the next few months do you most want a say in?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("My team\u2019s direction", "Company strategy", "Budget and headcount", "Across other teams", "Hiring and promotions").map(withHeard("You want more say in your team\u2019s direction: setting it, not just delivering it.", "You want more say in company strategy: a voice in where the business goes, not only in how your part gets there.", "You want more say over budget and headcount, which is where influence becomes real.", "You want more say across other teams, beyond the part of the business you run.", "You want more say in hiring and promotions: who gets in and who moves up.")),
-      more: opts("Customers and partners", "What we make and sell", "How we’re organized", "Which projects get funded").map(withHeard("You want more say with customers and partners, where your reach goes beyond the company.", "You want more say in what the company makes and sells.", "You want more say in how the company is organized: structure, roles and who reports to whom.", "You want more say in which projects get funded, which is where priorities become real.")),
+      options: opts("Next year\u2019s budget", "A reorganization", "Who gets promoted or hired", "Which projects get funded", "Where the company is heading").map(withHeard("Next year\u2019s budget is the decision you most want a say in, and it\u2019s where influence becomes real.", "A reorganization is coming, and you want a say in how it lands.", "You want a say in who gets promoted or hired.", "You want a say in which projects get funded, which is where priorities become real.", "You want a say in where the company is heading, not only in how your part gets there.")),
+      more: opts("A big customer or partner deal", "How my function is run", "Pricing or go-to-market", "Where we invest in AI").map(withHeard("A big customer or partner deal is the decision you want in on.", "You want a say in how your function is run.", "You want a say in pricing and go-to-market.", "You want a say in where the company invests in AI.")),
     },
     {
       id: "influence-who",
-      multi: true,
-      question: "Who do you most need on side?",
+      question: "Who decides it, and how well do they know your work?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("My boss", "My boss\u2019s peers", "The exec team", "My own team", "Peers across the company").map(withHeard("Your boss is who you most need on side, so that relationship comes first.", "Your boss\u2019s peers are who you most need on side: the people whose view of you travels upward.", "The exec team is who you most need on side: the people who decide what you get to lead.", "Your own team is who you most need on side, because influence starts with the people who already follow you.", "Your peers across the company are who you most need on side: the people whose cooperation you rely on every day.")),
-      more: opts("The CEO", "The board", "Finance", "People outside the company").map(withHeard("The CEO is who you most need on side, so getting in front of them comes first.", "The board is who you most need on side: the people above the exec team.", "Finance is who you most need on side, because budget runs through them.", "The people outside the company matter most: customers, partners and investors.")),
+      options: opts("My boss, and they know it well", "My boss, but they undersell me", "My boss\u2019s boss, who barely knows me", "A group of execs I rarely see", "I don\u2019t know who decides").map(withHeard("Your boss decides, and knows your work well, so the job is making the case together.", "Your boss decides but undersells you, so the plan starts with what they say about you.", "Your boss\u2019s boss decides and barely knows you, so being seen one level up comes first.", "A group of execs decides, and you rarely see them, so getting in front of them comes first.", "You don\u2019t know who decides, so finding that out comes first.")),
+      more: opts("The CEO", "Finance", "A peer who sees me as a rival", "The board").map(withHeard("The CEO decides, so getting in front of them comes first.", "Finance decides, so the case has to be made in their terms.", "A peer who sees you as a rival is in the way, so the plan builds support around them.", "The board decides, so your case has to reach above the exec team.")),
     },
-    {
-      id: "influence-block",
-      multi: true,
-      question: "What\u2019s holding you back?",
-      hint: REFINEMENT_C1.instruction,
-      options: opts("I\u2019m not in the room", "I\u2019m in the room but not heard", "Too junior on paper", "Politics", "Decisions are made before the meeting").map(withHeard("You\u2019re not in the room yet. The decisions that matter to you are made without you.", "You\u2019re in the room but not heard. You\u2019re there, but your view doesn\u2019t carry.", "You\u2019re too junior on paper. Your title undersells what you actually do.", "Politics is getting in the way. Being right isn\u2019t enough; you need people behind you.", "Decisions are made before the meeting, so your influence has to happen earlier, in the conversations that come first.")),
-      more: opts("I\u2019m seen as too operational", "The company moves slowly", "I don\u2019t know who really decides", "I\u2019m new here").map(withHeard("You\u2019re seen as too operational: valued for delivering, not for shaping direction.", "The company moves slowly, so influence is a long game and needs patience built in.", "You don\u2019t know who really decides, so mapping that comes first.", "You\u2019re new here, so building credibility is part of the job.")),
-    },
+    // "What\u2019s holding you back?" was asked here, before the plan: dropped (Kate, 2026-11-12).
+
   ],
   visibility: [
     {
       id: "presence-who",
-      multi: true,
-      question: "Who needs to see you differently?",
+      question: "Whose view of you matters most right now?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Leaders in my company", "My industry", "Recruiters and boards", "All of them", "Customers and clients").map(withHeard("Leaders in your company need to see you differently: as someone they\u2019d promote, not just rely on.", "Your industry needs to see you differently: known beyond your own company.", "Recruiters and boards need to see you differently: as someone on their shortlist.", "Everyone who matters needs to see you differently, inside your company and out.", "Customers and clients need to see you differently: as someone they’d trust with more.")),
-      more: opts("Peers at other companies", "Investors", "The press and conferences", "My own team").map(withHeard("Peers at other companies need to see you differently: as someone worth knowing.", "Investors need to see you differently: as someone who can carry the business.", "The press and conference organizers need to see you differently: as a voice worth hearing.", "Your own team needs to see you differently: as someone who leads, not just manages.")),
+      options: opts("The exec team", "My boss’s peers", "The board", "Leaders across the company", "People in my industry").map(withHeard("The exec team’s view of you matters most right now.", "Your boss’s peers matter most: their view of you travels upward.", "The board’s view of you matters most right now.", "Leaders across the company matter most, beyond your own line.", "People in your industry matter most: being known beyond your own company.")),
+      more: opts("Customers and clients", "Peers at other companies", "The press and conferences", "My own team").map(withHeard("Customers and clients matter most: being someone they’d trust with more.", "Peers at other companies matter most.", "The press and conferences matter most: a voice in your field.", "Your own team matters most, because presence starts with the people who follow you.")),
     },
     {
       id: "presence-now",
-      question: "How do they see you now?",
+      question: "If you asked them, what would they say you are?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Strong operator", "Specialist", "Hard worker, low profile", "Not sure", "Reliable but forgettable").map(withHeard("Today they see a strong operator: someone who delivers, not yet someone who leads.", "Today they see a specialist: expert in one thing, not yet seen as broad enough to lead.", "Today they see a hard worker with a low profile. The work is good; it just isn\u2019t seen.", "You\u2019re not sure how they see you today, so finding out is part of the work.", "Today they see someone reliable but forgettable: trusted, not talked about.")),
-      more: opts("A technical expert", "A fixer", "More junior than I am", "Someone to watch").map(withHeard("Today they see a technical expert: respected for what you know, not for where you could lead.", "Today they see a fixer: called when something breaks, not when something is being built.", "Today they see someone more junior than you are.", "Today they already see someone to watch, and the work is making sure that lasts.")),
+      options: opts("A strong operator, not a strategist", "The expert in one area", "Reliable, but not one to watch", "More junior than I am", "They don’t really know me").map(withHeard("They’d say you’re a strong operator, not a strategist, so the plan shows how you think, not only what you deliver.", "They’d say you’re the expert in one area, so the plan widens what you’re known for.", "They’d say you’re reliable, but not one to watch, so the plan makes you someone to watch.", "They’d say you’re more junior than you are, so the plan closes that gap first.", "They don’t really know you yet, so being seen comes first.")),
+      more: opts("A fixer, called when things break", "Great with my team, quiet above it", "A technical expert", "Someone to watch").map(withHeard("They’d say you’re a fixer, called when things break, so the plan shows you building, not only rescuing.", "They’d say you’re great with your team but quiet above it, so the plan gets your voice upward.", "They’d say you’re a technical expert, so the plan shows your judgment beyond it.", "They’d say you’re someone to watch, so the plan turns that into a role.")),
     },
     {
       id: "presence-where",
-      multi: true,
-      question: "Where do you show up today?",
+      question: "When did people outside your team last hear your view?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Meetings only", "LinkedIn now and then", "Industry events", "Nowhere yet", "Speaking or panels").map(withHeard("Today you only show up in meetings, so your reputation depends on who\u2019s in the room.", "You show up on LinkedIn now and then, which is a start, but not yet a point of view.", "You show up at industry events, so there\u2019s already a stage to build on.", "You don\u2019t show up anywhere yet, so there\u2019s a clean slate to build on.", "You show up speaking or on panels, so there’s already a voice to build on.")),
-      more: opts("Writing or articles", "Podcasts or interviews", "Boards or advisory roles", "Internal town halls").map(withHeard("You show up in writing, so there’s already a voice to build on.", "You show up on podcasts or in interviews.", "You show up on boards or in advisory roles, so there’s already standing outside your day job.", "You show up at internal town halls, so people already see you in front of the company.")),
+      options: opts("This month, in a meeting I led", "This quarter, at a company-wide moment", "This year, somewhere public", "Over a year ago", "I can’t remember").map(withHeard("People outside your team heard your view this month, in a meeting you led, so there’s a stage to build on.", "They heard your view this quarter at a company-wide moment, so there’s a start to build on.", "They heard your view this year somewhere public, so there’s already a voice to build on.", "It’s been over a year since people outside your team heard your view, so getting it out comes first.", "You can’t remember when, so there’s a clean slate to build on.")),
+      more: opts("Only when I’m asked", "In writing, not in person", "Through my boss", "Never on my own topic").map(withHeard("They hear your view only when you’re asked, so the plan has you offering it first.", "They read your view but don’t hear it, so the plan gets you in the room.", "They hear your view through your boss, so the plan gets it to them in your own voice.", "They’ve never heard you on your own topic, so choosing one comes first.")),
     },
   ],
   preparation: [
@@ -523,7 +514,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       multi: true,
       question: "What\u2019s coming up?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Promotion conversation", "Performance review", "Board or exec presentation", "Negotiation or offer", "Job interview").map(withHeard("You have a promotion conversation coming up, and you want to walk in with a case, not a hope.", "You have a performance review coming up, and you want it to set up what\u2019s next, not just look back.", "You have a board or exec presentation coming up, the kind of moment people remember.", "You have a negotiation or offer coming up, where what you say in the moment matters.", "You have an interview coming up, where the first ten minutes decide the rest.")),
+      options: opts("Promotion conversation", "Performance review", "Board or exec presentation", "A negotiation", "An internal interview").map(withHeard("You have a promotion conversation coming up, and you want to walk in with a case, not a hope.", "You have a performance review coming up, and you want it to set up what\u2019s next, not just look back.", "You have a board or exec presentation coming up, the kind of moment people remember.", "You have a negotiation coming up, where what you say in the moment matters.", "You have an internal interview coming up, where the first ten minutes decide the rest.")),
       more: opts("Investor or client pitch", "A reorganization", "A talk or keynote", "A difficult conversation").map(withHeard("You have a pitch coming up, where you’re asking someone to back you.", "A reorganization is coming, and you want to be placed well in it.", "You have a talk or keynote coming up, in front of people you don’t know.", "You have a difficult conversation coming up, and you want to handle it well.")),
       skipIf: SAYS_WHAT_MOMENT,
     },
@@ -537,36 +528,36 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
     },
     {
       id: "moment-ready",
-      question: "How ready do you feel?",
+      multi: true,
+      question: "What’s the hardest part of it?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Ready, want a check", "Know what, not how", "Not sure where to start", "Dreading it", "Nervous but prepared").map(withHeard("You feel ready and want a second opinion before it counts.", "You know what you want to say, but not how to say it.", "You\u2019re not sure where to start, which is normal for a moment like this.", "You\u2019re dreading it, so part of the work is making it feel manageable.", "You’re nervous but prepared, so the work is turning preparation into calm.")),
-      more: opts("Overprepared", "Usually winging it", "Worried about one person", "Haven’t thought about it yet").map(withHeard("You’ve prepared a lot, so the work is cutting it down to what matters.", "You usually wing it, and this one is worth more than that.", "One person worries you most, so the work is knowing what they need to hear.", "You haven’t thought about it yet, so the first step is deciding what you want from it.")),
+      options: opts("Making the case for myself", "One person in the room", "The question I can’t answer", "Keeping it short", "Not knowing what they want").map(withHeard("Making the case for yourself is the hardest part, so the plan puts it into words first.", "One person in the room is the hardest part, so the plan prepares for them.", "The question you can’t answer is the hardest part, so the plan finds the answer first.", "Keeping it short is the hardest part, so the plan gets it to ninety seconds.", "Not knowing what they want is the hardest part, so finding out comes first.")),
+      more: opts("Staying calm under pushback", "Numbers I don’t own", "Knowing what to ask for", "Following up after").map(withHeard("Staying calm under pushback is the hardest part, so the plan rehearses the hard questions.", "Numbers you don’t own are the hardest part, so the plan gets them on your side first.", "Knowing what to ask for is the hardest part, so the plan settles that first.", "Following up after is the hardest part, so the plan includes what happens next.")),
     },
   ],
   exploration: [
     {
       id: "explore-why",
       multi: true,
-      question: "What\u2019s making you want a change?",
+      question: "What’s made you think about a move?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Hit a ceiling", "Lost interest", "Industry is shrinking", "Life has changed", "Passed over for a role").map(withHeard("You\u2019ve hit a ceiling where you are, and staying put isn\u2019t going to move it.", "You\u2019ve lost interest in the work, so this is about what you want to do, not just where.", "Your industry is shrinking, so moving is about staying ahead, not just a change of scene.", "Your life has changed, and your career needs to fit its new shape.", "You were passed over, so this is about what comes next, not what was missed.")),
-      more: opts("New boss or reorganization", "Better pay or flexibility", "The culture doesn\u2019t fit", "Ready for a new challenge").map(withHeard("A new boss or a reorganization changed things, so part of this is rethinking where you stand.", "You want better pay or flexibility, so the next move has to deliver both.", "The culture doesn\u2019t fit you, so where you go matters as much as what you do.", "You\u2019re ready for a new challenge, so this is about growth, not escape.")),
+      options: opts("I’ve hit a ceiling in my area", "My work doesn’t use my strengths", "My area is shrinking", "A new boss or a reorganization", "I was passed over").map(withHeard("You’ve hit a ceiling in your area, and staying put isn’t going to move it.", "Your work doesn’t use your strengths, so where you go next matters as much as what you do.", "Your area of the business is shrinking, so moving is about staying ahead.", "A new boss or a reorganization changed things, so part of this is rethinking where you stand.", "You were passed over, so this is about what comes next, not what was missed.")),
+      more: opts("I’ve lost interest in the work", "Life has changed", "I want more flexibility", "I’m ready for a new challenge").map(withHeard("You’ve lost interest in the work, so this is about what you want to do, not just where.", "Your life has changed, and your career needs to fit its new shape.", "You want more flexibility, so the next move has to deliver it.", "You’re ready for a new challenge, so this is about growth, not escape.")),
     },
     {
       id: "explore-keep",
       multi: true,
-      question: "What would you keep?",
+      question: "Which part of the business are you curious about?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("My function", "My industry", "My seniority", "Nothing in particular", "My location").map(withHeard("You\u2019d keep your function: it\u2019s the setting that\u2019s wrong, not the work.", "You\u2019d keep your industry: you know it well, you just need a different place in it.", "You\u2019d keep your seniority, so any move has to be at your level or above.", "Nothing in particular has to stay, so every direction is open.", "You’d keep your location, so any move has to be nearby or remote.")),
-      more: opts("My team", "My pay", "My flexibility", "My values").map(withHeard("You’d keep your team, so any move has to be one you can take them on.", "You’d keep your pay, so any move has to match what you earn now.", "You’d keep your flexibility, so how you work matters as much as what you do.", "You’d keep your values, so the company matters as much as the role.")),
+      options: opts("Sales or commercial", "Product", "Operations", "Strategy", "A newer part of the business").map(withHeard("You’re curious about sales or commercial roles.", "You’re curious about product.", "You’re curious about operations.", "You’re curious about strategy.", "You’re curious about a newer part of the business.")),
+      more: opts("Finance", "People and HR", "Customer-facing roles", "I don’t know yet").map(withHeard("You’re curious about finance.", "You’re curious about people and HR.", "You’re curious about customer-facing roles.", "You don’t know yet, so finding out where to look comes first.")),
     },
     {
       id: "explore-when",
-      question: "How soon?",
+      question: "Who have you talked to about it?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Actively looking", "Within a year", "Just exploring", "Not sure", "When the right thing appears").map(withHeard("You\u2019re actively looking, so this needs to move quickly.", "You want to move within a year, which gives time to test a few directions first.", "You\u2019re exploring rather than actively looking, so there\u2019s time to get this right before you commit.", "You\u2019re not sure how soon, and that\u2019s fine: working out the direction comes first.", "You’ll move when the right thing appears, so the plan is to be ready, not to hurry.")),
-      more: opts("Within three months", "In a year or two", "After something big at work", "Only if the offer’s right").map(withHeard("You want to move within three months, so this has to move fast.", "You’re looking at a year or two, so there’s time to test a few directions first.", "You’ll decide after something big at work, so the plan starts with what you’ll need then.", "You’d move only if the offer’s right, so being easy to find matters.")),
-      skipIf: SAYS_WHEN,
+      options: opts("No one yet", "My boss", "Someone in the area I’m curious about", "HR or talent", "A mentor outside my line").map(withHeard("You haven’t talked to anyone yet, so the first conversation is part of the plan.", "You’ve talked to your boss, so the plan builds on that.", "You’ve talked to someone in the area you’re curious about, so there’s already a door open.", "You’ve talked to HR or talent, so the plan works with them.", "You’ve talked to a mentor outside your line, so there’s someone to test ideas with.")),
+      more: opts("My boss’s boss", "A peer who made a move", "Only friends", "I’d rather keep it quiet for now").map(withHeard("You’ve talked to your boss’s boss, so the move has support above your line.", "You’ve talked to a peer who made a move, so you know what it takes.", "You’ve only talked to friends so far, so the first work conversation is part of the plan.", "You’d rather keep it quiet for now, so the plan starts with what you can do on your own.")),
     },
   ],
 };
@@ -616,8 +607,8 @@ const PROMPT_READBACK: Record<string, string> = {
   "Reach the C-suite within three years": "You want to reach the C-suite within three years.",
   "Take on a bigger leadership role": "You want to take on more of a leadership role where you are.",
   "Be seen as an executive": "You want to be seen as an executive.",
-  "Nail an upcoming board presentation": "You want to nail an upcoming board presentation.",
-  "Find my next move": "You\u2019re looking for your next move.",
+  "Nail an upcoming presentation": "You want to nail an upcoming presentation.",
+  "Make a move within my company": "You want to make a move within your company.",
   "Lead a bigger organization": "You want to lead a bigger organization.",
   "Carry more weight where I am": "You want to carry more weight where you are.",
   "Get out of where I am": "You want out of where you are, and haven\u2019t yet named what comes next.",
@@ -717,6 +708,11 @@ export interface PlanTemplate {
   /** The open end after the last stage: the plan keeps going. */
   after?: string;
   bestFor: string;
+  /** Signs she can see herself in, shown when the plan opens on the plans page (Kate, 2026-11-13).
+   *  From the brief's situation and constraints, in her words. Draft for Eric's sign-off. */
+  pickIf?: string[];
+  /** What she comes away with, after the signs: the brief's desired outcome, in her words. */
+  comeAway?: string;
   emphasis: string;
   /** Why this plan, tied to what the user said. Filled in by `recommendPlan`. */
   rationale?: string;
@@ -727,9 +723,15 @@ export interface PlanTemplate {
 export const PLAN_TEMPLATES: PlanTemplate[] = [
   {
     id: "leadership-scope",
-    name: "Step up",
+    name: "Step Up",
     formalName: "Increase leadership scope",
-    bestFor: "You\u2019re ready for a bigger role and want the promotion or remit to match.",
+    bestFor: "You\u2019re ready for a bigger role and want the remit to match.",
+    pickIf: [
+      "Your results are strong, but your role hasn\u2019t caught up.",
+      "A promotion is the next step, not a new direction.",
+      "The people who decide need to see you as ready.",
+    ],
+    comeAway: "You\u2019ll come away with a clear case for a bigger role, and the story you tell when it\u2019s decided.",
     emphasis: "Your leadership story, proof of what you\u2019ve delivered, and the conversations that decide it.",
     thisWeek: {
       title: "Write the story of what you lead",
@@ -756,7 +758,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "The story of what you lead, ready to say out loud",
           "A bio in short, medium and long versions",
         ],
-        done: "You can describe your scope in a sentence, and your bio is ready to send.",
+        done: "Someone repeats your one-line story back to you.",
       },
       {
         window: "Next",
@@ -765,7 +767,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Three wins written up to show how much you ran, not just what you did",
           "Talking points for your next career conversation",
         ],
-        done: "Your manager has seen your three wins, in writing.",
+        done: "Your boss uses your wins to make your case.",
       },
       {
         window: "Then",
@@ -774,15 +776,21 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Two conversations with people who influence the decision",
           "Notes on what each one needs to see from you",
         ],
-        done: "You know who decides on the role, and what they need to see from you.",
+        done: "The person who decides asks to talk to you.",
       },
     ],
   },
   {
     id: "executive-presence",
-    name: "Build your executive presence",
+    name: "Make Your Mark",
     formalName: "Build executive presence",
     bestFor: "You need to be seen, and to have a clear point of view.",
+    pickIf: [
+      "People inside respect your work, but your field doesn\u2019t know you.",
+      "You have views, but rarely say them in public.",
+      "You want to be the name that gets asked.",
+    ],
+    comeAway: "You\u2019ll come away with a point of view in your own words, said where your field will hear it.",
     emphasis: "What you stand for, where you say it, and getting invited to say more.",
     thisWeek: {
       title: "Write how you describe yourself",
@@ -809,7 +817,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "How you describe yourself, in your words, not your employer\u2019s",
           "A point of view you\u2019re willing to defend",
         ],
-        done: "You can say what you stand for in one sentence, without mentioning where you work.",
+        done: "A colleague can say what you stand for.",
       },
       {
         window: "Next",
@@ -818,7 +826,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Three posts or articles under your own name",
           "A short list of events and groups worth being part of",
         ],
-        done: "Three pieces are published, and you know which rooms you want to be in.",
+        done: "Someone you don\u2019t know responds to something you said.",
       },
       {
         window: "Then",
@@ -827,15 +835,21 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Two pitches sent to events or podcasts",
           "A follow-up plan for each one",
         ],
-        done: "Two pitches are out, to events or shows the people you want to reach actually follow.",
+        done: "You\u2019re asked to speak, not just allowed to.",
       },
     ],
   },
   {
     id: "inflection-point",
-    name: "Get ready for a big moment",
+    name: "Make the Move",
     formalName: "Prepare for a career inflection point",
-    bestFor: "A promotion, review, board presentation or negotiation is coming up.",
+    bestFor: "A promotion, review, presentation or negotiation is coming up.",
+    pickIf: [
+      "Something big has a date: a promotion talk, a review, the board, a negotiation.",
+      "You have weeks, not months.",
+      "You want to walk in prepared.",
+    ],
+    comeAway: "You\u2019ll come away ready for the room, and with your next move decided after it.",
     emphasis: "A clear brief, a strong case, and a plan for the people in the room.",
     thisWeek: {
       title: "Write the story you\u2019ll tell in the room",
@@ -859,7 +873,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "The story you\u2019ll tell in the room, in draft",
           "A one-page brief: what\u2019s being decided, by whom, and on what basis",
         ],
-        done: "You can say what\u2019s being decided, who decides, and what they\u2019ll push back on.",
+        done: "You know their pushback before they say it.",
       },
       {
         window: "Before the date",
@@ -868,7 +882,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "A ninety-second version you can say without notes",
           "Proof for every claim, and answers to the two hardest objections",
         ],
-        done: "You can give your case without notes, with proof behind every claim.",
+        done: "You can make your case in ninety seconds, out loud.",
       },
       {
         window: "After",
@@ -883,9 +897,15 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
   },
   {
     id: "current-org",
-    name: "Grow your influence where you are",
+    name: "Lead Where You Are",
     formalName: "Strengthen influence in the current organization",
     bestFor: "You want to grow where you already are.",
+    pickIf: [
+      "Your work is solid, but the people above you don\u2019t see it.",
+      "You want more say, without asking for a new title yet.",
+      "Credit for your team\u2019s work goes elsewhere.",
+    ],
+    comeAway: "You\u2019ll come away with the people who matter knowing your work, and coming to you with it.",
     emphasis: "Making your work visible, widening who knows it, and becoming the go-to.",
     thisWeek: {
       title: "Write the story of what you own",
@@ -909,7 +929,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Your role described in the words your leadership uses",
           "One recent win reframed as impact on the business",
         ],
-        done: "Your role and one win are written in your leadership\u2019s language, ready to use.",
+        done: "Your boss describes your work the way you would.",
       },
       {
         window: "Next",
@@ -918,7 +938,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Three people outside your team who know what you do",
           "A regular reason to be in one meeting you\u2019re not in yet",
         ],
-        done: "Three people outside your team could explain what you do.",
+        done: "People outside your team come to you first.",
       },
       {
         window: "Then",
@@ -927,7 +947,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "One problem that comes to you by default",
           "A specific piece of bigger scope, asked for",
         ],
-        done: "You\u2019ve asked for a specific piece of bigger scope, and had an answer.",
+        done: "A bigger problem lands on your desk by default.",
       },
     ],
   },
@@ -935,7 +955,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     id: "explore",
     name: "Find your next direction",
     formalName: "Explore and clarify a next direction",
-    bestFor: "You feel stuck but can\u2019t yet name the next role.",
+    // A move within her company, not out of it (Kate, 2026-11-12).
+    bestFor: "You want a different role here, or aren\u2019t sure yet which.",
+    pickIf: [
+      "You feel stuck or restless, but can\u2019t name what\u2019s next.",
+      "You\u2019re curious about another part of the business.",
+      "You want to choose on evidence, not nerves.",
+    ],
+    comeAway: "You\u2019ll come away with a direction you can commit to, and the plan that gets you there.",
     emphasis: "What you bring anywhere, cheap ways to test options, and a direction you can commit to.",
     thisWeek: {
       title: "Write the story of what you\u2019re good at",
@@ -962,7 +989,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "What you\u2019re good at, separated from where you\u2019ve done it",
           "The parts of the job you wouldn\u2019t miss",
         ],
-        done: "You have a short list of strengths that would matter anywhere.",
+        done: "You can name the strengths you\u2019d take anywhere in the business.",
       },
       {
         window: "Next",
@@ -971,7 +998,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Four conversations with people in adjacent roles",
           "Two directions ruled out on evidence, not nerves",
         ],
-        done: "You\u2019ve crossed at least two options off, for real reasons.",
+        done: "You\u2019ve seen the work up close, and crossed off what doesn\u2019t fit.",
       },
       {
         window: "Then",
@@ -980,7 +1007,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "A direction specific enough to plan around",
           "A story that makes the move look deliberate",
         ],
-        done: "You can name the role you\u2019re going for, and why.",
+        done: "You can name the role you want, and someone is helping you get it.",
       },
     ],
   },
@@ -993,6 +1020,65 @@ const NEED_TO_PLAN: Record<DirectionNeed, string> = {
   preparation: "inflection-point",
   exploration: "explore",
 };
+
+/** A plan she picked herself (Kate, 2026-11-13): its own questions, in their own order, the first
+ *  of which sets her goal where the plan has one to ask. */
+export function questionsForPlan(planId: string): TailoredQuestion[] {
+  const need = (Object.keys(NEED_TO_PLAN) as DirectionNeed[]).find((n) => NEED_TO_PLAN[n] === planId) ?? "positioning";
+  return REFINEMENT_BY_NEED[need];
+}
+
+/** Where each plan leads when she picked it herself and hasn't named it: the plan page's
+ *  "Your path to …". */
+const PLAN_GOAL: Record<string, string> = {
+  "leadership-scope": "a bigger leadership role",
+  "executive-presence": "being seen as an executive",
+  "inflection-point": "your next big moment",
+  "current-org": "more weight where you are",
+  explore: "your next step",
+};
+
+/** The first question's answer, as her goal, for the plans that ask it. */
+const GOAL_FROM_ANSWER: Record<string, Record<string, string>> = {
+  "scope-kind": {
+    "My boss\u2019s job": "your boss\u2019s job",
+    "One level up, in my area": "the next level up in your area",
+    "Running a whole function": "running a whole function",
+    "A seat on the exec team": "a seat on the exec team",
+    "A role that doesn\u2019t exist yet": "a role that doesn\u2019t exist yet",
+    "A bigger role in another part of the business": "a bigger role in another part of the business",
+    "General manager of a business": "running a business as its general manager",
+    "A bigger P&L": "a bigger P&L",
+    "A board seat": "a board seat",
+  },
+  "moment-what": {
+    "Promotion conversation": "your promotion conversation",
+    "Performance review": "your performance review",
+    "Board or exec presentation": "your exec presentation",
+    "A negotiation": "your negotiation",
+    "An internal interview": "your internal interview",
+    "Investor or client pitch": "your pitch",
+    "A reorganization": "the reorganization",
+    "A talk or keynote": "your talk",
+    "A difficult conversation": "a difficult conversation, done well",
+  },
+};
+
+/** The questions that set her goal on the pick path: answered, never skipped. */
+export function setsGoal(questionId: string): boolean {
+  return questionId in GOAL_FROM_ANSWER;
+}
+
+/** Her goal when she picked the plan herself: from its first question's answer, or the plan's own. */
+export function goalForPlan(planId: string, answers: Record<string, string>): string {
+  for (const question of questionsForPlan(planId)) {
+    const map = GOAL_FROM_ANSWER[question.id];
+    if (!map) continue;
+    const first = parseAnswer(question, answers[question.id]).chosen[0];
+    if (first && map[first.label]) return map[first.label];
+  }
+  return PLAN_GOAL[planId] ?? "your goal";
+}
 
 /** The rationale must be tied to the user's stated direction, never a generic
  *  description of the template. These are written as "you said X, so Y". */
@@ -1440,8 +1526,8 @@ const PROMPT_GOALS: Record<string, [string, string]> = {
   "Reach the C-suite within three years": ["a C-suite role within three years", "a C-suite role within three years"],
   "Take on a bigger leadership role": ["a bigger leadership role where I am", "a bigger leadership role where they are"],
   "Be seen as an executive": ["being seen as an executive", "being seen as an executive"],
-  "Nail an upcoming board presentation": ["a board presentation that lands", "a board presentation that lands"],
-  "Find my next move": ["my next move", "their next move"],
+  "Nail an upcoming presentation": ["a presentation that lands", "a presentation that lands"],
+  "Make a move within my company": ["a move within my company", "a move within their company"],
   "Lead a bigger organization": ["leading a bigger organization", "leading a bigger organization"],
   "Carry more weight where I am": ["more weight where I am", "more weight where they are"],
   "Get out of where I am": ["a way out of where I am", "a way out of where they are"],
@@ -1636,8 +1722,8 @@ const PROMPT_TOWARD_LINE: Record<string, string> = {
   "Reach the C-suite within three years": "I’m building toward a C-suite role within the next three years.",
   "Take on a bigger leadership role": "I’m building toward a bigger leadership role where I am.",
   "Be seen as an executive": "I’m working on being seen as an executive.",
-  "Nail an upcoming board presentation": "I have a board presentation ahead of me, and I want it to land.",
-  "Find my next move": "I’m working out my next move.",
+  "Nail an upcoming presentation": "I have a presentation ahead of me, and I want it to land.",
+  "Make a move within my company": "I’m working out my next move within my company.",
   "Lead a bigger organization": "I’m building toward leading a bigger organization.",
   "Carry more weight where I am": "I want more influence where I am.",
   "Get out of where I am": "I’m ready to move on from where I am.",
@@ -1648,110 +1734,100 @@ const PROMPT_TOWARD_LINE: Record<string, string> = {
  *  options: the read-back's "heard" line, turned round to first person. */
 const SAID: Record<string, string[]> = {
   "scope-kind": [
-    "What I want next is a bigger team, and the weight that comes with leading it.",
-    "What I want next is a broader remit: more of the business, not more of the same work.",
-    "What I want next is a seat at the top table, in the room where the big calls get made.",
-    "What I want next is the title, so I’m named for the role I’m already doing.",
-    "I want more budget and more say over how it’s spent.",
-    "The step up may come from another company, and I’m open to that.",
-    "I want a bigger P&L, with more of the numbers resting on my decisions.",
-    "I want to be seen by the board, not just by my own line.",
+    "I’m going for my boss’s job.",
+    "I’m going for the next level up in my area.",
+    "I’m going for running a whole function.",
+    "I’m going for a seat on the exec team.",
     "I’m after a role that doesn’t exist yet, and I’m making the case for it.",
+    "The step up may come from another part of the business, and I’m open to that.",
+    "I’m going for general manager of a business.",
+    "I want a bigger P&L, with more of the numbers resting on my decisions.",
+    "I’m working toward a board seat.",
   ],
   "scope-when": [
-    "I want to get there within a year.",
-    "I’m giving it one to two years, to build the case properly.",
-    "I’m playing a longer game, and building toward it step by step.",
-    "I haven’t set a timeline, so I can build toward it alongside my current role.",
-    "I’ll move as soon as the right role opens, so I want to be ready.",
-    "I want it within six months.",
-    "I’m thinking about five years, and building the foundations.",
-    "I’m getting there after my next promotion.",
-    "It depends on the company’s plans, so I’m finding out what they are.",
+    "My next real chance is the next promotion round.",
+    "My chance comes when my boss moves on.",
+    "The next reorganization is my chance.",
+    "I want it within a year.",
+    "I’m finding out when the chance will come.",
+    "Year-end reviews are my chance.",
+    "My chance comes when a new role is created, and I want to help shape it.",
+    "I’m giving it two to three years.",
+    "It depends on someone else, so I’m learning their timing.",
   ],
   "scope-block": [
-    "There’s no clear path up yet, so part of the work is finding one.",
-    "The results are there. My focus now is making sure the people who decide can see them.",
+    "I’m building the proof that I can run something bigger.",
+    "The results are there. My focus now is being known above my boss.",
     "I know I’m ready. What I’m working on is making the case clearly.",
-    "The next step may not be where I am now, and I’m open to that.",
     "I need my boss behind me, so winning that support comes first.",
-    "The role I want is taken, so I’m looking for a way around it.",
-    "I’m still building the experience, and I want to show the proof.",
+    "There’s no role to step into yet, so part of the work is finding one.",
+    "I’m getting experience outside my area.",
+    "I want to be known for shaping direction, not only for delivering.",
     "A reorganization has stalled things, and I’m working with the change.",
-    "I’m finding out what it would take.",
+    "I’m finding out what the people deciding would say.",
   ],
   "influence-where": [
-    "I want more say in my team’s direction: setting it, not just delivering it.",
-    "I want a voice in company strategy, not only in how my part delivers it.",
-    "I want more say over budget and headcount, where influence becomes real.",
-    "I want my influence to reach across other teams, beyond the part of the business I run.",
-    "I want more say in hiring and promotions.",
-    "I want more say with customers and partners.",
-    "I want more say in what we make and sell.",
-    "I want more say in how we’re organized.",
-    "I want more say in which projects get funded.",
+    "I want a say in next year’s budget.",
+    "I want a say in how the coming reorganization lands.",
+    "I want a say in who gets promoted and hired.",
+    "I want a say in which projects get funded.",
+    "I want a say in where the company is heading.",
+    "I want a say in a big customer or partner deal.",
+    "I want a say in how my function is run.",
+    "I want a say in pricing and go-to-market.",
+    "I want a say in where we invest in AI.",
   ],
   "influence-who": [
-    "Getting my boss on side comes first.",
-    "My boss’s peers matter most: their view of me travels upward.",
-    "The exec team matters most: they decide what I get to lead.",
-    "It starts with my own team, the people who already follow me.",
-    "I need my peers across the company on side.",
-    "I need the CEO on side.",
-    "I need the board on side.",
-    "I need Finance on side, because budget runs through them.",
-    "The people outside the company matter most to me.",
-  ],
-  "influence-block": [
-    "Right now the decisions that matter to me are made without me in the room.",
-    "I’m in the room. What I’m working on is making my view carry.",
-    "My title undersells what I actually do.",
-    "Being right isn’t enough here, so I’m building support behind my ideas.",
-    "Decisions are made before the meeting, so I’m working earlier, in the conversations that come first.",
-    "I’m seen as too operational, and I want to be known for shaping direction.",
-    "The company moves slowly, so I’m playing a longer game.",
+    "My boss decides, and knows my work well.",
+    "My boss decides, and I’m making sure they tell my story the way I would.",
+    "My boss’s boss decides, so I’m making sure they know my work.",
+    "A group of execs decides, so I’m getting in front of them.",
     "I’m finding out who really decides.",
-    "I’m new here, and I’m building credibility.",
+    "The CEO decides, so I’m getting in front of them.",
+    "Finance decides, so I’m making the case in their terms.",
+    "A peer sees me as a rival, so I’m building support around them.",
+    "The board decides, so my case has to reach above the exec team.",
   ],
+
   "presence-who": [
-    "I want leaders in my company to see me as someone they’d promote, not just rely on.",
+    "The exec team’s view of me matters most right now.",
+    "My boss’s peers matter most: their view of me travels upward.",
+    "I want the board to see me as ready for the top table.",
+    "I want leaders across the company to know what I do.",
     "I want to be known across my industry, beyond my own company.",
-    "I want to be on the shortlist for recruiters and boards.",
-    "I want to be seen differently by everyone who matters, inside my company and out.",
     "I want customers and clients to see me differently.",
     "I want peers at other companies to see me differently.",
-    "I want investors to see me differently.",
     "I want the press and conference organizers to see me differently.",
     "I want my own team to see me differently.",
   ],
   "presence-now": [
-    "Today I’m seen as a strong operator. Next, I want to be seen as a leader.",
-    "Today I’m seen as a specialist. Next, I want to be seen as broad enough to lead.",
-    "The work is good. It just isn’t seen yet.",
-    "Part of the work is finding out how I’m seen today.",
-    "They see me as reliable but forgettable.",
-    "They see me as a technical expert.",
-    "They see me as a fixer.",
-    "They see me as more junior than I am.",
-    "They already see me as someone to watch.",
+    "Today they’d say I’m a strong operator. I want to be known for how I think.",
+    "Today they’d say I’m the expert in one area. I want to be known for more.",
+    "Today I’m reliable. I want to be someone to watch.",
+    "Today I’m seen as more junior than I am, and I’m closing that gap.",
+    "They don’t really know me yet, so being seen comes first.",
+    "Today I’m the fixer. I want to be known for what I build.",
+    "I’m great with my team. I want my voice to carry above it too.",
+    "Today I’m the technical expert. I want my judgment to be seen beyond it.",
+    "I’m someone to watch, and I want that to turn into a role.",
   ],
   "presence-where": [
-    "Today my reputation lives in the meetings I’m in.",
-    "I post on LinkedIn now and then, and I’m ready to have a point of view.",
-    "I already have a stage at industry events to build on.",
-    "I’m starting from a clean slate, so I get to choose how I show up.",
-    "I speak on panels, so there’s already a voice to build on.",
-    "I write now and then.",
-    "I show up on podcasts or in interviews.",
-    "I sit on boards or advise outside my day job.",
-    "I speak at internal town halls.",
+    "People outside my team heard my view this month, in a meeting I led.",
+    "They heard my view this quarter, at a company-wide moment.",
+    "They heard my view this year, somewhere public.",
+    "It’s been over a year since people outside my team heard my view.",
+    "I can’t remember when people outside my team last heard my view.",
+    "They hear my view only when I’m asked, so I’m offering it first.",
+    "They read my view, and I want them to hear it too.",
+    "They hear my view through my boss, and I want them to hear it from me.",
+    "I’ve never been heard on my own topic, so I’m choosing one.",
   ],
   "moment-what": [
     "I have a promotion conversation coming up, and I want to walk in with a case.",
     "I have a performance review coming up, and I want it to set up what’s next.",
     "I have a board or exec presentation coming up, and I want it remembered.",
     "I have a negotiation coming up, where what I say in the moment matters.",
-    "I have an interview coming up, and I want the first ten minutes to land.",
+    "I have an internal interview coming up, and I want the first ten minutes to land.",
     "I have a pitch coming up.",
     "A reorganization is coming, and I want to be placed well.",
     "I have a talk or keynote coming up.",
@@ -1769,48 +1845,48 @@ const SAID: Record<string, string[]> = {
     "It depends on someone else, so I want to be ready when they decide.",
   ],
   "moment-ready": [
-    "I feel ready, and I want it checked before it counts.",
-    "I know what I want to say. I’m working on how to say it.",
-    "I’m working out where to start.",
-    "I’m preparing early, so it feels manageable when it comes.",
-    "I’m nervous but prepared.",
-    "I’ve prepared a lot, and I need to cut it down to what matters.",
-    "I usually wing it, and this one is worth more.",
-    "One person worries me most, and I want to know what they need to hear.",
-    "I haven’t thought about it yet.",
+    "The hardest part is making the case for myself.",
+    "The hardest part is one person in the room.",
+    "There’s a question I can’t answer yet, and I’m working on it.",
+    "The hardest part is keeping it short.",
+    "I’m finding out what they want.",
+    "I’m preparing for the pushback.",
+    "I’m getting the numbers on my side.",
+    "I’m deciding what to ask for.",
+    "I’m planning what happens after.",
   ],
   "explore-why": [
-    "I’ve hit a ceiling where I am, and staying put won’t move it.",
-    "I want work I care about again, not just a new place to do it.",
-    "My industry is shrinking, and I want to move ahead of it.",
-    "My life has changed, and I want a career that fits its new shape.",
-    "I was passed over, and I’m working out what comes next.",
+    "I’ve hit a ceiling in my area, and staying put won’t move it.",
+    "My work doesn’t use my strengths, so where I go next matters as much as what I do.",
+    "My area of the business is shrinking, and I want to move ahead of it.",
     "A new boss or a reorganization changed things, and I’m rethinking where I stand.",
-    "I want better pay or flexibility, and the next move has to deliver both.",
-    "The culture doesn’t fit me, so where I go matters as much as what I do.",
+    "I was passed over, and I’m working out what comes next.",
+    "I want work I care about again, not just a new place to do it.",
+    "My life has changed, and I want a career that fits its new shape.",
+    "I want more flexibility, and the next move has to deliver it.",
     "I’m ready for a new challenge.",
   ],
   "explore-keep": [
-    "I’d keep my function. It’s the setting I want to change, not the work.",
-    "I’d keep my industry, and find a different place in it.",
-    "Whatever comes next has to be at my level or above.",
-    "Every direction is open.",
-    "I want to stay where I am, or work remotely.",
-    "I’d like to keep my team.",
-    "I’d like my pay to at least hold.",
-    "I’d keep my flexibility.",
-    "I’d keep my values, so the company matters as much as the role.",
+    "I’m curious about sales and commercial roles.",
+    "I’m curious about product.",
+    "I’m curious about operations.",
+    "I’m curious about strategy.",
+    "I’m curious about a newer part of the business.",
+    "I’m curious about finance.",
+    "I’m curious about people and HR.",
+    "I’m curious about customer-facing roles.",
+    "I’m working out where in the business to look.",
   ],
   "explore-when": [
-    "I’m actively looking.",
-    "I want to move within a year, and test a few directions first.",
-    "I’m exploring, so I can get this right before I commit.",
-    "Working out the direction comes before the timing.",
-    "I’ll move when the right thing appears, so I want to be ready.",
-    "I want to move within three months.",
-    "I’m looking at a year or two.",
-    "I’ll decide after something big at work.",
-    "I’d only move if the offer’s right.",
+    "I haven’t talked to anyone yet.",
+    "I’ve talked to my boss about it.",
+    "I’ve talked to someone in the area I’m curious about.",
+    "I’ve talked to HR about it.",
+    "I’ve talked to a mentor outside my line.",
+    "I’ve talked to my boss’s boss.",
+    "I’ve talked to a peer who made a move.",
+    "I’ve only talked to friends so far.",
+    "I’m keeping it quiet for now.",
   ],
 };
 
@@ -2042,6 +2118,20 @@ export const CHAT_C2 = {
   },
 } as const;
 
+/** The first visit to Home, after onboarding (Kate, 2026-11-12): three stops, then she can type. */
+export const TOUR_COPY = {
+  label: "A quick tour",
+  counter: (at: number, of: number) => `${at} of ${of}`,
+  next: "Next",
+  done: "Got it",
+  skip: "Skip the tour",
+  steps: [
+    { id: "pill", title: "Everything starts here", body: "Tap to go anywhere, or ask ExecEngine anything." },
+    { id: "places", title: "Six places, one tap away", body: "Your plan, your signals, your Playbook, the daily briefing and your profile." },
+    { id: "chat", title: "Chat with ExecEngine", body: "Ask anything about your plan, or tap a question to start. It knows what you\u2019ve told it." },
+  ],
+} as const;
+
 /* -----------------------------------------------------------------------------
    CONCEPT 3: THE GUIDED ONBOARDING
    -------------------------------------------------------------------------- */
@@ -2078,56 +2168,76 @@ export const GUIDE_C3 = {
   welcome: {
     wordmark: "ExecEngine",
     title: "Somewhere to work on what comes next.",
-    lede: "Your private career advisor that doesn\u2019t just show you the way \u2014 it works for you and with you to get you there.",
+    // Part of Eric's why statement (Kate, 2026-11-12).
+    lede: "Part coach, part advisor, part confidant. Private to you, and built around where you want to go.",
     quote: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be.\u201d",
     cta: "Get started",
+    /** The front door has both ways in (Kate, 2026-11-13): Login's "New to ExecEngine? Start here",
+     *  the other way round. */
+    haveAccount: "Already have an account?",
+    logIn: "Log in",
   },
+  /** What ExecEngine is: three statements, the Playbook's tools by name and
+   *  privacy in a line, built in one idea at a time (Kate, 2026-11-12; was a
+   *  heading, a line, three explained points and a privacy box, about 120
+   *  words). 52 words, the line under the heading included. */
   about: {
     kicker: "What ExecEngine is",
-    title: "Crafting a plan for your career and the work to carry it out",
-    lede: "A private career advisor for modern professionals ready to grow, with no agenda but your own.",
+    title: "Everything you need for what comes next.",
+    /** How it gets there, before the questions that do it. */
+    lede: "ExecEngine gathers insight from you to create a customized path forward.",
     points: [
-      {
-        title: "A plan for where you want to go",
-        detail: "Short-, medium-, and long-term steps with clear benchmarks. Not a list of forty tasks that get you nowhere.",
-      },
-      {
-        title: "Work done, not just advice",
-        detail: "Most steps come with artifacts made for you to use: ExecEngine drafts them, you make them yours.",
-      },
-      {
-        title: "Something that grows with you",
-        detail: "Finish a step, share what happened, or change direction, and ExecEngine updates the plan.",
-      },
+      { title: "Know where you stand", glyph: "stand" },
+      { title: "Plan where you\u2019re going", glyph: "plan" },
+      { title: "The tools to get you there", glyph: "tools" },
     ],
-    before: [
-      {
-        title: "Private by design",
-        detail: [
-          "For your eyes only. Not your employer, not your manager, not anyone else.",
-          "Everything ExecEngine makes is yours to keep, edit, and export.",
-        ],
-      },
+    toolsLabel: "In your Playbook",
+    /** The Playbook's own short labels, in its order. */
+    tools: [
+      { kind: "positioning", label: "Positioning statement" },
+      { kind: "pitch", label: "Pitch builder" },
+      { kind: "situation-brief", label: "Situation brief" },
+      { kind: "thought-leadership", label: "Thought leadership" },
     ],
+    privacy: "Private. For your eyes only.",
     cta: "Continue",
   },
+  /** A personal email, then the invite code, both required (Kate, 2026-11-12): everyone has a code,
+   *  so "I don't have a code" is gone, and the reason for a personal address sits under its field,
+   *  where the drawer can't cover it. The line and "Why this matters" were cut: the drawer hid them. */
   account: {
     kicker: "Your account",
-    ask: "What\u2019s your email?",
+    ask: "Your personal email",
+    emailHint: "Not your work one, so it stays yours wherever your career goes.",
     title: "First, somewhere to keep all this",
-    lede: "Your plan and your story are saved to your account, so you can come back to them.",
-    /** Required: a code, or saying there isn\u2019t one. */
-    inviteAsk: "Do you have an invite code?",
-    inviteYes: "I have an invite code",
-    inviteNo: "I don\u2019t have a code",
-    inviteField: "Invite code",
-    why: "Everything you tell ExecEngine builds on what came before. Your account is how it remembers, and how you come back to it.",
+    inviteField: "Your invite code",
+    inviteHint: "From your invitation.",
     cta: "Continue",
     /** Google and Apple, as on Login, by decision on 2026-10-08. */
     or: "or",
     viaLabel: (name: string) => `With ${name}`,
     pickerLede: (name: string) =>
       `In the product, ${name}\u2019s own window opens here. This stands in for it.`,
+  },
+  /** Where she is now, asked before where she wants to go (Kate, 2026-11-12): her situation at work,
+   *  as many as are true, with Other for her own words in place of more options. 25 words. */
+  today: {
+    kicker: "Where you are",
+    title: "Where are you today?",
+    lede: "Pick as many as are true.",
+    why: "Your plan starts from where you are, not from a template.",
+    options: [
+      "Doing well, and ready for more",
+      "New in my role",
+      "Stuck, or passed over",
+      "Going through a restructure or merger",
+      "My role is changing with AI",
+    ],
+    other: "Other",
+    otherField: "In your own words",
+    /** Its row on the plan page's "Built from what you said". */
+    heard: "Where you are today",
+    cta: "Next",
   },
   /** Confirming a typed address, by decision on 2026-10-08: a 6-digit code,
    *  the same as Login's. Google and Apple have confirmed it already, so
@@ -2181,6 +2291,8 @@ export const GUIDE_C3 = {
     narrow: "Narrow it down",
     narrowTitle: "Which is closest?",
     narrowLede: "A little more detail gives ExecEngine a clearer first step.",
+    /** "I'm not sure yet" picked on its own. */
+    narrowUnsureLede: "That\u2019s what ExecEngine is for: it will help you figure it out.",
     narrowWhy: "Your plan needs a first step. The more specific the starting point, the clearer that step is.",
     firstLede: "ExecEngine will start there, and keep the rest in view.",
     /** Why the second question is asked, on its own: the first is already answered. */
@@ -2188,21 +2300,27 @@ export const GUIDE_C3 = {
     why: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most.",
     cta: "Continue",
   },
-  rec: {
-    kicker: "ExecEngine\u2019s recommendation",
-    title: "Here\u2019s where ExecEngine would start",
-    next: "Next, a few quick questions to make it yours.",
-    /** The other directions picked, said so they are not lost. */
-    also: (goals: string, count: number) =>
-      `You also picked: ${goals}. ExecEngine will keep ${count > 1 ? "them" : "it"} in view as your plan grows.`,
-    why: "You should get a clear starting point, not a menu of options. ExecEngine will show you how it got there, and you can always change it.",
-    /** What a plan is, said where the plan is chosen. */
-    whatIs: "A plan is how you get from where you are to where you want to be. Yours has two parts.",
-    /** When the user chose a plan other than the recommended one. */
-    switched: (recommended: string) => `You chose this one instead. ExecEngine recommended ${recommended}.`,
+  /** She chooses her plan, with ExecEngine's pick marked. The plans are the
+   *  answers, so the page's own words are the label, the heading and the line. */
+  /** The five plans, straight after Account: she picks, or can't decide and
+   *  goes the long way to ExecEngine's pick. */
+  pick: {
+    kicker: "Your first step",
+    title: "Where do you want to start?",
+    lede: "Everyone\u2019s path starts somewhere. Pick one to begin with. You can change it at any time.",
     cta: "Use this plan",
-    others: "See other plans",
+    /** Over the signs, when a plan opens (Kate, 2026-11-13). */
+    signs: "Pick this if",
+    /** A link at the foot of the list, not a button pinned to the page. */
+    unsure: "I can\u2019t decide",
   },
+  rec: {
+    kicker: "Your first step",
+    title: "Choose your plan",
+    lede: "Whichever you choose, the next few questions make it yours.",
+    cta: "Use this plan",
+  },
+
   reflect: {
     kicker: "A question to sit with",
     answerLabel: "Your answer",
@@ -2240,21 +2358,25 @@ export const GUIDE_C3 = {
     whyDefault: "Each answer shapes how your plan and your story are put, so they sound like you and not like anyone.",
     /** Why each question is asked, said plainly. */
     why: {
-      "scope-kind": "A step up can mean more people, more of the business, or a different seat. Each needs a different case.",
-      "scope-when": "The timeline sets the pace: a near-term move and a three-year climb start in different places.",
-      "scope-block": "What\u2019s in the way decides what to do first, so ExecEngine asks it before it recommends a plan.",
-      "influence-where": "Influence is always over something. Knowing what tells ExecEngine where your plan should push.",
-      "influence-who": "Influence travels through people. Knowing whose backing matters most tells ExecEngine where to start.",
-      "influence-block": "What\u2019s holding you back decides what to do first, so ExecEngine asks it before it recommends a plan.",
-      "presence-who": "Being seen means being seen by someone. The audience decides the kind of presence you build.",
-      "presence-now": "How you\u2019re seen today is the starting line. The plan closes the gap between that and how you want to be seen.",
-      "presence-where": "Where you show up today tells ExecEngine what to build on, and what to start from scratch.",
+      "scope-kind": "The role you’re going for sets the case: what proof it needs, and who decides it.",
+      "scope-when": "The next real chance sets the pace, and what has to be ready by then.",
+      "scope-block": "What the people deciding would say decides what to do first, so ExecEngine asks it before it recommends a plan.",
+      "influence-where": "Influence is over a real decision. Knowing which one gives your plan its first target.",
+      "influence-who": "Influence travels through the person who decides. How well they know your work tells ExecEngine where to start.",
+      "presence-who": "Being seen means being seen by someone. Whose view matters most decides where to start.",
+      "presence-now": "How they see you today is the starting line. The plan closes the gap.",
+      "presence-where": "When they last heard you tells ExecEngine what to build on, and what to start.",
       "moment-what": "Each kind of moment needs a different kind of preparation.",
       "moment-when": "The date sets how much there\u2019s time for, and what to leave out.",
-      "moment-ready": "How ready you feel tells ExecEngine whether to check your case or help you build it.",
-      "explore-why": "Why you want a change says a lot about where to look, so ExecEngine asks it before it recommends a plan.",
-      "explore-keep": "What you\u2019d keep narrows the options to the ones worth testing.",
-      "explore-when": "How soon decides how much testing there\u2019s time for.",
+      "moment-ready": "The hardest part is where the preparation goes first.",
+      "explore-why": "What made you think about a move says where to look, so ExecEngine asks it before it recommends a plan.",
+      "explore-keep": "Where you’re curious narrows the options to the ones worth testing.",
+      "explore-when": "Who you’ve told decides the plan’s first conversation.",
+    } as Record<string, string>,
+    /** Why, when the question sets her goal (she picked the plan herself). */
+    goalWhy: {
+      "scope-kind": "It\u2019s what your plan builds toward, and it sets the case: what proof it needs, and who decides it.",
+      "moment-what": "It\u2019s what your plan builds toward. Each kind of moment needs a different kind of preparation.",
     } as Record<string, string>,
     cta: "Continue",
   },
@@ -2296,34 +2418,32 @@ export const GUIDE_C3 = {
       why: "The people who decide your next role can only back what they know you want.",
     },
   },
+  /** The plan, one page, as a path (Kate, 2026-11-12): where she is, this week's step as the Plan
+   *  page's move card, three stages each with a sign it's working, and her goal at the end. */
   plan: {
-    kicker: "Your plan",
-    /** The first page of the plan, tuned to what the user said. */
-    firstLede: "Here\u2019s your plan, tuned to what you\u2019ve said, one part at a time.",
-    /** The answers the plan is built from, each with a way back to change it. */
+    /** The plan's name is the heading: "Your plan: Step Up". Her goal ends the stages ahead. */
+    title: (plan: string) => `Your plan: ${plan}`,
+    /** Under What you're working on now. */
+    stage: (count: number, first: string) => `Stage 1 of ${count} \u00b7 ${first}`,
+    nowLabel: "What you\u2019re working on now",
+    /** The three horizons, named as Home names them, with how far each looks. */
+    spans: { short: "Quick wins, this week", medium: "Over the next month", long: "A quarter or more" },
+    firstLabel: "Your first step \u00b7 This week",
+    firstLine: "ExecEngine drafts it with you, now or later.",
+    start: "Start your first step",
+    together: "These run side by side. Do the quick wins now, and chip away at the bigger pieces when you have time.",
+    aheadLabel: "The stages ahead",
+    aheadCount: (count: number) => `${count} more`,
+    next: "When stage 1 is done, ExecEngine plans the next with you, from how it went.",
+    doneLabel: "Done when",
+    /** The answers the plan is built from, folded into one line that opens them. */
     heardLabel: "Built from what you said",
     heardDirection: "Where you\u2019re going",
-    parts: [
-      {
-        id: "week",
-        title: "This week",
-        what: "The one thing to do first.",
-        helps: "You always know the next move, so nothing stalls.",
-      },
-      {
-        id: "stages",
-        title: "Three stages",
-        what: "What your plan builds toward, in order, each with a finish line. When they\u2019re done, ExecEngine plans the next stretch with you.",
-        helps: "Each stage sets up the next, so the effort adds up.",
-      },
-    ],
-    next: "Next part",
-    continue: "Continue",
-    others: "See other plans",
-    use: "Use this plan",
-    othersTitle: "The other plans",
-    othersLede: "Each one is built for a different kind of next step. ExecEngine\u2019s recommendation is marked.",
-    othersCta: "Use this one",
+    heardToggle: (count: number) => `Built from your ${count} answer${count === 1 ? "" : "s"}`,
+    heardOpen: "See or change",
+    heardClose: "Hide",
+    /** A text link at the foot, so the first step's button is the page's one button. Home, with its tour. */
+    home: "Later, take me to my homepage",
   },
   story: {
     /** The story is made in the Playbook, in its Positioning Builder, so the
@@ -2372,13 +2492,13 @@ export const GUIDE_C3 = {
           detail: "Short, medium and long, for a bio, an introduction or LinkedIn.",
         },
         later: {
-          label: "Save it and come back later",
+          label: "Save it and go to my homepage",
           // "as next" held together so "as" opens the second line instead of
           // hanging at the end of the first.
           detail: "It\u2019s saved. Both of these wait for you as\u00a0next steps on your plan.",
         },
       },
-      cta: "Save it and finish",
+      cta: "Save it and go to my homepage",
       writing: "Writing your first draft",
     },
     /** The longer versions: the same story in three lengths. */
@@ -2396,7 +2516,7 @@ export const GUIDE_C3 = {
         updated: "Bio updated.",
         peek: "Tap to add the rest",
       },
-      save: "Save it and finish",
+      save: "Save it and go to my homepage",
       back: "Back to my draft",
     },
     /** Sharpening: the three facts, one at a time in the drawer. */
@@ -2430,26 +2550,9 @@ export const GUIDE_C3 = {
     },
     cta: "Continue",
   },
-  done: {
-    kicker: "You\u2019re set up",
-    title: "Your plan and story are saved",
-    lede: "You\u2019ve done the hardest part: saying where you want to go.",
-    nextLabel: "What to do next",
-    /** What is left of the story, by what has been done. */
-    nextDetail: {
-      title: "Add more detail",
-      detail: "In your Playbook. Add your role and one result, so your draft says what you lead.",
-    },
-    nextVersions: {
-      title: "Build longer versions",
-      detail: "In your Playbook. Short, medium and long, built from your story and ready to send ahead of you.",
-    },
-    nextSignals: {
-      title: "Bring in your LinkedIn numbers",
-      detail: "So your plan and your drafts start from how you already show up.",
-    },
-    home: "Go to my homepage",
-  },
+  /** The end of onboarding, right after the plan (Kate, 2026-11-12): this week's step, and two equal ways
+   *  on. The story and its first draft are the plan's first step, done now or later, not setup. */
+
 } as const;
 
 /**
@@ -2458,25 +2561,15 @@ export const GUIDE_C3 = {
  */
 const SWITCHES_C3: Record<string, Record<string, { planId: string; reason: string }>> = {
   "scope-block": {
-    "nobody-sees-my-work": {
+    "being-known-above-my-boss": {
       planId: "executive-presence",
-      reason: "The results are there. What\u2019s missing is being seen by the people deciding, and that\u2019s what this plan is for.",
-    },
-    "wrong-company-for-it": {
-      planId: "explore",
-      reason: "If the next step may not be where you are, it\u2019s worth working out the direction before making the case.",
-    },
-  },
-  "influence-block": {
-    "too-junior-on-paper": {
-      planId: "leadership-scope",
-      reason: "Your title undersells what you do, so the case for a bigger role comes first.",
+      reason: "The results are there. What’s missing is being known above your boss, and that’s what this plan is for.",
     },
   },
   "explore-why": {
-    "hit-a-ceiling": {
+    "i-ve-hit-a-ceiling-in-my-area": {
       planId: "leadership-scope",
-      reason: "A ceiling is a scope problem. Making the case for a bigger role comes before looking elsewhere.",
+      reason: "A ceiling in your area is a scope problem. Making the case for a bigger role comes first.",
     },
   },
 };
@@ -2530,6 +2623,29 @@ export function recommendationReasonC3(
     if (first) return `${where} ${first.heard} That\u2019s what this plan is for.`;
   }
   return where;
+}
+
+/** Where she is today, as the Recommendation's reason opens with it (Kate, 2026-11-12):
+ *  "Today, you\u2019re new in your role and going through a restructure or merger." Her own
+ *  words under Other are quoted as she wrote them. Empty when she gave none. */
+const TODAY_HEARD: Record<string, string> = {
+  "Doing well, and ready for more": "you\u2019re doing well and ready for more",
+  "New in my role": "you\u2019re new in your role",
+  "Stuck, or passed over": "you feel stuck, or passed over",
+  "Going through a restructure or merger": "you\u2019re going through a restructure or merger",
+  "My role is changing with AI": "your role is changing with AI",
+};
+
+export function todayReadbackC3(picks: readonly string[], other: string): string {
+  const c = GUIDE_C3.today;
+  const order: readonly string[] = [...c.options, c.other];
+  const parts = [...picks]
+    .sort((x, y) => order.indexOf(x) - order.indexOf(y))
+    .map((pick) => (pick === c.other ? (other.trim() ? `you said \u201c${other.trim().replace(/[.]$/, "")}\u201d` : "") : TODAY_HEARD[pick] ?? pick))
+    .filter(Boolean);
+  if (!parts.length) return "";
+  const list = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+  return `Today, ${list}.`;
 }
 
 /** When the plan is for, as a sentence: the lead-in under the plan's name. */

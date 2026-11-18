@@ -15,7 +15,7 @@
 | **When to use it** | When she has a view worth putting her name to. |
 | **Use case screen** | "A LinkedIn post or an article in your voice, from your own idea, a step on your plan or something you read." / "Use it when you have a view worth putting your name to." |
 
-**It never publishes.** She copies it and posts it herself. Nothing in it says or implies ExecHQ posts.
+**It never publishes.** She copies it and posts it herself. Nothing in it says or implies ExecEngine posts.
 
 ### 1.1 How people arrive here
 
@@ -58,11 +58,11 @@
 | Question | Short name | Kind | Required | Notes |
 | --- | --- | --- | --- | --- |
 | What are you writing? | Format | One choice: LinkedIn post, Short article, Long-form article | Yes | The first question, on the use case screen. Starts on LinkedIn post. |
-| What is it about? | Topic | Her words | Yes, unless she started from a read | "A few words. ExecHQ shapes the rest with you." Arrives filled from an action step. |
+| What is it about? | Topic | Her words | Yes, unless she started from a read | "A few words. ExecEngine shapes the rest with you." Arrives filled from an action step. |
 | What is your point of view? | Point of view | Her words, long | Yes | "One line is enough. Agree with the article, push back, or add what it leaves out." |
 | What should a reader do at the end? | Ending | Her words | No | "Ask a question, invite a reply, or nothing." |
 | Any result or evidence to point to? | Evidence | Her words, long | No | "What changed because of it. Leave out numbers you can't share." Fills "What I have seen so far". |
-| How should it sound? | Voice | One choice: Plainer, Warmer, More direct | No | Sets ExecHQ's opening and closing lines. |
+| How should it sound? | Voice | One choice: Plainer, Warmer, More direct | No | Sets ExecEngine's opening and closing lines. |
 | How long? | Length | One choice: Short, Standard, Long | No | Where in the format's range the first draft sits (section 3.1): Short near the bottom, Long near the top. |
 
 ### 2.3 Enrichers
@@ -75,7 +75,7 @@ None in the prototype for a post. **Proposed:** "Add three recent accomplishment
 
 "Here is a first draft of your post. Change anything; it is yours."
 
-| Section | What it is for | Her words | ExecHQ's wording | Left as a question when missing |
+| Section | What it is for | Her words | ExecEngine's wording | Left as a question when missing |
 | --- | --- | --- | --- | --- |
 | **Post** | The post itself | Her point of view, her example, her evidence, her ending | An opening by voice (her topic as a sentence; "Something I've been thinking about: …"; "Here is what I think about …"), or "I read something this week that stayed with me: [the read]"; "One line stayed with me: '[the passage]'"; "What I have seen so far: …"; a closing line by voice when she gave no ending | What is your point of view? What changed because of it? (until she gives evidence) |
 | **Other openings** | Three hooks to swap in (a post) | None | "Something I have changed my mind about this year."; "I used to see this differently."; "A question I keep asking the people I work with." (or a line from the read) | None |
@@ -86,7 +86,7 @@ None in the prototype for a post. **Proposed:** "Add three recent accomplishment
 | **Where it gets hard** (long-form only) | The best argument against her | None | "The strongest argument against this: …" | What is the strongest argument against your view? How do you answer it? |
 | **What to do about it** | What a reader should do | Her call to action | None | What should a reader do differently? |
 | **Closing** (long-form only) | The last line | None | A closing line by voice | None |
-| **Recommended next use** | How to publish, and what to do after | None | "Post it on a weekday morning, and reply to comments the same day." (or, for an article, "Publish it as a LinkedIn article, with a short post that links to it."); the plan step it came from, if any; "When someone responds, answer in your own words. ExecHQ will ask how it landed in a week." Started from a Briefing read, it says nothing about when to post; it says the Briefing is a good source for posts: "Your Briefing is a good place to find your next post: when a read speaks to what you lead, start one from it." (CEO, 19 Oct) | None |
+| **Recommended next use** | How to publish, and what to do after | None | "Post it on a weekday morning, and reply to comments the same day." (or, for an article, "Publish it as a LinkedIn article, with a short post that links to it."); the plan step it came from, if any; "When someone responds, answer in your own words. ExecEngine will ask how it landed in a week." Started from a Briefing read, it says nothing about when to post; it says the Briefing is a good source for posts: "Your Briefing is a good place to find your next post: when a read speaks to what you lead, start one from it." (CEO, 19 Oct) | None |
 
 Rules for this builder:
 
@@ -111,7 +111,7 @@ How the draft keeps them:
 - **Length is a range, not a target.** Her Length answer picks where in the range the first draft sits: Short near the bottom, Standard in the middle, Long near the top. Shorter and Longer move within it, never out of it.
 - **Checked behind the scenes** (Kate, 14 Oct). The range is a guardrail the draft is held to, not something shown on it: no word count on the draft. What she sees are the questions below, when a draft falls outside it.
 - **Short of the range, it asks; it never pads.** "This is 110 words. What else would a reader need?" Over the range, it asks what can go: "This is 340 words. A post runs to 300. What can go?"
-- **A missing source is a question.** An article short of its sources leaves "What source backs this up?" in place. ExecHQ never finds, suggests or invents a citation to fill it, and keeps no separate list of suggested citations: evidence works best when she provides it (CEO, 19 Oct).
+- **A missing source is a question.** An article short of its sources leaves "What source backs this up?" in place. ExecEngine never finds, suggests or invents a citation to fill it, and keeps no separate list of suggested citations: evidence works best when she provides it (CEO, 19 Oct).
 - **No cadence advice.** How often she posts is her plan's job, through its action steps, not this builder's (CEO, 19 Oct).
 - **Her positioning statement is not promised.** The post doesn't draw on it, so nothing says it does (CEO, 19 Oct: the promise is taken off).
 
@@ -119,7 +119,7 @@ How the draft keeps them:
 
 - Never invent a fact, number, name, result or quote.
 - Credit the source by publication, and never quote more than a line.
-- Keep her words apart from ExecHQ's wording.
+- Keep her words apart from ExecEngine's wording.
 - Never post or publish for her.
 
 **Later version: her own format rules.** Not in V1 (Kate, 14 Oct). When it comes, every builder gets the same (a pitch's length, the bios' three lengths), not Thought Leadership only (Kate, 14 Oct; the CEO agreed, 19 Oct). When it comes, she could change a format's length, sources, sections and ending, never the guardrails above. The proposal so far: learn from what she does (picking Longer twice on posts offers "Make 300+ words your default for posts?"), keep them in one place (a "Your writing defaults" row in Profile, a line per format), and show them on the draft ("Post · 150 to 300 words · Edit").
@@ -132,7 +132,7 @@ As the PRD names them, voice, specificity, length and audience, plus emphasis an
 
 - **Shorter:** a post loses the quoted passage and an unanswered "What I have seen so far"; an article loses "The idea" and "Where it gets hard".
 - **Longer:** asks "Why does this matter to you now?", in the post or as its own article section, never adds a fact.
-- **Voice** and **audience** re-say ExecHQ's closing line, never hers (Senior leaders: "If you lead a function, what would you want your teams to know?"; My team: "What would you add?").
+- **Voice** and **audience** re-say ExecEngine's closing line, never hers (Senior leaders: "If you lead a function, what would you want your teams to know?"; My team: "What would you add?").
 - **Emphasis:** My example or The article's point comes straight after the opening; The question at the end opens the post as well as closing it. **Proposed:** "The article's point" shows only when she started from a read.
 - Specificity is recorded with the version; the prototype does not rewrite for it (no model).
 - **Shorter and Longer stay inside the format's range** (section 3.1). At the edge of it, the option says so rather than going past: "A post runs to 300 words. This is as long as it goes."
@@ -147,20 +147,20 @@ As the PRD names them, voice, specificity, length and audience, plus emphasis an
 | **Export** | A post: copy only. An article: Download as PDF and Word too (Sprint 4's answer for long-form articles). |
 | **Mark ready, then published** | "Mark ready", then "Mark published". Publishing is always hers. |
 | **Check back** | 7 days after she marks it published (Kate, 19 Oct) |
-| **The question** | "You published your post on planning on Monday. How did it land?" (the PRD's self-reported engagement). Answers: It landed well · It was mixed · Not much response · Nothing yet · It's no longer relevant. Her tap is all the feedback: ExecHQ asks nothing more. The same wording wherever a post is checked in on. She can answer in the builder as soon as it is published. |
+| **The question** | "You published your post on planning on Monday. How did it land?" (the PRD's self-reported engagement). Answers: It landed well · It was mixed · Not much response · Nothing yet · It's no longer relevant. Her tap is all the feedback: ExecEngine asks nothing more. The same wording wherever a post is checked in on. She can answer in the builder as soon as it is published. |
 | **Signal Picture** | Once published, the post and what came of it, under the plan area it serves; it counts toward her published-content signal |
 | **Reuse** | "Use as a start" makes a new post from this one, linked back |
 
 ### After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
+Her tap is all the feedback: ExecEngine asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |
 | It landed well | **Add to plan:** *Pitch yourself to a podcast the people above you follow* ("Your post is the proof.") | **Add to plan:** *Share one result with someone two levels up* |
 | It was mixed | **Write from today's Briefing** | Next on your plan |
 | Not much response | **Try a different opening:** a new post starting from this one | **Write from today's Briefing** |
-| Nothing yet | Next on your plan | "ExecHQ will ask how it landed on …" |
+| Nothing yet | Next on your plan | "ExecEngine will ask how it landed on …" |
 | It's no longer relevant | Closed. Next on your plan | |
 
 ---

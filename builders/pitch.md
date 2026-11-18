@@ -68,7 +68,7 @@ Shown on the last screen to check, each with where it came from and Edit (the PR
 | Who do you want to reach? | Audience | One choice, her direction's audience first ("Marketing and commercial leaders"), then Senior executives, Operators and practitioners, Founders and investors, or her words | Yes | Asked, not taken from her direction, because an outlet's audience can differ from hers (CEO, 19 Oct). Asked before Who, so "Not sure yet" can suggest outlets that reach it. Goes into the pitch and its why now. |
 | What would you talk about? | Angle | Her words | Yes | "The topic, in a line, as you'd say it to the person deciding." |
 | One or two things you can prove | Proof | Her words, long | Yes | "Something you led or delivered. Leave out what you can't share." |
-| Who are you pitching? | Who | Her words, or one of ExecHQ's suggestions | Yes (Kate, 14 Oct) | "The event, show or publication." Arrives filled from an action step. "Not sure yet" offers up to three from a list ExecHQ keeps by audience and plan area (CEO, 19 Oct), each with one line on why it fits; she picks one. |
+| Who are you pitching? | Who | Her words, or one of ExecEngine's suggestions | Yes (Kate, 14 Oct) | "The event, show or publication." Arrives filled from an action step. "Not sure yet" offers up to three from a list ExecEngine keeps by audience and plan area (CEO, 19 Oct), each with one line on why it fits; she picks one. |
 | Links or earlier talks | Links | Her words | No | "A post, a recording, a past talk." Goes into the expanded version. |
 
 ### 2.3 Enrichers
@@ -85,25 +85,25 @@ None in the prototype. **Proposed:** "Add a recent talk or post" when Links is e
 
 Kate, 14 Oct; the details are **Proposed**. A card at the top of the draft, above the subject lines, so she reads where it is going before she reads what it says.
 
-| Part | What it says | Where it comes from | When ExecHQ can't find it |
+| Part | What it says | Where it comes from | When ExecEngine can't find it |
 | --- | --- | --- | --- |
 | **Outlet** | The event, show or publication, and the part of it she is pitching (a track, a column, a segment) | Her answer to Who | Never missing: Who is required |
 | **What they're asking for** | The topics they want now, the format and length (a 300-word abstract, a 30-minute slot, a 700-word op-ed), what to include (a bio, a headshot, an outline, past talks), and the deadline or cycle | The outlet's own published guidelines: a call for proposals, a "pitch us" or contributor page, a guest form | "They don't publish what they want. Read three recent [talks / episodes / articles] and pitch the gap." |
 | **Contact** | The route the outlet publishes (a submission form, a pitches address) and, when the outlet names an editor or producer, their name and role with it (CEO, 19 Oct) | The same page | A question, never a guess: "Who handles guests? Look for a producer on the show's page, or ask someone who has been on it." |
 | **How to send it** | Form or email; which subject line goes in the subject; which version goes where (the short version into the form's summary field, the pitch as the email body); what to attach | Fitted to what they ask for | Email, the pitch as the body, the first subject line |
-| **Source** | A link to the page it came from, and "Checked [date]" | ExecHQ | |
+| **Source** | A link to the page it came from, and "Checked [date]" | ExecEngine | |
 
 Rules:
 
-- **ExecHQ looks it up; her guidelines are optional** (Kate, 14 Oct). ExecHQ finds the outlet's own pages itself. It may offer "Have their guidelines? Paste them or add the link" to sharpen the card, but the card never waits for them: without them, it is built from what ExecHQ found.
-- **Published, or a question.** Every fact on the card comes from the outlet's own page, linked. ExecHQ never guesses an address, a name or a deadline, and never builds an address from a pattern (firstname@…).
+- **ExecEngine looks it up; her guidelines are optional** (Kate, 14 Oct). ExecEngine finds the outlet's own pages itself. It may offer "Have their guidelines? Paste them or add the link" to sharpen the card, but the card never waits for them: without them, it is built from what ExecEngine found.
+- **Published, or a question.** Every fact on the card comes from the outlet's own page, linked. ExecEngine never guesses an address, a name or a deadline, and never builds an address from a pattern (firstname@…).
 - **The draft fits the ask.** The pitch follows what they asked for: their length, their format, the topics they named, what to include. Where it can't (a word limit the proof won't fit), the draft says so as a question: "They ask for 150 words. This is 210. What can go?"
 - **Inside her company** (the Q1 planning review, the leadership forum), there is no public page. The card asks her: "Who decides the agenda?" and "How do people usually get on it?"
 - **Old news says so.** A deadline that has passed, or a page checked more than 30 days ago, shows "This may have changed. Check before you send."
 
 ### 3.2 The sections
 
-| Section | What it is for | Her words | ExecHQ's wording | Left as a question when missing |
+| Section | What it is for | Her words | ExecEngine's wording | Left as a question when missing |
 | --- | --- | --- | --- | --- |
 | **Subject lines** | Three to choose from | Her angle (the first line) | "A [session / conversation / story] idea for [who]"; "From someone doing the work, not watching it" | What would you talk about? |
 | **Pitch** | The email itself | Her role, her angle, who it is for, her proof | "Hi …, I'm [role], and I'd like to suggest a [session / conversation / story] for [who] on [angle], for [audience]. [proof] It matters now because … I can send a short outline." | Who are you writing to? Why does this matter to [audience] this month? |
@@ -126,7 +126,7 @@ As the PRD names them: **tone** (plainer, warmer, more direct), **specificity** 
 
 - **Shorter** drops "I can send a short outline." and the expanded version's closing line.
 - **Longer** adds "I can also point to [What else can you prove?]", a question, never an invented proof point.
-- **Emphasis** (The angle · The proof · Why now) puts that sentence straight after the greeting; ExecHQ's own sentence there starts with a small letter ("Hi …, it matters now because…").
+- **Emphasis** (The angle · The proof · Why now) puts that sentence straight after the greeting; ExecEngine's own sentence there starts with a small letter ("Hi …, it matters now because…").
 - Tone and specificity are recorded with the version; the prototype does not rewrite for them (no model).
 
 ---
@@ -140,7 +140,7 @@ Kate, 14 Oct; the wording is **Proposed**. Under the draft, above Copy, numbered
 1. **Check it against what they asked for.** "[Outlet] wants [format, length] on [topics]. Your pitch is [n] words, on [angle]." Any gap shows here, with the question still open in the draft.
 2. **Get the extras ready.** What they ask to include: "Your bio (Positioning Builder has three lengths), a headshot, a link to a past talk." Missing ones link to where she makes them. When they ask for nothing extra, this step says "Nothing to attach."
 3. **Send it their way.** The route, spelled out: "Email [address] with the subject line you chose and the pitch as the body", or "Fill in the form at [link]: paste the short version into Summary and the expanded version into Details." Copy buttons sit on each part. Always "Before [deadline]" when there is one.
-4. **Mark it sent, and put the follow-up in your diary.** "Mark sent" records where and when; ExecHQ checks back a week after sending, when the follow-up is ready (CEO, 19 Oct: 7 days, to match).
+4. **Mark it sent, and put the follow-up in your diary.** "Mark sent" records where and when; ExecEngine checks back a week after sending, when the follow-up is ready (CEO, 19 Oct: 7 days, to match).
 
 ### 5.2 Copy, export and the Loop
 
@@ -148,7 +148,7 @@ Kate, 14 Oct; the wording is **Proposed**. Under the draft, above Copy, numbered
 | --- | --- |
 | **Copy** | "Copy to send" |
 | **Export** | Download as PDF, Download as Word (Kate, 13 October). The export starts with Where it goes and the four steps, so the file works on its own. |
-| **Mark ready, then sent** | "Mark ready", then "Mark sent", which asks three things, all optional: Sent to (filled with the outlet), Contact (the person the outlet names, else its address or form, from Where it goes; Kate, 14 Oct) and When (today, or an earlier day). Once sent, step 4 says where and to whom: "Sent today to Commercial Leader Quarterly (Dana Okafor, opinion editor, …)". Sending is always hers; ExecHQ never sends. |
+| **Mark ready, then sent** | "Mark ready", then "Mark sent", which asks three things, all optional: Sent to (filled with the outlet), Contact (the person the outlet names, else its address or form, from Where it goes; Kate, 14 Oct) and When (today, or an earlier day). Once sent, step 4 says where and to whom: "Sent today to Commercial Leader Quarterly (Dana Okafor, opinion editor, …)". Sending is always hers; ExecEngine never sends. |
 | **Check back** | 7 days after the day she sent it, matching the follow-up (CEO, 19 Oct) |
 | **The question** | "You sent your pitch for the Q1 planning review on Thursday. Did you hear back?" (Kate, 19 Oct). Answers, one tap each: Yes, it's on · They want changes · They said not now · Not yet · I'll try somewhere else. "Not yet" is the common answer for a pitch, and asks again later. |
 | **Signal Picture** | Once sent, where she sent it and what came of it, under the plan area it serves, tagged with where it went |
@@ -156,14 +156,14 @@ Kate, 14 Oct; the wording is **Proposed**. Under the draft, above Copy, numbered
 
 ### 5.3 After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
+Her tap is all the feedback: ExecEngine asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |
 | Yes, it’s on | **Prepare for it:** a Situation Brief starting from the pitch ("Started from your pitch"; the moment set to Something else, who's there from where she pitched) | **Add to plan:** *Share one result with someone two levels up* |
 | They want changes | **Make the changes:** a new version of the pitch, more specific, for what they asked; the one she sent stays | Next on your plan |
 | They said not now | **Try another stage:** a new pitch starting from this one, with a different angle | **Add to plan:** *Draft a talk proposal for the leadership forum* |
-| Not yet | **Send the follow-up:** copies the follow-up already in the pitch | "ExecHQ will ask again on …" |
+| Not yet | **Send the follow-up:** copies the follow-up already in the pitch | "ExecEngine will ask again on …" |
 | I'll try somewhere else | Closed. **Pitch somewhere else:** a new pitch starting from this one | Next on your plan |
 
 ---
@@ -184,4 +184,4 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 
 ## 7. Open questions
 
-None. Answered by the CEO on 19 Oct: check back at 7 days (5.2); the audience is asked (2.2); the ninety-second version belongs to both builders, and outreach stays here for now (1.1); "About me" uses her short bio (3.2); outlets come from a list ExecHQ keeps by audience and plan area (2.2); a named editor or producer is shown by name (3.1); looking outlets up is confirmed (3.1). Confirmed by Kate on 19 Oct: the ninety-second version in each builder and the outreach Spark (1.1), and its own follow-up question (5.2).
+None. Answered by the CEO on 19 Oct: check back at 7 days (5.2); the audience is asked (2.2); the ninety-second version belongs to both builders, and outreach stays here for now (1.1); "About me" uses her short bio (3.2); outlets come from a list ExecEngine keeps by audience and plan area (2.2); a named editor or producer is shown by name (3.1); looking outlets up is confirmed (3.1). Confirmed by Kate on 19 Oct: the ninety-second version in each builder and the outreach Spark (1.1), and its own follow-up question (5.2).

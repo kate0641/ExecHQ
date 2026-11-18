@@ -69,7 +69,7 @@ Shown on the last screen to check, each with where it came from and Edit:
 | Strengths you'd want named | Strengths | Her words | No | Goes into the long bio. |
 | Who is it mainly for? | Audience | One choice: Senior leaders where I work, An external audience, Recruiters and boards | No | Sets the long bio's last question. The PRD's optional audience. |
 | Where will you use it first? | Format | One choice: LinkedIn About section, A speaker bio, An internal profile, An email introduction | No | Adds a version made for it, where possible (CEO, 19 Oct; see section 3), and names the bio to start with in the recommended next use. The PRD's optional desired format. |
-| Paste a bio you already have | Source text | Her words, long | No | "An old bio or profile. ExecHQ uses it to fill what it would otherwise ask." ExecHQ reads all of it, not one sentence, for the full picture of her background and experience (CEO, 19 Oct): what came before her current role, roles and results it names, and anything that answers a question the draft would otherwise ask. Nothing in it is reworded into a claim she didn't make. The PRD's user-provided source text. |
+| Paste a bio you already have | Source text | Her words, long | No | "An old bio or profile. ExecEngine uses it to fill what it would otherwise ask." ExecEngine reads all of it, not one sentence, for the full picture of her background and experience (CEO, 19 Oct): what came before her current role, roles and results it names, and anything that answers a question the draft would otherwise ask. Nothing in it is reworded into a claim she didn't make. The PRD's user-provided source text. |
 
 ### 2.3 Enrichers
 
@@ -79,9 +79,9 @@ Shown on the last screen to check, each with where it came from and Edit:
 
 ## 3. The draft
 
-"Here is a first draft of your bios and narrative, built on your statement. Change anything; it is yours." Bios use her name, never a pronoun ExecHQ assumed.
+"Here is a first draft of your bios and narrative, built on your statement. Change anything; it is yours." Bios use her name, never a pronoun ExecEngine assumed.
 
-| Section | What it is for | Her words | ExecHQ's wording | Left as a question when missing |
+| Section | What it is for | Her words | ExecEngine's wording | Left as a question when missing |
 | --- | --- | --- | --- | --- |
 | **Positioning statement** | The one sentence, as onboarding left it | Her statement | None | What is your positioning statement? |
 | **Short bio** | Wherever she is introduced in a line | Her name, role, what she is known for | "[Name] is [role], known for …" | What is your role? What are you known for? |
@@ -123,15 +123,15 @@ The shared options (voice, specificity, length, audience) and the conversational
 
 ### After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
+Her tap is all the feedback: ExecEngine asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |
 | It went well | **Add to plan:** *Post what you lead on LinkedIn* | **Use the long bio on LinkedIn** (copies it) |
 | It was mixed | **Sharpen it:** a new version of the bios and narrative, More specific; her statement stays | Next on your plan |
 | Not the way I hoped | **Add to plan:** *Ask your manager what broader scope means to them* | **Sharpen it** |
-| Nothing yet | **Use it where you're next introduced:** copies the short bio | "ExecHQ will ask again on …" |
-| It's no longer relevant | Next on your plan. Her statement never closes: ExecHQ only stops asking about this use of it. | |
+| Nothing yet | **Use it where you're next introduced:** copies the short bio | "ExecEngine will ask again on …" |
+| It's no longer relevant | Next on your plan. Her statement never closes: ExecEngine only stops asking about this use of it. | |
 
 ---
 

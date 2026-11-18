@@ -2,6 +2,8 @@
 
 **Template: Explore and clarify a new opportunity or direction.** User-facing name: **Chart a New Course**.
 
+**To be rewritten (Kate, 12 November 2026).** ExecEngine doesn't steer anyone out of their company, so this plan becomes the one for working out a move *within* it (another function, or another part of the business). This brief is still written for leaving, and the product calls the plan **Find your next direction** until it is rewritten.
+
 **Status: draft.** The name, template, stages and the routing example are Kate's (12 October 2026). **Everything else is Proposed**: drafted by Claude from Step Up's recipe and the prototype, for Kate to confirm. Rules every plan shares are in `plans/shared.md`.
 
 ---
@@ -54,7 +56,7 @@ The agent recommends the step whose trigger matches her situation now. If she na
 | **Horizon** | Short-term |
 | **Trigger** | She chose "something different" or "still figuring it out", or describes feeling stuck without saying why. |
 | **Done when** | She records at least three things she would keep and three she would not miss. |
-| **Evidence ExecHQ keeps** | Her two lists, a completion timestamp. Kept private to her. |
+| **Evidence ExecEngine keeps** | Her two lists, a completion timestamp. Kept private to her. |
 | **Plan area and signal** | Plan area: what is not working. Signals: none directly. |
 | **Tool** | None in V1. |
 | **Follow-up** | None. |
@@ -66,7 +68,7 @@ The agent recommends the step whose trigger matches her situation now. If she na
 | **Horizon** | Short-term |
 | **Trigger** | She has named what is not working, and describes her strengths only through her current role. |
 | **Done when** | She saves a short statement of strengths that would matter anywhere, and confirms it. |
-| **Evidence ExecHQ keeps** | The saved statement, its edit history, her confirmation. |
+| **Evidence ExecEngine keeps** | The saved statement, its edit history, her confirmation. |
 | **Plan area and signal** | Plan area: transferable strengths. Signals: the base for a later narrative and profile. |
 | **Tool** | Positioning Builder. Onboarding's one-sentence statement is the first version. |
 | **Follow-up** | None. |
@@ -80,7 +82,7 @@ The agent recommends the step whose trigger matches her situation now. If she na
 | **Horizon** | Short-term |
 | **Trigger** | She knows her strengths and what she wants to leave behind, but has not named any options. |
 | **Done when** | She records two to four directions, each with what draws her to it. |
-| **Evidence ExecHQ keeps** | The directions, a completion timestamp. |
+| **Evidence ExecEngine keeps** | The directions, a completion timestamp. |
 | **Plan area and signal** | Plan area: directions. Signals: none directly. |
 | **Tool** | None in V1. |
 | **Follow-up** | None. |
@@ -92,7 +94,7 @@ The agent recommends the step whose trigger matches her situation now. If she na
 | **Horizon** | Medium-term (30 to 60 days) |
 | **Trigger** | She has directions to test, and has not yet spoken to anyone in them. |
 | **Done when** | She records at least four conversations across her directions, each with what she learned. |
-| **Evidence ExecHQ keeps** | The conversations she records, their dates. |
+| **Evidence ExecEngine keeps** | The conversations she records, their dates. |
 | **Plan area and signal** | Plan area: directions. Signals: none of the six; this is private exploration. |
 | **Tool** | Pitch Builder, for a short note asking for the conversation. |
 | **Follow-up** | After each conversation, the Loop asks what she learned. |
@@ -104,7 +106,7 @@ The agent recommends the step whose trigger matches her situation now. If she na
 | **Horizon** | Short-term |
 | **Trigger** | She has had conversations in at least two directions. |
 | **Done when** | She crosses off at least one direction and records why. |
-| **Evidence ExecHQ keeps** | The directions ruled out and her reasons. |
+| **Evidence ExecEngine keeps** | The directions ruled out and her reasons. |
 | **Plan area and signal** | Plan area: directions. Signals: none directly. |
 | **Tool** | None: it is answered in the Loop. |
 | **Follow-up** | None. |
@@ -122,7 +124,7 @@ For example: a short course, an advisory conversation, a volunteer or side proje
 | **Horizon** | Medium-term (30 to 60 days) |
 | **Trigger** | She has narrowed her directions but can't tell which one she actually wants. |
 | **Done when** | She records what she tried and what gave her energy and what did not. |
-| **Evidence ExecHQ keeps** | What she tried, her reflection, the date. |
+| **Evidence ExecEngine keeps** | What she tried, her reflection, the date. |
 | **Plan area and signal** | Plan area: spark. Signal: published content if she writes; otherwise none. |
 | **Tool** | Thought Leadership Builder, if she writes. |
 | **Follow-up** | The Loop asks how it felt, a week after she starts. |
@@ -134,7 +136,7 @@ For example: a short course, an advisory conversation, a volunteer or side proje
 | **Horizon** | Short-term, recurring |
 | **Trigger** | A read in today's Briefing touches a direction she is exploring. |
 | **Done when** | She writes a short response, published or kept private. |
-| **Evidence ExecHQ keeps** | The draft linked to its source read, its lifecycle state. |
+| **Evidence ExecEngine keeps** | The draft linked to its source read, its lifecycle state. |
 | **Plan area and signal** | Plan area: spark. Signals: published content, if she publishes. |
 | **Tool** | Thought Leadership Builder, started from the Briefing. |
 | **Follow-up** | None. |
@@ -148,7 +150,7 @@ For example: a short course, an advisory conversation, a volunteer or side proje
 | **Horizon** | Short-term |
 | **Trigger** | One direction stands out, and she can't yet explain how her past leads to it. |
 | **Done when** | She saves a story connecting her strengths and experience to the direction, and confirms it. |
-| **Evidence ExecHQ keeps** | The saved story, its edit history, her confirmation. |
+| **Evidence ExecEngine keeps** | The saved story, its edit history, her confirmation. |
 | **Plan area and signal** | Plan area: transferable narrative. Signals: the base for LinkedIn and published content. |
 | **Tool** | Positioning Builder. |
 | **Follow-up** | None. |
@@ -160,7 +162,7 @@ For example: a short course, an advisory conversation, a volunteer or side proje
 | **Horizon** | Short-term |
 | **Trigger** | Her narrative is saved, and her profile describes only her current role. |
 | **Done when** | She confirms she has updated her headline and About section, as far as she is comfortable while employed. |
-| **Evidence ExecHQ keeps** | Her confirmation and the date. ExecHQ does not read her profile in V1. |
+| **Evidence ExecEngine keeps** | Her confirmation and the date. ExecEngine does not read her profile in V1. |
 | **Plan area and signal** | Plan area: transferable narrative. Signals: LinkedIn and AI discoverability. |
 | **Tool** | Positioning Builder: copy the narrative for her About section. |
 | **Follow-up** | None. |
@@ -174,7 +176,7 @@ For example: a short course, an advisory conversation, a volunteer or side proje
 | **Horizon** | Short-term |
 | **Trigger** | She has a narrative and has tested at least one direction for real. |
 | **Done when** | She records the direction, specific enough to plan around, and her reasons. |
-| **Evidence ExecHQ keeps** | The direction, her reasons, the date. |
+| **Evidence ExecEngine keeps** | The direction, her reasons, the date. |
 | **Plan area and signal** | Plan area: direction. Signals: decides which signals the next plan leans on. |
 | **Tool** | None. |
 | **Follow-up** | None. |
@@ -186,7 +188,7 @@ For example: a short course, an advisory conversation, a volunteer or side proje
 | **Horizon** | Short-term |
 | **Trigger** | She has named her direction. |
 | **Done when** | She accepts a new plan, or chooses to keep exploring. |
-| **Evidence ExecHQ keeps** | The plan change, carrying over everything she has saved. |
+| **Evidence ExecEngine keeps** | The plan change, carrying over everything she has saved. |
 | **Plan area and signal** | Plan area: plan adjustment. |
 | **Tool** | None. |
 | **Follow-up** | The agent offers the plan that fits: Make the Move for a specific role or moment, Step Up for a bigger role where she is, Make Your Mark for a new field to be known in, Lead Where You Are to stay and grow. It never switches without asking. |
@@ -197,7 +199,7 @@ For example: a short course, an advisory conversation, a volunteer or side proje
 
 Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and their answers are in `plans/shared.md`, section 6. **Proposed**, all of the table: the source names no feedback.
 
-| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| Step | Asks? | Type | When ExecEngine asks | What her answer changes |
 | --- | --- | --- | --- | --- |
 | **1.1** What she would keep, and what she would not miss | No | None | | Recording them is done |
 | **1.2** What she is good at, apart from where she has done it | Yes | Is this right? | As soon as it is drafted | "Yes, that's it" completes the step; "Change it" reopens Positioning Builder |

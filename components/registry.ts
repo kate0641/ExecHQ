@@ -55,6 +55,10 @@ import { deviceKeyboardStates } from "./onboarding/DeviceKeyboard/DeviceKeyboard
 import { goodExampleStates } from "./onboarding/GoodExample/GoodExample.states";
 import { guidePageStates } from "./onboarding/GuidePage/GuidePage.states";
 import { pointListStates } from "./onboarding/PointList/PointList.states";
+import { productIntroStates } from "./onboarding/ProductIntro/ProductIntro.states";
+import { planPathStates } from "./onboarding/PlanPath/PlanPath.states";
+import { planOptionStates } from "./onboarding/PlanOption/PlanOption.states";
+import { firstVisitTourStates } from "./navigation/FirstVisitTour/FirstVisitTour.states";
 import { reflectionReplyStates } from "./onboarding/ReflectionReply/ReflectionReply.states";
 import { recommendationCardStates } from "./onboarding/RecommendationCard/RecommendationCard.states";
 import { signalSourcesStates } from "./onboarding/SignalSources/SignalSources.states";
@@ -176,6 +180,10 @@ export const registry: RegisteredComponent[] = [
   answerDrawerStates,
   deviceKeyboardStates,
   pointListStates,
+  productIntroStates,
+  planPathStates,
+  planOptionStates,
+  firstVisitTourStates,
   reflectionReplyStates,
   recommendationCardStates,
   storyDraftStates,

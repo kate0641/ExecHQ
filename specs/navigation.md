@@ -9,14 +9,14 @@ This document describes how the signed-in navigation looks, behaves and works, o
 
 ## 1. What it is
 
-There is no navigation bar, tab bar, menu or sidebar. Every signed-in page carries one control: a floating pill that reads **"Ask or go"**. The pill opens the advisor, the same ExecHQ advisor who ran onboarding (same mark, same name, same voice). The advisor is the navigation:
+There is no navigation bar, tab bar, menu or sidebar. Every signed-in page carries one control: a floating pill that reads **"Ask or go"**. The pill opens the advisor, the same ExecEngine advisor who ran onboarding (same mark, same name, same voice). The advisor is the navigation:
 
 - **Go:** he takes you to any destination.
 - **Log:** he records what happened with something you used.
 - **Get ready:** he helps you finish a draft.
 - **Talk it through:** he answers questions about your career.
 
-The reasoning: ExecHQ users are senior and time-poor. One box that does all four removes the need to learn a menu, and the advisor is already the product's personality.
+The reasoning: ExecEngine users are senior and time-poor. One box that does all four removes the need to learn a menu, and the advisor is already the product's personality.
 
 ### Destinations
 
@@ -44,7 +44,7 @@ On every page whose flow uses the `app` chrome: Homepage, Profile, Plan, Signal 
 1. **"Where you are" chip.** A dark, pill-shaped chip with the current destination's icon and name ("Home", "Plan"…). It is the only wayfinding on the page, so it must always be correct. Visually hidden text reads "You're on" before the name.
 2. **Prompt.** The text "Ask or go", in muted text color, truncating with an ellipsis if it ever runs out of room.
 3. **Follow-up dot** (only when a follow-up is due, see section 7). A small accent-coloured dot. Never a number. Visually hidden text reads "A follow-up is waiting".
-4. **Advisor mark.** The ExecHQ advisor mark, 20px, at the far right.
+4. **Advisor mark.** The ExecEngine advisor mark, 20px, at the far right.
 
 ### Size and position
 
@@ -121,7 +121,7 @@ How to close it on tablet and web:
 
 ### Shared rules for both surfaces
 
-- **Modal while open.** The page behind is made inert (not clickable, not focusable, hidden from assistive technology). The panel has `role="dialog"` and `aria-modal="true"`, and an accessible name ("ExecHQ, your advisor").
+- **Modal while open.** The page behind is made inert (not clickable, not focusable, hidden from assistive technology). The panel has `role="dialog"` and `aria-modal="true"`, and an accessible name ("ExecEngine, your advisor").
 - **Focus.** On open, focus moves to the message field. On close by any route that is not navigating to another page, focus returns to the pill. On navigating to another page, focus is not forced back (the new page takes it).
 - **Closed means gone.** When closed, the panel is inert and invisible; its contents cannot be tabbed to.
 - **Reduced motion.** Under `prefers-reduced-motion: reduce` all of the movement above is replaced by an instant change (no sliding, growing or fading).
@@ -133,7 +133,7 @@ How to close it on tablet and web:
 
 Layout, top to bottom, identical on the sheet and the card:
 
-1. **Top bar.** Holds, right to left: Close (×, 44 × 44px), and "New chat" (text button, only once a conversation exists, which clears it). Once a conversation has started, the advisor's mark, name ("ExecHQ") and role ("Your advisor") also show at the left of the bar. Before then the top bar carries only Close, because the start screen introduces the advisor itself. On the card (tablet and web) the top bar has no rule beneath it; on the phone sheet it keeps a thin rule.
+1. **Top bar.** Holds, right to left: Close (×, 44 × 44px), and "New chat" (text button, only once a conversation exists, which clears it). Once a conversation has started, the advisor's mark, name ("ExecEngine") and role ("Your advisor") also show at the left of the bar. Before then the top bar carries only Close, because the start screen introduces the advisor itself. On the card (tablet and web) the top bar has no rule beneath it; on the phone sheet it keeps a thin rule.
 2. **Body.** Scrolls. It always scrolls to the newest message.
 3. **Foot.** Pinned. Holds quick replies (when there are any), the "Go to" button (when typing a destination), and the message field.
 
@@ -319,7 +319,7 @@ All colors are tokens (`--color-surface`, `--color-text-muted`, `--color-surface
 
 ### Touch targets
 
-Every interactive control in the pill and the panel is at least **44 × 44px** (`--button-target`) on every viewport, tablet and web included. WCAG 2.2 AA requires only 24px (SC 2.5.8); 44px is the ExecHQ standard because this is a mobile-first product used one-handed.
+Every interactive control in the pill and the panel is at least **44 × 44px** (`--button-target`) on every viewport, tablet and web included. WCAG 2.2 AA requires only 24px (SC 2.5.8); 44px is the ExecEngine standard because this is a mobile-first product used one-handed.
 
 | Control | Size |
 | --- | --- |

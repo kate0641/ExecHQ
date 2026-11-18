@@ -17,7 +17,7 @@ The Signal Picture is the person's private record of how visible they are becomi
 What it deliberately does not do:
 
 - **Score or compare.** Nothing on the page is a percentage, a rank, a streak or a comparison with anyone. Momentum counts what happened; it never rates it.
-- **Count work inside ExecHQ as a signal.** A signal is something they put out in the world: a talk, a post, a mention, something they used or sent. Drafting, working on or readying something in ExecHQ is never added to the Signal Picture. (It does count as Momentum.)
+- **Count work inside ExecEngine as a signal.** A signal is something they put out in the world: a talk, a post, a mention, something they used or sent. Drafting, working on or readying something in ExecEngine is never added to the Signal Picture. (It does count as Momentum.)
 - **Work anything out for them.** What came of something is only ever what they said, kept as they wrote it.
 - **Pull anything from outside.** There are no connections in V1. Every number is typed, and the only file is a LinkedIn export they choose to upload.
 
@@ -58,7 +58,7 @@ Momentum is **"Your week in motion: plan steps, drafts and outcomes, and the sig
 | Counted | When |
 | --- | --- |
 | A completed action | A step on their plan is done: its draft was used, sent or published, or they said they did a step with no draft |
-| An artifact created or used | They drafted something in ExecHQ, or used, sent or published it |
+| An artifact created or used | They drafted something in ExecEngine, or used, sent or published it |
 | An outcome updated | They said what came of something (not "It's no longer relevant") |
 | A signal added | They added something to their Signal Picture themselves |
 
@@ -91,7 +91,7 @@ This section was called "What came of it" until 2026-10-28; its words changed wi
 
 **How it went**, then "What you told us about how the things you did went, in your words. Nothing is worked out for you."
 
-One row for each thing they did since their plan began, newest first: each thing they added themselves, and each thing made with ExecHQ that they used, sent or published. Each row is the thing on the left (its date, then what it was) pointing to what came of it on the right:
+One row for each thing they did since their plan began, newest first: each thing they added themselves, and each thing made with ExecEngine that they used, sent or published. Each row is the thing on the left (its date, then what it was) pointing to what came of it on the right:
 
 - **What they said came of it**, in a box with a strong edge. The left side of the row is dark.
 - **"Nothing reported yet"**, in a dashed box, when they have said nothing. For anything they can still answer, the box is a button with **Tap to report** beneath, and opens the report drawer (4.2). Nothing reported is neutral, never a miss.
@@ -106,7 +106,7 @@ With no rows: "Nothing reported yet. When you tell us how something went, it sho
 
 A drawer, **How did it go?**, with the date and what they did beneath.
 
-- For something made with ExecHQ: **Overall** as It went well, It was mixed, Not the way I hoped. Then **In your words** ("Just enough for you to recognise it."). Both are needed: "Choose how it went." and "Write a line about how it went." say what is missing.
+- For something made with ExecEngine: **Overall** as It went well, It was mixed, Not the way I hoped. Then **In your words** ("Just enough for you to recognise it."). Both are needed: "Choose how it went." and "Write a line about how it went." say what is missing.
 - For something they added: their words only.
 - "Only you see this. It is kept as you wrote it." **Save** and **Cancel**.
 
@@ -114,9 +114,9 @@ What they say is kept on the thing itself: the same record Home's "Stay on track
 
 The drawer sits beside the page rather than over it: it rises from the foot on phone and tablet (at the reading width on tablet), and floats at the bottom right on web, 30rem wide. The page behind it stays usable.
 
-### 4.3 What ExecHQ puts on the picture
+### 4.3 What ExecEngine puts on the picture
 
-Only what they put out in the world goes on: something made with ExecHQ that they marked used, sent or published, and what they said came of it. Drafting, working on or readying something in ExecHQ never does. There are no notes on the page telling them what ExecHQ added.
+Only what they put out in the world goes on: something made with ExecEngine that they marked used, sent or published, and what they said came of it. Drafting, working on or readying something in ExecEngine never does. There are no notes on the page telling them what ExecEngine added.
 
 ### 4.4 The first visit
 

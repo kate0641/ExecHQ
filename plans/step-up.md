@@ -2,7 +2,7 @@
 
 **Template: Increase leadership scope.** User-facing name: **Step Up**.
 
-**Status: draft.** From *ExecHQ: Content and Mapping* (Kate, 12 October 2026). The source calls its action steps "proposed examples, not finalized coaching guidance", and so does this brief. Lines marked **Proposed** are Claude's, for Kate to confirm. Rules every plan shares are in `plans/shared.md`.
+**Status: draft.** From *ExecEngine: Content and Mapping* (Kate, 12 October 2026). The source calls its action steps "proposed examples, not finalized coaching guidance", and so does this brief. Lines marked **Proposed** are Claude's, for Kate to confirm. Rules every plan shares are in `plans/shared.md`.
 
 ---
 
@@ -53,7 +53,7 @@ The **Tool** and **Follow-up** lines are **Proposed**: the source does not name 
 | **Horizon** | Short-term |
 | **Trigger** | She chose broader scope or promotion as her main need, or she can't yet say what scope she wants next. |
 | **Done when** | She saves an editable statement and confirms it reflects the scope she wants to pursue. |
-| **Evidence ExecHQ keeps** | The saved direction statement, its edit history, her confirmation. |
+| **Evidence ExecEngine keeps** | The saved direction statement, its edit history, her confirmation. |
 | **Plan area and signal** | Plan area: leadership proposition. Signals: published content and LinkedIn are prepared as future expressions of the proposition. |
 | **Tool** | Positioning Builder. In the prototype, onboarding's one-sentence positioning statement is the first version. |
 | **Follow-up** | None: confirming the statement completes it. |
@@ -65,7 +65,7 @@ The **Tool** and **Follow-up** lines are **Proposed**: the source does not name 
 | **Horizon** | Short-term |
 | **Trigger** | Her direction is clear, but her evidence is too general to support a credible narrative. |
 | **Done when** | She records three examples and names the outcome, the stakeholders and her role in each. |
-| **Evidence ExecHQ keeps** | The examples she entered, the artifact inputs, a completion timestamp. |
+| **Evidence ExecEngine keeps** | The examples she entered, the artifact inputs, a completion timestamp. |
 | **Plan area and signal** | Plan area: evidence inventory. Signals: creates source material for LinkedIn, speaking, podcasts, press and published content. |
 | **Tool** | Positioning Builder, building out the statement with her wins. |
 | **Follow-up** | None. |
@@ -81,7 +81,7 @@ For example: publish a targeted piece, submit a speaking proposal, or send a tai
 | **Horizon** | Medium-term (30 to 60 days) |
 | **Trigger** | She has a defined proposition and initial examples, but little visible proof in the channel that matters most. |
 | **Done when** | She completes the action and marks the artifact used, sent, delivered or published. |
-| **Evidence ExecHQ keeps** | The artifact's lifecycle state, the channel she reports, an optional outcome update, the draft-to-final artifact versions. |
+| **Evidence ExecEngine keeps** | The artifact's lifecycle state, the channel she reports, an optional outcome update, the draft-to-final artifact versions. |
 | **Plan area and signal** | Plan area: visible evidence. Signal: set by the channel she chooses; the signal matrix sets the priority. Builds a reusable asset or an outreach record. |
 | **Tool** | Thought Leadership Builder for a piece; Pitch Builder for a speaking proposal or pitch. |
 | **Follow-up** | Once it is marked used or sent, the Loop asks what came of it. |
@@ -95,7 +95,7 @@ Compile artifacts, stakeholder feedback, outcome summaries and supporting materi
 | **Horizon** | Long-term (a quarter or longer) |
 | **Trigger** | She is building up evidence across short- and medium-term actions and needs a durable, exportable case for expanded scope. |
 | **Done when** | The dossier is assembled, dated, and exported or saved as a versioned artifact, and she can present it in a conversation or include it in a promotion packet. |
-| **Evidence ExecHQ keeps** | The compiled dossier files, version history, linked artifacts and outcome records, the export timestamp. |
+| **Evidence ExecEngine keeps** | The compiled dossier files, version history, linked artifacts and outcome records, the export timestamp. |
 | **Plan area and signal** | Plan area: evidence inventory and scope case. Signals: published content, LinkedIn updates, and speaking or press mentions, gathered together and referenced as supporting proof. |
 | **Tool** | None in V1: no tool builds a dossier yet. |
 | **Follow-up** | None. |
@@ -107,7 +107,7 @@ Compile artifacts, stakeholder feedback, outcome summaries and supporting materi
 | **Horizon** | Short-term, recurring |
 | **Trigger** | The plan needs current context to choose the next action step, or she hasn't updated her context recently. |
 | **Done when** | She submits a reflection with at least one update, or says plainly that nothing material has changed. |
-| **Evidence ExecHQ keeps** | The submitted reflection, her self-reported update, the date. |
+| **Evidence ExecEngine keeps** | The submitted reflection, her self-reported update, the date. |
 | **Plan area and signal** | Plan area: current context. Signals: keeps all six signal interpretations current. It is not itself external presence activity. |
 | **Tool** | None: it is a short check-in. |
 | **Follow-up** | None. |
@@ -121,7 +121,7 @@ Compile artifacts, stakeholder feedback, outcome summaries and supporting materi
 | **Horizon** | Short-term |
 | **Trigger** | A consequential internal conversation is scheduled, or is identified as the next decision point. |
 | **Done when** | She records the objective, the outcome she wants, the stakeholders and her key proof points, and marks the preparation complete. |
-| **Evidence ExecHQ keeps** | The saved preparation artifact, the date she intends to use it, completion status. |
+| **Evidence ExecEngine keeps** | The saved preparation artifact, the date she intends to use it, completion status. |
 | **Plan area and signal** | Plan area: scope conversation. Signals: draws on the most relevant evidence gathered across the plan. |
 | **Tool** | Situation Brief. |
 | **Follow-up** | The day after the conversation date, the Loop asks how it went, which leads to 3.2. |
@@ -133,7 +133,7 @@ Compile artifacts, stakeholder feedback, outcome summaries and supporting materi
 | **Horizon** | Short-term |
 | **Trigger** | A prepared conversation has happened, or she reports a material decision or change. |
 | **Done when** | She records the outcome, the feedback and the next decision, or commits to a revised action step. |
-| **Evidence ExecHQ keeps** | The outcome update, the feedback, her next-step choice. |
+| **Evidence ExecEngine keeps** | The outcome update, the feedback, her next-step choice. |
 | **Plan area and signal** | Plan area: plan adjustment. Signals: the outcome changes the emphasis and the evidence needed next. |
 | **Tool** | None: it is answered in the Loop. |
 | **Follow-up** | Her answer sets the next recommendation. |
@@ -147,7 +147,7 @@ A prioritized set of longer-term actions that turn the dossier into promotion or
 | **Horizon** | Long-term (a quarter or longer) |
 | **Trigger** | She has a documented case and an outcome that calls for a multi-step advancement plan, such as a formal promotion packet or a cross-functional role proposal. |
 | **Done when** | A roadmap milestone exists with its action steps, timelines and measurable completion criteria, linked to the dossier and outcome records. |
-| **Evidence ExecHQ keeps** | The milestone record, linked action steps, timeline and ownership details, progress updates. |
+| **Evidence ExecEngine keeps** | The milestone record, linked action steps, timeline and ownership details, progress updates. |
 | **Plan area and signal** | Plan area: roadmap and long-term scope advancement. Signals: uses gathered evidence and external mentions to justify the next moves she prioritizes. |
 | **Tool** | None in V1. |
 | **Follow-up** | Progress on the milestone's own steps. |
@@ -158,7 +158,7 @@ A prioritized set of longer-term actions that turn the dossier into promotion or
 
 Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and their answers are in `plans/shared.md`, section 6. **Proposed**, all of the table: the source names no feedback.
 
-| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| Step | Asks? | Type | When ExecEngine asks | What her answer changes |
 | --- | --- | --- | --- | --- |
 | **1.1** One-sentence statement of the scope she wants | Yes | Is this right? | As soon as the statement is drafted | "Yes, that's it" completes the step and every tool draws on it; "Change it" reopens Positioning Builder |
 | **1.2** Three examples of broader leadership | No | None | | Recording the three is done |

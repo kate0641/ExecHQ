@@ -1,5 +1,5 @@
 /**
- * What she has seen of the signals ExecHQ added for her, and which of those
+ * What she has seen of the signals ExecEngine added for her, and which of those
  * she has hidden because they were not right.
  *
  * `noticed` clears the small dot on the navigation once she has been to the

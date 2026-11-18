@@ -155,7 +155,7 @@ export function StageCheckIn({
               have it; then what it is; then what came of it: the verdict first, her own words after it in a
               quieter grey, there if she wants them. */}
           <span className="stage-checkin__top">
-            <span className="stage-checkin__from">{item.from === "execHQ" ? C.fromExecHQ : item.from === "you" ? C.fromYou : C.fromSteps}</span>
+            <span className="stage-checkin__from">{item.from === "execHQ" ? C.fromExecEngine : item.from === "you" ? C.fromYou : C.fromSteps}</span>
             {item.passed || item.what ? <span className="stage-checkin__when">{item.passed ? C.passed : item.what}</span> : null}
           </span>
           <span className="stage-checkin__title">{item.title}</span>
@@ -221,7 +221,7 @@ export function StageCheckIn({
       <GuidePage
         key={item.id}
         {...top}
-        kicker={`${item.from === "execHQ" ? C.fromExecHQ : item.from === "you" ? C.fromYou : C.fromSteps} · ${item.what}`}
+        kicker={`${item.from === "execHQ" ? C.fromExecEngine : item.from === "you" ? C.fromYou : C.fromSteps} · ${item.what}`}
         title={C.itemTitle}
         lede={`${item.title}.`}
         why={C.itemWhy}

@@ -6,19 +6,19 @@ Approved concept: **Concept 1b — With readiness**, approved 2026-10-26. It is 
 
 ## 1. What it is
 
-The Admin Dashboard is what the client's program admin sees: the person at the client company who runs the ExecHQ program for a group of their leaders (a **cohort**). It does two jobs. It shows the admin, in totals only, whether the program is working, so they can defend it to their own leadership. It gives them the one thing they manage: the cohort's code.
+The Admin Dashboard is what the client's program admin sees: the person at the client company who runs the ExecEngine program for a group of their leaders (a **cohort**). It does two jobs. It shows the admin, in totals only, whether the program is working, so they can defend it to their own leadership. It gives them the one thing they manage: the cohort's code.
 
 It tells the cohort's story in the order it happened, and sets the measure that matters most (follow-through) as the hero.
 
 What it deliberately does not do:
 
 - **Show any one participant.** Every figure is a total for the whole cohort. Nothing names, lists or can point to a person (section 5).
-- **Claim results.** It reports what participants did, never what ExecHQ caused. The readiness pulse is what participants say they feel.
-- **Show recorded outcomes.** Promotions, new roles and other outcomes participants record stay internal to ExecHQ (decided 2026-10-20).
+- **Claim results.** It reports what participants did, never what ExecEngine caused. The readiness pulse is what participants say they feel.
+- **Show recorded outcomes.** Promotions, new roles and other outcomes participants record stay internal to ExecEngine (decided 2026-10-20).
 
 ### Where it appears
 
-It uses the `enterprise` chrome: a header with the ExecHQ wordmark followed by "Enterprise", and at the right the admin's initials, which open the Admin profile. There is no other navigation. It is **web only**: there is no phone or tablet layout, and the prototype locks the viewport to web.
+It uses the `enterprise` chrome: a header with the ExecEngine wordmark followed by "Enterprise", and at the right the admin's initials, which open the Admin profile. There is no other navigation. It is **web only**: there is no phone or tablet layout, and the prototype locks the viewport to web.
 
 The admin arrives here from the Admin login. An admin with no cohort yet sees the setup (4.1) instead.
 
@@ -67,13 +67,13 @@ Rules:
 
 ### 2.3 Putting it into practice (the hero)
 
-Full width, on the feature tint. On the left, the heading and "They made {14} pieces of work {this week} and used {5} of them outside ExecHQ." On the right:
+Full width, on the feature tint. On the left, the heading and "They made {14} pieces of work {this week} and used {5} of them outside ExecEngine." On the right:
 
 - **Followed through**, large, with a bar under it: "{28}%  {5} of {18} accepted actions". Definition: "Of the planned actions taken on, how many are done, each within 30 days. Recent ones still have time; declined ones don't count."
 - Three tiles below it:
   - **Chose a plan:** "{79}%  {26} of {33} set up · since launch". It may carry a direction ("More with a plan than a week ago"). Definition: "Of those set up, how many accepted a development plan."
-  - **Work made:** "{14} pieces of work". Definition: "Drafts, briefs and statements made in ExecHQ in the dates chosen."
-  - **Work used:** "{36}%  {5} of {14} pieces". Definition: "Of the work made, how much was marked as used outside ExecHQ."
+  - **Work made:** "{14} pieces of work". Definition: "Drafts, briefs and statements made in ExecEngine in the dates chosen."
+  - **Work used:** "{36}%  {5} of {14} pieces". Definition: "Of the work made, how much was marked as used outside ExecEngine."
 
 ### 2.4 Staying with it
 
@@ -87,7 +87,7 @@ Full width, on the feature tint. On the left, the heading and "They made {14} pi
 - Heading, then "What participants put out where others can see it, {this week}."
 - A ring, "{35}%", beside "put something out, on any channel". Definition: "Of those active, how many posted, published, spoke or were quoted in the dates chosen."
 - The channels: LinkedIn, Published writing, Speaking, Podcasts, Press, each "{n} of {active}", in order of size. Any channel with fewer than 10 people is held back (5.2).
-- At the foot: "Recorded in ExecHQ or added by the participant. Someone on two channels counts in both."
+- At the foot: "Recorded in ExecEngine or added by the participant. Someone on two channels counts in both."
 
 ### 2.6 Getting started
 
@@ -104,7 +104,7 @@ One line, then the cohort's code.
 
 ### 2.8 The footer
 
-One paragraph with a shield icon: "Totals for the whole cohort. Northgate never sees a participant, their plan or their work. Figures show once 10 or more are active in the dates you choose, and update daily. {Arrows show a change since a week ago, only when at least 10 participants are behind it.} Sources: codes redeemed, and setup, sign-ins, plans, planned actions, work and what participants put out in the world, recorded in ExecHQ. Prepared by ExecHQ." The sentence in braces appears only when the dates chosen end today.
+One paragraph with a shield icon: "Totals for the whole cohort. Northgate never sees a participant, their plan or their work. Figures show once 10 or more are active in the dates you choose, and update daily. {Arrows show a change since a week ago, only when at least 10 participants are behind it.} Sources: codes redeemed, and setup, sign-ins, plans, planned actions, work and what participants put out in the world, recorded in ExecEngine. Prepared by ExecEngine." The sentence in braces appears only when the dates chosen end today.
 
 ### 2.9 Every figure
 
@@ -188,7 +188,7 @@ While fewer than 10 participants are active in the dates chosen, a notice heads 
 
 ### 4.4 A late update
 
-If today's daily update has not arrived, the page shows yesterday's figures and a notice: "Today's update is late. The figures here are from {date}. ExecHQ is looking into it, and changes since a week ago return with the next update." Directions are not shown while the update is late.
+If today's daily update has not arrived, the page shows yesterday's figures and a notice: "Today's update is late. The figures here are from {date}. ExecEngine is looking into it, and changes since a week ago return with the next update." Directions are not shown while the update is late.
 
 ---
 
@@ -220,7 +220,7 @@ The **Export** menu has two items, as wide as its button.
 A floating bar at the foot of the window, the same as the app's navigation bar: "**Your cohort** · Ask about your cohort". Pressing it grows a card over a soft scrim.
 
 - It opens on **What would you like to know?**, with suggested questions: "What should I tell my leadership about follow-through?", "Draft a two-line update for my CHRO", "What can I do to get more people set up?".
-- It answers from the cohort's totals for the dates chosen, in the same words the page uses. It never answers about one person. A "who" question gets: "I can't tell you about any one person. That promise is why leaders use ExecHQ honestly." followed by a total it can give. Below the minimum it says only how many joined.
+- It answers from the cohort's totals for the dates chosen, in the same words the page uses. It never answers about one person. A "who" question gets: "I can't tell you about any one person. That promise is why leaders use ExecEngine honestly." followed by a total it can give. Below the minimum it says only how many joined.
 - Its rule is stated in the card: "I answer from your cohort's totals only, never about one person, and only once 10 or more are active."
 - **New chat** clears the conversation. Escape, the scrim or the close button shut the card and return focus to the bar. While open, the page behind is inert.
 

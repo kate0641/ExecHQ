@@ -11,11 +11,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "ExecHQ prototype",
-    template: "%s · ExecHQ prototype",
+    default: "ExecEngine prototype",
+    template: "%s · ExecEngine prototype",
   },
   description:
-    "Design prototype for ExecHQ — a private career advisor for senior managers through SVPs.",
+    "Design prototype for ExecEngine — a private career advisor for senior managers through SVPs.",
 };
 
 export default function RootLayout({

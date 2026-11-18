@@ -14,6 +14,12 @@ import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { usePlaybookLinks } from "@/lib/playbook-links";
 import { mapFor } from "@/lib/map";
+import { useRoadmapChoices } from "@/lib/plan-store";
+import { currentStageIndex } from "@/lib/rings";
+import { roadmapWindows } from "@/lib/roadmap-dates";
+import { roadmapFor } from "@/mock/plan";
+import { ACTIONS } from "@/mock/plan-stub";
+import { SNAPSHOTS } from "@/mock/snapshots";
 import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { saveBaseline, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
@@ -106,6 +112,7 @@ function NoteCard({ eyebrow, title, note }: { eyebrow: string; title: string; no
 
 export function HomepageConcept4b() {
   const loop = useLoop();
+  const roadmapChoices = useRoadmapChoices(loop.id);
   // A step opens its tool, or the artifact it already has (Sprint 4).
   const links = usePlaybookLinks();
   // On web the next step sits inside the Signal Picture card, under the
@@ -218,6 +225,19 @@ export function HomepageConcept4b() {
   const rows = signalRows(loop.today, items, baseline, seeded, () => "", current).map(({ id, label, then, now }) => ({ id, label, then, now }));
   const note = sparksFor(loop.today, dismissed, items).find((n) => n.id.startsWith("presence:"));
 
+  // The stage she is in, worked out as the Plan page does, so the two always agree.
+  const stageCount = roadmapFor(loop.account.plan.id).length;
+  const scenarioStart = SNAPSHOTS[loop.id];
+  const windows = roadmapWindows({
+    planId: loop.account.plan.id,
+    startedOn: loop.account.plan.startedOn,
+    choices: roadmapChoices,
+    evidenceStage: currentStageIndex(loop.records, stageCount, ACTIONS, loop.tasks),
+    startStage: scenarioStart ? currentStageIndex(scenarioStart.records, stageCount, ACTIONS, scenarioStart.tasks) : undefined,
+    today: loop.today,
+  });
+  const stageNow = windows.find((w) => w.status === "current") ?? windows[windows.length - 1];
+
   return (
     <div className="map-home" ref={homeRef}>
       <h1 className="u-visually-hidden">Home</h1>
@@ -227,9 +247,12 @@ export function HomepageConcept4b() {
           <span>{fullDate(loop.today)}</span>
         </p>
         <section className="map-home__section" aria-labelledby="map-heading">
-          <h2 className="map-home__heading" id="map-heading">
-            {M.heading}
-          </h2>
+          <div className="map-home__head">
+            <h2 className="map-home__heading" id="map-heading">
+              {M.heading}
+            </h2>
+            {stageNow ? <p className="map-home__stage">{M.stage(stageNow.index + 1, windows.length, stageNow.title)}</p> : null}
+          </div>
           <MapRings
             rings={rings}
             selected={selected}

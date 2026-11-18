@@ -27,7 +27,7 @@ export interface RoadmapStep {
   milestone: string;
   /** What the user will have by the end of it. */
   outcomes: string[];
-  /** Not shown in onboarding's version of this plan. */
+  /** The stage the brief adds to onboarding's plan. Counted everywhere, onboarding included. */
   added?: boolean;
   /** The suggested pace, in weeks. A suggestion that moves as she does, never
    *  a deadline (decided 2026-10-04, replacing 2026-09-29's "no end date"). */
@@ -358,7 +358,7 @@ export const stepById = (id: string): ActionStep | undefined => ACTION_QUEUE.fin
 
 /* -----------------------------------------------------------------------------
    WHAT A STAGE CHECK-IN CHANGES (Plan Concept 3). Mock: in the product the
-   model chooses these from what she said. Step up only; another plan has none.
+   model chooses these from what she said. Step Up only; another plan has none.
    -------------------------------------------------------------------------- */
 
 /** Steps ExecEngine rates important: passed on once, they are offered once more at her next stage check-in.
@@ -486,8 +486,8 @@ export const ROADMAP_COPY = {
     `${name} · ${from} to ${to} · left at ${stage}`,
   switchedOn: (date: string) => `You chose this plan on ${date}.`,
   customPlan: "Want something that fits none of these? Building your own plan is designed in Sprint 1.",
-  /** Only Step up has next steps written in the prototype. */
-  stepsStub: "Stubbed · next steps for this plan are written in Sprint 4. Maya’s steps are for Step up.",
+  /** Only Step Up has next steps written in the prototype. */
+  stepsStub: "Stubbed · next steps for this plan are written in Sprint 4. Maya’s steps are for Step Up.",
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -516,7 +516,7 @@ export type EntryChoice = EntryTypeId | typeof FOLLOWERS_CHOICE.id;
 export const entryTypeOfKind = (kind: string) => ENTRY_TYPES.find((t) => t.kind === kind) ?? ENTRY_TYPES[4];
 
 /** Where an outside activity belongs on her plan when she did not say. A
- *  stand-in rule: for Step up every outside channel is about being seen as a
+ *  stand-in rule: for Step Up every outside channel is about being seen as a
  *  leader. When she adds from an artifact, that artifact's area wins. */
 export const DEFAULT_AREA = "seen-as-leader";
 export const OTHER_AREA = "elsewhere";
@@ -849,7 +849,7 @@ export const STAGE_CHECKIN_COPY = {
   nothingDone: "Nothing from this stage is in ExecEngine yet.",
   // What she did, by where it came from.
   fromSteps: "Your steps",
-  fromExecHQ: "In ExecEngine",
+  fromExecEngine: "In ExecEngine",
   fromYou: "Yours",
   passed: "You passed on it",
   unreported: "Not reported yet",

@@ -2141,6 +2141,14 @@ button.link {
   block-size: var(--logo-height-xl);
 }
 
+/* "Engine" stands in for the brand artwork's second word until it arrives:
+   the display face, semibold, the weight nearest the old "HQ"'s stroke. */
+.logo__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0;
+}
+
 .logo--dark .logo__exec {
   fill: var(--color-logo-exec);
 }
@@ -2373,6 +2381,130 @@ ul.chrome__nav-list {
   opacity: 0;
   transform: translateY(16px);
   pointer-events: none;
+}
+
+/* First-visit tour (Kate, 2026-11-12): the screen dims, one thing is lit, and a card beside it says
+   what it is. Drawn over the device screen, above the pill and its panel. */
+.tour {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-menu);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  inline-size: auto;
+  block-size: auto;
+  max-inline-size: none;
+  max-block-size: none;
+  background: transparent;
+  color: inherit;
+  /* It draws inside the concierge host, which lets presses through to the page; the tour must catch them. */
+  pointer-events: auto;
+}
+
+/* In the catalogue, the tour draws inside its own box rather than over the page. */
+.tour--demo {
+  position: relative;
+  block-size: 22rem;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-inverse);
+}
+
+.tour__block {
+  position: absolute;
+  inset: 0;
+}
+
+.tour__dim {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-overlay);
+}
+
+/* The lit part: a clear box whose shadow is the dim, with the yellow ring around it. */
+.tour__hole {
+  position: absolute;
+  box-shadow: 0 0 0 200vmax var(--color-overlay);
+  outline: var(--border-width-thick) solid var(--color-headline-on-inverse);
+  pointer-events: none;
+}
+
+.tour__card {
+  position: absolute;
+  inset-inline: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text-primary);
+}
+
+.tour__counter {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
+}
+
+.tour__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.tour__body {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.tour__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-block-start: var(--space-xs);
+}
+
+.tour__skip,
+.tour__next {
+  min-block-size: var(--button-target);
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+
+.tour__skip {
+  padding-inline: var(--space-xs);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: var(--space-3xs);
+}
+
+.tour__next {
+  padding-inline: var(--space-lg);
+  border: 0;
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.tour__skip:focus-visible,
+.tour__next:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .concierge-host__scrim {
@@ -5563,6 +5695,128 @@ ol.concierge-list {
   gap: var(--space-sm);
 }
 
+/* Choosing the plan in onboarding: all five on one page, so each card is the plan's
+   name and when it is for, plus the reason on ExecEngine's pick; the focus line is left to the plan page. */
+.plan-set--choose {
+  gap: var(--space-xs);
+}
+
+.plan-set--choose .plan-card__label {
+  padding: var(--space-sm) var(--space-md);
+}
+
+.plan-set--choose .plan-card__emphasis {
+  display: none;
+}
+
+/* A plan on the plans page: pressed, it opens in place to say why it's hers, with
+   Use this plan. One is open at a time. */
+.plan-option {
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  transition: border-color var(--duration-fast) var(--easing-standard);
+}
+
+.plan-option:has(.plan-option__head:hover),
+.plan-option:has(.plan-option__head:active) {
+  border-color: var(--color-border-strong);
+}
+
+/* Open is a second border width, as a chosen plan card's is, never colour alone. */
+.plan-option.is-open {
+  border-color: var(--color-text-primary);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-text-primary);
+}
+
+.plan-option__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 0;
+  border-radius: inherit;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.plan-option__head:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.plan-option__flag {
+  margin-bottom: var(--space-2xs);
+}
+
+.plan-option__name {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+}
+
+.plan-option__best-for {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.plan-option__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: 0 var(--space-md) var(--space-md);
+}
+
+.plan-option__reason {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+
+.plan-option__label {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* ul.… to outrank the reset's ul[class], which takes the bullets away. */
+ul.plan-option__signs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  list-style: disc;
+  padding-inline-start: var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+
+.plan-option__outcome {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+/* I can't decide: a link at the foot of the list, scrolling with it. */
+.plan-set__unsure {
+  align-self: center;
+  margin-top: var(--space-sm);
+}
+
 /* Concept 1's claim is that the decision on a screen is never hidden. On a
    390px phone some steps genuinely do not fit — six prompted directions plus a
    free-text field is one of them — so rather than cram the content, the actions
@@ -7002,6 +7256,43 @@ ol.concierge-list {
   gap: var(--space-xl);
 }
 
+/* Onboarding's progress line (Kate, 2026-11-12): one thin line at the top of every page after the
+   Welcome, no words. The track is the border colour and the fill the text colour, so a navy page
+   remaps both to its inverse set. */
+.guide__progress {
+  display: block;
+  flex: none;
+  inline-size: 100%;
+  block-size: var(--border-width-thick);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  appearance: none;
+}
+
+.guide__progress::-webkit-progress-bar {
+  background-color: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.guide__progress::-webkit-progress-value {
+  background-color: var(--color-text-primary);
+  border-radius: var(--radius-pill);
+}
+
+.guide__progress::-moz-progress-bar {
+  background-color: var(--color-text-primary);
+  border-radius: var(--radius-pill);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .guide__progress::-webkit-progress-value {
+    transition: inline-size var(--duration-base) ease;
+  }
+}
+
 .guide__top {
   display: flex;
   flex-direction: column;
@@ -7178,20 +7469,22 @@ ol.concierge-list {
   padding-bottom: var(--space-lg);
 }
 
-/* The last page: the list of what to do next sits in the middle of the space
-   between the heading and the button. */
-.guide--done .guide__body {
-  margin-block: auto;
+/* Home, as a text link under it all: the first step's button stays the page's one button. */
+.guide__home-link {
+  display: block;
+  margin-inline: auto;
+  min-height: var(--button-target);
+  padding-inline: var(--space-sm);
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse);
+  cursor: pointer;
 }
 
-.guide--done .guide__actions {
-  margin-top: 0;
-}
-
-/* In the phone's browser the last page fits without scrolling: a little less room between its parts. */
-[data-viewport="mobile"] .guide--done {
-  gap: var(--space-sm);
-  padding-top: var(--space-md);
+.guide__home-link:hover {
+  color: var(--color-text-inverse);
 }
 
 /* A navy page: onboarding's steps with no drawer (Signals, the recommendation,
@@ -7445,6 +7738,8 @@ ol.concierge-list {
   max-width: none;
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
@@ -7487,6 +7782,478 @@ ol.concierge-list {
 }
 
 /* Explained points. */
+/* What ExecEngine is (Kate, 2026-11-12): three statements with a drawing each, the Playbook's
+   tools by name, privacy in a line. It sits on the navy page, so it takes the inverse set. */
+/* The plan as a path (Kate, 2026-11-12), on onboarding's navy page. Its stage bar and its first
+   card are the Plan page's own (the guided check-in's top card), so tomorrow's page looks familiar. */
+.plan-path {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Doubled class: list resets elsewhere in the guide outrank a single one and zero the indent. */
+.plan-path .plan-path__steps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0 0 0 calc(var(--space-xl) + var(--space-xs));
+  list-style: none;
+}
+
+/* The path: one line behind the markers, from the first to the last. */
+.plan-path__steps::before {
+  content: "";
+  position: absolute;
+  inset-block: var(--space-sm);
+  inset-inline-start: calc(var(--space-sm) + var(--space-3xs));
+  inline-size: var(--border-width-thick);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border-inverse);
+}
+
+.plan-path__step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.plan-path__marker {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: calc(-1 * (var(--space-xl) + var(--space-xs)));
+  display: grid;
+  place-items: center;
+  inline-size: calc(var(--space-lg) + var(--space-3xs));
+  block-size: calc(var(--space-lg) + var(--space-3xs));
+  border: var(--border-width-medium) solid var(--color-border-inverse);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-quiet-on-inverse);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse-muted);
+}
+
+.plan-path__step--goal .plan-path__marker {
+  border-color: var(--color-headline-on-navy-quiet);
+  background-color: transparent;
+  color: var(--color-headline-on-navy-quiet);
+}
+
+/* The first step, as the Plan page's top card draws it. */
+.plan-path__move {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border-inverse);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-quiet-on-inverse);
+}
+
+.plan-path__move-label {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-eyebrow-on-inverse);
+}
+
+.plan-path__move-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-headline-on-inverse);
+}
+
+.plan-path__move-line {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse-muted);
+}
+
+.plan-path__stage {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse);
+}
+
+.plan-path__step--goal .plan-path__stage {
+  color: var(--color-headline-on-navy-quiet);
+}
+
+.plan-path__done {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse-muted);
+}
+
+.plan-path__done-label {
+  font-weight: var(--weight-semibold);
+  color: var(--color-headline-on-navy-quiet);
+}
+
+.plan-path__heard-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--border-width-thin) solid var(--color-border-inverse);
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse-muted);
+}
+
+/* What she's working on now: Home's three rows, side by side in time. */
+.plan-path__now {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.plan-path__now-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+/* Which stage this is, under the heading. */
+.plan-path__now-stage {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-muted);
+}
+
+.plan-path__now-label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse);
+}
+
+.plan-path__horizon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.plan-path__horizon-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2xs) var(--space-sm);
+}
+
+.plan-path__horizon-label {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse);
+}
+
+.plan-path__horizon-span {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-inverse-muted);
+}
+
+/* Doubled class: list resets elsewhere in the guide outrank a single one. */
+.plan-path .plan-path__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-path__item {
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border-inverse);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse);
+}
+
+.plan-path__move-action {
+  margin-top: var(--space-sm);
+}
+
+.plan-path__together {
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-quiet-on-inverse);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse-muted);
+}
+
+/* The stages ahead, folded: the first screen is about now. */
+.plan-path__ahead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  border-block-start: var(--border-width-thin) solid var(--color-border-inverse);
+}
+
+/* The fold's own gap doesn't reach inside details in every browser, so the path keeps its distance. */
+.plan-path__ahead > .plan-path__steps {
+  margin-block-start: var(--space-sm);
+}
+
+.plan-path__ahead-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: var(--button-target);
+  list-style: none;
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse);
+}
+
+.plan-path__ahead-toggle::-webkit-details-marker {
+  display: none;
+}
+
+/* A chevron drawn in CSS: down when folded, up when open. */
+.plan-path__ahead-toggle::after {
+  content: "";
+  flex: none;
+  inline-size: var(--space-xs);
+  block-size: var(--space-xs);
+  margin-inline-start: var(--space-2xs);
+  border-inline-end: var(--border-width-medium) solid currentColor;
+  border-block-end: var(--border-width-medium) solid currentColor;
+  transform: translateY(-25%) rotate(45deg);
+}
+
+.plan-path__ahead[open] > .plan-path__ahead-toggle::after {
+  transform: translateY(25%) rotate(-135deg);
+}
+
+.plan-path__ahead-toggle:hover > span:first-child {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.plan-path__ahead-toggle:focus-visible {
+  outline: var(--focus-ring);
+  outline-color: var(--color-focus-inverse);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.plan-path__ahead-count {
+  margin-inline-start: auto;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  color: var(--color-text-inverse-muted);
+}
+
+.plan-path__next {
+  margin: var(--space-md) 0 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse-muted);
+}
+
+/* Builds in once: each step rises into place after the one before. */
+@media (prefers-reduced-motion: no-preference) {
+  .plan-path--animate .plan-path__in {
+    animation: product-intro-rise var(--duration-slow) var(--easing-standard) both;
+    animation-delay: var(--path-delay, 0s);
+  }
+}
+
+.product-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.product-intro__points,
+.product-intro__tools {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.product-intro__points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.product-intro__points > li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.product-intro__glyph {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: calc(var(--space-xl) + var(--space-xs));
+  block-size: calc(var(--space-xl) + var(--space-xs));
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-quiet-on-inverse);
+}
+
+.product-intro__glyph svg {
+  inline-size: var(--space-lg);
+  block-size: var(--space-lg);
+  fill: none;
+  stroke: var(--color-headline-on-inverse);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.product-intro__point {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse);
+}
+
+.product-intro__playbook {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.product-intro__label {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-eyebrow-on-inverse);
+}
+
+.product-intro__tools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+[data-viewport="web"] .product-intro__tools:not(:where([data-viewport="mobile"] *)) {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.product-intro__tool {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border-inverse);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-quiet-on-inverse);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse);
+}
+
+/* Outranks .tool-illustration's own ink, which is set for light pages. */
+.product-intro .product-intro__tool-art {
+  color: var(--color-headline-on-inverse);
+}
+
+.product-intro__privacy {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse-muted);
+}
+
+/* The build: each piece rises in at its own moment (--intro-delay, set on it), once. Everything is
+   in the page from the start; only its showing waits. */
+@media (prefers-reduced-motion: no-preference) {
+  .product-intro--animate .product-intro__in,
+  .product-intro--animate .product-intro__tool {
+    animation: product-intro-rise var(--duration-slow) var(--easing-standard) both;
+    animation-delay: var(--intro-delay, 0s);
+  }
+
+  .product-intro--animate .product-intro__tool {
+    animation-name: product-intro-pop;
+  }
+
+  .product-intro--animate .product-intro__drop {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: product-intro-drop 600ms cubic-bezier(0.3, 1.4, 0.5, 1) both;
+    animation-delay: var(--intro-delay, 0s);
+  }
+
+  .product-intro--animate .product-intro__draw {
+    stroke-dasharray: 1;
+    animation: product-intro-draw 800ms var(--easing-standard) both;
+    animation-delay: var(--intro-delay, 0s);
+  }
+
+  .product-intro--animate .product-intro__pop {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: product-intro-pop var(--duration-slow) cubic-bezier(0.3, 1.3, 0.5, 1) both;
+    animation-delay: var(--intro-delay, 0s);
+  }
+}
+
+@keyframes product-intro-rise {
+  from { opacity: 0; transform: translateY(var(--space-sm)); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes product-intro-pop {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes product-intro-drop {
+  from { opacity: 0; transform: translateY(-40%) scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes product-intro-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
 .point-list {
   display: flex;
   flex-direction: column;
@@ -10957,6 +11724,19 @@ ul.baseline-list__rows {
   text-align: center;
 }
 
+/* Welcome's way in for someone with an account (Kate, 2026-11-13): the mirror of Login's "New to
+   ExecEngine? Start here", under Get started. */
+.guide__login {
+  margin: 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.guide--cover .guide__login {
+  color: var(--color-text-inverse-muted);
+}
+
 .login__privacy {
   display: flex;
   align-items: center;
@@ -11468,6 +12248,27 @@ ul.login__never {
   color: var(--color-text-inverse);
 }
 
+.device__display:has(.map-home__greeting[data-sky="night"]) .map-home__stage {
+  color: var(--color-text-inverse-muted);
+}
+
+/* The heading and the stage she is in, as on the plan page that ends onboarding. */
+.map-home__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.map-home__stage {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
 .device__display:has(.map-home) > .device__top,
 .device__display:has(.map-home) .map-home__greeting {
   background-image: var(--home-sky-full);
@@ -11850,7 +12651,7 @@ p.map-legend {
   min-width: 0;
 }
 
-/* The greeting band and the Progress Tracker keep the section gap. (The
+/* The greeting band and What you’re working on now keep the section gap. (The
    card column spaces its own children, below.) */
 .map-home__lead {
   gap: var(--space-lg);
@@ -11924,7 +12725,7 @@ p.map-legend {
 }
 
 /* On web each Stay on track card is as wide as the column beside Your
-   Progress Tracker (3 parts in 10 of the row, less the column gap), so the
+   What you’re working on now (3 parts in 10 of the row, less the column gap), so the
    cards line up with the Signal Picture card and up to three sit side by
    side. The carousel is the container, so 100cqi is the row's width. */
 [data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__stay .card-carousel--fixed {

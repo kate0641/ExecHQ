@@ -7,12 +7,12 @@
  * Plan stub's actions (an action names its artifact and the signal it
  * touches), so answering a follow-up adds its entry at once.
  *
- * Each entry is either observed (it happened in ExecHQ: drafting, working on,
+ * Each entry is either observed (it happened in ExecEngine: drafting, working on,
  * finishing an artifact) or reported (the user told us: that they used or
  * sent it, and what came of it). The line is drawn by who can vouch for the
- * event, not where the button was pressed: ExecHQ cannot see a 1:1 or an
+ * event, not where the button was pressed: ExecEngine cannot see a 1:1 or an
  * inbox, so a use is always reported, even though it is logged with one tap
- * in ExecHQ. A reported entry carries how ExecHQ knows it.
+ * in ExecEngine. A reported entry carries how ExecEngine knows it.
  *
  * Wording is in `mock/plan-stub.ts`.
  */

@@ -7,6 +7,9 @@ import type { ButtonVariant } from "@/components/primitives/Button";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import { keepAfterComma } from "@/components/primitives/keep-after-comma";
 
+/** The progress line's name, read with its value ("Onboarding progress, 35%"). */
+const PROGRESS_LABEL = "Onboarding progress";
+
 export type SkyGlow = "bottom-right" | "top-right" | "bottom-left" | "top-left";
 
 export interface GuidePageProps {
@@ -17,9 +20,13 @@ export interface GuidePageProps {
   /** Which part is current, 0-based, and how many there are: the segments. */
   partIndex?: number;
   partCount?: number;
+  /** How far through onboarding she is, 0 to 1: a thin line at the top of
+   *  the page, with no words. Left off the cover. */
+  progress?: number;
   /** What ExecEngine knows so far, carried on every page. */
   file?: ReactNode;
-  kicker?: string;
+  /** The small line over the heading. Done gives it a tick: "Your plan: Step Up, saved". */
+  kicker?: ReactNode;
   /** The ExecEngine logo above the title, in place of a kicker: the cover, where
    *  the brand is the first thing on the screen. */
   wordmark?: boolean;
@@ -93,6 +100,7 @@ export function GuidePage({
   position,
   partIndex,
   partCount,
+  progress,
   file,
   kicker,
   wordmark = false,
@@ -123,8 +131,12 @@ export function GuidePage({
 }: GuidePageProps) {
   const sky = useSky();
   const inSky = skyPanel && Boolean(drawer) && !cover;
+  const percent = progress === undefined ? undefined : Math.round(Math.min(1, Math.max(0, progress)) * 100);
   const page = (
     <>
+      {percent !== undefined && !cover ? (
+        <progress className="guide__progress" aria-label={PROGRESS_LABEL} max={100} value={percent} />
+      ) : null}
       {part && !cover ? (
         <div className="guide__top">
           <p className="guide__where">

@@ -11,11 +11,11 @@ The Playbook was called the Toolbox until 2026-10-19. Concepts 1 (Tool cards) an
 The Playbook is where the person makes their drafts and finds them again. It has two parts, always in this order:
 
 1. **The four tools:** Positioning Builder, Pitch Builder, Situation Brief and Thought Leadership Builder, with the tool their next plan step needs under them.
-2. **The library:** everything they have made, filed by ExecHQ into one folder per tool.
+2. **The library:** everything they have made, filed by ExecEngine into one folder per tool.
 
 What it deliberately does not do:
 
-- **Ask them to organize anything.** ExecHQ files each draft in its tool's folder. There are no folders to make, no tags, no menus on rows.
+- **Ask them to organize anything.** ExecEngine files each draft in its tool's folder. There are no folders to make, no tags, no menus on rows.
 - **Guess at what to make.** Finding the right tool is the advisor's job ("Which tool do I need?", 5.3), not a field on the page.
 - **Show an empty library to someone who finished onboarding.** Their positioning statement from onboarding is their first artifact. Only someone who left onboarding before saving sees an empty library (4.4).
 
@@ -72,7 +72,7 @@ Under the tools: **Next on your plan**, the tool their next plan step needs, and
 
 ### 4.1 Folders
 
-One folder per tool, filed by ExecHQ: **Positioning**, **Pitches**, **Briefs**, **Posts**. Each folder shows its tool's icon in a tinted disc (the name is always beside it, so the tint is never the only cue), how many it holds and where they stand ("3 · 2 drafts · 1 waiting to hear"), and when it last changed. An empty folder says "Nothing here yet".
+One folder per tool, filed by ExecEngine: **Positioning**, **Pitches**, **Briefs**, **Posts**. Each folder shows its tool's icon in a tinted disc (the name is always beside it, so the tint is never the only cue), how many it holds and where they stand ("3 · 2 drafts · 1 waiting to hear"), and when it last changed. An empty folder says "Nothing here yet".
 
 ### 4.2 A folder, opened
 

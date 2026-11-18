@@ -50,7 +50,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Horizon** | Short-term |
 | **Trigger** | She chose visibility or point of view as her main need, or she describes herself only through her job title and company. |
 | **Done when** | She saves a short self-description and confirms it sounds like her. |
-| **Evidence ExecHQ keeps** | The saved statement, its edit history, her confirmation. |
+| **Evidence ExecEngine keeps** | The saved statement, its edit history, her confirmation. |
 | **Plan area and signal** | Plan area: point of view. Signals: the base for LinkedIn, published content and every pitch. |
 | **Tool** | Positioning Builder. Onboarding's one-sentence statement is the first version. |
 | **Follow-up** | None. |
@@ -62,7 +62,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Horizon** | Short-term |
 | **Trigger** | She has a self-description but no clear subjects to speak or write on, or her topics are too broad to say anything distinctive. |
 | **Done when** | She records at least three topics, each with a one-line stance someone could disagree with. |
-| **Evidence ExecHQ keeps** | The topic list and stances, a completion timestamp. |
+| **Evidence ExecEngine keeps** | The topic list and stances, a completion timestamp. |
 | **Plan area and signal** | Plan area: point of view. Signals: creates source material for published content, speaking, podcasts and press. |
 | **Tool** | Positioning Builder, adding her topics. |
 | **Follow-up** | None. |
@@ -76,7 +76,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Horizon** | Medium-term (30 to 60 days) |
 | **Trigger** | She has topics and stances but nothing published that shows them. |
 | **Done when** | She marks the piece published and says where. |
-| **Evidence ExecHQ keeps** | The artifact's lifecycle state, the channel, the draft-to-final versions, an optional outcome update. |
+| **Evidence ExecEngine keeps** | The artifact's lifecycle state, the channel, the draft-to-final versions, an optional outcome update. |
 | **Plan area and signal** | Plan area: written point of view. Signals: published content, and LinkedIn when posted there. |
 | **Tool** | Thought Leadership Builder. |
 | **Follow-up** | A week after it is marked published, the Loop asks what response it got. |
@@ -88,7 +88,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Horizon** | Short-term |
 | **Trigger** | Her self-description is saved, and her profile's headline or About section still describes only her role. |
 | **Done when** | She confirms she has updated her headline and About section. |
-| **Evidence ExecHQ keeps** | Her confirmation and the date. ExecHQ does not read her profile in V1. |
+| **Evidence ExecEngine keeps** | Her confirmation and the date. ExecEngine does not read her profile in V1. |
 | **Plan area and signal** | Plan area: written point of view. Signals: LinkedIn and AI discoverability. |
 | **Tool** | Positioning Builder: copy the statement for her About section. |
 | **Follow-up** | None. |
@@ -100,7 +100,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Horizon** | Short-term, recurring |
 | **Trigger** | A read in today's Briefing touches one of her topics, and she has not published in the last few weeks. |
 | **Done when** | She marks the post published, or chooses not to and says so. |
-| **Evidence ExecHQ keeps** | The draft linked to its source read, its lifecycle state. |
+| **Evidence ExecEngine keeps** | The draft linked to its source read, its lifecycle state. |
 | **Plan area and signal** | Plan area: written point of view. Signals: published content and LinkedIn. |
 | **Tool** | Thought Leadership Builder, started from the Briefing. |
 | **Follow-up** | None beyond the Briefing's own "Read today's Briefing" step. |
@@ -114,7 +114,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Horizon** | Short-term |
 | **Trigger** | She has published at least once and is ready to be heard beyond her own channels. |
 | **Done when** | She saves a short list of at least five outlets, each with why its audience matters to her. |
-| **Evidence ExecHQ keeps** | The saved list, a completion timestamp. |
+| **Evidence ExecEngine keeps** | The saved list, a completion timestamp. |
 | **Plan area and signal** | Plan area: external audiences. Signals: foundation for speaking, podcasts and press. |
 | **Tool** | None in V1. |
 | **Follow-up** | None. |
@@ -126,7 +126,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Horizon** | Medium-term (30 to 60 days) |
 | **Trigger** | She has her list and at least one published piece to point to. |
 | **Done when** | She marks the pitch sent and names where it went. |
-| **Evidence ExecHQ keeps** | The pitch's lifecycle state, the target and date she reports, the outcome when she gives it. |
+| **Evidence ExecEngine keeps** | The pitch's lifecycle state, the target and date she reports, the outcome when she gives it. |
 | **Plan area and signal** | Plan area: external audiences. Signal: speaking, podcasts or press, depending on the outlet. |
 | **Tool** | Pitch Builder. |
 | **Follow-up** | The Loop asks for an answer after the check-back period: accepted, declined, or no reply. |
@@ -138,7 +138,7 @@ The agent recommends the step whose trigger matches her situation now. An accept
 | **Horizon** | Short-term |
 | **Trigger** | She has accepted an invitation with a date. |
 | **Done when** | She records the audience, the one thing she wants them to remember and three supporting points, and marks the preparation complete. |
-| **Evidence ExecHQ keeps** | The preparation artifact, the date, completion status. |
+| **Evidence ExecEngine keeps** | The preparation artifact, the date, completion status. |
 | **Plan area and signal** | Plan area: external audiences. Signal: speaking, podcasts or press. |
 | **Tool** | Situation Brief. |
 | **Follow-up** | The day after the date, the Loop asks how it went and what came of it. |
@@ -154,7 +154,7 @@ For example, one piece a month and one pitch a quarter.
 | **Horizon** | Short-term |
 | **Trigger** | She has published and pitched at least once each. |
 | **Done when** | She chooses a rhythm, sized to the weekly time she gave in onboarding. |
-| **Evidence ExecHQ keeps** | The chosen rhythm, the date. |
+| **Evidence ExecEngine keeps** | The chosen rhythm, the date. |
 | **Plan area and signal** | Plan area: cadence. Signals: sets the pace for published content, LinkedIn and pitching. |
 | **Tool** | None. |
 | **Follow-up** | None. |
@@ -166,7 +166,7 @@ For example, one piece a month and one pitch a quarter.
 | **Horizon** | Short-term, recurring |
 | **Trigger** | The plan needs current context, or she has not updated it recently. |
 | **Done when** | She submits a reflection with at least one update, or says nothing material has changed. |
-| **Evidence ExecHQ keeps** | The reflection, her self-reported update, the date. |
+| **Evidence ExecEngine keeps** | The reflection, her self-reported update, the date. |
 | **Plan area and signal** | Plan area: current context. Signals: keeps all six signal interpretations current. |
 | **Tool** | None. |
 | **Follow-up** | None. |
@@ -180,7 +180,7 @@ A series, a signature talk, or a single piece that gathers her strongest argumen
 | **Horizon** | Long-term (a quarter or longer) |
 | **Trigger** | She has several published pieces or appearances on the same topic. |
 | **Done when** | She saves the plan for the series or talk and marks its first part done. |
-| **Evidence ExecHQ keeps** | The linked artifacts, the plan, progress updates. |
+| **Evidence ExecEngine keeps** | The linked artifacts, the plan, progress updates. |
 | **Plan area and signal** | Plan area: cadence. Signals: published content, speaking and AI discoverability. |
 | **Tool** | Thought Leadership Builder. |
 | **Follow-up** | Progress on its own parts. |
@@ -191,7 +191,7 @@ A series, a signature talk, or a single piece that gathers her strongest argumen
 
 Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and their answers are in `plans/shared.md`, section 6. **Proposed**, all of the table: the source names no feedback.
 
-| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| Step | Asks? | Type | When ExecEngine asks | What her answer changes |
 | --- | --- | --- | --- | --- |
 | **1.1** How she describes herself, in her words | Yes | Is this right? | As soon as it is drafted | "Yes, that's it" completes the step and every tool draws on it; "Change it" reopens Positioning Builder |
 | **1.2** Three to five topics, with her stance on each | No | None | | Recording them is done |

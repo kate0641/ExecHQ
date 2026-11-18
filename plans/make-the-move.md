@@ -53,7 +53,7 @@ The agent recommends the step whose trigger matches her situation now. The close
 | **Horizon** | Short-term |
 | **Trigger** | She named an upcoming moment, or chose "an important moment in the next 30 days". |
 | **Done when** | She records the decision, the decision-makers, the basis for it, the date, and what she wants from it. |
-| **Evidence ExecHQ keeps** | The brief, the date, her confirmation. |
+| **Evidence ExecEngine keeps** | The brief, the date, her confirmation. |
 | **Plan area and signal** | Plan area: the moment. Signals: none directly; it decides which signals matter for this moment. |
 | **Tool** | Situation Brief. |
 | **Follow-up** | None: the date drives the plan from here. |
@@ -67,7 +67,7 @@ What she has done, what she wants, and why it should be her.
 | **Horizon** | Short-term |
 | **Trigger** | The moment is framed, and she has no clear version of her case. |
 | **Done when** | She saves a draft and confirms it is the case she wants to make. |
-| **Evidence ExecHQ keeps** | The saved story, its edit history, her confirmation. |
+| **Evidence ExecEngine keeps** | The saved story, its edit history, her confirmation. |
 | **Plan area and signal** | Plan area: her case. Signals: the base for any profile or bio the moment needs. |
 | **Tool** | Positioning Builder. |
 | **Follow-up** | None. |
@@ -81,7 +81,7 @@ What she has done, what she wants, and why it should be her.
 | **Horizon** | Short-term |
 | **Trigger** | Her story is drafted, and some claims have no example or number behind them. |
 | **Done when** | Each claim has at least one example with its outcome, the people involved and her role. |
-| **Evidence ExecHQ keeps** | The examples she entered, linked to the claims, a completion timestamp. |
+| **Evidence ExecEngine keeps** | The examples she entered, linked to the claims, a completion timestamp. |
 | **Plan area and signal** | Plan area: her case. Signals: draws on any press, speaking, podcasts or published content she already has, as proof. |
 | **Tool** | Positioning Builder, adding her wins. |
 | **Follow-up** | None. |
@@ -95,7 +95,7 @@ For example: a promotion packet, a CV, a board bio, a short case document.
 | **Horizon** | Short- or medium-term, set by the date |
 | **Trigger** | The moment requires something written, or she will be asked for it. |
 | **Done when** | Each material is marked ready. |
-| **Evidence ExecHQ keeps** | Each material's lifecycle state, its versions, the date she intends to use it. |
+| **Evidence ExecEngine keeps** | Each material's lifecycle state, its versions, the date she intends to use it. |
 | **Plan area and signal** | Plan area: materials. Signals: none directly. |
 | **Tool** | Positioning Builder for a bio; Situation Brief for a case document. A CV or promotion packet has no V1 tool. |
 | **Follow-up** | None. |
@@ -107,7 +107,7 @@ For example: a promotion packet, a CV, a board bio, a short case document.
 | **Horizon** | Short-term |
 | **Trigger** | The people deciding are likely to look her up: an external role, a board seat, or a new career path. |
 | **Done when** | She confirms her LinkedIn headline and About section match her story. |
-| **Evidence ExecHQ keeps** | Her confirmation and the date. ExecHQ does not read her profile in V1. |
+| **Evidence ExecEngine keeps** | Her confirmation and the date. ExecEngine does not read her profile in V1. |
 | **Plan area and signal** | Plan area: materials. Signals: LinkedIn and AI discoverability. |
 | **Tool** | Positioning Builder: copy the story for her About section. |
 | **Follow-up** | None. |
@@ -121,7 +121,7 @@ For example: a promotion packet, a CV, a board bio, a short case document.
 | **Horizon** | Short-term |
 | **Trigger** | Her story and proof are ready, and the moment is within a few weeks. |
 | **Done when** | She saves the short version and confirms she has said it out loud without notes, twice. |
-| **Evidence ExecHQ keeps** | The short version, her confirmation, the date. |
+| **Evidence ExecEngine keeps** | The short version, her confirmation, the date. |
 | **Plan area and signal** | Plan area: rehearsal. Signals: none directly. |
 | **Tool** | Pitch Builder. |
 | **Follow-up** | None. |
@@ -133,7 +133,7 @@ For example: a promotion packet, a CV, a board bio, a short case document.
 | **Horizon** | Short-term |
 | **Trigger** | She has a short version, and has not yet thought through what will be pushed back on. |
 | **Done when** | She records the two objections she most expects and her answer to each, with proof. |
-| **Evidence ExecHQ keeps** | The objections and answers, a completion timestamp. |
+| **Evidence ExecEngine keeps** | The objections and answers, a completion timestamp. |
 | **Plan area and signal** | Plan area: rehearsal. Signals: none directly. |
 | **Tool** | Situation Brief. |
 | **Follow-up** | None. |
@@ -147,7 +147,7 @@ For example: a meeting with her sponsor beforehand, a talk with her manager, a s
 | **Horizon** | Short-term |
 | **Trigger** | A conversation before or around the moment is scheduled or needed. |
 | **Done when** | She records the objective, the person, what she needs from them and her key points, and marks it prepared. |
-| **Evidence ExecHQ keeps** | The preparation artifact, its date, completion status. |
+| **Evidence ExecEngine keeps** | The preparation artifact, its date, completion status. |
 | **Plan area and signal** | Plan area: rehearsal. Signals: none directly. |
 | **Tool** | Situation Brief. |
 | **Follow-up** | The day after, the Loop asks how it went. |
@@ -161,7 +161,7 @@ For example: a meeting with her sponsor beforehand, a talk with her manager, a s
 | **Horizon** | Short-term |
 | **Trigger** | The day after the moment's date, or when she reports it has happened. |
 | **Done when** | She records what was said, what was decided, and how she thinks it went. |
-| **Evidence ExecHQ keeps** | The outcome, the feedback, the date. |
+| **Evidence ExecEngine keeps** | The outcome, the feedback, the date. |
 | **Plan area and signal** | Plan area: debrief. Signals: none directly. |
 | **Tool** | None: it is answered in the Loop. |
 | **Follow-up** | The Loop asks the day after the date. |
@@ -173,7 +173,7 @@ For example: a meeting with her sponsor beforehand, a talk with her manager, a s
 | **Horizon** | Short-term |
 | **Trigger** | She has recorded the outcome. |
 | **Done when** | She chooses a next move: a follow-up, a new date, or a different plan. |
-| **Evidence ExecHQ keeps** | Her choice, and any plan change. |
+| **Evidence ExecEngine keeps** | Her choice, and any plan change. |
 | **Plan area and signal** | Plan area: plan adjustment. Signals: the outcome changes which signals matter next. |
 | **Tool** | None. |
 | **Follow-up** | Her choice sets the next recommendation. If the moment is behind her, the agent offers the plan that fits what comes next, such as Lead Where You Are in a new role, or Step Up to build toward the next attempt. |
@@ -186,7 +186,7 @@ Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and
 
 The date sets the pace on this plan, so stage check-ins are short: when the moment is less than a week away, the check-ins for Stages 2 and 3 become one, just before it (**Proposed**).
 
-| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| Step | Asks? | Type | When ExecEngine asks | What her answer changes |
 | --- | --- | --- | --- | --- |
 | **1.1** Put the moment on paper | No | None | | Recording it is done. Its date sets when 4.1 asks |
 | **1.2** The story she will tell in the room | Yes | Is this right? | As soon as it is drafted | "Yes, that's it" completes the step; "Change it" reopens Positioning Builder |

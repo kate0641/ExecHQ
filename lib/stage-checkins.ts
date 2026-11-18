@@ -1,5 +1,5 @@
 /**
- * Her check-ins on stages she has finished (Plan Concept 3). ExecHQ decides a
+ * Her check-ins on stages she has finished (Plan Concept 3). ExecEngine decides a
  * stage is finished, from her work; then it asks how the stage went before it
  * builds on it: whether she got what finishing looks like, and how she feels
  * about her plan now. What came of each thing she did is not kept here: it goes
@@ -26,7 +26,7 @@ export interface StageCheckIn {
   on: LoopDate;
   milestone?: MilestoneAnswer;
   feeling?: StageFeeling;
-  /** Anything ExecHQ should know, in her words. */
+  /** Anything ExecEngine should know, in her words. */
   words?: string;
   /** Steps she had passed on that this check-in brought back for another look. */
   again?: string[];

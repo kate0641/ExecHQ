@@ -11,7 +11,7 @@ Profile is the one page where a signed-in person sees and controls their account
 What it holds, in order:
 
 1. **Your account:** name and email, with an Edit button.
-2. **Notifications:** two email switches, with a line saying email is the only way ExecHQ reaches a person.
+2. **Notifications:** two email switches, with a line saying email is the only way ExecEngine reaches a person.
 3. **Your organization:** only if the person belongs to one.
 4. **Your data:** download everything as a PDF, and delete the account.
 5. **Sign out.**
@@ -22,7 +22,7 @@ What it deliberately does not hold:
 - **Connections** (LinkedIn, website). V1 has no connections. Everything is entered by hand.
 - **Direction and plan.** They live on the Plan page.
 - **Password.** Sign-in is by a one-time code sent by email, so there is no password to manage.
-- **In-app or push notifications.** ExecHQ is a website, so email is the only way it reaches a person.
+- **In-app or push notifications.** ExecEngine is a website, so email is the only way it reaches a person.
 
 ### Where it appears
 
@@ -69,7 +69,7 @@ An **Edit** button (small, secondary) sits at the right of the heading. It opens
 
 Two switches on one card. Each takes effect the moment it is switched, with no Save.
 
-**Notifications are email only,** and the page says so. Under the heading, a line reads **"ExecHQ sends these by email. There are no app or push notifications."** It is always shown, so nobody looks for a setting that does not exist. The account holds one on/off value per email, and there is no channel setting.
+**Notifications are email only,** and the page says so. Under the heading, a line reads **"ExecEngine sends these by email. There are no app or push notifications."** It is always shown, so nobody looks for a setting that does not exist. The account holds one on/off value per email, and there is no channel setting.
 
 | Switch | Label | Hint | Covers |
 | --- | --- | --- | --- |
@@ -80,7 +80,7 @@ Both are on by default. Switching one off stops that email entirely. A switch re
 
 Switching announces the result to screen readers: "Plan and follow-ups emails: off." / "…: on."
 
-There is no switch for product news, and no email is ever sent for it in V1. There are no in-app or push settings, no frequency setting and no quiet hours. Those were cut because ExecHQ is a website and these settings were more than people need.
+There is no switch for product news, and no email is ever sent for it in V1. There are no in-app or push settings, no frequency setting and no quiet hours. Those were cut because ExecEngine is a website and these settings were more than people need.
 
 Every email's subject line never says what it is about. That is a rule for the emails themselves (a lock screen must not reveal a career topic), not something shown on this page.
 
@@ -153,7 +153,7 @@ One tap on **Download your data** starts the download of a single PDF. No dialog
 - Every draft they have made.
 - Their whole Loop record: every status and outcome, with dates.
 
-The file is named `exechq-{first}-{last}.pdf`. It contains only that person's own data and is never emailed: it downloads to the device they are using.
+The file is named `execengine-{first}-{last}.pdf`. It contains only that person's own data and is never emailed: it downloads to the device they are using.
 
 ### 4.4 Delete account
 
@@ -220,7 +220,7 @@ All colors are tokens. No color is hard-coded.
 
 ### Touch targets
 
-Every interactive control on the page is at least **44 × 44px** (`--button-target`) on every viewport, tablet and web included. WCAG 2.2 AA requires only 24px (SC 2.5.8). 44px is the ExecHQ standard because this is a mobile-first product used one-handed.
+Every interactive control on the page is at least **44 × 44px** (`--button-target`) on every viewport, tablet and web included. WCAG 2.2 AA requires only 24px (SC 2.5.8). 44px is the ExecEngine standard because this is a mobile-first product used one-handed.
 
 | Control | Size |
 | --- | --- |
@@ -288,7 +288,7 @@ Components built earlier and no longer on this page (`ConnectionDetail`, `UsesDe
 These are settled. They are the specified behavior.
 
 1. **One page, nothing hidden.** Name, email, notifications and the organization promise are always visible. Only editing the account, leaving an organization and deleting the account open a dialog.
-2. **Email only, and said on the page.** ExecHQ is a website, so notifications are email, in two switches: the plan and follow-ups together, and the Daily Briefing. A line under the heading says email is the only way ExecHQ reaches a person, and that there are no app or push notifications.
+2. **Email only, and said on the page.** ExecEngine is a website, so notifications are email, in two switches: the plan and follow-ups together, and the Daily Briefing. A line under the heading says email is the only way ExecEngine reaches a person, and that there are no app or push notifications.
 3. **No role or title here.** It lives on the Plan page with the person's direction.
 4. **No connections in V1.** Entry is manual.
 5. **The email is editable** but a change is confirmed by a 6-digit code sent to the new address before it takes effect, as on Login (2026-10-28).

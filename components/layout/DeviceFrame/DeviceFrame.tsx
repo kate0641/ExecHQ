@@ -77,7 +77,7 @@ export function DeviceFrame({
             <div className="browser-bar browser-bar--address">
               <span className="browser-bar__pill">
                 <Icon name="menu" size={18} />
-                <span className="browser-bar__address">exechq.com</span>
+                <span className="browser-bar__address">execengine.com</span>
                 <Icon name="refresh" size={18} />
               </span>
             </div>

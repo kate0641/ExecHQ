@@ -439,9 +439,12 @@ export const CHECKIN_COPY = {
    -------------------------------------------------------------------------- */
 
 export const MAP_COPY = {
-  heading: "Your Progress Tracker",
+  /** The same words as the plan page that ends onboarding, so Home picks up where it left off. */
+  heading: "What you\u2019re working on now",
+  /** Under the heading, as on the plan page that ends onboarding: "Stage 1 of 3 · Say what you lead". */
+  stage: (n: number, total: number, title: string) => `Stage ${n} of ${total} \u00b7 ${title}`,
   /** Under the map when nothing on it has been started. */
-  nothingInProgress: "Nothing in progress yet. Open a ring to read about what is in your Progress Tracker and start one.",
+  nothingInProgress: "Nothing in progress yet. Open a ring to read about what is in it and start one.",
   hintPick: "Tap a ring to see what is in it.",
   /** The eyebrow over a step she has not started yet. */
   suggestedIn: (horizon: string) => `Suggested in ${horizon.toLowerCase()}`,
@@ -460,12 +463,12 @@ export const MAP_COPY = {
   rowOpen: "Opens in your Plan",
   rowRead: "Read why, then start or skip",
   ringCount: (done: number, total: number) => (total === 0 ? "Nothing yet" : done === total ? "All done" : `${done} of ${total} done`),
-  ringEmpty: "Nothing in this part of your Progress Tracker yet.",
+  ringEmpty: "Nothing in this part yet.",
   panelHint: "Each one opens in your Plan.",
   panelHintUnstarted: "Ones you have not started open to read about first.",
   askNew: "Ask for a new one",
   askNone: "Nothing new to suggest right now. Check back after your next step.",
-  added: (title: string) => `Added to your Progress Tracker: ${title}. Open it to start it or skip it.`,
+  added: (title: string) => `Added to what you\u2019re working on now: ${title}. Open it to start it or skip it.`,
   sheet: {
     where: (horizon: string, stage: number, stageTitle: string) => `${horizon} · Stage ${stage}, ${stageTitle}`,
     start: "Start this",
@@ -479,7 +482,7 @@ export const MAP_COPY = {
     skip: "Skip this one",
     back: "Back",
   },
-  skipped: (title: string) => `Skipped: ${title}. It is off your Progress Tracker.`,
+  skipped: (title: string) => `Skipped: ${title}. It is off what you\u2019re working on now.`,
   started: "Started.",
 } as const;
 

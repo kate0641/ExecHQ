@@ -19,7 +19,7 @@ export const guidePageStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "One page of Concept 3, the guided onboarding: progress in words, what ExecEngine knows so far, the page, and a margin note saying why it is there. With an answer drawer, the question and its reason stay on the page and the drawer holds only the answer.",
+    "One page of Concept 3, the guided onboarding: a thin progress line with no words, what ExecEngine knows so far, the page, and a margin note saying why it is there. With an answer drawer, the question and its reason stay on the page and the drawer holds only the answer.",
   component: GuidePage,
   notApplicable: {
     ...CONTENT_INSIDE,
@@ -46,11 +46,26 @@ export const guidePageStates = defineComponentStates({
       },
     },
     {
+      label: "With the progress line",
+      description:
+        "A thin line at the top of every onboarding page after the Welcome, with no words: how far through she is, an estimate since paths differ (Kate, 2026-11-12). Here, about a third of the way.",
+      props: {
+        progress: 0.35,
+        kicker: GUIDE_C3.direction.kicker,
+        title: GUIDE_C3.direction.title,
+        lede: GUIDE_C3.direction.lede,
+        why: GUIDE_C3.direction.why,
+        primaryLabel: "Continue",
+        onPrimary: noop,
+      },
+    },
+    {
       label: "On a navy page",
       description:
-        "A step with no drawer, flooded navy: the headline and section labels in yellow, white cards on it. Signals, the recommendation, the first draft and Done.",
+        "A step with no drawer, flooded navy: the headline and section labels in yellow, white cards on it, the progress line in the light colours. What ExecEngine is, the plans, the plan, Done. The words are the old onboarding Signals page, kept as an example.",
       props: {
         navy: true,
+        progress: 0.24,
         kicker: GUIDE_C3.signals.kicker,
         title: GUIDE_C3.signals.title,
         lede: GUIDE_C3.signals.lede,
@@ -132,7 +147,7 @@ export const guidePageStates = defineComponentStates({
       props: {
         sky: true,
         navyPanel: true,
-        part: "Step up",
+        part: "Step Up",
         position: "Stage 2 of 4 · Show the proof",
         partIndex: 1,
         partCount: 4,

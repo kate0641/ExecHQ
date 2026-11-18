@@ -49,7 +49,7 @@ The agent recommends the step whose trigger matches her situation now.
 | **Horizon** | Short-term |
 | **Trigger** | She chose influence where she is as her main need, or can't say who decides what happens to her work. |
 | **Done when** | She records each person's role, what they care about this year, and how they hear about her work now. |
-| **Evidence ExecHQ keeps** | The stakeholder list, a completion timestamp. Kept private to her. |
+| **Evidence ExecEngine keeps** | The stakeholder list, a completion timestamp. Kept private to her. |
 | **Plan area and signal** | Plan area: stakeholders. Signals: none directly; it decides where visibility work points. |
 | **Tool** | None in V1. |
 | **Follow-up** | None. |
@@ -61,7 +61,7 @@ The agent recommends the step whose trigger matches her situation now.
 | **Horizon** | Short-term |
 | **Trigger** | Her stakeholders are mapped, and she describes her work in her team's terms rather than the business's. |
 | **Done when** | She saves the statement and confirms it is accurate. |
-| **Evidence ExecHQ keeps** | The saved statement, its edit history, her confirmation. |
+| **Evidence ExecEngine keeps** | The saved statement, its edit history, her confirmation. |
 | **Plan area and signal** | Plan area: strategic communication. Signals: the base for internal updates, and for LinkedIn later. |
 | **Tool** | Positioning Builder. Onboarding's one-sentence statement is the first version. |
 | **Follow-up** | None. |
@@ -75,7 +75,7 @@ The agent recommends the step whose trigger matches her situation now.
 | **Horizon** | Short-term |
 | **Trigger** | She has a statement of what she owns, and her wins are described as activity rather than outcomes. |
 | **Done when** | She records one win with its business outcome, the stakeholders it served and her role. |
-| **Evidence ExecHQ keeps** | The reframed win, a completion timestamp. |
+| **Evidence ExecEngine keeps** | The reframed win, a completion timestamp. |
 | **Plan area and signal** | Plan area: strategic communication. Signals: source material for internal moments and published content. |
 | **Tool** | Positioning Builder, adding her wins. |
 | **Follow-up** | None. |
@@ -87,7 +87,7 @@ The agent recommends the step whose trigger matches her situation now.
 | **Horizon** | Short-term, recurring |
 | **Trigger** | She has a reframed win, and a regular update, review or 1:1 is coming up. |
 | **Done when** | She confirms she sent or gave the update. |
-| **Evidence ExecHQ keeps** | Her confirmation, the date, an optional note on the response. |
+| **Evidence ExecEngine keeps** | Her confirmation, the date, an optional note on the response. |
 | **Plan area and signal** | Plan area: strategic communication. Signals: none of the six; this is internal. |
 | **Tool** | None in V1. |
 | **Follow-up** | After the update, the Loop asks whether anyone responded. |
@@ -99,7 +99,7 @@ The agent recommends the step whose trigger matches her situation now.
 | **Horizon** | Short-term, recurring |
 | **Trigger** | The plan needs current context, or she has not updated it recently. |
 | **Done when** | She submits a reflection with at least one update, or says nothing material has changed. |
-| **Evidence ExecHQ keeps** | The reflection, her self-reported update, the date. |
+| **Evidence ExecEngine keeps** | The reflection, her self-reported update, the date. |
 | **Plan area and signal** | Plan area: current context. Signals: keeps all six signal interpretations current. |
 | **Tool** | None. |
 | **Follow-up** | None. |
@@ -115,7 +115,7 @@ For example: an all-hands slot, a leadership review, or a cross-team session she
 | **Horizon** | Medium-term (30 to 60 days) |
 | **Trigger** | Her communication is sharpened, and the people on her map rarely see her work first-hand. |
 | **Done when** | She marks the moment done and says who was there. |
-| **Evidence ExecHQ keeps** | The preparation, the date, who attended, an optional outcome update. |
+| **Evidence ExecEngine keeps** | The preparation, the date, who attended, an optional outcome update. |
 | **Plan area and signal** | Plan area: visible moments. Signal: speaking (internal). |
 | **Tool** | Situation Brief to prepare. |
 | **Follow-up** | The day after, the Loop asks how it went and who responded. |
@@ -127,7 +127,7 @@ For example: an all-hands slot, a leadership review, or a cross-team session she
 | **Horizon** | Medium-term (30 to 60 days) |
 | **Trigger** | Most of the people who know her work are on her own team. |
 | **Done when** | She records three conversations, each with who it was and what they now know about her work. |
-| **Evidence ExecHQ keeps** | The three conversations she records, their dates. |
+| **Evidence ExecEngine keeps** | The three conversations she records, their dates. |
 | **Plan area and signal** | Plan area: visible moments. Signals: none of the six; this is internal. |
 | **Tool** | None in V1. |
 | **Follow-up** | After each, the Loop asks whether it led anywhere. |
@@ -141,7 +141,7 @@ For example: an internal post or newsletter, or a LinkedIn post about the work w
 | **Horizon** | Medium-term (30 to 60 days) |
 | **Trigger** | She has a reframed win or a view on her area that others would benefit from. |
 | **Done when** | She marks it published and says where. |
-| **Evidence ExecHQ keeps** | The artifact's lifecycle state, the channel, its versions. |
+| **Evidence ExecEngine keeps** | The artifact's lifecycle state, the channel, its versions. |
 | **Plan area and signal** | Plan area: visible moments. Signals: published content, and LinkedIn when posted there. |
 | **Tool** | Thought Leadership Builder. |
 | **Follow-up** | A week later, the Loop asks what response it got. |
@@ -155,7 +155,7 @@ For example: an internal post or newsletter, or a LinkedIn post about the work w
 | **Horizon** | Short-term |
 | **Trigger** | She has had visible moments, and sees a recurring problem in her area of strength that nobody owns. |
 | **Done when** | She records the problem, why she is the right person for it, and what she would do first. |
-| **Evidence ExecHQ keeps** | The framed opportunity, a completion timestamp. |
+| **Evidence ExecEngine keeps** | The framed opportunity, a completion timestamp. |
 | **Plan area and signal** | Plan area: internal opportunities. Signals: draws on her visible moments as proof. |
 | **Tool** | Situation Brief. |
 | **Follow-up** | None. |
@@ -167,7 +167,7 @@ For example: an internal post or newsletter, or a LinkedIn post about the work w
 | **Horizon** | Short-term |
 | **Trigger** | The opportunity is framed, and a natural moment to raise it is coming, such as a 1:1 or planning. |
 | **Done when** | She has raised it and records the answer. |
-| **Evidence ExecHQ keeps** | The preparation, the date, the outcome. |
+| **Evidence ExecEngine keeps** | The preparation, the date, the outcome. |
 | **Plan area and signal** | Plan area: internal opportunities. Signals: the outcome changes what comes next. |
 | **Tool** | Situation Brief to prepare. |
 | **Follow-up** | The day after, the Loop asks how it went. If it opened a bigger role, the agent offers **Step Up**. |
@@ -178,7 +178,7 @@ For example: an internal post or newsletter, or a LinkedIn post about the work w
 
 Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and their answers are in `plans/shared.md`, section 6. **Proposed**, all of the table: the source names no feedback.
 
-| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| Step | Asks? | Type | When ExecEngine asks | What her answer changes |
 | --- | --- | --- | --- | --- |
 | **1.1** The five to eight people whose view matters most | No | None | | Recording them is done |
 | **1.2** The story of what she owns, in her leadership's words | Yes | Is this right? | As soon as it is drafted | "Yes, that's it" completes the step; "Change it" reopens Positioning Builder |

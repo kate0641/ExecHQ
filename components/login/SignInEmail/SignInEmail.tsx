@@ -38,7 +38,7 @@ export function SignInEmail({ email, code, onBack, onExpired, headingId = "sign-
         </h1>
         <p className="sign-in-email__from">
           <span className="sign-in-email__avatar" aria-hidden="true">
-            HQ
+            EE
           </span>
           <span>
             <b>{C.from}</b>

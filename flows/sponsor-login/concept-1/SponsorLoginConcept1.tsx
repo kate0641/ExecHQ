@@ -22,6 +22,7 @@ import {
   LOGIN_PROVISIONAL,
   RESEND_SECONDS,
   SIGN_IN_CODE,
+  isAcceptedCode,
   WRONG_CODE_TRIES,
   looksLikeEmail,
   type Provider,
@@ -260,7 +261,7 @@ export function SponsorLoginConcept1() {
                 setCode(value);
                 setWrong(false);
                 if (value.length < 6) return;
-                if (value === SIGN_IN_CODE) {
+                if (isAcceptedCode(value)) {
                   signIn();
                   return;
                 }

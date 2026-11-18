@@ -162,7 +162,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "A section is a heading on the page, an optional line under it, then the card. The heading never goes inside the card.",
-        why: "Every page scans the same way: Home's Progress Tracker and Signal Picture, Profile's Account and Notifications.",
+        why: "Every page scans the same way: Home's What you're working on now and Signal Picture, Profile's Account and Notifications.",
         from: "Home, Profile",
         uses: ["--type-heading-*", "--type-body-sm-*"],
       },

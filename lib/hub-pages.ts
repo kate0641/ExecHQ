@@ -46,7 +46,7 @@ const ALL_HUB_PAGES: readonly HubPage[] = [
     webOnly: true,
     showroom: true,
     description:
-      "The private workspace for designing ExecHQ: the design system, every component in every state, and a playground for stepping through flows.",
+      "The private workspace for designing ExecEngine: the design system, every component in every state, and a playground for stepping through flows.",
   },
   {
     key: "design-system",
