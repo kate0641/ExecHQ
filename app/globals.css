@@ -1,0 +1,4 @@
+/* The prototype's only stylesheet entry point. Tokens first, then the shared
+   stylesheet that references them. Nothing else may be imported here. */
+@import "../styles/tokens.css";
+@import "../styles/app.css";

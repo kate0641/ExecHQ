@@ -30,6 +30,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Claude Code's own folder: background tasks run in worktrees under it, each with its own build.
+    ".claude/**",
   ]),
 ]);
 

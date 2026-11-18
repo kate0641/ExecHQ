@@ -1,0 +1,1 @@
+export { SpecDocument } from "./SpecDocument";

@@ -1,0 +1,321 @@
+"use client";
+
+import Link from "next/link";
+import { AdvisorMark } from "@/components/chat/AdvisorMark";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
+import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
+import type { LoopDate } from "@/lib/loop";
+import { useViewport } from "@/lib/viewport-context";
+import { whenWords } from "@/lib/time-words";
+import { PLAN_AGENDA_COPY as A, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
+
+export interface AgendaStage {
+  index: number;
+  title: string;
+  /** Where its suggested end falls, in words. */
+  when: string;
+  /** What finishing it looks like. */
+  finishing: string;
+  status: "done" | "current" | "recommended" | "later";
+}
+
+export interface AgendaItem {
+  id: string;
+  stage: number;
+  title: string;
+  date: LoopDate;
+  /** A step from her plan, or something she added herself. */
+  kind: "step" | "yours";
+  step?: ActionStep;
+  accepted?: boolean;
+}
+
+export interface PlanAgendaProps {
+  stages: AgendaStage[];
+  items: AgendaItem[];
+  today: LoopDate;
+  /** Where Get started goes for a step with a draft or a tool. */
+  /** Where a step starts: one address, or one per step (its tool, its
+   *  artifact, or the Briefing for the reading step). */
+  startHref: string | ((step: ActionStep) => string);
+  /** True when the step already has a draft: its button opens it. */
+  hasDraftFor?: (step: ActionStep) => boolean;
+  /** She asked about a step: the page opens the chat on it. */
+  onAsk: (step: ActionStep, question: StepQuestion) => void;
+  /** She took a step on. */
+  onAccept: (step: ActionStep) => void;
+  /** She said a step with no tool is done. */
+  onComplete: (step: ActionStep) => void;
+  /** She added something of her own, to a day the words stand for. Says which stage it fell in. */
+  onAdd: (item: { title: string; date: LoopDate }) => number | void;
+  /** Whether the open stage opens on its first step. Off where the step is already said elsewhere on the page. */
+  openFirstStep?: boolean;
+  /** Something on a stage under its name, shown whether the stage is open or not: her check-in on a finished one, say. */
+  stageNote?: (index: number) => ReactNode;
+  /** Catalogue only. */
+  demoStage?: number | null;
+  demoStep?: string | null;
+  demoAdding?: boolean;
+  headingId?: string;
+  className?: string;
+}
+
+/**
+ * The roadmap as an agenda: a drawer for each stage, and only the stage she is on open. In it,
+ * each step shows as its title; the one she is on opens to the questions she can ask about it
+ * (each opens the chat) and the way to start. Times are words, never days. What she adds herself
+ * sits in the stage it falls in, marked as hers.
+ *
+ * Only one stage is open at a time, and one step in it: opening another closes the last.
+ */
+export function PlanAgenda({
+  stages,
+  items,
+  today,
+  startHref,
+  hasDraftFor,
+  onAsk,
+  onAccept,
+  onComplete,
+  onAdd,
+  openFirstStep = true,
+  stageNote,
+  demoStage,
+  demoStep,
+  demoAdding,
+  headingId = "plan-agenda",
+  className,
+}: PlanAgendaProps) {
+  const uid = useId();
+  const web = useViewport().viewport === "web";
+  const here = stages.find((s) => s.status === "current") ?? stages.find((s) => s.status === "recommended") ?? stages[0];
+  const firstStep = (stage: number) => items.find((i) => i.stage === stage && i.kind === "step")?.id ?? null;
+  const [open, setOpen] = useState<number | null>(demoStage !== undefined ? demoStage : here?.index ?? 0);
+  const [step, setStep] = useState<string | null>(demoStep !== undefined ? demoStep : openFirstStep ? firstStep(open ?? 0) : null);
+  // The first paint is the server's, which cannot see what she has saved, so where she is can change once her
+  // plan loads (a stage she finished, say). Follow it there, as the page would have opened on it.
+  const [hereSeen, setHereSeen] = useState(here?.index);
+  if (demoStage === undefined && here && here.index !== hereSeen) {
+    setHereSeen(here.index);
+    setOpen(here.index);
+    setStep(openFirstStep ? firstStep(here.index) : null);
+  }
+  const [adding, setAdding] = useState(Boolean(demoAdding));
+  // The add button floats over the phone's screen, above the Ask or go pill, so it is drawn there.
+  const anchor = useRef<HTMLSpanElement>(null);
+  const [screen, setScreen] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    setScreen(anchor.current?.closest<HTMLElement>(".device__screen") ?? null);
+  }, []);
+  const [note, setNote] = useState("");
+
+  function toggleStage(index: number) {
+    if (open === index) {
+      setOpen(null);
+      setStep(null);
+    } else {
+      setOpen(index);
+      setStep(firstStep(index));
+    }
+    setAdding(false);
+    setNote("");
+  }
+
+  const inStage = (index: number) =>
+    items
+      .filter((i) => i.stage === index)
+      .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+
+  return (
+    <section className={["agenda", "agenda--stack", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+      <div className="agenda__head">
+        <h2 className="agenda__heading" id={headingId}>
+          {A.heading}
+        </h2>
+      </div>
+      <output className="agenda__note" aria-live="polite">
+        {note}
+      </output>
+      <div className="agenda__stages">
+        {stages.map((stage) => {
+          const isOpen = open === stage.index;
+          const list = inStage(stage.index);
+          return (
+            <section
+              key={`${uid}-${stage.index}`}
+              className={["agenda__stage", `agenda__stage--${stage.index % 4}`, isOpen ? "is-open" : null, `is-${stage.status}`].filter(Boolean).join(" ")}
+              aria-label={stage.title}
+            >
+              <h3 className="agenda__stage-head">
+                <button type="button" className="agenda__stage-button" aria-expanded={isOpen} onClick={() => toggleStage(stage.index)}>
+                  <span className="agenda__stage-top">
+                    <span className="agenda__eyebrow">{A.stageOf(stage.index + 1, stages.length)}</span>
+                    <span className="agenda__when">{stage.status === "done" ? A.done : stage.when}</span>
+                  </span>
+                  <span className="agenda__stage-name">{stage.title}</span>
+                </button>
+              </h3>
+              {stageNote?.(stage.index) ? <div className="agenda__stage-note">{stageNote(stage.index)}</div> : null}
+              {isOpen ? (
+                <div className="agenda__body">
+                  <p className="agenda__small">
+                    <b>{A.finishing}</b> {stage.finishing}
+                  </p>
+                  {list.length ? (
+                    <ul className="agenda__list">
+                      {list.map((item) =>
+                        item.kind === "yours" || !item.step ? (
+                          <li className="agenda__item" key={item.id}>
+                            <div className="agenda__line is-static">
+                              <span className="agenda__pill">{whenWords(item.date, today)}</span>
+                              <span className="agenda__title">
+                                {item.title} <span className="agenda__yours">· {A.yours}</span>
+                              </span>
+                            </div>
+                          </li>
+                        ) : (
+                          <StepItem
+                            key={item.id}
+                            item={item}
+                            step={item.step}
+                            open={step === item.id}
+                            today={today}
+                            startHref={startHref}
+                            hasDraftFor={hasDraftFor}
+                            onToggle={() => setStep(step === item.id ? null : item.id)}
+                            onAsk={onAsk}
+                            onAccept={onAccept}
+                            onComplete={onComplete}
+                          />
+                        )
+                      )}
+                    </ul>
+                  ) : (
+                    <p className="agenda__small">{stage.status === "done" ? A.nothingDone : A.nothing}</p>
+                  )}
+                </div>
+              ) : null}
+            </section>
+          );
+        })}
+      </div>
+      <span ref={anchor} hidden />
+      {web ? (
+        // On the web nothing floats at the edge of a window: adding is a plain button at the foot of the road.
+        <Button className="agenda__add" variant="secondary" size="sm" aria-haspopup="dialog" onClick={() => setAdding(true)}>
+          <Icon name="plus" size={16} />
+          {A.addLabel}
+        </Button>
+      ) : (() => {
+        const button = (
+          <button
+            type="button"
+            className={["agenda__fab", screen ? null : "agenda__fab--inline"].filter(Boolean).join(" ")}
+            aria-label={A.addLabel}
+            aria-haspopup="dialog"
+            onClick={() => setAdding(true)}
+          >
+            <Icon name="plus" size={24} />
+          </button>
+        );
+        return screen ? createPortal(button, screen) : button;
+      })()}
+      <AddToPlanSheet
+        open={adding}
+        onClose={() => setAdding(false)}
+        today={today}
+        inline={demoAdding}
+        onAdd={({ title, date, label }) => {
+          const at = onAdd({ title, date });
+          setAdding(false);
+          // Show her where it went: that stage opens, and the page says so.
+          if (typeof at === "number") {
+            setOpen(at);
+            setStep(null);
+            setNote(A.added(stages[at]?.title ?? "", label));
+          }
+        }}
+      />
+    </section>
+  );
+}
+
+/** A step: its title, and when it is the open one, the questions she can ask and the way to start. */
+function StepItem({
+  item,
+  step,
+  open,
+  today,
+  startHref,
+  hasDraftFor,
+  onToggle,
+  onAsk,
+  onAccept,
+  onComplete,
+}: {
+  item: AgendaItem;
+  step: ActionStep;
+  open: boolean;
+  today: LoopDate;
+  startHref: string | ((step: ActionStep) => string);
+  hasDraftFor?: (step: ActionStep) => boolean;
+  onToggle: () => void;
+  onAsk: (step: ActionStep, question: StepQuestion) => void;
+  onAccept: (step: ActionStep) => void;
+  onComplete: (step: ActionStep) => void;
+}) {
+  const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
+  // The reading step opens the Briefing, so it starts with a link too.
+  const tool = hasDraft || Boolean(step.playbookTool) || step.kind === "reading";
+  const href = typeof startHref === "function" ? startHref(step) : startHref;
+  const label = hasDraftFor?.(step) ? A.openDraft : (step.startLabel ?? (step.playbookTool ? `Start in ${step.playbookTool}` : A.getStarted));
+  return (
+    <li className="agenda__item" id={`step-${step.id}`}>
+      <button type="button" className="agenda__line" aria-expanded={open} onClick={onToggle}>
+        <span className="agenda__pill">{whenWords(item.date, today)}</span>
+        <span className="agenda__title">{item.title}</span>
+        <Icon name="chevron" size={18} className="agenda__open" />
+      </button>
+      {open ? (
+        <div className="agenda__reveal">
+          {step.stubbed ? (
+            <Button variant="secondary" fullWidth className="agenda__cta" disabled>
+              {label}
+            </Button>
+          ) : tool ? (
+            <Link href={href} className="btn btn--secondary btn--md btn--full agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
+              {label}
+            </Link>
+          ) : item.accepted ? (
+            <Button variant="secondary" fullWidth className="agenda__cta" onClick={() => onComplete(step)}>
+              {A.doneIt}
+            </Button>
+          ) : (
+            <Button variant="secondary" fullWidth className="agenda__cta" onClick={() => onAccept(step)}>
+              {A.getStarted}
+            </Button>
+          )}
+          <div className="agenda__ask">
+            {/* Each question opens the chat on it, so it looks like the chat's own prompts: a navy pill with the
+                advisor's mark (designer, 2026-10-14). Their short answers are left for the chat to give. */}
+            <ul className="agenda__ask-list" aria-label={A.askLabel}>
+              {STEP_QUESTIONS.map((q) => (
+                <li key={q.id}>
+                  <button type="button" className="agenda__ask-pill" onClick={() => onAsk(step, q.id)}>
+                    <AdvisorMark size={14} />
+                    {q.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
+    </li>
+  );
+}
+
+export default PlanAgenda;

@@ -2,13 +2,19 @@
   "name": "exechq",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
+    "showroom": "node scripts/showroom.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --max-warnings=0",
     "check:tokens": "node scripts/check-tokens.mjs",
-    "check": "npm run lint && npm run check:tokens && npm run build"
+    "check:components": "node scripts/check-components.mjs",
+    "check": "npm run lint && npm run check:tokens && npm run check:components && npm run build",
+    "sync:specs": "node scripts/sync-specs.mjs"
   },
   "dependencies": {
     "next": "16.3.6",

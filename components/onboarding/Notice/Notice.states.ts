@@ -1,0 +1,70 @@
+import { defineComponentStates } from "@/components/types";
+import { CONTROLS_INSIDE, NOT_AN_INPUT } from "@/components/not-applicable";
+import { Notice } from "./Notice";
+
+export const noticeStates = defineComponentStates({
+  name: "Notice",
+  group: "feedback",
+  status: "draft",
+  flows: ["onboarding"],
+  description:
+    "Explanation attached to what the user just did: a white card with a label line whose halo dot shows the tone (info, success, explain for warning, problem for danger). The 'explain' tone exists because a rejected corporate email and an unrecognised invite code both deserve a reason in the product's voice rather than a bare validation error. Tone never carries meaning alone — the label names it and every notice says its situation in words.",
+  component: Notice,
+  notApplicable: {
+    ...CONTROLS_INSIDE,
+    loading: "A message: it appears once there is something to say.",
+    empty: "Always has a message.",
+    filled: NOT_AN_INPUT,
+  },
+  variants: [
+    {
+      label: "Info",
+      props: { label: "Saved", children: "Your draft is saved. You can come back to it." },
+    },
+    {
+      label: "Success",
+      props: {
+        tone: "success" as const,
+        label: "Ready",
+        title: "Your plan is ready",
+        children: "Five parts, built from what you told me. You can change any of it.",
+      },
+    },
+    {
+      label: "Explain — corporate email",
+      props: {
+        tone: "explain" as const,
+        title: "That looks like a work address",
+        children:
+          "This account has to outlast your current job, and your employer must never be able to reach it. Use a personal address instead.",
+      },
+    },
+    {
+      label: "Explain — invite code",
+      props: {
+        tone: "explain" as const,
+        title: "We do not recognise that code",
+        children:
+          "Check it against the invitation you were sent. You can also continue without one — the code only changes who pays, never what you get.",
+      },
+    },
+    {
+      label: "Problem — connection failed",
+      props: {
+        tone: "problem" as const,
+        title: "That did not connect",
+        children:
+          "Nothing was sent and nothing was saved. You can try again, or carry on — your draft is unaffected.",
+      },
+    },
+    {
+      label: "Live region",
+      description: "Announced politely when it appears after an action.",
+      props: {
+        tone: "info" as const,
+        live: true,
+        children: "Saved.",
+      },
+    },
+  ],
+});

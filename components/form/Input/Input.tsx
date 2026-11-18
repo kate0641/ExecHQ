@@ -1,0 +1,158 @@
+"use client";
+
+import { useId, type InputHTMLAttributes, type ReactNode } from "react";
+
+export interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "size"> {
+  /** Always required — every control in this prototype is labelled. */
+  label: string;
+  /** Supporting text, wired to the input with aria-describedby. */
+  hint?: string;
+  /** Error text. Sets aria-invalid and is announced politely. */
+  error?: string;
+  /** Ids of extra elements describing the field, appended to the hint and the
+   *  error. Lets a wrapper attach its own content — a list of examples, say —
+   *  without rebuilding the field and losing this wiring. */
+  describedBy?: string;
+  /** Hides the label visually but keeps it for screen readers. */
+  labelHidden?: boolean;
+  /** Renders a multi-line field instead. */
+  multiline?: boolean;
+  /** `field` is the default bordered box. `statement` drops the box for an
+   *  underlined line set in the serif — for text the user is composing rather
+   *  than a form they are completing. Weaker affordance by design, so use it
+   *  only where the surrounding copy makes the editability obvious. `pill`
+   *  is a rounded field with its label set small inside its top edge, for a
+   *  short form with one or two fields (sign in). Single line only. */
+  variant?: "field" | "statement" | "pill";
+  rows?: number;
+  /** A control drawn inside the field's bottom edge, e.g. a mic button. The
+   *  field pads itself so typed text never runs under it. */
+  adornment?: ReactNode;
+}
+
+/**
+ * Text input. The label is a required prop rather than an optional one, so an
+ * unlabelled field cannot be built by accident.
+ */
+export function Input({
+  label,
+  hint,
+  error,
+  describedBy,
+  labelHidden = false,
+  multiline = false,
+  variant = "field",
+  rows = 4,
+  adornment,
+  className,
+  disabled,
+  required,
+  ...rest
+}: InputProps) {
+  const id = useId();
+  const hintId = `${id}-hint`;
+  const errorId = `${id}-error`;
+  const describedByIds = [hint ? hintId : null, error ? errorId : null, describedBy]
+    .filter(Boolean)
+    .join(" ");
+
+  const fieldClasses = [
+    "field__control",
+    variant === "statement" ? "field__control--statement" : null,
+    variant === "pill" ? "field__control--pill" : null,
+    error ? "field__control--error" : null,
+    adornment ? "field__control--adorned" : null,
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const shared = {
+    id,
+    className: fieldClasses,
+    disabled,
+    required,
+    "aria-invalid": error ? true : undefined,
+    "aria-describedby": describedByIds || undefined,
+  };
+
+  function control() {
+    return multiline ? (
+      <textarea
+        {...(rest as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+        {...shared}
+        rows={rows}
+      />
+    ) : (
+      <input {...rest} {...shared} placeholder={variant === "pill" ? rest.placeholder ?? " " : rest.placeholder} />
+    );
+  }
+
+  const labelClass = labelHidden ? "u-visually-hidden" : "field__label";
+
+  if (variant === "pill" && !multiline) {
+    return (
+      <div className={`field field--pill${disabled ? " field--disabled" : ""}`}>
+        <div className="field__pill">
+          <label htmlFor={id} className={labelHidden ? "u-visually-hidden" : "field__label field__label--pill"}>
+            {label}
+          </label>
+          {control()}
+        </div>
+        {hint ? (
+          <p id={hintId} className="field__hint field__hint--pill">
+            {hint}
+          </p>
+        ) : null}
+        {error ? (
+          <p id={errorId} className="field__error field__error--pill">
+            <span className="u-visually-hidden">Error: </span>
+            {error}
+          </p>
+        ) : null}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`field${disabled ? " field--disabled" : ""}`}>
+      <label
+        htmlFor={id}
+        className={labelClass}
+      >
+        {label}
+        {required ? (
+          <span className="field__required">
+            <span aria-hidden="true">*</span>
+            <span className="u-visually-hidden"> (required)</span>
+          </span>
+        ) : null}
+      </label>
+
+      {hint ? (
+        <p id={hintId} className="field__hint">
+          {hint}
+        </p>
+      ) : null}
+
+      {adornment ? (
+        <div className="field__control-wrap">
+          {control()}
+          <div className="field__adornment">{adornment}</div>
+        </div>
+      ) : (
+        control()
+      )}
+
+      {error ? (
+        <p id={errorId} className="field__error">
+          <span className="u-visually-hidden">Error: </span>
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+export default Input;

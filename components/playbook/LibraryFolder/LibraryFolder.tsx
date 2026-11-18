@@ -1,0 +1,120 @@
+import type { ReactNode } from "react";
+import { Icon } from "@/components/primitives/Icon";
+import { TOOL_ICONS } from "@/components/playbook/ToolPicker/ToolPicker";
+import type { ArtifactKind } from "@/mock/loop";
+
+export interface LibraryFolderProps {
+  tool: ArtifactKind;
+  /** "Pitches". */
+  name: string;
+  /** A folder: what is inside, "3 · 2 drafts · 1 waiting to hear". The
+   *  open folder's heading: what the tool makes. */
+  summary: string;
+  /** The label in the card's bottom corner: in the Playbook's grid, how many
+   *  it holds ("3 items"); else when it last changed. Left out when empty. */
+  date?: string;
+  /** Read before the corner label by screen readers; empty for none. */
+  dateLabel?: string;
+  /**
+   * - `button`: one of the folders; pressing it opens the folder.
+   * - `header`: the open folder's heading, above its list.
+   */
+  as?: "button" | "header";
+  onOpen?: () => void;
+  /** `header` only: under the words, the way to make another (Start). */
+  action?: ReactNode;
+  /** The folder whose list is showing beside it (web). */
+  current?: boolean;
+  headingLevel?: 1 | 2 | 3;
+  headingId?: string;
+  /** Catalogue only: shows the folder in a state a static page can't reach. */
+  demo?: "hover" | "focus" | "active";
+  className?: string;
+}
+
+/**
+ * One of the library's folders: a folder per tool, filed by ExecHQ, never
+ * made or moved by her. In the grid, a solid navy card, the tool's icon
+ * beside its name (designer, 2026-10-27); open, the same navy card heads
+ * the folder's page. It says how many it holds, what state they are
+ * in, and when it last changed.
+ */
+export function LibraryFolder({
+  tool,
+  name,
+  summary,
+  date,
+  dateLabel = "Last change",
+  as = "button",
+  onOpen,
+  action,
+  current = false,
+  headingLevel = 3,
+  headingId,
+  demo,
+  className,
+}: LibraryFolderProps) {
+  const classes = [
+    "library-folder",
+    `library-folder--${tool}`,
+    `library-folder--${as}`,
+    current ? "is-current" : null,
+    demo ? `is-${demo}` : null,
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  // In the grid the icon sits beside the name, no circle, so the folders sit
+  // under the tools above them (designer, 2026-10-27).
+  const body = (
+    <>
+      <span className="library-folder__title">
+        <span className="library-folder__mark" aria-hidden="true">
+          <Icon name={TOOL_ICONS[tool]} size={16} />
+        </span>
+        <span className="library-folder__name">{name}</span>
+      </span>
+        <span className="library-folder__summary">{summary}</span>
+        <span className="library-folder__foot">
+          <span className="library-folder__date">
+            {date ? (
+              <>
+                {dateLabel ? <span className="u-visually-hidden">{dateLabel} </span> : null}
+                {date}
+              </>
+            ) : null}
+          </span>
+          <Icon name="chevron" size={16} className="library-folder__go" />
+        </span>
+      </>
+    );
+
+  // The open folder's card: the folder she tapped, opened (designer,
+  // 2026-10-27). The same navy, the icon beside the name, what the tool
+  // makes, and Start across the card under them. Only the name is the heading.
+  if (as === "header") {
+    const Heading = `h${headingLevel}` as const;
+    return (
+      <div className={classes}>
+        <div className="library-folder__title">
+          <span className="library-folder__mark" aria-hidden="true">
+            <Icon name={TOOL_ICONS[tool]} size={20} />
+          </span>
+          <Heading className="library-folder__name" id={headingId} tabIndex={-1}>
+            {name}
+          </Heading>
+        </div>
+        <p className="library-folder__summary">{summary}</p>
+        {action ? <div className="library-folder__action">{action}</div> : null}
+      </div>
+    );
+  }
+  return (
+    <button type="button" className={classes} onClick={onOpen} aria-current={current || undefined}>
+      {body}
+    </button>
+  );
+}
+
+export default LibraryFolder;

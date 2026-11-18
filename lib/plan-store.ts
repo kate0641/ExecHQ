@@ -1,0 +1,166 @@
+/**
+ * What she has decided on the Plan, kept per scenario so each of the dock's
+ * scenarios keeps its own choices and they survive leaving the page:
+ *
+ *  - the roadmap: the stage she confirmed, whether she said "Not yet" to
+ *    moving on, and any plan she switched to, with the plans she left;
+ *  - the next steps: what she accepted, declined, deferred, changed or did,
+ *    the channels she asked not to see, and what filled each place.
+ *
+ * What her work points to comes from the Loop; this is only what she said
+ * about it. Nothing here advances a stage or counts a decline against her.
+ *
+ * An external store read through useSyncExternalStore and mirrored to
+ * localStorage, like presence and the Briefing, and undone by the dock's
+ * reset with them. The server renders none of it.
+ */
+
+import { useSyncExternalStore } from "react";
+import type { RoadmapChoices } from "@/lib/roadmap-choices";
+import { initialPlanState, place, type EmptyReason, type PlanState } from "@/lib/action-steps";
+import type { Horizon } from "@/mock/plan-stub";
+import { CALENDAR_SEED, type CalendarItem } from "@/mock/plan";
+
+export type { RoadmapChoices };
+
+/** Why a step is on her plan, when something she said brought it there, and whether to offer it as hers. */
+interface StepNote {
+  heard?: string;
+  offerRecord?: boolean;
+}
+
+/** Her steps as she has left them, kept between visits. */
+export interface SavedSteps {
+  state: PlanState;
+  notes: Record<string, StepNote>;
+  empties: Partial<Record<Horizon, EmptyReason>>;
+}
+
+interface Store {
+  roadmap: Record<string, RoadmapChoices>;
+  steps: Record<string, SavedSteps>;
+  /** What she put on her own calendar, per scenario. */
+  calendar: Record<string, CalendarItem[]>;
+}
+
+const STORAGE_KEY = "exechq-plan";
+const EMPTY: Store = { roadmap: {}, steps: {}, calendar: {} };
+
+let cached: Store | undefined;
+const listeners = new Set<() => void>();
+
+function read(): Store {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null") as Partial<Store> | null;
+    return parsed && typeof parsed === "object"
+      ? { roadmap: parsed.roadmap ?? {}, steps: parsed.steps ?? {}, calendar: parsed.calendar ?? {} }
+      : EMPTY;
+  } catch {
+    return EMPTY;
+  }
+}
+
+function get(): Store {
+  if (cached === undefined) cached = read();
+  return cached;
+}
+
+function write(next: Store): void {
+  cached = next;
+  try {
+    if (Object.keys(next.roadmap).length + Object.keys(next.steps).length + Object.keys(next.calendar).length === 0) window.localStorage.removeItem(STORAGE_KEY);
+    else window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    // Not being able to persist is not worth failing over.
+  }
+  for (const listener of listeners) listener();
+}
+
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+export function saveRoadmap(scenario: string, choices: RoadmapChoices): void {
+  write({ ...get(), roadmap: { ...get().roadmap, [scenario]: choices } });
+}
+
+export function saveCalendar(scenario: string, items: CalendarItem[]): void {
+  write({ ...get(), calendar: { ...get().calendar, [scenario]: items } });
+}
+
+export function saveSteps(key: string, steps: SavedSteps): void {
+  write({ ...get(), steps: { ...get().steps, [key]: steps } });
+}
+
+/** Where a scenario's next steps are kept: per plan, once she has switched. */
+export const planStepsKey = (scenario: string, choices?: RoadmapChoices): string =>
+  `${scenario}:${choices?.history.length ? choices.planId : "base"}`;
+
+/** Adds a step to her Plan from outside it (the Situation Brief's next
+ *  step), with what she said that brought it there. */
+export function addStepToPlan(scenario: string, stepId: string, today: string, heard?: string): void {
+  const store = get();
+  const key = planStepsKey(scenario, store.roadmap[scenario]);
+  // As the Plan opens: another plan she switched to starts with none.
+  const switched = Boolean(store.roadmap[scenario]?.history.length);
+  const start = switched ? { ...initialPlanState(today), shown: [], decisions: {} } : initialPlanState(today);
+  const saved = store.steps[key] ?? { state: start, notes: {}, empties: {} };
+  write({
+    ...store,
+    steps: {
+      ...store.steps,
+      [key]: { ...saved, state: place(saved.state, stepId), notes: heard ? { ...saved.notes, [stepId]: { heard } } : saved.notes },
+    },
+  });
+}
+
+/** What is on her Plan now, outside React (the advisor reads it fresh). */
+export function planShownNow(scenario: string, today: string): readonly string[] {
+  const store = get();
+  const saved = store.steps[planStepsKey(scenario, store.roadmap[scenario])];
+  if (saved) return saved.state.shown;
+  return store.roadmap[scenario]?.history.length ? [] : initialPlanState(today).shown;
+}
+
+/** What is on her Plan in this scenario now, in order: as she left it, or as
+ *  it would open. */
+export function usePlanShown(scenario: string, today: string): readonly string[] {
+  const store = useSyncExternalStore(subscribe, get, () => EMPTY);
+  const saved = store.steps[planStepsKey(scenario, store.roadmap[scenario])];
+  if (saved) return saved.state.shown;
+  return store.roadmap[scenario]?.history.length ? [] : initialPlanState(today).shown;
+}
+
+/** Whether a step is on her Plan in this scenario. */
+export function useOnPlan(scenario: string, stepId: string | undefined): boolean {
+  const store = useSyncExternalStore(subscribe, get, () => EMPTY);
+  if (!stepId) return false;
+  return Boolean(store.steps[planStepsKey(scenario, store.roadmap[scenario])]?.state.shown.includes(stepId));
+}
+
+/** Undoes every choice on the Plan. The dock's reset calls this. */
+export function resetRoadmap(): void {
+  write(EMPTY);
+}
+
+/** Her roadmap choices in this scenario, or undefined if she has made none. */
+export function useRoadmapChoices(scenario: string): RoadmapChoices | undefined {
+  return useSyncExternalStore(subscribe, get, () => EMPTY).roadmap[scenario];
+}
+
+/** Her calendar in this scenario: what she kept, or the two things she started with. */
+export function useCalendar(scenario: string): CalendarItem[] {
+  return useSyncExternalStore(subscribe, get, () => EMPTY).calendar[scenario] ?? CALENDAR_SEED;
+}
+
+/** Her saved next steps for this scenario and plan, or undefined. */
+export function useSavedSteps(key: string): SavedSteps | undefined {
+  return useSyncExternalStore(subscribe, get, () => EMPTY).steps[key];
+}
+
+/** Whether she has made any choice on the Plan, so the dock's reset knows. */
+export function useRoadmapChanged(): boolean {
+  const all = useSyncExternalStore(subscribe, get, () => EMPTY);
+  return Object.keys(all.roadmap).length + Object.keys(all.steps).length + Object.keys(all.calendar).length > 0;
+}
