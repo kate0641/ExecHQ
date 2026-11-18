@@ -142,6 +142,23 @@ export const prototypeConfig: PrototypeConfig = {
       ],
     },
     {
+      slug: "first-visit-tour",
+      title: "First-visit tour",
+      sprint: 2,
+      chrome: "app",
+      description:
+        "Home as it opens the first time after onboarding: three stops that show how to get around, the Ask or go pill, Go to, and chatting with the advisor. Reviewed on the homepage.",
+      navCanvas: { flowSlug: "homepage", conceptSlug: "concept-4b" },
+      concepts: [
+        {
+          slug: "concept-1",
+          title: "Concept 1 — Three stops",
+          summary:
+            "Opens with the tour running. Reload the page to see it again from the start.",
+        },
+      ],
+    },
+    {
       slug: "homepage",
       title: "Homepage",
       sprint: 2,

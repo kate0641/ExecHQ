@@ -361,7 +361,7 @@ Done was folded into Your plan on 2026-11-16 (3.9): her plan saved, the first mo
 
 ### 3.12 The first visit to Home: a short tour
 
-The first time the person reaches Home after onboarding, from Your plan or after saving the first draft, it opens with a three-stop tour of how to get around (Kate, 2026-11-12). Everything is reached from the **Ask or go** pill, and the tour shows it. The screen dims, one thing at a time is lit with a yellow ring, and a short card beside it says what it is.
+The first time the person reaches Home after onboarding, from Your plan or after saving the first draft, it opens with a three-stop tour of how to get around (Kate, 2026-11-12). Its full interaction spec is its own: **First-visit tour** in the file hub (`specs/first-visit-tour.md`); this section is the summary. Everything is reached from the **Ask or go** pill, and the tour shows it. The screen dims, one thing at a time is lit with a yellow ring, and a short card beside it says what it is.
 
 | Stop | Lit | Card |
 | --- | --- | --- |

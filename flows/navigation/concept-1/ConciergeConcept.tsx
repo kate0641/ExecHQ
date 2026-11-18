@@ -281,9 +281,11 @@ const TOUR_STOPS: { selectors: string[]; radius: number; opens: boolean }[] = [
   { selectors: [`#${PANEL_ID} [aria-labelledby="concierge-ask"]`, `#${PANEL_ID} .chat-composer`], radius: 16, opens: true },
 ];
 
-/** Whether this visit should start the tour: onboarding's last button arrives with ?tour=1. */
+/** Whether this visit should start the tour: onboarding's last button arrives
+ *  with ?tour=1, and the hub's First-visit tour page always starts it. */
 function tourAsked(): boolean {
-  return typeof window !== "undefined" && new URLSearchParams(window.location.search).get("tour") === "1";
+  if (typeof window === "undefined") return false;
+  return new URLSearchParams(window.location.search).get("tour") === "1" || window.location.pathname.startsWith("/first-visit-tour/");
 }
 
 /** Takes ?tour=1 off the address once the tour ends, so a reload shows Home as it is. */
