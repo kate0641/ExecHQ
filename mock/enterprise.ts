@@ -485,7 +485,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
   /** Below the minimum: only invites and codes redeemed show. */
   small: {
     id: "small",
-    name: "Northgate Board Readiness",
+    name: "Northgate Leadership Readiness",
     expectedSize: 12,
     startsOn: "2026-09-21",
     asOf: "2026-10-01",

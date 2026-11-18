@@ -58,7 +58,7 @@ The tool's name (level 1, large), what it makes, when to use it, and **You'll ne
 
 **Positioning Builder is the exception** (2026-11-18, UX review): its start screen asks nothing and ends in **Start a positioning statement**, pinned to the foot of the page on phone and tablet (above Safari's toolbar, with the page's words scrolling above it), never just under the last line, and its first question, **Which moments is this one for?** (pick all that apply, optional), opens the interview instead. A statement is made for each moment, and the start screen says so: "Make one for each moment that introduces you: a promotion conversation, a new boss, a conference program. Each is kept in your library, ready to build again." It no longer shows the statement from onboarding, and **You'll need:** no longer lists it.
 
-On every other tool, the tool's first question, as one button per answer ("What is the moment?": A review, A board meeting, A negotiation, An executive conversation, Something else). Pressing an answer starts the interview. An answer their plan step already gives is chosen for them and marked ("Chosen from your plan step. Change it if it's not right.").
+On every other tool, the tool's first question, as one button per answer ("What is the moment?": A review, A negotiation, An executive conversation, Something else; A board meeting removed 2026-11-18). Pressing an answer starts the interview. An answer their plan step already gives is chosen for them and marked ("Chosen from your plan step. Change it if it's not right.").
 
 Where they came from is said above it, and stays with the draft:
 

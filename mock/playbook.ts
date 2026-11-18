@@ -80,7 +80,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     // caption size (designer, 28 Oct; was "One page before a moment that
     // matters"). For Kate to confirm.
     short: "Your case, talk track and follow-up",
-    when: "Use it a day or two before a review, a board meeting, a negotiation or a hard conversation.",
+    when: "Use it a day or two before a review, a negotiation or a hard conversation.",
     needs: ["What the moment is, and when", "What you want to come out of it"],
     planStepId: "brief-manager",
     start: "Start a brief",
@@ -774,7 +774,7 @@ export const PLAYBOOK_PAGE = {
 export const MOMENT_RULES: readonly { kind: ArtifactKind; words: RegExp }[] = [
   { kind: "pitch", words: /\b(pitch\w*|podcast|conference|panel|speak\w*|(a|give a) talk|keynote|press|editor|journalist|call for (proposals|papers))\b/i },
   { kind: "thought-leadership", words: /\b(post|linkedin|article|blog|newsletter|essay|op-?ed|write|read)\b/i },
-  { kind: "situation-brief", words: /\b(review|board|meeting|negotiat\w*|check-?in|1:1|one-to-one|conversation|interview|offsite|presentation|manager|boss|talk (about|with|to)|scope)\b/i },
+  { kind: "situation-brief", words: /\b(review|meeting|negotiat\w*|check-?in|1:1|one-to-one|conversation|interview|offsite|presentation|manager|boss|talk (about|with|to)|scope)\b/i },
   { kind: "positioning", words: /\b(bio|introduc\w*|promotion|positioning|new (boss|manager|role)|about me|profile)\b/i },
 ];
 
@@ -864,7 +864,7 @@ export const PITCH_INPUTS: readonly ToolInput[] = [
 ];
 
 export const BRIEF_INPUTS: readonly ToolInput[] = [
-  { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A board meeting", "A negotiation", "An executive conversation", "Something else"] },
+  { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A negotiation", "An executive conversation", "Something else"] },
   // Asked only after Something else, so the brief names it (CEO, 19 Oct).
   { id: "named", label: "What is it?", hint: "A skip-level, an offsite, a dinner. Say as much as you like.", kind: "text", placeholder: "A skip-level with my manager’s manager" },
   { id: "date", label: "When is it?", hint: "If you know. ExecEngine asks how it went after it.", kind: "date", optional: true },
@@ -996,7 +996,7 @@ export const EXAMPLE_ANSWERS: Record<ArtifactKind, Record<string, string>> = {
     audience: "Marketing and commercial leaders",
   },
   "situation-brief": {
-    type: "A board meeting",
+    type: "An executive conversation",
     date: "2026-10-29",
     objective: "Agreement that I lead the Q1 planning workstream",
     audience: "The CEO, the CFO and my manager",

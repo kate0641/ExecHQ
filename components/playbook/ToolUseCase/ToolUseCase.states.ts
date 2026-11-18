@@ -44,7 +44,7 @@ export const toolUseCaseStates = defineComponentStates({
     { label: "Nothing it goes with yet — empty", props: { tool: TOOLS.positioning, onStart: noop, headingLevel: 2 } },
     {
       label: "Each answer starts it (Concept 1)",
-      props: { tool: TOOLS["situation-brief"], planStep: "Brief your manager before Thursday’s check-in", choice: { label: "What is the moment?", options: ["A review", "A board meeting", "A negotiation", "An executive conversation", "Something else"], value: "A review", onChange: noop, fromPlan: "A review" }, choiceStarts: true, onStart: noop, headingLevel: 2 },
+      props: { tool: TOOLS["situation-brief"], planStep: "Brief your manager before Thursday’s check-in", choice: { label: "What is the moment?", options: ["A review", "A negotiation", "An executive conversation", "Something else"], value: "A review", onChange: noop, fromPlan: "A review" }, choiceStarts: true, onStart: noop, headingLevel: 2 },
     },
     { label: "Each answer starts it — hover", props: { tool: TOOLS.pitch, choice: { ...pitchChoice, note: undefined, value: "" }, choiceStarts: true, onStart: noop, headingLevel: 2, demo: "hover" } },
     { label: "Each answer starts it — focus", props: { tool: TOOLS.pitch, choice: { ...pitchChoice, note: undefined, value: "" }, choiceStarts: true, onStart: noop, headingLevel: 2, demo: "focus" } },

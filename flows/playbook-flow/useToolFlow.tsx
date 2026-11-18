@@ -98,7 +98,6 @@ function stamp(today: string): string {
 
 /** The kind of moment, from what she said, for the Situation Brief. */
 function momentType(text: string): string | undefined {
-  if (/board/i.test(text)) return "A board meeting";
   if (/negotiat/i.test(text)) return "A negotiation";
   if (/review/i.test(text)) return "A review";
   if (/conversation|1:1|check-?in|meeting/i.test(text)) return "An executive conversation";

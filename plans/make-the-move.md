@@ -12,7 +12,7 @@
 
 | | |
 | --- | --- |
-| **Intended user situation** | A leader facing a specific, consequential moment with a date or a near window: a promotion conversation, an internal interview, a move to another part of the business, a review, a presentation to senior leaders or the board, or a negotiation over scope or pay. |
+| **Intended user situation** | A leader facing a specific, consequential moment with a date or a near window: a promotion conversation, an internal interview, a move to another part of the business, a review, a presentation to senior leaders, or a negotiation over scope or pay. |
 | **Desired outcome** | She walks in prepared, knowing what is being decided and by whom, with her materials ready and the key conversations rehearsed, and walks out with her next move decided. |
 | **Common constraints** | A fixed date and little time, high stakes and nerves, incomplete knowledge of the people deciding, and discretion when her manager doesn't yet know she is going for a role elsewhere in the company. |
 
@@ -239,6 +239,6 @@ It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
 1. **Several moments.** If she has two moments at once, such as an interview and a review, does the plan track both, or one at a time?
 2. **After the moment.** Should stage 4 always end by offering another plan, or can Make the Move run again for the next moment?
-3. **Board positions:** settled 18 Nov. A board seat elsewhere is outside ExecEngine; presenting to her own company's board is a moment like any other.
+3. **Boards:** settled 18 Nov. The people ExecEngine is for are not in board meetings, and a board seat elsewhere is outside ExecEngine, so no moment here is a board one.
 4. **Materials with no tool (2.2).** Promotion packets have no V1 tool. Are they in scope?
 5. **No date.** What happens when she has a moment but no date: does the agent ask for one, or plan to a default window?

@@ -125,7 +125,7 @@ export const PROMPTED_DIRECTIONS: PromptedDirection[] = [
   {
     id: "moment-ahead",
     label: "Something specific is coming up",
-    text: "I have a promotion conversation, review or board presentation ahead of me.",
+    text: "I have a promotion conversation, review or big presentation ahead of me.",
     blurb: "A conversation, review or presentation with a date on it.",
     need: "preparation",
   },
@@ -259,7 +259,7 @@ export const PLAN_C1 = {
 const NEED_TESTS: { need: DirectionNeed; patterns: RegExp[] }[] = [
   {
     need: "preparation",
-    patterns: [/promotion conversation/i, /review/i, /board/i, /negotiat/i, /interview/i, /coming up/i],
+    patterns: [/promotion conversation/i, /review/i, /presentation/i, /negotiat/i, /interview/i, /coming up/i],
   },
   {
     need: "exploration",
@@ -418,7 +418,7 @@ export const REFINEMENT_C1 = {
 /** Timing already stated: "in 3 years", "next year", "this month"… */
 const SAYS_WHEN = [/\b(\d+|one|two|three|four|five|six|ten)\s*(year|yr|month|week)s?\b/i, /\b(next|this) (year|month|week|quarter)\b/i, /\bwithin a year\b/i];
 /** The moment already named. */
-const SAYS_WHAT_MOMENT = [/board/i, /review/i, /promotion conversation/i, /negotiat/i, /interview/i, /presentation/i];
+const SAYS_WHAT_MOMENT = [/review/i, /promotion conversation/i, /negotiat/i, /interview/i, /presentation/i];
 
 const opts = (...labels: string[]): RefinementOption[] =>
   labels.map((label) => ({ value: label.toLowerCase().replace(/[^a-z0-9]+/g, "-"), label }));
@@ -471,7 +471,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "Who decides it, and how well do they know your work?",
       hint: REFINEMENT_C1.instruction,
       options: opts("My boss, and they know it well", "My boss, but they undersell me", "My boss\u2019s boss, who barely knows me", "A group of execs I rarely see", "I don\u2019t know who decides").map(withHeard("Your boss decides, and knows your work well, so the job is making the case together.", "Your boss decides but undersells you, so the plan starts with what they say about you.", "Your boss\u2019s boss decides and barely knows you, so being seen one level up comes first.", "A group of execs decides, and you rarely see them, so getting in front of them comes first.", "You don\u2019t know who decides, so finding that out comes first.")),
-      more: opts("The CEO", "Finance", "A peer who sees me as a rival", "The board").map(withHeard("The CEO decides, so getting in front of them comes first.", "Finance decides, so the case has to be made in their terms.", "A peer who sees you as a rival is in the way, so the plan builds support around them.", "The board decides, so your case has to reach above the exec team.")),
+      more: opts("The CEO", "Finance", "A peer who sees me as a rival", "HR and talent").map(withHeard("The CEO decides, so getting in front of them comes first.", "Finance decides, so the case has to be made in their terms.", "A peer who sees you as a rival is in the way, so the plan builds support around them.", "HR and talent decide, so your case has to fit how they place people.")),
     },
     // "What\u2019s holding you back?" was asked here, before the plan: dropped (Kate, 2026-11-12).
 
@@ -481,7 +481,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "presence-who",
       question: "Whose view of you matters most right now?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("The exec team", "My boss’s peers", "The board", "Leaders across the company", "People in my industry").map(withHeard("The exec team’s view of you matters most right now.", "Your boss’s peers matter most: their view of you travels upward.", "The board’s view of you matters most right now.", "Leaders across the company matter most, beyond your own line.", "People in your industry matter most: being known beyond your own company.")),
+      options: opts("The exec team", "My boss’s peers", "My boss’s boss", "Leaders across the company", "People in my industry").map(withHeard("The exec team’s view of you matters most right now.", "Your boss’s peers matter most: their view of you travels upward.", "Your boss’s boss matters most right now: the one who decides what comes next.", "Leaders across the company matter most, beyond your own line.", "People in your industry matter most: being known beyond your own company.")),
       more: opts("Customers and clients", "Peers at other companies", "The press and conferences", "My own team").map(withHeard("Customers and clients matter most: being someone they’d trust with more.", "Peers at other companies matter most.", "The press and conferences matter most: a voice in your field.", "Your own team matters most, because presence starts with the people who follow you.")),
     },
     {
@@ -505,7 +505,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       multi: true,
       question: "What\u2019s coming up?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Promotion conversation", "Performance review", "Board or exec presentation", "A negotiation", "An internal interview").map(withHeard("You have a promotion conversation coming up, and you want to walk in with a case, not a hope.", "You have a performance review coming up, and you want it to set up what\u2019s next, not just look back.", "You have a board or exec presentation coming up, the kind of moment people remember.", "You have a negotiation coming up, where what you say in the moment matters.", "You have an internal interview coming up, where the first ten minutes decide the rest.")),
+      options: opts("Promotion conversation", "Performance review", "Exec presentation", "A negotiation", "An internal interview").map(withHeard("You have a promotion conversation coming up, and you want to walk in with a case, not a hope.", "You have a performance review coming up, and you want it to set up what\u2019s next, not just look back.", "You have an exec presentation coming up, the kind of moment people remember.", "You have a negotiation coming up, where what you say in the moment matters.", "You have an internal interview coming up, where the first ten minutes decide the rest.")),
       more: opts("Investor or client pitch", "A reorganization", "A talk or keynote", "A difficult conversation").map(withHeard("You have a pitch coming up, where you’re asking someone to back you.", "A reorganization is coming, and you want to be placed well in it.", "You have a talk or keynote coming up, in front of people you don’t know.", "You have a difficult conversation coming up, and you want to handle it well.")),
       skipIf: SAYS_WHAT_MOMENT,
     },
@@ -835,7 +835,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     formalName: "Prepare for a career inflection point",
     bestFor: "A promotion, review, presentation or negotiation is coming up.",
     pickIf: [
-      "Something big has a date: a promotion talk, a review, the board, a negotiation.",
+      "Something big has a date: a promotion talk, a review, a big presentation, a negotiation.",
       "You have weeks, not months.",
       "You want to walk in prepared.",
     ],
@@ -1044,7 +1044,7 @@ const GOAL_FROM_ANSWER: Record<string, Record<string, string>> = {
   "moment-what": {
     "Promotion conversation": "your promotion conversation",
     "Performance review": "your performance review",
-    "Board or exec presentation": "your exec presentation",
+    "Exec presentation": "your exec presentation",
     "A negotiation": "your negotiation",
     "An internal interview": "your internal interview",
     "Investor or client pitch": "your pitch",
@@ -1774,13 +1774,13 @@ const SAID: Record<string, string[]> = {
     "The CEO decides, so I’m getting in front of them.",
     "Finance decides, so I’m making the case in their terms.",
     "A peer sees me as a rival, so I’m building support around them.",
-    "The board decides, so my case has to reach above the exec team.",
+    "HR and talent decide, so my case has to fit how they place people.",
   ],
 
   "presence-who": [
     "The exec team’s view of me matters most right now.",
     "My boss’s peers matter most: their view of me travels upward.",
-    "I want the board to see me as ready for the top table.",
+    "I want my boss’s boss to see me as ready for what’s next.",
     "I want leaders across the company to know what I do.",
     "I want to be known across my industry, beyond my own company.",
     "I want customers and clients to see me differently.",
@@ -1813,7 +1813,7 @@ const SAID: Record<string, string[]> = {
   "moment-what": [
     "I have a promotion conversation coming up, and I want to walk in with a case.",
     "I have a performance review coming up, and I want it to set up what’s next.",
-    "I have a board or exec presentation coming up, and I want it remembered.",
+    "I have an exec presentation coming up, and I want it remembered.",
     "I have a negotiation coming up, where what I say in the moment matters.",
     "I have an internal interview coming up, and I want the first ten minutes to land.",
     "I have a pitch coming up.",

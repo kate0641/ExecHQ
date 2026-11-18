@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "no-boards",
+    title: "No boards",
+    description:
+      "Board meetings and board presentations are gone: the Situation Brief's A board meeting, Make the Move's signs, What's coming up?, Whose view matters? and Who decides it?, and the sample data (18 Nov).",
+  },
+  {
     slug: "briefing-spark-signals",
     title: "Briefing: Spark Signals",
     description:

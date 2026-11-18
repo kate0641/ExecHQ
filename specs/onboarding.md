@@ -187,7 +187,7 @@ The five plans, straight after Account (Kate, 2026-11-13). She picks one herself
   | --- | --- | --- |
   | Step Up | Your results are strong, but your role hasn't caught up. · A promotion is the next step, not a new direction. · The people who decide need to see you as ready. | A clear case for a bigger role, and the story you tell when it's decided. |
   | Make Your Mark | People inside respect your work, but your field doesn't know you. · You have views, but rarely say them in public. · You want to be the name that gets asked. | A point of view in your own words, said where your field will hear it. |
-  | Make the Move | Something big has a date: a promotion talk, a review, the board, a negotiation. · You have weeks, not months. · You want to walk in prepared. | Ready for the room, and with your next move decided after it. |
+  | Make the Move | Something big has a date: a promotion talk, a review, a big presentation, a negotiation. · You have weeks, not months. · You want to walk in prepared. | Ready for the room, and with your next move decided after it. |
   | Lead Where You Are | Your work is solid, but the people above you don't see it. · You want more say, without asking for a new title yet. · Credit for your team's work goes elsewhere. | The people who matter knowing your work, and coming to you with it. |
   | Find your next direction | You feel stuck or restless, but can't name what's next. · You're curious about another part of the business. · You want to choose on evidence, not nerves. | A direction you can commit to, and the plan that gets you there. |
 
@@ -243,7 +243,7 @@ For most directions, one question is asked before the recommendation, because it
 
 - Five options, multiple choice, and **None of these? Show me more options** (four more). See Appendix B.
 - Buttons: **Next** and **Skip this one.** The person can skip.
-- Directions about a coming moment (a board presentation, a review) have no deciding question, and go straight to Choose your plan.
+- Directions about a coming moment (a presentation, a review) have no deciding question, and go straight to Choose your plan.
 
 ### 3.7 Choose your plan
 
@@ -485,7 +485,7 @@ The need also picks the questions (Appendix B). Each need has three, of which at
 | preparation | none | What's coming up? When is it? What’s the hardest part of it? |
 | exploration | What’s made you think about a move? | Which part of the business are you curious about? Who have you talked to about it? |
 
-A question is left out when the wording of the direction already answers it (for example a named moment such as a board, or a date).
+A question is left out when the wording of the direction already answers it (for example a named moment such as a review or a presentation, or a date).
 
 ### 5.3 The question that can change the plan
 
@@ -704,6 +704,7 @@ These are settled. They are the specified behavior. The dates are when they were
 57. **Status.** Onboarding Concept 3 is `approved` in the manifest. (Kate)
 58. **The first moves stay as built** for V1: the plan briefs' different first move for Make the Move, Lead Where You Are and Find your next direction is not adopted. Four plans take the extra stage their brief adds (5.6); the template's three stages are otherwise unchanged. (2026-11-18)
 59. **The Playbook's pages are outside the 40-word rule.** First draft, Add more detail and Longer versions come after onboarding and are the Playbook's (decision 18), so they follow its rules, not 4.10. (2026-11-18)
+60. **No boards.** The people ExecEngine is for are not in board meetings, so nothing in the product mentions the board: Make the Move's signs say "a big presentation", What's coming up? offers Exec presentation, Whose view matters? offers My boss's boss, and Who decides it? offers HR and talent in its place. (2026-11-18, Kate)
 
 ---
 
@@ -743,13 +744,13 @@ The first page shows six **first options**, I'm not sure yet among them. "None o
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
 | Which decision in the next few months do you most want a say in? | Single | Making it yours | Next year’s budget; A reorganization; Who gets promoted or hired; Which projects get funded; Where the company is heading | A big customer or partner deal; How my function is run; Pricing or go-to-market; Where we invest in AI |
-| Who decides it, and how well do they know your work? | Single | Making it yours | My boss, and they know it well; My boss, but they undersell me; My boss’s boss, who barely knows me; A group of execs I rarely see; I don’t know who decides | The CEO; Finance; A peer who sees me as a rival; The board |
+| Who decides it, and how well do they know your work? | Single | Making it yours | My boss, and they know it well; My boss, but they undersell me; My boss’s boss, who barely knows me; A group of execs I rarely see; I don’t know who decides | The CEO; Finance; A peer who sees me as a rival; HR and talent *(was The board, 2026-11-18)* |
 
 **Need: visibility**
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| Whose view of you matters most right now? | Single | Making it yours | The exec team; My boss’s peers; The board; Leaders across the company; People in my industry | Customers and clients; Peers at other companies; The press and conferences; My own team |
+| Whose view of you matters most right now? | Single | Making it yours | The exec team; My boss’s peers; My boss’s boss *(was The board, 2026-11-18)*; Leaders across the company; People in my industry | Customers and clients; Peers at other companies; The press and conferences; My own team |
 | If you asked them, what would they say you are? | Single | Making it yours | A strong operator, not a strategist; The expert in one area; Reliable, but not one to watch; More junior than I am; They don’t really know me | A fixer, called when things break; Great with my team, quiet above it; A technical expert; Someone to watch |
 | When did people outside your team last hear your view? | Single | Making it yours | This month, in a meeting I led; This quarter, at a company-wide moment; This year, somewhere public; Over a year ago; I can’t remember | Only when I’m asked; In writing, not in person; Through my boss; Never on my own topic |
 
@@ -757,7 +758,7 @@ The first page shows six **first options**, I'm not sure yet among them. "None o
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| What’s coming up? | Multiple | Making it yours (skipped when the direction already says it) | Promotion conversation; Performance review; Board or exec presentation; A negotiation; An internal interview | Investor or client pitch; A reorganization; A talk or keynote; A difficult conversation |
+| What’s coming up? | Multiple | Making it yours (skipped when the direction already says it) | Promotion conversation; Performance review; Exec presentation *(was Board or exec presentation, 2026-11-18)*; A negotiation; An internal interview | Investor or client pitch; A reorganization; A talk or keynote; A difficult conversation |
 | When is it? | Single | Making it yours (skipped when the direction already says it) | This week; This month; Next few months; Not scheduled yet; Tomorrow | In a day or two; In about six months; Next year; It depends on someone else |
 | What’s the hardest part of it? | Multiple | Making it yours | Making the case for myself; One person in the room; The question I can’t answer; Keeping it short; Not knowing what they want | Staying calm under pushback; Numbers I don’t own; Knowing what to ask for; Following up after |
 
