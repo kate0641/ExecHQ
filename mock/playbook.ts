@@ -53,8 +53,8 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     name: "Positioning Builder",
     makes: "Your positioning statement, a bio in three lengths and a leadership narrative, in your words.",
     short: "Your statement, bios and narrative",
-    when: "Use it before anything that introduces you: a promotion conversation, a new boss, a conference program.",
-    needs: ["Your statement from onboarding (ExecEngine has it)", "A few recent accomplishments, if you want them in"],
+    when: "Make one for each moment that introduces you: a promotion conversation, a new boss, a conference program. Each is kept in your library, ready to build again.",
+    needs: ["A few recent accomplishments, if you want them in"],
     planStepId: "bio",
     // Like the other three: she can start a new one for each use (Kate,
     // 28 Oct), so it starts one rather than building out the one.
@@ -132,6 +132,11 @@ export interface ToolInput {
   /** Not needed for a first draft. */
   optional?: boolean;
   placeholder?: string;
+  /** Asked first in the interview, and so not on the start screen: what
+   *  this one is for, before anything else. */
+  leads?: boolean;
+  /** A long answer's field, in lines; four when left out. */
+  rows?: number;
 }
 
 export interface Enricher {
@@ -968,7 +973,7 @@ export const STEP_BAR_COPY = {
 
 /** Each question's short name in the bar, by tool and input id. */
 export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
-  positioning: { knownFor: "Known for", context: "Introductions", audience: "Audience", format: "Format", source: "Source text" },
+  positioning: { context: "Moments", knownFor: "Known for", audience: "Audience", format: "Format", source: "Source text" },
   pitch: { type: "Pitching for", target: "Who", angle: "Angle", proof: "Proof", audience: "Audience" },
   "situation-brief": { type: "Moment", named: "What it is", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks", background: "Background" },
   "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view", evidence: "Evidence", voice: "Voice", length: "Length" },
@@ -1360,7 +1365,17 @@ export const SEND_STEPS_COPY = {
  *  headed are known; only what she is known for is asked. The values that
  *  depend on her account are filled in by the flow. */
 export const POSITIONING_INPUTS: readonly ToolInput[] = [
-  { id: "statement", label: "Your positioning statement", kind: "long", source: "onboarding" },
+  // The moment comes first (Kate, 2026-11-18): a statement is made for each
+  // one, so what this one is for leads the interview.
+  {
+    id: "context",
+    label: "Which moments is this one for?",
+    kind: "choice",
+    many: true,
+    optional: true,
+    leads: true,
+    options: ["A promotion conversation", "An executive introduction", "A conference program"],
+  },
   { id: "role", label: "Your role, as you’d say it", kind: "text", source: "plan" },
   { id: "toward", label: "Where you’re headed", kind: "text", source: "direction" },
   {
@@ -1371,16 +1386,6 @@ export const POSITIONING_INPUTS: readonly ToolInput[] = [
     placeholder: "Getting teams that don’t report to me to plan as one",
   },
   { id: "strengths", label: "Strengths you’d want named", kind: "text", optional: true, placeholder: "Calm in a hard room; turning data into a decision" },
-  // The three for now, and she can make more than one (CEO, 19 Oct).
-  {
-    id: "context",
-    label: "Introductions for particular moments",
-    hint: "Pick any, or none.",
-    kind: "choice",
-    many: true,
-    optional: true,
-    options: ["A promotion conversation", "An executive introduction", "A conference program"],
-  },
   // The PRD's optional audience and desired format, asked apart (Kate, 13 Oct).
   {
     id: "audience",
@@ -1404,6 +1409,7 @@ export const POSITIONING_INPUTS: readonly ToolInput[] = [
     hint: "An old bio or profile. ExecEngine uses it to fill what it would otherwise ask.",
     kind: "long",
     optional: true,
+    rows: 8,
   },
 ];
 

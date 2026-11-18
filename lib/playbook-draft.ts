@@ -663,7 +663,8 @@ function formatVersion(format: string, p: { name: string; first: string; roleSeg
   return { id: "format", heading: heading[format], segments: segments[format] };
 }
 
-/** Her statement, carried from onboarding, then bios in three lengths, the
+/** Her positioning statement, written from her answers (or the one she
+ *  brings, building an earlier one out again), then bios in three lengths, the
  *  leadership narrative, an introduction for each moment she chose (CEO, 19
  *  Oct: more than one), a version for where she'll use it first, and what to
  *  use it for next. Bios use her name, never a pronoun ExecEngine assumed.
@@ -712,7 +713,14 @@ export function positioningDraft(v: Record<string, string>, name: string, nextSt
   ];
 
   const sections: DraftSection[] = [
-    { id: "statement", heading: "Positioning statement", segments: [statement ? you(statement) : ask("What is your positioning statement?")] },
+    // Written here from what she answered, unless she brings one she has.
+    {
+      id: "statement",
+      heading: "Positioning statement",
+      segments: statement
+        ? [you(statement)]
+        : [ex("I’m known for "), knownSeg, ex(", and I’m building toward "), toward ? you(toward.replace(/[.]$/, "")) : ask("Where are you headed?"), ex(".")],
+    },
     { id: "bio-short", heading: "Short bio", segments: short },
     { id: "bio-medium", heading: "Medium bio", segments: medium },
     { id: "bio-long", heading: "Long bio", segments: long },

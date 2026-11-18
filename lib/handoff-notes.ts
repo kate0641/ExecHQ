@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "positioning-builder-moments-first",
+    title: "Positioning Builder: the moment first",
+    description:
+      "No statement from onboarding on the start screen or the check; Which moments is this one for? opens the interview; one statement for each moment, said on the start screen; the bio field is twice as tall (18 Nov).",
+  },
+  {
     slug: "advisor-without-the-logo",
     title: "Ask your advisor, without the logo",
     description:

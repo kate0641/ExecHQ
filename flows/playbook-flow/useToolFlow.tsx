@@ -339,7 +339,7 @@ export function useToolFlow(concept: FlowConcept) {
   const rest = inputs.filter((i) => !asked.includes(i));
   /** The tool's first question, which the use case screen asks beside its
    *  button (option C), so Concepts 1 and 2 do not ask it again. */
-  const firstChoice = inputs.find((i) => i.kind === "choice");
+  const firstChoice = inputs.some((i) => i.leads) ? undefined : inputs.find((i) => i.kind === "choice");
   const notFirst = (list: readonly ToolInput[]) => list.filter((i) => i !== firstChoice);
   const [writing, setWriting] = useState(false);
 
@@ -355,7 +355,13 @@ export function useToolFlow(concept: FlowConcept) {
       option.id === "emphasis" ? { ...option, choices: EMPHASIS_BY_KIND[kind] } : kind === "pitch" && option.id === "voice" ? { ...option, label: "Tone" } : option
     );
 
-  const currentValues = () => Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)]));
+  /** Building out a statement she already has, it carries on as the draft's
+   *  statement, without being asked or shown again (Kate, 2026-11-18). */
+  const carriedStatement = kind === "positioning" && (buildingOut || rebuilding) ? statementNow : undefined;
+  const currentValues = (): Record<string, string> => ({
+    ...Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])),
+    ...(carriedStatement ? { statement: carriedStatement } : {}),
+  });
 
   /** "Not sure yet" under Who are you pitching?: up to three
    *  outlets of the kind she is pitching for. */
@@ -514,11 +520,6 @@ export function useToolFlow(concept: FlowConcept) {
         {positioningRecord?.state === "closed" ? POSITIONING_COPY.closedBefore(fullDate(statementClosedOn)) : POSITIONING_COPY.reopened(fullDate(statementClosedOn))}
       </span>
       <p className="tool-flow__carried-text">{statementNow}</p>
-    </div>
-  ) : buildingOut ? (
-    <div className="tool-flow__carried">
-      <span className="tool-flow__carried-label">{POSITIONING_COPY.fromOnboarding}</span>
-      <p className="tool-flow__carried-text">{valueOf("statement")}</p>
     </div>
   ) : null;
   // The plan step a draft serves stays on it, as it does in the library.

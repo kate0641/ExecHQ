@@ -10,10 +10,10 @@
 
 | | |
 | --- | --- |
-| **What it makes** | Her positioning statement (one sentence, carried from onboarding); an executive bio in short, medium and long forms; a leadership narrative (what I do, what I am known for, what I am building toward); an optional introduction for one moment; a recommended next use. |
+| **What it makes** | Her positioning statement (one sentence, written from what she is known for and where she is headed, or carried from her onboarding story when she builds that out; 18 Nov); an executive bio in short, medium and long forms; a leadership narrative (what I do, what I am known for, what I am building toward); an optional introduction for one moment; a recommended next use. |
 | **What it is for** | A reusable, executive-level account of who she is, the value she creates and where she is headed. Every other builder draws on it, so it is the one she is most likely to come back to. |
 | **When to use it** | Before anything that introduces her: a promotion conversation, a new boss, a conference program. |
-| **Use case screen** | "Your positioning statement, a bio in three lengths and a leadership narrative, in your words." / "Use it before anything that introduces you: a promotion conversation, a new boss, a conference program." |
+| **Use case screen** | "Your positioning statement, a bio in three lengths and a leadership narrative, in your words." / "Make one for each moment that introduces you: a promotion conversation, a new boss, a conference program. Each is kept in your library, ready to build again." (18 Nov) |
 
 **One artifact, not a copy.** Her onboarding statement is this artifact. Opening Positioning Builder from anywhere opens that statement, with its history: version 1 is the statement as onboarding left it, and building it out adds version 2. It is never started fresh beside it.
 
@@ -56,7 +56,6 @@ Shown on the last screen to check, each with where it came from and Edit:
 
 | Fact | Where it comes from |
 | --- | --- |
-| Your positioning statement | Onboarding ("Your statement from onboarding") |
 | Your role, as you'd say it | Her plan and profile |
 | Where you're headed | Her direction |
 
@@ -64,12 +63,12 @@ Shown on the last screen to check, each with where it came from and Edit:
 
 | Question | Short name | Kind | Required | Notes |
 | --- | --- | --- | --- | --- |
-| An introduction for a particular moment | Introduction | Pick any: A promotion conversation, An executive introduction, A conference program | No | The first question, on the use case screen. The three for now; she can make more than one, and each adds its own introduction to the draft (CEO, 19 Oct). |
+| Which moments is this one for? | Moments | Pick all that apply: A promotion conversation, An executive introduction, A conference program, or her own | No | The first question of the interview, not on the use case screen (Kate, 18 Nov): a statement is made for each moment, so the moment leads. One introduction is written for each moment picked. |
 | What are you known for? | Known for | Her words | Yes | "What colleagues would say you're the person for. A line is enough." |
 | Strengths you'd want named | Strengths | Her words | No | Goes into the long bio. |
 | Who is it mainly for? | Audience | One choice: Senior leaders where I work, An external audience (Recruiters and boards removed 18 Nov: ExecEngine helps her inside her company) | No | Sets the long bio's last question. The PRD's optional audience. |
 | Where will you use it first? | Format | One choice: LinkedIn About section, A speaker bio, An internal profile, An email introduction | No | Adds a version made for it, where possible (CEO, 19 Oct; see section 3), and names the bio to start with in the recommended next use. The PRD's optional desired format. |
-| Paste a bio you already have | Source text | Her words, long | No | "An old bio or profile. ExecEngine uses it to fill what it would otherwise ask." ExecEngine reads all of it, not one sentence, for the full picture of her background and experience (CEO, 19 Oct): what came before her current role, roles and results it names, and anything that answers a question the draft would otherwise ask. Nothing in it is reworded into a claim she didn't make. The PRD's user-provided source text. |
+| Paste a bio you already have | Source text | Her words, long | No | "An old bio or profile. ExecEngine uses it to fill what it would otherwise ask." Its field is eight lines tall (18 Nov). ExecEngine reads all of it, not one sentence, for the full picture of her background and experience (CEO, 19 Oct): what came before her current role, roles and results it names, and anything that answers a question the draft would otherwise ask. Nothing in it is reworded into a claim she didn't make. The PRD's user-provided source text. |
 
 ### 2.3 Enrichers
 

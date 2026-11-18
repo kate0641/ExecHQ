@@ -34,8 +34,12 @@ function Interview() {
   // ExecEngine already has waits for the last screen.
   const isKnown = (input: ToolInput) => Boolean(input.source && input.kind !== "choice");
   const open = f.notFirst(f.inputs.filter((input) => !isKnown(input)));
-  // What she must answer first, then the optional questions.
-  const asked = [...open.filter((input) => !input.optional), ...open.filter((input) => input.optional)];
+  // What leads (Positioning Builder's moment), then what she must answer, then the optional questions.
+  const asked = [
+    ...open.filter((input) => input.leads),
+    ...open.filter((input) => !input.leads && !input.optional),
+    ...open.filter((input) => !input.leads && input.optional),
+  ];
   const rest = f.inputs.filter(isKnown);
   const hasKnown = rest.length > 0;
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -145,7 +149,12 @@ function Interview() {
     // An answer she already has (building out again, or a step-bar jump)
     // shows as picked: an option she chose, or her own words under Other.
     const had = f.valueOf(input.id).trim();
-    const mine = picks[input.id] ?? (pick && had ? (pick.options.includes(had) ? { picked: [had], other: "" } : { picked: [], other: had }) : { picked: [], other: "" });
+    const lines = input.many ? had.split("\n").map((line) => line.trim()).filter(Boolean) : [had];
+    const mine =
+      picks[input.id] ??
+      (pick && had
+        ? { picked: lines.filter((line) => pick.options.includes(line)), other: lines.filter((line) => !pick.options.includes(line)).join(" ") }
+        : { picked: [], other: "" });
     return pick ? (
       <PickAnswer
         label={input.label}
@@ -158,7 +167,8 @@ function Interview() {
         onChange={(picked, other) => {
           setMissing(false);
           setPicks((p) => ({ ...p, [input.id]: { picked, other } }));
-          f.setValue(input.id, pickedPhrase(picked, other));
+          // A choice of several keeps one a line, as the draft reads it.
+          f.setValue(input.id, input.many ? [...picked, ...(other.trim() ? [other.trim()] : [])].join("\n") : pickedPhrase(picked, other));
         }}
       />
     ) : (
@@ -169,7 +179,7 @@ function Interview() {
         value={f.valueOf(input.id)}
         type={input.kind === "date" ? "date" : undefined}
         multiline={input.kind === "long"}
-        rows={4}
+        rows={input.rows ?? 4}
         error={missing ? INPUT_COPY.missing : undefined}
         onChange={(event) => {
           setMissing(false);
