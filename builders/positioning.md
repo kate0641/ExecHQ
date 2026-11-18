@@ -15,7 +15,7 @@
 | **When to use it** | Before anything that introduces her: a promotion conversation, a new boss, a conference program. |
 | **Use case screen** | "Your positioning statement, a bio in three lengths and a leadership narrative, in your words." / "Make one for each moment that introduces you: a promotion conversation, a new boss, a conference program. Each is kept in your library, ready to build again." (18 Nov) |
 
-**One artifact, not a copy.** Her onboarding statement is this artifact. Opening Positioning Builder from anywhere opens that statement, with its history: version 1 is the statement as onboarding left it, and building it out adds version 2. It is never started fresh beside it.
+**One artifact, not a copy.** If she wrote her story in onboarding (its optional first move), that story is this artifact. Opening Positioning Builder from anywhere opens it, with its history: version 1 is the statement as onboarding left it, and building it out adds version 2. It is never started fresh beside it.
 
 **Every build continues it** (CEO, 19 Oct). Building it out again adds the next version (3, 4, and on), never replacing the one before, so she can go back to or reference any earlier build in Versions.
 

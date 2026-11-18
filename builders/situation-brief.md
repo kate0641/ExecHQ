@@ -45,7 +45,7 @@
 
 ### 2.1 What it already has
 
-- **Her positioning statement,** shown on the last screen to check ("Check what ExecEngine has", from onboarding, with Edit). The opening statement draws on it, as the use case screen's "Goes with this" says. Like the other three builders, the last screen opens on what it already knows.
+- **Her positioning statement, if she has one** (from Positioning Builder, or her story from onboarding), shown on the last screen to check ("Check what ExecEngine has", with Edit); without one, it is asked as an optional question. The opening statement draws on it, as the use case screen's "Goes with this" says. Like the other three builders, the last screen opens on what it already knows.
 - **Anything she is waiting to hear about** (a pitch, her story), shown as "Still waiting to hear. Worth raising in the conversation."
 - **From an action step:** the moment's type and who will be there, when the step says them.
 

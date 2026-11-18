@@ -14,11 +14,13 @@ Five plan templates make up V1. They are the routing backbone of onboarding and 
 | --- | --- | --- |
 | **Step Up** | Increase leadership scope | `plans/step-up.md` |
 | **Make Your Mark** | Enhance overall executive presence | `plans/make-your-mark.md` |
-| **Make the Move** | Prepare for a career inflection point (promotion, new role, new career path, board position, and so on) | `plans/make-the-move.md` |
+| **Make the Move** | Prepare for a career inflection point inside her company (a promotion, an internal interview, a move to another part of the business, a review or a negotiation) | `plans/make-the-move.md` |
 | **Lead Where You Are** | Strengthen influence and presence in your current organization | `plans/lead-where-you-are.md` |
 | **Find your next direction** *(a move within the company; rewritten 2026-11-18, was Chart a New Course)* | Explore and clarify a next direction | `plans/find-your-next-direction.md` |
 
 The user only ever sees the user-facing name. The template name is for the agent and the team.
+
+**Inside the company only (Kate, 12 and 18 November 2026).** Every plan helps her grow, or move sideways, inside her own company. None prepares a move out of it: no outside job search, interviews elsewhere, board seats elsewhere, CVs or recruiters. If she says she wants to leave, the agent says that is outside what ExecEngine helps with and offers the closest plan inside (2.3).
 
 ---
 
