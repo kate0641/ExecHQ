@@ -482,13 +482,13 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           </Link>
         </p>
       );
-      // On web the welcome splits, as Login's does: the wordmark and the line
-      // on a dark panel, the statement and the way in on the sheet.
+      // On web the welcome splits, as Login's does: the wordmark and the serif
+      // line on a dark panel, the statement and the way in on the sheet.
       if (viewport === "web")
         return (
           <WelcomeSplit
-            quote={GUIDE_C3.welcome.title}
-            title={GUIDE_C3.welcome.quote}
+            quote={GUIDE_C3.welcome.quote}
+            title={GUIDE_C3.welcome.title}
             description={GUIDE_C3.welcome.lede}
             headingId={headingId}
             primaryLabel={GUIDE_C3.welcome.cta}

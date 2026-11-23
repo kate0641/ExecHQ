@@ -2155,10 +2155,9 @@ export const GUIDE_C3 = {
   file: { label: "What\u2019s saved", added: "Added" },
   welcome: {
     wordmark: "ExecEngine",
-    title: "Somewhere to work on what comes next.",
-    // Part of Eric's why statement (Kate, 2026-11-12).
-    lede: "Part coach, part advisor, part confidant. Private to you, and built around where you want to go.",
-    quote: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be.\u201d",
+    title: "The private, personalized career growth platform for executives.",
+    lede: "Built exclusively around your goals, your ambitions and your path forward.",
+    quote: "No noise. No vanity. No agendas. No comparisons. Just you.",
     cta: "Get started",
     /** The front door has both ways in (Kate, 2026-11-13): Login's "New to ExecEngine? Start here",
      *  the other way round. */

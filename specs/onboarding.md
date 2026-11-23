@@ -103,17 +103,17 @@ The order is a decision, not an accident of the list (see section 10). **Most pe
 The cover. A large statement on navy, with the phone's status bar in white.
 
 - The **ExecEngine** wordmark, large, at the top.
-- Heading: **Somewhere to work on what comes next.**
-- Line: "Part coach, part advisor, part confidant. Private to you, and built around where you want to go." (Kate, 2026-11-12, from Eric's why statement; 33 words on the page.)
-- Closing line, in italic serif: "From "I'd like to be" to "I'm going to be.""
+- Heading: **The private, personalized career growth platform for executives.**
+- Line: "Built exclusively around your goals, your ambitions and your path forward." (Kate, 2026-11-23; 38 words on the page.)
+- Closing line, in italic serif: "No noise. No vanity. No agendas. No comparisons. Just you."
 - Button: **Get started.**
 - Under it: "Already have an account? **Log in**", a line with a link, opening Login (Kate, 2026-11-13). It is the mirror of Login's "New to ExecEngine? Start here". On web it sits at the foot of the sheet.
 
 **Welcome is the front door.** A first visit opens Welcome, not Login; someone with an account goes on to Login from it. A returning person, known on the device, opens on Login as before (2026-11-13).
 
-The same wordmark and serif line open Login, so a returning person and a new one see one product. Login's own line is its own and was not changed with this one.
+The same wordmark opens Login, so a returning person and a new one see one product. Login keeps its own serif line, "Somewhere to work on what comes next."; it was not changed with the Welcome's words (2026-11-23).
 
-**On web the Welcome splits,** as Login's does. A dark panel on the left (40% of the width) carries the **ExecEngine** wordmark and, in italic serif, "Somewhere to work on what comes next." The sheet on the right carries the heading **From "I'd like to be" to "I'm going to be."**, the line "Part coach, part advisor, part confidant. Private to you, and built around where you want to go.", and **Get started**, centered across and down the sheet. Phone and tablet keep the cover above.
+**On web the Welcome splits,** as Login's does. A dark panel on the left (40% of the width) carries the **ExecEngine** wordmark and, in italic serif, "No noise. No vanity. No agendas. No comparisons. Just you." The sheet on the right carries the heading **The private, personalized career growth platform for executives.**, the line "Built exclusively around your goals, your ambitions and your path forward.", and **Get started**, centered across and down the sheet. Phone and tablet keep the cover above.
 
 ### 3.2 What ExecEngine is
 

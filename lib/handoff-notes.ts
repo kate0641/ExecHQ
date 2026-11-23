@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-welcome-copy-2026-11-23",
+    title: "Onboarding: the Welcome's new words",
+    description:
+      "The Welcome's heading, line and serif line all change: \"The private, personalized career growth platform for executives.\", \"Built exclusively around your goals, your ambitions and your path forward.\" and \"No noise. No vanity. No agendas. No comparisons. Just you.\" (23 Nov).",
+  },
+  {
     slug: "ux-review-2026-11-18",
     title: "UX review, 18 November: everything to build",
     description:

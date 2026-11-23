@@ -5125,8 +5125,8 @@ ol.concierge-list {
   flex: none;
 }
 
-/* The welcome sheet's title breaks in even lines, so a quoted phrase stays whole
-   (From “I'd like to be” / to “I'm going to be.”). */
+/* The welcome sheet's title breaks in even lines rather than leaving a word
+   on its own. */
 .welcome__sheet .step-header__title {
   text-wrap: balance;
 }
