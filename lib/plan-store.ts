@@ -19,7 +19,6 @@ import { useSyncExternalStore } from "react";
 import type { RoadmapChoices } from "@/lib/roadmap-choices";
 import { initialPlanState, place, type EmptyReason, type PlanState } from "@/lib/action-steps";
 import type { Horizon } from "@/mock/plan-stub";
-import { CALENDAR_SEED, type CalendarItem } from "@/mock/plan";
 
 export type { RoadmapChoices };
 
@@ -39,12 +38,10 @@ export interface SavedSteps {
 interface Store {
   roadmap: Record<string, RoadmapChoices>;
   steps: Record<string, SavedSteps>;
-  /** What she put on her own calendar, per scenario. */
-  calendar: Record<string, CalendarItem[]>;
 }
 
 const STORAGE_KEY = "exechq-plan";
-const EMPTY: Store = { roadmap: {}, steps: {}, calendar: {} };
+const EMPTY: Store = { roadmap: {}, steps: {} };
 
 let cached: Store | undefined;
 const listeners = new Set<() => void>();
@@ -53,7 +50,7 @@ function read(): Store {
   try {
     const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null") as Partial<Store> | null;
     return parsed && typeof parsed === "object"
-      ? { roadmap: parsed.roadmap ?? {}, steps: parsed.steps ?? {}, calendar: parsed.calendar ?? {} }
+      ? { roadmap: parsed.roadmap ?? {}, steps: parsed.steps ?? {} }
       : EMPTY;
   } catch {
     return EMPTY;
@@ -68,7 +65,7 @@ function get(): Store {
 function write(next: Store): void {
   cached = next;
   try {
-    if (Object.keys(next.roadmap).length + Object.keys(next.steps).length + Object.keys(next.calendar).length === 0) window.localStorage.removeItem(STORAGE_KEY);
+    if (Object.keys(next.roadmap).length + Object.keys(next.steps).length === 0) window.localStorage.removeItem(STORAGE_KEY);
     else window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   } catch {
     // Not being able to persist is not worth failing over.
@@ -83,10 +80,6 @@ function subscribe(listener: () => void): () => void {
 
 export function saveRoadmap(scenario: string, choices: RoadmapChoices): void {
   write({ ...get(), roadmap: { ...get().roadmap, [scenario]: choices } });
-}
-
-export function saveCalendar(scenario: string, items: CalendarItem[]): void {
-  write({ ...get(), calendar: { ...get().calendar, [scenario]: items } });
 }
 
 export function saveSteps(key: string, steps: SavedSteps): void {
@@ -149,10 +142,6 @@ export function useRoadmapChoices(scenario: string): RoadmapChoices | undefined 
   return useSyncExternalStore(subscribe, get, () => EMPTY).roadmap[scenario];
 }
 
-/** Her calendar in this scenario: what she kept, or the two things she started with. */
-export function useCalendar(scenario: string): CalendarItem[] {
-  return useSyncExternalStore(subscribe, get, () => EMPTY).calendar[scenario] ?? CALENDAR_SEED;
-}
 
 /** Her saved next steps for this scenario and plan, or undefined. */
 export function useSavedSteps(key: string): SavedSteps | undefined {
@@ -162,5 +151,5 @@ export function useSavedSteps(key: string): SavedSteps | undefined {
 /** Whether she has made any choice on the Plan, so the dock's reset knows. */
 export function useRoadmapChanged(): boolean {
   const all = useSyncExternalStore(subscribe, get, () => EMPTY);
-  return Object.keys(all.roadmap).length + Object.keys(all.steps).length + Object.keys(all.calendar).length > 0;
+  return Object.keys(all.roadmap).length + Object.keys(all.steps).length > 0;
 }

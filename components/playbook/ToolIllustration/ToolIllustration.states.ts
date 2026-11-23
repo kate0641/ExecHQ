@@ -7,7 +7,7 @@ export const toolIllustrationStates = defineComponentStates({
   group: "primitives",
   feature: "Playbook",
   status: "draft",
-  flows: ["playbook"],
+  flows: ["playbook", "onboarding"],
   description:
     "The tools' line drawings, one per tool, shaded, from the ILLUSTRATIONS tokens. An ID card for Positioning Builder, a microphone for Pitch Builder, a clipboard for Situation Brief, a lightbulb for Thought Leadership Builder. Placeholders: the finished drawings come from design.",
   component: ToolIllustration,
@@ -23,5 +23,6 @@ export const toolIllustrationStates = defineComponentStates({
     { label: "Positioning Builder", props: { tool: "positioning", size: 150 } },
     { label: "Pitch Builder", props: { tool: "pitch", size: 150 } },
     { label: "Thought Leadership Builder", props: { tool: "thought-leadership", size: 150 } },
+    { label: "Icon level — outline only, for small places", props: { tool: "pitch", level: "icon", size: 22 } },
   ],
 });

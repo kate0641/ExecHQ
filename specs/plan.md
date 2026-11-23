@@ -118,9 +118,9 @@ A step brought onto their plan by a stage check-in carries one line saying why, 
 
 ### 4.6 The last page, and when there is nothing
 
-After the last move: kicker "The road ahead", heading "That's this stretch of the plan.", the line "Here is where your plan stands.", what changed on their plan most recently (up to six notes), and the reply "Then ExecEngine builds the next stage, from what worked and what didn't." Buttons: **Go through them again** and **Add to your plan**.
+After the last move: kicker "The road ahead", heading "That's this stretch of the plan.", the line "Here is where your plan stands.", what changed on their plan most recently (up to six notes), and the reply "Then ExecEngine builds the next stage, from what worked and what didn't." Button: **Go through them again**.
 
-With no moves at all: "Nothing to answer right now." and "Your plan offers the next move when one fits.", with **Add to your plan**.
+With no moves at all: "Nothing to answer right now." and "Your plan offers the next move when one fits.", with no button.
 
 ### 4.7 When a move falls
 
@@ -210,7 +210,7 @@ The same drawer, with its contents at the reading width. While it is open it rea
 
 ### 5.3 Web
 
-There is no drawer. The answers sit in the page, under the question as a heading ("Where are you with this?"), with no card around them. The "Ask or go" pill stays on screen throughout. The add button is a plain **Add to your plan** button at the foot of the roadmap, not a floating one.
+There is no drawer. The answers sit in the page, under the question as a heading ("Where are you with this?"), with no card around them. The "Ask or go" pill stays on screen throughout.
 
 ---
 
@@ -253,14 +253,13 @@ An open stage shows **Finishing looks like** {the stage's milestone}, then what 
 
 Each line has its time in words on a pill, then its title.
 
-- **A step** is a button that opens it, one at a time: the start button (as 4.2; "I've done this" for a step with no tool that is already on their plan), then **Ask ExecEngine** with three rows, "Why this step?", "What will it take?" and "Ask something else", each opening the chat on its answer. On the roadmap under a move, the stage opens with every step closed, because the move above already offers the way to start it.
-- **Something they added** shows its title and "· Yours", and does not open.
+- **A step** is a button that opens it, one at a time: the start button (as 4.2; "I've done this" for a step with no tool that is already on their plan), then **Ask ExecEngine** with three rows, "Why this move?", "What will it take?" and "Ask something else", each opening the chat on its answer. On the roadmap under a move, the stage opens with every step closed, because the move above already offers the way to start it.
 
 A step goes in the stage its day falls in. A step still to do always goes in the stage they are in or the one they are about to start, never in one they have finished.
 
-### 7.4 Adding to their plan
+### 7.4 Adding to their plan (removed)
 
-The floating **+** (phone and tablet) or **Add to your plan** (web) opens a sheet: **What is it?** (placeholder "A talk, a meeting, a deadline"), **When** as the time words, then **Add to my plan** and **Cancel**. Adding puts it on their plan in the stage its time falls in, opens that stage, and says "Added to {stage}, {when}."
+Removed 18 November 2026 (ExecEngine UX review): **Add to your plan** (the floating **+** on phone and tablet, the button on web, and its sheet for a talk, a meeting or a deadline) is not in V1. Asking someone to fill in their own events is a blank-page problem that adds stress, and the plan already offers each move. The roadmap holds only the plan's moves; nothing on it is marked "Yours". Do not build it.
 
 ---
 
@@ -281,7 +280,7 @@ ExecEngine decides a stage is finished, from their work: every step they took on
 The check-in uses the same page and answers as the moves, with "Stage check-in · {stage}" where the plan's name was, and a segment for each of its pages.
 
 1. **What you did.** Kicker "Stage {n} of {total} · Finished", heading "You finished {stage}!", and "Here's what you did. Tell me how it went, and I'll build on it." (2026-10-28) Then one card per thing from the stage:
-   - its source: **Your steps**, **In ExecEngine** (something made with ExecEngine) or **Yours** (something they added),
+   - its source: **Your moves**, **In ExecEngine** (something made with ExecEngine) or **Yours** (something they added),
    - its title, and what happened when ("Used 13 Oct", "Done 9 Oct", "Added 17 Oct"),
    - what they have said came of it ("It went well." and their words in the serif), or a **Not reported yet** tag,
    - steps they passed on, listed with "You passed on it" and never asked about.

@@ -25,9 +25,9 @@ The Situation Brief's check-back comes from the brief (the Maya journey's two-da
 
 Every builder runs the same six steps, in this order:
 
-1. **Use case.** One sentence on what it makes, one on when to use it, what she will need, and how it connects to her plan. No feature tour. Every concept opens on it, Interview included (since 13 Oct).
+1. **Use case.** One sentence on what it makes, one on when to use it, what she will need, and how it connects to her plan. Where it ends in a start button, the button is pinned to the foot of the page on phone and tablet, never just under the text (18 Nov). No feature tour. Every concept opens on it, Interview included (since 13 Oct).
 2. **Inputs.** Only what this artifact needs.
-3. **First draft.** Editable, never presented as finished or as fact.
+3. **First draft.** Editable, never presented as finished or as fact. As it opens, once, a card says **Draft saved to your library**, with **Open your library**, and goes after about five seconds (18 Nov; Playbook flow spec 4.5).
 4. **Revise.** Structured options and a conversational follow-up.
 5. **Copy or export.**
 6. **Mark ready, then used.** The Loop follows up from there.
@@ -56,7 +56,7 @@ An artifact already in her library opens straight into its draft, never through 
 ## 3. What goes into a draft
 
 - **Ask only for what this artifact needs.** Anything ExecEngine already knows is shown filled in and editable, never asked again.
-- **The first question sits on the use case screen,** beside the start button, so the steps after it don't repeat it. When a plan step has already answered it, it arrives chosen and says so.
+- **The first question sits on the use case screen,** so the steps after it don't repeat it, except in Positioning Builder, whose first question (Which moments is this one for?) opens the interview instead, because a statement is made for each moment (18 Nov). When a plan step has already answered it, it arrives chosen and says so.
 - **Required and optional.** A builder asks the questions only she can answer, one at a time in the guided concepts. What ExecEngine already has, and anything optional, waits on one last screen to check.
 - **Enrichers are offers, never gates.** When something would improve the draft ("Add three recent accomplishments"), it is offered inside the flow with why, and she can skip it. The draft never waits for one.
 - **She supplies the facts.** In V1 nothing is imported. No LinkedIn, no company data, no scraping. Every fact in a draft is one she typed or chose.
@@ -131,7 +131,7 @@ Drafting, editing or readying something is not a signal. Only what she used, sen
 - **Everything she made, in one place,** most recent first, with title, tool, status, last change, versions and where it came from.
 - **Reuse makes a new artifact,** with its own Loop record, linked back to the one it started from ("Started from your pitch for the Q1 planning review").
 - **Delete asks once,** and says what else goes: its Loop record and any Signal Picture items it produced.
-- **Never empty after onboarding.** Her one-sentence positioning statement is her first artifact. Only someone who left onboarding before saving sees an empty library, pointing to her first action step.
+- **Empty until she makes something.** Onboarding's first move (her story) is optional, so her library starts empty unless she wrote it; then her story is her first artifact. An empty library points to her first move.
 
 ---
 

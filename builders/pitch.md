@@ -28,14 +28,15 @@
 | Step Up | 2.1 Choose one relevant visibility channel and create a credible proof-of-value artifact or activity (when the channel is a stage or show) |
 | Make Your Mark | 3.2 Send a tailored pitch to one event, podcast or publication on her list |
 | Make the Move | 3.1 Prepare the ninety-second version and say it out loud (also the Situation Brief's: CEO, 19 Oct) |
-| Chart a New Course | 2.2 Talk to people already doing the work in each direction (an outreach note: in Pitch Builder for now, CEO 19 Oct; with a Spark on Home, Kate 19 Oct) |
+| Find your next direction | 2.2 Talk to people already doing the work (an outreach note to a colleague: in Pitch Builder for now, CEO 19 Oct; with a Spark on Home, Kate 19 Oct) |
 
 **The ninety-second version belongs to both builders** (CEO, 19 Oct): Make the Move 3.1 offers Pitch Builder and the Situation Brief, and she picks. In Pitch Builder it is the short version, written to be said out loud; in the Situation Brief, the opening statement. (Kate, 19 Oct)
 
-**Outreach comes with a Spark** (the CEO's suggestion; Kate, 19 Oct). While Chart a New Course 2.2 is on her plan, Home's Spark says: "Someone already does the work you're heading toward. A short note could open the door." Its button opens Pitch Builder's outreach note.
+**Outreach comes with a Spark** (the CEO's suggestion; Kate, 19 Oct). While Find your next direction 2.2 is on her plan, Home's Spark says: "Someone already does the work you're heading toward. A short note could open the door." Its button opens Pitch Builder's outreach note.
 
 - **In the prototype's mock plan:** "Pitch yourself to a podcast the people above you follow" (arrives with Podcast chosen), "Draft a talk proposal for the leadership forum" (Speaking, the leadership forum), and "Put yourself forward for the Q1 planning review" (Speaking, the Q1 planning review).
 - **From "What's on your mind?"** when what she says names a pitch, podcast, conference, panel, speaking, "a talk", a keynote, press, an editor, a journalist or a call for proposals.
+- **From a Spark Signal** in the Daily Briefing (18 Nov): **Start a pitch** or **Start a proposal** on a card opens Pitch Builder with that outlet chosen, its kind as What are you pitching for? and its name as Who are you pitching?.
 - **From the Playbook or the library,** and from her last pitch ("Your last pitch. Start from it instead of a blank page."), which starts a new pitch linked back to it.
 
 ### 1.2 When another builder fits better
@@ -68,7 +69,7 @@ Shown on the last screen to check, each with where it came from and Edit (the PR
 | Who do you want to reach? | Audience | One choice, her direction's audience first ("Marketing and commercial leaders"), then Senior executives, Operators and practitioners, Founders and investors, or her words | Yes | Asked, not taken from her direction, because an outlet's audience can differ from hers (CEO, 19 Oct). Asked before Who, so "Not sure yet" can suggest outlets that reach it. Goes into the pitch and its why now. |
 | What would you talk about? | Angle | Her words | Yes | "The topic, in a line, as you'd say it to the person deciding." |
 | One or two things you can prove | Proof | Her words, long | Yes | "Something you led or delivered. Leave out what you can't share." |
-| Who are you pitching? | Who | Her words, or one of ExecEngine's suggestions | Yes (Kate, 14 Oct) | "The event, show or publication." Arrives filled from an action step. "Not sure yet" offers up to three from a list ExecEngine keeps by audience and plan area (CEO, 19 Oct), each with one line on why it fits; she picks one. |
+| Who are you pitching? | Who | Her words, or one of ExecEngine's suggestions | Yes (Kate, 14 Oct) | "The event, show or publication." Arrives filled from a Spark Signal (18 Nov), or from an action step. "Not sure yet" offers up to three from a list ExecEngine keeps by audience and plan area (CEO, 19 Oct), each with one line on why it fits; she picks one. |
 | Links or earlier talks | Links | Her words | No | "A post, a recording, a past talk." Goes into the expanded version. |
 
 ### 2.3 Enrichers

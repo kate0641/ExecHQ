@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
-import { AddToPlanDrawer } from "@/components/plan/AddToPlanDrawer";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { GuidePage } from "@/components/onboarding/GuidePage";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
@@ -43,8 +42,6 @@ export interface PlanGuidedProps {
   workingOn?: (step: ActionStep) => boolean;
   /** She took a move on, to start it. */
   onStart: (step: ActionStep) => void;
-  /** She added something of her own. Says which stage it fell in. */
-  onAdd: (item: { title: string; date: LoopDate }) => number | void;
   /** Why a move is on her plan, when something she said brought it there: "You passed on this before." */
   heardOf?: (step: ActionStep) => string | undefined;
   /** The roadmap, read under the move. Always on the page; the open drawer covers it until she folds it. */
@@ -56,8 +53,6 @@ export interface PlanGuidedProps {
   demoFolded?: boolean;
   /** Catalogue and the showroom's screens: the times to choose from, open. */
   demoPicking?: boolean;
-  /** Catalogue and the showroom's screens: the sheet for adding her own, open. */
-  demoAdding?: boolean;
   className?: string;
 }
 
@@ -66,7 +61,8 @@ export interface PlanGuidedProps {
  * it matters, and a drawer that holds where she is with it. Answering changes her plan for real
  * (done, put in her week, made smaller, or passed on) and comes back as a short reply in the serif
  * voice, then the next move. The last page says where the plan stands. The roadmap sits on the page under
- * the move, so folding the drawer shows the whole road; adding something of her own slides up as a sheet.
+ * the move, so folding the drawer shows the whole road. She adds nothing of her own: Add to your plan was
+ * cut from V1 (UX review, 2026-11-18).
  *
  * Nothing here is a list she scans: one move at a time, the way onboarding asks one question at a time.
  */
@@ -84,7 +80,6 @@ export function PlanGuided({
   onTalk,
   workingOn,
   onStart,
-  onAdd,
   heardOf,
   demoPage,
   demoAnswered,
@@ -92,7 +87,6 @@ export function PlanGuided({
   demoPassed,
   demoFolded,
   demoPicking,
-  demoAdding,
   className,
 }: PlanGuidedProps) {
   const headingId = useId();
@@ -104,8 +98,6 @@ export function PlanGuided({
   const [chosenWhen, setChosenWhen] = useState<Record<string, string>>({});
   const [passedLine, setPassedLine] = useState<Record<string, string>>(demoPassed ?? {});
   const [open, setOpen] = useState(!demoFolded);
-  const [adding, setAdding] = useState(Boolean(demoAdding));
-  const [note, setNote] = useState("");
   const first = useRef(true);
   // Folding with the drawer's handle hands focus to the card's button. Never on first paint.
   const askRef = useRef<HTMLButtonElement>(null);
@@ -146,21 +138,6 @@ export function PlanGuided({
     //.
     navy: true,
   };
-  const sheets = (
-    <>
-      <AddToPlanDrawer
-        open={adding}
-        onClose={() => setAdding(false)}
-        today={today}
-        onAdd={({ title, date, label }) => {
-          const at = onAdd({ title, date });
-          setAdding(false);
-          if (typeof at === "number") setNote(AG.added(stages[at]?.title ?? "", label));
-        }}
-      />
-    </>
-  );
-
   if (!moves.length || page >= moves.length) {
     const none = !moves.length;
     return (
@@ -172,12 +149,9 @@ export function PlanGuided({
           title={none ? G.noneTitle : G.lastTitle}
           lede={none ? G.noneLede : G.lastLede}
           className={["plan-guided", className].filter(Boolean).join(" ")}
-          primaryLabel={none ? G.add : G.again}
-          onPrimary={() => (none ? setAdding(true) : (setPage(0), setAnswered({}), setOpen(true)))}
-          secondaryLabel={none ? undefined : G.add}
-          onSecondary={none ? undefined : () => setAdding(true)}
+          primaryLabel={none ? undefined : G.again}
+          onPrimary={none ? undefined : () => (setPage(0), setAnswered({}), setOpen(true))}
         >
-          {note ? <output className="plan-guided__note">{note}</output> : null}
           {/* What changed is a record, not something to tap: one card with its title in a strip and the changes
               split by dividers. */}
           {sparks.length ? (
@@ -196,7 +170,6 @@ export function PlanGuided({
           ) : null}
           <ReflectionReply from="ExecEngine" text={G.after} />
         </GuidePage>
-        {sheets}
       </>
     );
   }
@@ -336,9 +309,7 @@ export function PlanGuided({
             </button>
           </div>
         ) : null}
-        {note ? <output className="plan-guided__note">{note}</output> : null}
       </GuidePage>
-      {sheets}
     </>
   );
 }

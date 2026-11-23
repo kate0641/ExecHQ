@@ -99,7 +99,6 @@ import { accountPickerStates } from "./login/AccountPicker/AccountPicker.states"
 import { planSignalPictureStates } from "./plan/PlanSignalPicture/PlanSignalPicture.states";
 import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.states";
 import { planDirectionStates } from "./plan/PlanDirection/PlanDirection.states";
-import { addToPlanDrawerStates } from "./plan/AddToPlanDrawer/AddToPlanDrawer.states";
 import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
 import { stageCheckInStates } from "./plan/StageCheckIn/StageCheckIn.states";
 import { checkInRecapStates } from "./plan/CheckInRecap/CheckInRecap.states";
@@ -112,11 +111,13 @@ import { briefingArticleStates } from "./briefing/BriefingArticle/BriefingArticl
 import { respondLinkStates } from "./briefing/RespondLink/RespondLink.states";
 import { sourceLabelStates } from "./briefing/SourceLabel/SourceLabel.states";
 import { readCounterStates } from "./briefing/ReadCounter/ReadCounter.states";
+import { sparkSignalsStates } from "./briefing/SparkSignals/SparkSignals.states";
 import { briefingEndStates } from "./briefing/BriefingEnd/BriefingEnd.states";
 import { toolUseCaseStates } from "./playbook/ToolUseCase/ToolUseCase.states";
 import { inputPanelStates } from "./playbook/InputPanel/InputPanel.states";
 import { pickAnswerStates } from "./playbook/PickAnswer/PickAnswer.states";
 import { enricherCardStates } from "./playbook/EnricherCard/EnricherCard.states";
+import { savedNoticeStates } from "./playbook/SavedNotice/SavedNotice.states";
 import { outletCardStates } from "./playbook/OutletCard/OutletCard.states";
 import { sendStepsStates } from "./playbook/SendSteps/SendSteps.states";
 import { outletSuggestionsStates } from "./playbook/OutletSuggestions/OutletSuggestions.states";
@@ -233,7 +234,6 @@ export const registry: RegisteredComponent[] = [
   linkedInPictureStates,
   momentumLabeledStates,
   planDirectionStates,
-  addToPlanDrawerStates,
   planGuidedStates,
   stageCheckInStates,
   checkInRecapStates,
@@ -246,10 +246,12 @@ export const registry: RegisteredComponent[] = [
   sourceLabelStates,
   readCounterStates,
   briefingEndStates,
+  sparkSignalsStates,
   toolUseCaseStates,
   inputPanelStates,
   pickAnswerStates,
   enricherCardStates,
+  savedNoticeStates,
   outletCardStates,
   sendStepsStates,
   outletSuggestionsStates,

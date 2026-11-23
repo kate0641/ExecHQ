@@ -76,7 +76,7 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
       { id: "search", label: "Search, nothing typed", note: "The magnifying glass beside Library.", query: "screen=search" },
       { id: "search-match", label: "Search, with matches", note: "Matches update as she types, across every folder.", query: "screen=search-match" },
       { id: "search-none", label: "Search, no match", query: "screen=search-none" },
-      { id: "empty", label: "Nothing in the library", note: "Only someone who left onboarding before saving: her first step.", query: "screen=empty", full: true },
+      { id: "empty", label: "Nothing in the library", note: "Only someone who left onboarding before saving: her first move.", query: "screen=empty", full: true },
     ],
   },
   {
@@ -85,7 +85,7 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
     title: "Playbook flow",
     screens: [
       { id: "start", label: "A tool's start screen", note: "Start, on a tool. The Situation Brief here; every tool has the same shape.", query: "tool=situation-brief", full: true },
-      { id: "start-step", label: "Start, from a plan step", note: "A plan step's button: On your plan, with its answer chosen.", query: "tool=pitch&step=pitch-podcast", full: true },
+      { id: "start-step", label: "Start, from a plan move", note: "A plan move's button: On your plan, with its answer chosen.", query: "tool=pitch&step=pitch-podcast", full: true },
       { id: "start-briefing", label: "Start, from a Briefing read", note: "Write a post about this, on a read: Thought Leadership with the read as its source.", query: "source=briefing&read=planning-season", full: true },
       { id: "start-statement", label: "Positioning: her statement from onboarding", note: "Positioning opens on her statement, version 1, to build out.", query: "tool=positioning", full: true },
       { id: "q-many", label: "A question: pick all that apply", note: "Chips, several at once, with Other.", query: "tool=situation-brief&screen=q-audience" },
@@ -115,7 +115,6 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
       { id: "passed", label: "Not for me: passed on", note: "After the reason. What was offered in its place shows here when there is one.", query: "screen=plan-passed" },
       { id: "last", label: "The last page: where the plan stands", note: "After the last move: what changed on her plan.", query: "screen=plan-last" },
       { id: "none", label: "Nothing to answer right now", note: "When she has no live moves.", query: "screen=plan-none" },
-      { id: "add", label: "Add something of your own", note: "Add, on the last page.", query: "screen=plan-add" },
       {
         id: "checkin",
         label: "Stage check-in: what you did",

@@ -17,7 +17,7 @@ What it deliberately does not do:
 
 - **Ask them to organize anything.** ExecEngine files each draft in its tool's folder. There are no folders to make, no tags, no menus on rows.
 - **Guess at what to make.** Finding the right tool is the advisor's job ("Which tool do I need?", 5.3), not a field on the page.
-- **Show an empty library to someone who finished onboarding.** Their positioning statement from onboarding is their first artifact. Only someone who left onboarding before saving sees an empty library (4.4).
+- **Show an empty library to someone who has made something.** If they wrote their story in onboarding (its optional first move), it is their first artifact. Only someone who hasn't made anything yet sees an empty library (4.4; 2026-11-18).
 
 ### Where it appears
 
@@ -100,7 +100,7 @@ Tapping a row opens the artifact straight to its draft (see the Playbook flow sp
 
 ### 4.4 Nothing in the library
 
-Only for someone who left onboarding before saving: **Nothing here yet**, "Your first draft starts from the first step on your plan.", with that step as a link to the Plan. Search is not offered.
+Only for someone who hasn't made anything yet (onboarding's story is optional): **Nothing here yet**, "Your first draft starts from the first move on your plan.", with that step as a link to the Plan. Search is not offered.
 
 ### 4.5 Search
 

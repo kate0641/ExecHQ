@@ -14,11 +14,13 @@ Five plan templates make up V1. They are the routing backbone of onboarding and 
 | --- | --- | --- |
 | **Step Up** | Increase leadership scope | `plans/step-up.md` |
 | **Make Your Mark** | Enhance overall executive presence | `plans/make-your-mark.md` |
-| **Make the Move** | Prepare for a career inflection point (promotion, new role, new career path, board position, and so on) | `plans/make-the-move.md` |
+| **Make the Move** | Prepare for a career inflection point inside her company (a promotion, an internal interview, a move to another part of the business, a review or a negotiation) | `plans/make-the-move.md` |
 | **Lead Where You Are** | Strengthen influence and presence in your current organization | `plans/lead-where-you-are.md` |
-| **Chart a New Course** *(shown as Find your next direction until rewritten for a move within the company, 2026-11-12)* | Explore and clarify a new opportunity or direction | `plans/chart-a-new-course.md` |
+| **Find your next direction** *(a move within the company; rewritten 2026-11-18, was Chart a New Course)* | Explore and clarify a next direction | `plans/find-your-next-direction.md` |
 
 The user only ever sees the user-facing name. The template name is for the agent and the team.
+
+**Inside the company only (Kate, 12 and 18 November 2026).** Every plan helps her grow, or move sideways, inside her own company. None prepares a move out of it: no outside job search, interviews elsewhere, board seats elsewhere, CVs or recruiters. If she says she wants to leave, the agent says that is outside what ExecEngine helps with and offers the closest plan inside (2.3).
 
 ---
 
@@ -35,7 +37,7 @@ She may describe a role, broader scope, professional presence, a specific moment
 | "I want to lead a larger marketing organization" | Step Up |
 | "I want to be more visible as a leader in my field" | Make Your Mark |
 | "I have a promotion conversation in six weeks" | Make the Move |
-| "I know I want something different, but I cannot name the role yet" | Chart a New Course |
+| "I want to move to another part of the business" | Find your next direction |
 
 **Still to write:** the rest of the 10 to 15 answers, including at least one that routes to Lead Where You Are, which none of the examples does yet.
 
@@ -108,6 +110,15 @@ Each plan's signal emphasis matrix gives each signal a role in each stage. The p
 The labels are internal recommendation inputs. They are **never shown to her as a score**, rank, percentage or grade. The final matrix for each plan should say which signal work is appropriate to recommend, what context about her is needed, and what observable activity or outcome moves the plan forward.
 
 **Note for the prototype:** the Signal Picture currently tracks LinkedIn, podcasts, press, talks and published writing. AI discoverability is not tracked there yet.
+
+### 4.3 Spark Signals (18 Nov)
+
+The Daily Briefing offers up to three **Spark Signals** a week, after the day's reads: a show to pitch, an event to speak at, a publication to write for, picked for where she is going (Daily Briefing spec 3.4a). They are open to every plan. **Proposed:**
+
+- The agent may point to one when it fits a step on her plan, such as Make Your Mark's stage 3, Step Up's visibility channel (2.1) or Lead Where You Are's point of view (3.3). It never makes one a step on its own.
+- Starting a pitch from one opens Pitch Builder with that outlet chosen, and the pitch counts for the plan step it serves.
+- They are always in her field, never a way out of her company (1).
+- Not to be confused with **Spark**, Home's small notes when something she can see has moved (Homepage spec), or with the six signals above.
 
 ---
 

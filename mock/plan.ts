@@ -195,10 +195,10 @@ const NEW_STEPS: ActionStep[] = [
     title: "Write your bio",
     horizon: "short",
     status: "suggested",
-    whyThis: "It’s what goes ahead of you: to a recruiter, an event, a new boss.",
+    whyThis: "It’s what goes ahead of you: to the exec team, an event, a new team.",
     whyNow: "Your story is written, so the bio is the same words, shorter.",
     whyYou: "You want to be seen as a leader, not only an operator.",
-    whyLine: "Your story is written, and your bio is what goes ahead of you to a recruiter, an event or a new boss.",
+    whyLine: "Your story is written, and your bio is what goes ahead of you to the exec team, an event or a new team.",
     signalId: "seen-as-leader",
     area: "seen-as-leader",
     stage: 0,
@@ -475,7 +475,7 @@ export const ROADMAP_COPY = {
   current: "Your current plan",
   carriesOver: [
     "Everything you’ve made, every Loop record and everything on your Signal Picture stays.",
-    "Your next steps are chosen again for the new plan.",
+    "Your next moves are chosen again for the new plan.",
     "Your current plan stays in your history.",
   ],
   switchTo: (name: string) => `Switch to ${name}`,
@@ -487,7 +487,7 @@ export const ROADMAP_COPY = {
   switchedOn: (date: string) => `You chose this plan on ${date}.`,
   customPlan: "Want something that fits none of these? Building your own plan is designed in Sprint 1.",
   /** Only Step Up has next steps written in the prototype. */
-  stepsStub: "Stubbed · next steps for this plan are written in Sprint 4. Maya’s steps are for Step Up.",
+  stepsStub: "Stubbed · next moves for this plan are written in Sprint 4. Maya’s moves are for Step Up.",
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -569,7 +569,7 @@ export const SIGNAL_PICTURE_COPY = {
   deleteYes: "Delete",
   deleteNo: "Keep it",
   impactHeading: "How it went",
-  nextLabel: "Next action",
+  nextLabel: "Next move",
   impactAdd: "Add how it went",
   /** The block that shows only what she says came of the things she did. */
   cameOf: {
@@ -646,9 +646,9 @@ export type MomentumFigure = "completed" | "artifact" | "outcome" | "signal";
 
 export const MOMENTUM_COPY = {
   heading: "Momentum",
-  intro: "Your week in motion: plan steps, drafts and outcomes, and the signals you add.",
+  intro: "Your week in motion: plan moves, drafts and outcomes, and the signals you add.",
   figures: {
-    completed: (n: number) => `${n} completed action${n === 1 ? "" : "s"}`,
+    completed: (n: number) => `${n} completed move${n === 1 ? "" : "s"}`,
     artifact: (n: number) => `${n} artifact${n === 1 ? "" : "s"} created or used`,
     outcome: (n: number) => `${n} outcome${n === 1 ? "" : "s"} updated`,
     signal: (n: number) => `${n} signal${n === 1 ? "" : "s"} added`,
@@ -662,111 +662,6 @@ export const MOMENTUM_COPY = {
     notYet: "not yet",
   },
 } as const;
-
-/* -----------------------------------------------------------------------------
-   HER OWN CALENDAR (Concept 1 tweak, 2026-10-04)
-   Her calendar holds what she adds herself, by hand: V1
-   has no connections, so nothing syncs from Google or Outlook.
-   -------------------------------------------------------------------------- */
-
-/** Something she put on her own calendar. Plan steps are separate: they come
- *  from the plan and carry their own dates. */
-export interface CalendarItem {
-  id: string;
-  title: string;
-  /** The day, as YYYY-MM-DD. */
-  date: string;
-  note?: string;
-}
-
-/** A plan step as the calendar and the agenda show it: read-only there, since she changes a step
- *  from its card. `suggested` until she accepts it or moves it. */
-export interface CalendarStep {
-  id: string;
-  title: string;
-  date: string;
-  suggested: boolean;
-}
-
-/** What her calendar holds before she changes it: two things she told us about. */
-export const CALENDAR_SEED: CalendarItem[] = [
-  { id: "seed-1", title: "Growth Summit panel", date: "2026-10-29", note: "Panel: planning for growth" },
-  { id: "seed-2", title: "Leadership forum talk proposal due", date: "2026-11-13" },
-];
-
-/* -----------------------------------------------------------------------------
-   THE ROADMAP AS AN AGENDA (Concept 1)
-   Stages stacked as cards, each with its period, what finishing looks like and
-   what she has on her calendar inside it. Periods are a suggested pace: they
-   move as she does and are never a deadline.
-   -------------------------------------------------------------------------- */
-
-export const AGENDA_COPY = {
-  summary: (stages: number, weeks: number) => `${stages} stages · about ${weeks} weeks`,
-  /** When a stage is aimed at, in words: where its suggested end falls. */
-  suggested: (when: string) => `Aim for: ${when.toLowerCase()}`,
-  pace: "A suggested pace, not a deadline.",
-  stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
-  about: (weeks: number) => `about ${weeks} week${weeks === 1 ? "" : "s"}`,
-  states: { current: "You are here", done: "Done", recommended: "Recommended next" },
-  finishing: "Finishing looks like",
-  outcomes: "By the end you’ll have",
-  nothingYet: "Nothing on your calendar in this stage yet.",
-  finish: "I’ve finished this stage",
-  thenNext: (n: number, name: string) => `Then we’ll recommend Stage ${n}, ${name}.`,
-  thenAfter: "Then we’ll plan the next stretch with you, from what worked and what didn’t.",
-  suggestTitle: "You’ve done what this stage asks.",
-  suggestBody: "Mark it finished and we’ll recommend the next stage. Or keep going.",
-  markFinished: "Mark stage finished",
-  notYet: "Not yet",
-  pastPace: "You’re past the suggested pace for this stage. That’s fine. Finish it when you’re ready.",
-  recommendedTitle: (n: number, name: string) => `Stage ${n}: ${name}`,
-  recommendedBody: (when: string, weeks: number) => `Aim for ${when.toLowerCase()} · about ${weeks} weeks.`,
-  start: "Start this stage",
-  allDone: "That’s every stage.",
-  allDoneBody: "ExecEngine plans the next stretch with you, from what worked and what didn’t.",
-  outside: "Outside the stage windows",
-  yours: "Yours",
-  step: "Step from your plan",
-} as const;
-
-/* -----------------------------------------------------------------------------
-   THE CALENDAR
-   -------------------------------------------------------------------------- */
-
-export const CALENDAR_COPY = {
-  heading: "Your calendar",
-  legend: "Stages",
-  legendItem: (n: number, name: string) => `${n} · ${name}`,
-  prev: "Previous month",
-  next: "Next month",
-  gridHint: "Use the arrow keys to move between days.",
-  today: "today",
-  stageStart: (n: number) => `Stage ${n} starts`,
-  inStage: (n: number) => `stage ${n}`,
-  items: (n: number) => `${n} item${n === 1 ? "" : "s"}`,
-  more: (n: number) => `+${n} more`,
-  outside: "Outside the roadmap’s windows",
-  nothingDay: "Nothing on this day.",
-  add: "Add to my calendar",
-  addTo: (day: string) => `Add to ${day}`,
-  yours: "Yours",
-  step: "Step from your plan",
-  suggested: "Suggested",
-  pinned: "On your plan",
-  openStep: "Open this step",
-  edit: "Edit",
-  delete: "Delete",
-  deleteAsk: "Delete this?",
-  deleteYes: "Delete",
-  deleteNo: "Keep it",
-  agenda: "Agenda",
-  calendar: "Calendar",
-  view: "View",
-  addStage: "Add to this stage",
-  manualOnly: "Only you add to this. Nothing syncs from another calendar.",
-} as const;
-
 
 /* -----------------------------------------------------------------------------
    WHEN A STEP FALLS ON HER CALENDAR (Concept 1 tweak)
@@ -848,7 +743,7 @@ export const STAGE_CHECKIN_COPY = {
   later: "Later",
   nothingDone: "Nothing from this stage is in ExecEngine yet.",
   // What she did, by where it came from.
-  fromSteps: "Your steps",
+  fromSteps: "Your moves",
   fromExecEngine: "In ExecEngine",
   fromYou: "Yours",
   passed: "You passed on it",
@@ -915,9 +810,9 @@ export const STAGE_CHECKIN_COPY = {
   replyThanks: "Thanks.",
   replyThanksUnsure: "Thanks for saying so.",
   replyYes: (next: string | undefined) => (next ? `${next} is next, and it builds on what went well here.` : "What comes next builds on what went well here."),
-  replyPartly: (next: string | undefined) => (next ? `${next} is next. Its first step picks up what’s still missing here.` : "Your next step picks up what’s still missing here."),
-  replyNotYet: "Then this stage stays open, with a step aimed at what’s missing.",
-  replyUnsureMore: "From here it’s one step at a time, and you can talk any of it through first.",
+  replyPartly: (next: string | undefined) => (next ? `${next} is next. Its first move picks up what’s still missing here.` : "Your next move picks up what’s still missing here."),
+  replyNotYet: "Then this stage stays open, with a move aimed at what’s missing.",
+  replyUnsureMore: "From here it’s one move at a time, and you can talk any of it through first.",
   replyOtherWay: "Where something didn’t go the way you hoped, there’s a different way at it on your plan.",
   replyAgain: "And one thing you passed on is back for another look.",
 } as const;
@@ -937,7 +832,7 @@ export const SPARK_NOTES = {
     pace: "Pace",
     direction: "Your direction",
     plan: "Plan changed",
-    step: "Your steps",
+    step: "Your moves",
     record: "In ExecEngine",
     signal: "Signal Picture",
   },
@@ -1014,7 +909,7 @@ export const CARD_QUESTIONS: { id: CardQuestion; label: string }[] = [
 
 /** Three ways in: why it is here, what it takes, and anything else. Each opens the chat. */
 export const STEP_QUESTIONS: { id: StepQuestion; label: string }[] = [
-  { id: "why", label: "Why this step?" },
+  { id: "why", label: "Why this move?" },
   { id: "take", label: "What will it take?" },
   { id: "else", label: "Ask something else" },
 ];
@@ -1039,7 +934,7 @@ export const STEP_ANSWERS = {
   begin: (outcome: string) => `Start from where you want to end up: ${outcome.charAt(0).toLowerCase()}${outcome.slice(1)} Open it, write the first line, and stop there.`,
   /** Concept 1's card questions, one fact each. Her own estimate and her own done replace ours. */
   moves: (area?: string) =>
-    area ? `“${upper(area)}.” That’s the signal this step feeds on your plan.` : "It isn’t tied to one of your signals, so it moves your plan as a whole.",
+    area ? `“${upper(area)}.” That’s the signal this move feeds on your plan.` : "It isn’t tied to one of your signals, so it moves your plan as a whole.",
   long: (effort: string) => `Plan on ${lower(effort)}.`,
   done: (done: string) => `It counts as done when ${lower(done)}.`,
   /** The first line of an answer, shown on the step before she asks. */
@@ -1050,26 +945,18 @@ export const STEP_ANSWERS = {
 /* -----------------------------------------------------------------------------
    THE AGENDA (Concept 2 rework, 2026-10-06)
    The roadmap as an agenda: a drawer for each stage, only the one she is on open, and
-   in it her steps and what she added herself, each with a time in words.
+   in it her moves, each with a time in words. (Add to your plan was cut from V1, 2026-11-18.)
    -------------------------------------------------------------------------- */
 export const PLAN_AGENDA_COPY = {
   heading: "Your roadmap",
   stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
   finishing: "Finishing looks like",
-  yours: "Yours",
   done: "Done",
   askLabel: "Ask ExecEngine",
   getStarted: "Get started",
   /** Sprint 4: the step already has a draft, so the button opens it. */
   openDraft: "Open your draft",
   doneIt: "I’ve done this",
-  addLabel: "Add to your plan",
-  addTitle: "What is it?",
-  addPlaceholder: "A talk, a meeting, a deadline",
-  addWhen: "When",
-  addSubmit: "Add to my plan",
-  addCancel: "Cancel",
-  added: (stage: string, when: string) => `Added to ${stage}, ${when.toLowerCase()}.`,
   nothing: "Nothing in this stage yet.",
   nothingDone: "Nothing left to do in this stage.",
 } as const;
@@ -1090,7 +977,7 @@ export const GUIDED_COPY = {
     [
       { id: "plan", label: `I’ll do it ${when.toLowerCase()}`, hint: "It goes on your plan for then" },
       { id: "talk", label: "Talk it through", hint: "Ask ExecEngine what’s in the way" },
-      { id: "pass", label: "Not for me", hint: "ExecEngine offers a different step" },
+      { id: "pass", label: "Not for me", hint: "ExecEngine offers a different move" },
     ] as { id: GuidedAnswer; label: string; hint: string }[],
   /** Moving it: the time words she can choose instead. */
   changeWhen: "Change when",
@@ -1115,7 +1002,6 @@ export const GUIDED_COPY = {
   lastTitle: "That’s this stretch of the plan.",
   lastLede: "Here is where your plan stands.",
   again: "Go through them again",
-  add: "Add to your plan",
   noneTitle: "Nothing to answer right now.",
   noneLede: "Your plan offers the next move when one fits.",
 } as const;

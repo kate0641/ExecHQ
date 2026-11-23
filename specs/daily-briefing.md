@@ -1,6 +1,6 @@
 # Daily Briefing — interaction spec
 
-Approved concept: **Concept 2 — News app**, as of 2026-10-19, with the web reading pane chosen the same day. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
+Approved concept: **Concept 2 — News app**, as of 2026-10-19, with the web reading pane chosen the same day, and **Spark Signals** added after the reads on 2026-11-18 (3.4a). It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
 
 Concepts 1 (Front page) and 3 (Annotated) were the other ideas tried for this page. They are kept on the `scratch` branch and are not specified here.
 
@@ -10,9 +10,11 @@ Concepts 1 (Front page) and 3 (Annotated) were the other ideas tried for this pa
 
 The Daily Briefing is a short daily read: three articles a day from publishers the person chose, each with one line on why it is there for them. It is read whole inside ExecEngine, with ExecEngine's notes on the passages that matter to them, and any read can start a post in Thought Leadership Builder.
 
+After the reads, **Spark Signals** offer up to three opportunities a week to be seen, picked for where they are going: a show to pitch, an event to speak at, a publication to write for, each a tap from starting the pitch in Pitch Builder (3.4a, from the 18 November UX review).
+
 What it deliberately does not do:
 
-- **Feel like a feed.** There are only ever three reads a day. No topic tabs, no counts of unread items, no reading times, no "Load more". The day's set ends with "That's today's three."
+- **Feel like a feed.** There are only ever three reads a day. No topic tabs, no counts of unread items, no reading times, no "Load more". The day's set ends with "That's today's three." Spark Signals are not reads: up to three a week, in their own section, and they never add to the day's three.
 - **Pick by category.** Every "Why it's here" line grounds in their direction or their plan, never in a topic label.
 - **Make reading a task.** Nothing on a read is done or not done. Reading counts once it is opened, and only toward the Plan's "Read today's Briefing" step, when they came from it (5.3).
 - **Mix in what was saved.** Saved reads live on their own page (4), never among the day's three.
@@ -37,7 +39,7 @@ The page uses the `app` chrome. It is the "Briefing" destination in the navigati
 On web:
 
 - **There is no front page.** The pane opens on the first read, which counts as opening it (5.1).
-- **The list stays in view** (sticky) while the read scrolls. It ends with "That's today's three." and the Profile link (3.4).
+- **The list stays in view** (sticky) while the read scrolls. Under the three reads come Spark Signals (3.4a), then "That's today's three." and the Profile link (3.4).
 - **The open read is marked** in the list with a raised card and a stronger edge; each read already opened says **Read** beside its publisher.
 
 In the prototype, responsiveness follows the simulated device frame (`data-viewport`), never the browser window. In production use the real breakpoints above.
@@ -54,7 +56,8 @@ In the prototype, responsiveness follows the simulated device frame (`data-viewp
 
 1. **The lead story:** the first read, with a large picture, its publisher in small capitals, its headline in the editorial serif, and **Why it's here:** with its reason.
 2. **Two rows:** the other two reads, each with its publisher, headline and reason on the left and a small square picture on the right.
-3. **The close** (3.4).
+3. **Spark Signals** (3.4a).
+4. **The close** (3.4).
 
 The headline is the button, and it covers its whole story, so the picture opens it too. A story opens its read (3.3).
 
@@ -74,6 +77,19 @@ Opening a read scrolls to the top of the page and moves focus to its headline. O
 ### 3.4 The close
 
 **That's today's three.** (level 2), then "Tomorrow's arrive in the morning." Once all three are opened it says **You've read today's three.** Under it, **Change publishers in Profile**, which opens Profile.
+
+### 3.4a Spark Signals (2026-11-18)
+
+From the 18 November UX review: alongside the news, the Briefing offers a few **opportunities to be seen**, picked for where the person is going: a show to pitch, an event to speak at, a publication to write for. It sits after the three reads and before the close, so the news reads straight through first; on web, in the list column under the three reads.
+
+- **On the page like the reads** (cleaned up the same day, option 2): a hairline, then **Spark Signals** in the serif with "Picked for you this week" at the right. No coloured box.
+- **One light card at a time, in a carousel** (as Home's In progress): the next card peeks in, cards snap as she swipes, and dots under them jump to each card. No arrow buttons; the dots and the track work by keyboard, and the position is said to assistive technology.
+- **Each card:** its kind in small capitals (**Podcast**, **Event** or **Publication**), its name in the serif, why it fits her plan, then one line of what they want and when ("A 300-word abstract for a 30-minute talk · **Due Fri, Nov 13, 2026**", the date in bold) or how often it reads pitches. How to reach it is not on the card: Pitch Builder shows it once she starts.
+- **Start a pitch** (**Start a proposal** for an event), a navy button, opens Pitch Builder with that outlet chosen: its kind as What are you pitching for? and its name as Who are you pitching?.
+- **An × in the card's corner is Not for me** (named "Not for me: {name}"). It takes the card off, says "Got it. You'll see fewer like this.", moves focus to the Spark Signals heading, and the card does not come back. With none left: "That's this week's. New ones come on Monday."
+- **Under the cards, always:** "Picked by ExecEngine from your plan. Check before you reach out." ExecEngine finds them; it does not vouch for them.
+- **Up to three a week, refreshed on Monday.** Big events, shows and publications in her field, not local meetups. **Inside her company's world only:** her field, never a way out (no job boards, recruiters or board seats elsewhere).
+- They are not part of "only ever three": the three are reads; these are opportunities, in their own section.
 
 ### 3.5 The read's actions
 
@@ -129,7 +145,8 @@ In Profile, under **Daily Briefing**, the **Publishers** row opens the same list
 - On web the list is a navigation landmark named "Today's three", and the open read's button carries `aria-current`.
 - A highlighted passage tells screen readers that ExecEngine's note follows ("ExecEngine's note 1 follows"); each note is a labelled region. The numbers are hidden from screen readers so they are not read twice.
 - Save is a toggle button (`aria-pressed`). The relevance question is a fieldset; its acknowledgement is announced. Every action names its read for screen readers ("Save: How planning season decides who gets new work").
-- Messages (saved, removed, step done) are announced in a live region.
+- Messages (saved, removed, step done, Spark Signal passed on) are announced in a live region.
+- **Spark Signals** is a section labelled by its heading (level 2); each card is an article labelled by its name (level 3). The carousel is announced as a carousel, each card as a slide with its place ("1 of 3"), and the dots are buttons named by place ("2 of 3"), the current one marked as current. Start a pitch is a link; the × is a button named "Not for me: {name}" with a 44px target, and after it, focus moves to the section's heading. Why it fits is read with "Why you:" before it, which is hidden on screen.
 - Opening a read or going back moves focus to the new heading, or back to the story it came from.
 - Text contrast is at least 4.5:1, non-text at least 3:1, in greyscale and in colour. The picture tints are never the only cue: each names its publisher.
 
@@ -148,6 +165,7 @@ In Profile, under **Daily Briefing**, the **Publishers** row opens the same list
 | `RespondLink` | Write a post about this |
 | `BriefingEnd` | That's today's three |
 | `PublisherPicker` | The first visit, and Profile's Publishers sheet |
+| `SparkSignals` | The opportunities after the reads (3.4a), in a `CardCarousel` |
 | `Sheet` | A saved read, opened from Saved |
 
 ---
@@ -162,6 +180,7 @@ In Profile, under **Daily Briefing**, the **Publishers** row opens the same list
 | Relevance is acknowledged and kept, but changes nothing | It feeds which reads are picked |
 | Four reads are saved on earlier days, so the Saved page has something to show; the dock's reset brings them back | Saved holds only what they saved |
 | Everything is kept in the browser, and the dock's reset clears it | Publishers, saved reads, read state and relevance are kept on the account |
+| The same three Spark Signals, drawn from Pitch Builder's invented outlets; Not for me is kept in the browser and changes nothing else | Up to three found each week by ExecEngine (AI) from her plan, direction and field, checked for a live page and a date; Not for me teaches it what to leave out |
 
 ---
 
@@ -175,4 +194,6 @@ Written from the approved prototype. These are choices it makes that nobody has 
 4. **The suggested set** leans toward leadership titles, from Maya's direction, with one marketing title.
 5. **On web the lead counts as read when the page opens,** because the pane always shows a read.
 6. **"Read today's Briefing" completes** on one read opened, or a post started from one.
-7. **The Briefing is daily reads only,** and the email is on by default, at 8 am. The brief had it off; Kate turned it on on 2026-10-28.
+7. **The Briefing's email is on by default,** at 8 am. The brief had it off; Kate turned it on on 2026-10-28. It carries the day's reads; whether it also carries Spark Signals is not decided.
+8. **Where Spark Signals come from, and how good they must be.** Found by ExecEngine (AI) from her plan, direction and field, framed as suggestions she checks (Erik). Dan's concern stands: a poor pick reflects on the brand. The prototype checks nothing; production should at least confirm a live page and a date before one is shown.
+9. **Up to three a week, refreshed on Monday,** in the Briefing after the reads, chosen in the 18 November review over a place on the Plan page. Whether Not for me should also ask why (wrong field, wrong size, wrong timing) is open.

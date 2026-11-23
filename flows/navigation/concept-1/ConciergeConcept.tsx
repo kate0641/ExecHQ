@@ -7,7 +7,7 @@ import { createPortal } from "react-dom";
 import { ChatComposer } from "@/components/chat/ChatComposer";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { QuickReplies } from "@/components/chat/QuickReplies";
-import { AdvisorWho, ConciergePanel } from "@/components/navigation/ConciergePanel";
+import { ConciergePanel } from "@/components/navigation/ConciergePanel";
 import { ConciergePill } from "@/components/navigation/ConciergePill";
 import { IconRow } from "@/components/navigation/IconRow";
 import { Icon, type IconName } from "@/components/primitives/Icon";
@@ -281,9 +281,11 @@ const TOUR_STOPS: { selectors: string[]; radius: number; opens: boolean }[] = [
   { selectors: [`#${PANEL_ID} [aria-labelledby="concierge-ask"]`, `#${PANEL_ID} .chat-composer`], radius: 16, opens: true },
 ];
 
-/** Whether this visit should start the tour: onboarding's last button arrives with ?tour=1. */
+/** Whether this visit should start the tour: onboarding's last button arrives
+ *  with ?tour=1, and the hub's First-visit tour page always starts it. */
 function tourAsked(): boolean {
-  return typeof window !== "undefined" && new URLSearchParams(window.location.search).get("tour") === "1";
+  if (typeof window === "undefined") return false;
+  return new URLSearchParams(window.location.search).get("tour") === "1" || window.location.pathname.startsWith("/first-visit-tour/");
 }
 
 /** Takes ?tour=1 off the address once the tour ends, so a reload shows Home as it is. */
@@ -645,8 +647,7 @@ function Start({
       ) : null}
 
       <section aria-labelledby="concierge-ask">
-        <AdvisorWho name={C.name} role={C.role} brand className="concierge-start__who" />
-        <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
+        <h2 id="concierge-ask" className="concierge-start__title concierge-start__title--lead">{C.askMe}</h2>
         <ul className="concierge-suggest">
           {suggestions(ctx).map((s) => (
             <li key={s.label}>

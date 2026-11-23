@@ -12,8 +12,8 @@
 | --- | --- |
 | **What it makes** | A one-page brief (objective, context, key messages, supporting evidence, likely questions, the decision or next step she is asking for), an opening statement, and a follow-up email. |
 | **What it is for** | Preparing her to communicate clearly and strategically in an upcoming high-stakes moment. |
-| **When to use it** | A day or two before a review, a board meeting, a negotiation or a hard conversation. |
-| **Use case screen** | "A one-page brief for a moment that matters: what you want from it, what you will say, what they will ask." / "Use it a day or two before a review, a board meeting, a negotiation or a hard conversation." |
+| **When to use it** | A day or two before a review, a negotiation or a hard conversation. |
+| **Use case screen** | "A one-page brief for a moment that matters: what you want from it, what you will say, what they will ask." / "Use it a day or two before a review, a negotiation or a hard conversation." |
 
 ### 1.1 How people arrive here
 
@@ -25,9 +25,10 @@
 | Make Your Mark | 3.3 Prepare for an accepted talk, panel, interview or podcast |
 | Make the Move | 1.1 Put the moment on paper; 2.2 Prepare the materials the moment calls for (a case document); 3.2 Prepare answers to the two hardest objections; 3.3 Prepare for each conversation around the moment; 3.1 Prepare the ninety-second version and say it out loud (with Pitch Builder: CEO, 19 Oct; the opening statement is the version she says, Kate 19 Oct) |
 | Lead Where You Are | 3.1 Lead or present one moment the right people will see; 4.1 Name one problem that should come to her by default; 4.2 Raise the opportunity with the right person |
+| Find your next direction | 2.3 See the work up close (the ask, if her manager has to agree); 3.3 Find someone who can help her get it |
 
 - **In the prototype's mock plan:** "Brief your manager before Thursday's check-in" (step `brief-manager`), which arrives with the moment and who will be there filled in.
-- **From "What's on your mind?"** when what she says names a review, board, meeting, negotiation, check-in, 1:1, interview, offsite, presentation, her manager or boss, "talk about" or scope.
+- **From "What's on your mind?"** when what she says names a review, meeting, negotiation, check-in, 1:1, interview, offsite, presentation, her manager or boss, "talk about" or scope.
 - **From the Playbook or the library.**
 
 ### 1.2 When another builder fits better
@@ -44,7 +45,7 @@
 
 ### 2.1 What it already has
 
-- **Her positioning statement,** shown on the last screen to check ("Check what ExecEngine has", from onboarding, with Edit). The opening statement draws on it, as the use case screen's "Goes with this" says. Like the other three builders, the last screen opens on what it already knows.
+- **Her positioning statement, if she has one** (from Positioning Builder, or her story from onboarding), shown on the last screen to check ("Check what ExecEngine has", with Edit); without one, it is asked as an optional question. The opening statement draws on it, as the use case screen's "Goes with this" says. Like the other three builders, the last screen opens on what it already knows.
 - **Anything she is waiting to hear about** (a pitch, her story), shown as "Still waiting to hear. Worth raising in the conversation."
 - **From an action step:** the moment's type and who will be there, when the step says them.
 
@@ -52,7 +53,7 @@
 
 | Question | Short name | Kind | Required | Notes |
 | --- | --- | --- | --- | --- |
-| What is the moment? | Moment | One choice: A review, A board meeting, A negotiation, An executive conversation, Something else | Yes | The first question, on the use case screen. Arrives chosen from an action step. |
+| What is the moment? | Moment | One choice: A review, A negotiation, An executive conversation, Something else (A board meeting removed 18 Nov: she is not in them) | Yes | The first question, on the use case screen. Arrives chosen from an action step. |
 | What is it? | Its name | Her words | Yes, only after Something else | Asked only when she picks Something else, so the brief names it rather than saying "The meeting" (CEO, 19 Oct). "A skip-level, an offsite, a dinner. As much as you like." |
 | What do you want to come out of it? | Outcome | Her words | Yes | "The decision or next step you'd count as a good result." |
 | Who will be there? | Who's there | Her words | Yes | Arrives filled from an action step ("My manager"). |
@@ -88,7 +89,7 @@ Rules for this builder:
 
 - **One page.** The exported brief fits one page; the opening statement and email follow on.
 - **Her outcome appears three times** (Objective, the ask, the opening), each phrased so her words fit the sentence, and again in the talk track.
-- **Her statement opens only where the moment suits it** (CEO, 19 Oct; which moments, Kate, 19 Oct): in a review and an executive conversation, where where she is headed is the point; not in a board meeting or a negotiation, which open on the outcome. For Something else, it opens with it.
+- **Her statement opens only where the moment suits it** (CEO, 19 Oct; which moments, Kate, 19 Oct): in a review and an executive conversation, where where she is headed is the point; not in a negotiation, which open on the outcome. For Something else, it opens with it.
 - **The more she gives, the more it keeps** (CEO, 19 Oct). Everything she adds stays with the brief, to look back on later.
 - **No "delete after use"** (CEO, 19 Oct, confirmed): deleting it from the library covers it.
 

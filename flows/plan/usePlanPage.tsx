@@ -28,7 +28,7 @@ import { momentumEvents } from "@/lib/momentum";
 import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
-import { planStepsKey, saveCalendar, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
+import { planStepsKey, saveSteps, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { checkInKey, saveCheckIn, useCheckIns } from "@/lib/stage-checkins";
 import { applyCheckIn } from "@/lib/check-in-effects";
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
@@ -193,7 +193,6 @@ export function usePlanPage() {
   const stepState = savedSteps?.state ?? (switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : initialPlanState(loop.today));
   const live = liveSteps(stepState).filter((s) => !isActionDone(s, loop.records, loop.tasks));
   // One plan, one set of stage windows, for the timeline, the agenda and the check-in.
-  const calendarItems = useCalendar(loop.id);
   // A stage she said she has not finished yet, at her check-in, stays open until the step aimed at what's
   // missing is done. Read from her answer, so changing it changes this back.
   const reopenStage = Object.entries(checkIns)
@@ -235,7 +234,7 @@ export function usePlanPage() {
     added: pictureItems.filter((i) => i.source === "added").map((i) => ({ id: i.id, text: i.text, on: i.on })),
   });
   // The roadmap as an agenda (Concept 3, under the move). A step is its title and a way to start; every question about
-  // it opens the chat. What she adds goes on her calendar, in the stage the day falls in.
+  // it opens the chat.
   const stageOfDay = (date: string) => {
     const at = stageAt(windows, date);
     return at >= 0 ? at : date < windows[0].start ? 0 : windows.length - 1;
@@ -259,20 +258,11 @@ export function usePlanPage() {
         stage: stageOfStep(day.date),
         title: step.title,
         date: day.date,
-        kind: "step" as const,
         step,
         accepted: stepState.decisions[step.id]?.decision === "accepted",
       };
     }),
-    ...calendarItems.map((item) => ({ id: item.id, stage: stageOfDay(item.date), title: item.title, date: item.date, kind: "yours" as const })),
   ];
-  /** Something she added herself goes on her calendar; the agenda opens the stage it fell in. */
-  function addToPlan({ title, date }: { title: string; date: string }) {
-    // A new id from the ones she has, so it is the same on every render.
-    const next = Math.max(0, ...calendarItems.map((i) => Number(i.id.split("-").pop()) || 0)) + 1;
-    saveCalendar(loop.id, [...calendarItems, { id: `agenda-${next}`, title, date }]);
-    return stageOfDay(date);
-  }
   const keepSteps = (next: PlanState) => saveSteps(stepsKey, { state: next, notes: savedSteps?.notes ?? {}, empties: savedSteps?.empties ?? {} });
   // The agenda, as Concept 3 shows it under its move.
   const agendaProps = {
@@ -287,7 +277,6 @@ export function usePlanPage() {
       loopActions.completeTask(step.id);
       keepSteps(complete(stepState, step.id).state);
     },
-    onAdd: addToPlan,
   };
 
   // Concept 3: the guided check-in. The moves are her live steps as they stand when she arrives, one page
@@ -508,7 +497,6 @@ export function usePlanPage() {
       onTalk={(step) => askConcierge("Talk it through", { kind: "step-question", stepId: step.id, q: "stuck" })}
       workingOn={workingOn}
       onStart={(step) => keepSteps(accept(stepState, step.id))}
-      onAdd={addToPlan}
       // The move is already said above it, with its way to start, so the stage opens on its list.
       roadmap={roadmap}
       {...movesScreenProps(movesScreen, oneAtATime ? live.slice(0, 1) : live)}
@@ -677,7 +665,7 @@ const CHECKIN_SCREENS: Record<string, "intro" | "item" | "milestone" | "feeling"
 const SCREEN_CHECKIN_ANSWERS = { milestone: "yes", feeling: "more-sure", words: "Clearer on what I lead than I was a month ago." } as const;
 
 /** The showroom's screens of the moves: the first move with its drawer folded, its times open, answered, or
- *  passed on; the last page; or the sheet for adding her own. */
+ *  passed on; or the last page. */
 function movesScreenProps(screen: string | null, moves: ActionStep[]) {
   const first = moves[0]?.id ?? "";
   switch (screen) {
@@ -693,8 +681,6 @@ function movesScreenProps(screen: string | null, moves: ActionStep[]) {
       return { demoAnswered: { [first]: "pass" as const }, demoPassed: { [first]: "" } };
     case "last":
       return { demoPage: moves.length };
-    case "add":
-      return { demoAdding: true };
     default:
       return {};
   }

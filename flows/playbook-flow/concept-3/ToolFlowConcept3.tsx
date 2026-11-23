@@ -17,6 +17,17 @@ import { draftSteps, focusSoon, questionStep, TOOL_TITLE_ID, useToolFlow } from 
 
 const STEP_HEADING = "tool-step-heading";
 
+/** A field's height in lines. One that can hold a lot (`rows`, Paste a bio)
+ *  starts at three, so the question above stays in view with the keyboard up,
+ *  and grows with what she pastes or types, up to `rows` (Kate, 2026-11-18).
+ *  Others stay at four. */
+function rowsFor(input: ToolInput, value: string): number {
+  if (!input.rows) return 4;
+  // About 38 characters to a line on the phone.
+  const lines = value.split("\n").reduce((n, line) => n + Math.max(1, Math.ceil(line.length / 38)), 0);
+  return Math.min(input.rows, Math.max(3, lines));
+}
+
 function Interview() {
   const f = useToolFlow("concept-3");
   const web = useViewport().viewport === "web";
@@ -34,8 +45,12 @@ function Interview() {
   // ExecEngine already has waits for the last screen.
   const isKnown = (input: ToolInput) => Boolean(input.source && input.kind !== "choice");
   const open = f.notFirst(f.inputs.filter((input) => !isKnown(input)));
-  // What she must answer first, then the optional questions.
-  const asked = [...open.filter((input) => !input.optional), ...open.filter((input) => input.optional)];
+  // What leads (Positioning Builder's moment), then what she must answer, then the optional questions.
+  const asked = [
+    ...open.filter((input) => input.leads),
+    ...open.filter((input) => !input.leads && !input.optional),
+    ...open.filter((input) => !input.leads && input.optional),
+  ];
   const rest = f.inputs.filter(isKnown);
   const hasKnown = rest.length > 0;
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -145,7 +160,12 @@ function Interview() {
     // An answer she already has (building out again, or a step-bar jump)
     // shows as picked: an option she chose, or her own words under Other.
     const had = f.valueOf(input.id).trim();
-    const mine = picks[input.id] ?? (pick && had ? (pick.options.includes(had) ? { picked: [had], other: "" } : { picked: [], other: had }) : { picked: [], other: "" });
+    const lines = input.many ? had.split("\n").map((line) => line.trim()).filter(Boolean) : [had];
+    const mine =
+      picks[input.id] ??
+      (pick && had
+        ? { picked: lines.filter((line) => pick.options.includes(line)), other: lines.filter((line) => !pick.options.includes(line)).join(" ") }
+        : { picked: [], other: "" });
     return pick ? (
       <PickAnswer
         label={input.label}
@@ -158,7 +178,8 @@ function Interview() {
         onChange={(picked, other) => {
           setMissing(false);
           setPicks((p) => ({ ...p, [input.id]: { picked, other } }));
-          f.setValue(input.id, pickedPhrase(picked, other));
+          // A choice of several keeps one a line, as the draft reads it.
+          f.setValue(input.id, input.many ? [...picked, ...(other.trim() ? [other.trim()] : [])].join("\n") : pickedPhrase(picked, other));
         }}
       />
     ) : (
@@ -169,7 +190,7 @@ function Interview() {
         value={f.valueOf(input.id)}
         type={input.kind === "date" ? "date" : undefined}
         multiline={input.kind === "long"}
-        rows={4}
+        rows={rowsFor(input, f.valueOf(input.id))}
         error={missing ? INPUT_COPY.missing : undefined}
         onChange={(event) => {
           setMissing(false);
@@ -307,6 +328,7 @@ function Interview() {
     return (
       <div className="tool-flow tool-flow--interview tool-flow--page">
         {f.header}
+        {f.savedNotice}
         <div className="tool-flow__desk">
           <div className="tool-flow__rail">{rail}</div>
           <div className="tool-flow__sheet">
@@ -333,10 +355,10 @@ function Interview() {
   // question starts the interview.
   if (!hasDraft && at < 0) {
     return (
-      <div className="tool-flow tool-flow--interview">
+      <div className={["tool-flow", "tool-flow--interview", f.startsWithButton ? "tool-flow--pinned" : null].filter(Boolean).join(" ")}>
         {f.header}
         {f.moment ? <p className="tool-flow__moment">{C.momentLine(f.moment)}</p> : null}
-        {f.useCase({ onStart: () => go(0), choiceStarts: true, noGoesWith: true, noPicture: true })}
+        {f.useCase({ onStart: () => go(0), choiceStarts: true, noGoesWith: true, noPicture: true, pinStart: true })}
       </div>
     );
   }
@@ -435,6 +457,7 @@ function Interview() {
           is for now sits under the draft's name. */}
       {hasDraft && expanded ? f.origin : null}
       {hasDraft && !expanded ? draftTop : null}
+      {f.savedNotice}
       {pinned}
       {underDraft}
       {expanded ? null : interview}

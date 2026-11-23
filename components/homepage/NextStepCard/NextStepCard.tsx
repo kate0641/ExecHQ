@@ -47,7 +47,7 @@ export function NextStepCard({
   href,
   actionLabel = "Start in the Playbook",
   onAction,
-  eyebrow = "Your next step",
+  eyebrow = "Your next move",
   lead,
   context,
   stubbed = false,

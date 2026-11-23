@@ -177,7 +177,7 @@ export const FOLLOW_UP_EMAIL = {
  *  made shorter on 2026-10-28: "2 actions done this month · 1 waiting to hear
  *  how it went". Never a score, a streak or momentum language. */
 export const PROGRESS_COPY = {
-  completed: (count: string, plural: boolean) => `${count} action${plural ? "s" : ""} done this month`,
+  completed: (count: string, plural: boolean) => `${count} move${plural ? "s" : ""} done this month`,
   awaiting: (count: string) => `${count} waiting to hear how it went`,
   /** Nothing completed or awaiting yet: say what exists, no more. */
   soFar: (count: string, plural: boolean) =>

@@ -1,6 +1,8 @@
 # Make the Move
 
-**Template: Prepare for a career inflection point** (promotion, new role, new career path, board position, and so on). User-facing name: **Make the Move**.
+**Template: Prepare for a career inflection point** (a promotion, an internal interview, a move to another part of the business, a review or a negotiation, inside her own company). User-facing name: **Make the Move**.
+
+**Inside the company only (Kate, 18 November 2026).** ExecEngine never prepares a move out of her company: no outside interviews, board seats elsewhere, CVs or recruiters. The moments below are all inside it.
 
 **Status: draft.** The name, template, stages and the routing example are Kate's (12 October 2026). **Everything else is Proposed**: drafted by Claude from Step Up's recipe and the prototype, for Kate to confirm. Rules every plan shares are in `plans/shared.md`.
 
@@ -10,9 +12,9 @@
 
 | | |
 | --- | --- |
-| **Intended user situation** | A leader facing a specific, consequential moment with a date or a near window: a promotion conversation, an interview for a new role, a move to a new career path, a board appointment, or a negotiation. |
+| **Intended user situation** | A leader facing a specific, consequential moment with a date or a near window: a promotion conversation, an internal interview, a move to another part of the business, a review, a presentation to senior leaders, or a negotiation over scope or pay. |
 | **Desired outcome** | She walks in prepared, knowing what is being decided and by whom, with her materials ready and the key conversations rehearsed, and walks out with her next move decided. |
-| **Common constraints** | A fixed date and little time, high stakes and nerves, incomplete knowledge of the people deciding, and confidentiality when the move is outside her current company. |
+| **Common constraints** | A fixed date and little time, high stakes and nerves, incomplete knowledge of the people deciding, and discretion when her manager doesn't yet know she is going for a role elsewhere in the company. |
 
 ### 1.1 How people arrive here
 
@@ -23,7 +25,7 @@
 **When another plan fits better**
 
 - There is no moment yet, and she needs to build the case first → **Step Up**.
-- She wants a change but does not yet know what to aim for → **Chart a New Course**.
+- She wants a change inside the company but does not yet know what to aim for → **Find your next direction**.
 
 ### 1.2 Pace
 
@@ -88,7 +90,7 @@ What she has done, what she wants, and why it should be her.
 
 #### 2.2 Prepare the materials the moment calls for
 
-For example: a promotion packet, a CV, a board bio, a short case document.
+For example: a promotion packet, a short bio for the panel, a short case document.
 
 | | |
 | --- | --- |
@@ -97,7 +99,7 @@ For example: a promotion packet, a CV, a board bio, a short case document.
 | **Done when** | Each material is marked ready. |
 | **Evidence ExecEngine keeps** | Each material's lifecycle state, its versions, the date she intends to use it. |
 | **Plan area and signal** | Plan area: materials. Signals: none directly. |
-| **Tool** | Positioning Builder for a bio; Situation Brief for a case document. A CV or promotion packet has no V1 tool. |
+| **Tool** | Positioning Builder for a bio; Situation Brief for a case document. A promotion packet has no V1 tool. |
 | **Follow-up** | None. |
 
 #### 2.3 Make sure her public profile tells the same story
@@ -105,7 +107,7 @@ For example: a promotion packet, a CV, a board bio, a short case document.
 | | |
 | --- | --- |
 | **Horizon** | Short-term |
-| **Trigger** | The people deciding are likely to look her up: an external role, a board seat, or a new career path. |
+| **Trigger** | The people deciding are likely to look her up: a promotion panel, or a leader in another part of the business who doesn't know her yet. |
 | **Done when** | She confirms her LinkedIn headline and About section match her story. |
 | **Evidence ExecEngine keeps** | Her confirmation and the date. ExecEngine does not read her profile in V1. |
 | **Plan area and signal** | Plan area: materials. Signals: LinkedIn and AI discoverability. |
@@ -226,7 +228,8 @@ It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
 - **The date leads.** Every recommendation is weighed against the time left. Close to the date, it drops everything that won't help in the room.
 - **Calm and specific.** The moment is stressful. It is steady, concrete and brief, and never adds alarm.
-- **Discreet.** When the move is outside her current company, it never suggests anything that would make her search visible at work.
+- **Discreet.** When she is going for a role in another part of the company, it never suggests anything that would make it visible to her manager before she chooses to say.
+- **Inside the company, always.** It never prepares a move out of the company: no outside interviews, board seats elsewhere, CVs or recruiters.
 - **Decided, not drifted.** After the moment, it helps her choose the next move on purpose, whatever the outcome was.
 - **No promise of the outcome.** It helps her prepare; it never says she will get the role.
 
@@ -236,6 +239,6 @@ It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
 1. **Several moments.** If she has two moments at once, such as an interview and a review, does the plan track both, or one at a time?
 2. **After the moment.** Should stage 4 always end by offering another plan, or can Make the Move run again for the next moment?
-3. **Board positions.** A board seat often comes from a slower search than a promotion conversation. Does it belong here, or in Chart a New Course until a specific seat is in view?
-4. **Materials with no tool (2.2).** CVs and promotion packets have no V1 tool. Are they in scope?
+3. **Boards:** settled 18 Nov. The people ExecEngine is for are not in board meetings, and a board seat elsewhere is outside ExecEngine, so no moment here is a board one.
+4. **Materials with no tool (2.2).** Promotion packets have no V1 tool. Are they in scope?
 5. **No date.** What happens when she has a moment but no date: does the agent ask for one, or plan to a default window?

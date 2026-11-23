@@ -89,7 +89,7 @@ export const LINKEDIN_EXPORT: LinkedInExport = {
     { id: "q6", on: "2025-11-21", title: "Why I block time for thinking", impressions: 630, reactions: 8, comments: 0 },
     { id: "q7", on: "2025-11-23", title: "What new managers rarely hear", impressions: 644, reactions: 11, comments: 1 },
     { id: "q8", on: "2025-11-25", title: "Three habits from a good project week", impressions: 388, reactions: 8, comments: 1 },
-    { id: "q9", on: "2025-12-10", title: "How I prepare for a board conversation", impressions: 1276, reactions: 29, comments: 3 },
+    { id: "q9", on: "2025-12-10", title: "How I prepare for a leadership review", impressions: 1276, reactions: 29, comments: 3 },
     { id: "q10", on: "2025-12-24", title: "A small change to how I run 1:1s", impressions: 903, reactions: 17, comments: 2 },
     { id: "q11", on: "2026-01-25", title: "What I would tell my younger self about visibility", impressions: 1000, reactions: 16, comments: 2 },
     { id: "q12", on: "2026-02-08", title: "A question worth asking in every review", impressions: 759, reactions: 10, comments: 0 },

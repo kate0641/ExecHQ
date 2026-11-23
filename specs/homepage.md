@@ -33,7 +33,7 @@ Home uses the `app` chrome (header with the wordmark, and the navigation with Ho
 On phone and tablet the page is one column, in this order. Web rearranges it (2.2).
 
 1. **Greeting and date.** "Good morning, {first name}", then the long date ("Monday 5 October") beneath, smaller.
-2. **What you're working on now** (section heading; was Your Progress Tracker until 2026-11-17), with **Stage {n} of {total} · {stage}** under it in small capitals, for example "Stage 1 of 4 · Say what you lead" (2026-11-17). The stage is the one the Plan page shows as current, worked out the same way, and the total counts every stage of her plan, as the Plan page and onboarding's Your plan do.
+2. **What you're working on now** (section heading; was Your Progress Tracker until 2026-11-17; signed off by Eric in the 2026-11-18 UX review), with **Stage {n} of {total} · {stage}** under it in small capitals, for example "Stage 1 of 4 · Say what you lead" (2026-11-17). The stage is the one the Plan page shows as current, worked out the same way, and the total counts every stage of her plan, as the Plan page and onboarding's Your plan do.
    - The **key**: three small shapes with their names: solid "Done", outlined "In progress", dashed "Not started".
    - **The three rings**, side by side.
    - **The card** under the rings (section 3).
@@ -117,10 +117,10 @@ What the card shows is decided by the first of these that is true:
 
 | # | When | The card |
 | --- | --- | --- |
-| 1 | The person has just logged an outcome for an action in this ring | A plain note: **"Done: {action}"**. "Nice work! New actions come once this stage is finished." (shortened 2026-10-28) A full-width secondary button, **See your Plan** |
+| 1 | The person has just logged an outcome for an action in this ring | A plain note: **"Done: {action}"**. "Nice work! New moves come once this stage is finished." (shortened 2026-10-28) A full-width secondary button, **See your Plan** |
 | 2 | This ring holds their next step (the one action they are on that has not yet reached the Loop) | The **next-step card** with its eyebrow **"Next in {horizon}"** |
 | 3 | The ring has an action in progress, else one not started | The same next-step card for that action. Eyebrow **"Next in {horizon}"** for one in progress, **"Suggested in {horizon}"** for one not started |
-| 4 | Every action in the ring is done | A note: **"Every {horizon} action is done."**, then "New actions come with your plan's next stage." and a **See your Plan** button |
+| 4 | Every action in the ring is done | A note: **"Every {horizon} action is done."**, then "New moves come with your plan's next stage." and a **See your Plan** button |
 | 5 | The ring has no actions | A note: **"Nothing in this part yet."** |
 
 **The next-step card** has, top to bottom: the eyebrow; the action's title as a heading; three labeled rows, **Why this**, **Why now**, **Why you** (any that has no text is left out); a full-width primary button **Start in the Playbook**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
@@ -208,7 +208,7 @@ Added 2026-10-23 and settled 2026-10-26. One question, once a week, that tells t
 
 ### 4.6 The direction in the question
 
-Onboarding has no free text: the person picks a direction and narrows it to one of two versions (see the Onboarding spec, 3.5), so there are 18 directions. Each has a fixed form that reads after "How ready do you feel to". It is written by hand, not generated (decided 2026-10-26). Most are the narrower version itself with its first letter lowered. "My" becomes "your" and "I" becomes "you":
+Onboarding has no free text: the person picks a direction and narrows it to one of two versions (see the Onboarding spec, 3.5), so there are 16 directions. Each has a fixed form that reads after "How ready do you feel to". It is written by hand, not generated (decided 2026-10-26). Most are the narrower version itself with its first letter lowered. "My" becomes "your" and "I" becomes "you":
 
 | Option | Narrower version | In the question: "How ready do you feel to …?" |
 | --- | --- | --- |
@@ -218,18 +218,16 @@ Onboarding has no free text: the person picks a direction and narrows it to one 
 | | Own a bigger area of the business | own a bigger area of the business |
 | Be seen as an executive | Be seen as an executive by my own leadership | be seen as an executive by your own leadership |
 | | Be seen as an executive beyond my company | be seen as an executive beyond your company |
-| Nail an upcoming board presentation | Win the board's backing for a proposal | win the board's backing for a proposal |
+| Nail an upcoming presentation | Win backing for a proposal | win backing for a proposal |
 | | Present results and the plan ahead with confidence | present results and the plan ahead with confidence |
-| Find my next move | Move to a new company in my field | move to a new company in your field |
-| | Move into a different role or industry | move into a different role or industry |
+| Make a move within my company | Move into another function, like marketing to sales | move into another function |
+| | Move to another part of the business | move to another part of the business |
 | Lead a bigger organization | Run a larger business or division | run a larger business or division |
 | | Lead across more functions or regions | lead across more functions or regions |
 | Carry more weight where I am | Have more say in company decisions | have more say in company decisions |
 | | Be trusted with bigger, more visible work | be trusted with bigger, more visible work |
-| Get out of where I am | Leave my industry for something new | leave your industry for something new |
-| | Leave my company, but stay in my field | leave your company, but stay in your field |
-| I do not know yet | Understand why I've hit a ceiling | understand why you've hit a ceiling |
-| | Explore what else is out there | explore what else is out there |
+| I'm not sure yet | Understand why I've hit a ceiling | understand why you've hit a ceiling |
+| | Explore other parts of the business | explore other parts of the business |
 
 - **Several picks:** the question uses the one they chose as mattering most, which is their direction.
 - **When the direction changes** (in onboarding's "Change", or later on the Plan), the question changes with it from the next check-in.
@@ -250,7 +248,7 @@ Limits:
 - **One change a week**, from the check-in. Steps they have already started are never changed.
 - **Stage timing is untouched.** Pace already follows what they actually finish.
 - **"Not yet" twice in a row:** Spark offers to talk it through, with nothing changed until they answer.
-- **"Not yet" three times in a row:** Spark can offer a different plan (for example Chart a New Course), only by asking, as the plan briefs allow. It never moves them without asking.
+- **"Not yet" three times in a row:** Spark can offer a different plan (for example Find your next direction), only by asking, as the plan briefs allow. It never moves them without asking.
 - **Ready with no stretch step left** on the plan reads as Getting there.
 
 **What it feeds:** the answers count 1 to 3. The organization's admin sees only the cohort's totals: the average at the start and now, and how many moved up, once 10 or more have answered twice. They never see a person's answer. Answers belong to the person, like the rest of their account.
@@ -296,7 +294,7 @@ Top to bottom:
    - **Writing you publish.**
    A number that has not moved shows the same value twice, never a dash. The "Now" figure is larger and set in the serif. Screen readers hear "Start: 0" and "Now: 2".
 4. A text link, **See your full Signal Picture**, to the Signals page.
-5. **A next step** (a small label), then one bold line, a sentence on why, and a secondary button **Start in the Playbook**, which opens the step.
+5. **A next move** (a small label), then one bold line, a sentence on why, and a secondary button **Start in the Playbook**, which opens the step.
 
 Updating where the person is now is not done here. **Update where you are now** is on the Signals page. Home only reads the record.
 
@@ -378,7 +376,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 | "Good morning" is always the greeting | The greeting follows the time of day |
 | The Playbook flows the buttons open are placeholders until Sprint 4 | They open the real flows |
 | The Briefing page is a placeholder, and the card always shows the same three reads | The card shows the day’s three real reads and their publishers |
-| The one "A next step" under the Signal Picture is a single stand-in, whatever the person entered | It is chosen from what they have entered and where they are on their plan |
+| The one "A next move" under the Signal Picture is a single stand-in, whatever the person entered | It is chosen from what they have entered and where they are on their plan |
 | The ring card's reasons (why this, why now, why you) are written for Maya | They are written for the person from their direction and plan |
 | Nothing is saved but in the browser | Account data, check-in answers, the starting point and dismissed notes are kept on the account |
 | The weekly check-in is due in every moment but the first return, with three invented past answers (Not yet, Getting there, Getting there); an answer lasts until the page reloads | It is due 7 days after the last answer, and every answer is kept on the account and counted in the organization's totals |
@@ -391,11 +389,10 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 
 Written from the approved prototype. These are choices the prototype makes that nobody has yet confirmed:
 
-1. **The section name.** "What you're working on now" replaced the client's choice, "Your Progress Tracker", on 2026-11-17 (2.1), and needs the client's sign-off. The spec still calls the section "the map" where it describes how it works.
-2. **One note of movement,** not two. The prototype's rules allow two, and Home shows one.
-3. **"I'm not doing it"** takes an action off the map. Turning down an action from the Plan page is described by the Plan spec when it is written.
-4. **Check-back days** by kind of draft (2, 5, 7 days) are proposed, not agreed.
-5. **The greeting** says "Good morning" at any hour in the prototype.
-6. **Telling the person their answer counts in their organization's totals.** The card no longer says so (removed 2026-10-26). The privacy policy, which Eric is updating, has to cover it.
+1. **One note of movement,** not two. The prototype's rules allow two, and Home shows one.
+2. **"I'm not doing it"** takes an action off the map. Turning down an action from the Plan page is described by the Plan spec when it is written.
+3. **Check-back days** by kind of draft (2, 5, 7 days) are proposed, not agreed.
+4. **The greeting** says "Good morning" at any hour in the prototype.
+5. **Telling the person their answer counts in their organization's totals.** The card no longer says so (removed 2026-10-26). The privacy policy, which Eric is updating, has to cover it.
 
-Settled for the weekly check-in (2026-10-23 to 26): in Stay on track, after the cards about their work; one question with their own direction in it, in the hand-written form for each of the 18 directions (4.6); three answers on a slider; Save at the right edge with what it records beside it; "Not now" as an ×; every 7 days; the first answer is the starting point; each answer changes the next step and the read-back says how (4.7); the Admin Dashboard sees totals only, once 10 have answered twice.
+Settled for the weekly check-in (2026-10-23 to 26): in Stay on track, after the cards about their work; one question with their own direction in it, in the hand-written form for each of the 16 directions (4.6); three answers on a slider; Save at the right edge with what it records beside it; "Not now" as an ×; every 7 days; the first answer is the starting point; each answer changes the next step and the read-back says how (4.7); the Admin Dashboard sees totals only, once 10 have answered twice.

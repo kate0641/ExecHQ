@@ -16,7 +16,7 @@
  */
 
 import { MAYA } from "@/mock/account";
-import { WELCOME } from "@/mock/onboarding";
+import { GUIDE_C3 } from "@/mock/onboarding";
 
 /** The code in the drawn email. */
 export const SIGN_IN_CODE = "482913";
@@ -65,7 +65,9 @@ export const PROVIDER_ACCOUNTS: Record<Provider, ProviderAccount[]> = {
 
 export const LOGIN_COPY = {
   /** What ExecEngine is, in the same words as the start of onboarding. */
-  welcome: { quote: WELCOME.quote, lede: WELCOME.lede },
+  /** The same serif line and promise as onboarding's Welcome, from one place,
+   *  so the front door and the way back in say the same thing. */
+  welcome: { quote: GUIDE_C3.welcome.quote, lede: GUIDE_C3.welcome.lede },
 
   signIn: {
     kicker: "Welcome back",

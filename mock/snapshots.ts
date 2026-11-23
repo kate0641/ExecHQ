@@ -83,7 +83,7 @@ const REC = {
   bio: {
     id: "bio",
     title: "Write your bio",
-    why: "It’s what goes ahead of you: to a recruiter, an event, a new boss.",
+    why: "It’s what goes ahead of you: to the exec team, an event, a new team.",
   },
   stakeholderMap: {
     id: "stakeholder-map",
@@ -110,7 +110,7 @@ export const NEXT_STEP_AFTER: Record<string, Recommendation> = {
 
 export const FALLBACK_NEXT_STEP: Recommendation = {
   id: "plan-next",
-  title: "Pick your next step from your plan",
+  title: "Pick your next move from your plan",
   why: "What you just logged is on your plan now.",
 };
 

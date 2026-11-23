@@ -170,7 +170,7 @@ export const HOME_STATES: Record<HomeStateId, Snapshot> = {
   "nothing-pending": {
     id: "nothing-pending",
     label: "Nothing pending",
-    summary: "No follow-ups. Her last artifact and her next step.",
+    summary: "No follow-ups. Her last artifact and her next move.",
     today: "2026-11-03",
     account: MAYA,
     records: [
@@ -259,16 +259,16 @@ export const HOME_COPY = {
    *  evening through dusk and night. */
   greeting: (name: string, part: "morning" | "afternoon" | "evening") => `Good ${part}, ${name}`,
   toward: (where: string) => `toward ${where}`,
-  allDone: "Every action on your plan is in hand.",
+  allDone: "Every move on your plan is in hand.",
   /** Over a ring's next action, whether it's the moment's or a ring picked. */
   nextIn: (horizon: string) => `Next in ${horizon.toLowerCase()}`,
-  ringDone: (horizon: string) => `Every ${horizon.toLowerCase()} action is confirmed.`,
+  ringDone: (horizon: string) => `Every ${horizon.toLowerCase()} move is confirmed.`,
   /** The links under the rings card (Concept 1): each says what's there. */
   planEyebrow: "Your plan",
   resumeEyebrow: "Pick up where you left off",
   resumeDetail: (verb: "Drafted" | "Edited", date: string) => `${verb} ${date}`,
   /** Read out when a ring's action replaces the moment above the rings. */
-  showing: (horizon: string) => `Showing your next ${horizon.toLowerCase()} action above.`,
+  showing: (horizon: string) => `Showing your next ${horizon.toLowerCase()} move above.`,
   /** Back to what the page was asking for, when it's more than a next step:
    *  a next step looks the same as a picked ring's, so needs no way back. */
   backTo: {
@@ -276,9 +276,9 @@ export const HOME_COPY = {
     ready: "Back to what’s ready",
     answered: "Back to what you logged",
   },
-  startNote: "Four actions on your plan. Each segment fills when you use the work it asks for.",
-  confirms: (horizon: string) => `Confirms your ${horizon.toLowerCase()} action`,
-  forAction: (horizon: string) => `For your ${horizon.toLowerCase()} action`,
+  startNote: "Four moves on your plan. Each segment fills when you use the work it asks for.",
+  confirms: (horizon: string) => `Confirms your ${horizon.toLowerCase()} move`,
+  forAction: (horizon: string) => `For your ${horizon.toLowerCase()} move`,
   another: (name: string) => `Another is waiting: ${name}`,
   loggedLead: "You told me:",
   loggedDetail: (detail: string) => `“${detail}”`,
@@ -369,7 +369,7 @@ export const READINESS_HOME_COPY = {
    *  gives a lighter step, one at a time; Getting there keeps the plan;
    *  Ready offers a stretch step, and only adds it if she says so. */
   plan: {
-    notYet: "Next on your plan: a lighter first step, one at a time.",
+    notYet: "Next on your plan: a lighter first move, one at a time.",
     gettingThere: "Your plan stays as it is. Keep going.",
     readyAsk: "Want something bigger this week?",
     add: "Add it",
@@ -380,7 +380,7 @@ export const READINESS_HOME_COPY = {
 } as const;
 
 export const STAY_COPY = {
-  nextHeading: "Your next step",
+  nextHeading: "Your next move",
   addsTo: "Adds to:",
   /** Over a next step brought by an outcome she just logged. */
   updated: "Updated from what you told us.",
@@ -448,15 +448,15 @@ export const MAP_COPY = {
   hintPick: "Tap a ring to see what is in it.",
   /** The eyebrow over a step she has not started yet. */
   suggestedIn: (horizon: string) => `Suggested in ${horizon.toLowerCase()}`,
-  ringComplete: (horizon: string) => `Every ${horizon.toLowerCase()} action is done.`,
+  ringComplete: (horizon: string) => `Every ${horizon.toLowerCase()} move is done.`,
   stepDone: (title: string) => `Done: ${title}`,
   doneIn: (horizon: string) => `Done in ${horizon.toLowerCase()}`,
-  stepDoneNote: "Nice work! New actions come once this stage is finished.",
-  ringCompleteNote: "New actions come with your plan's next stage.",
+  stepDoneNote: "Nice work! New moves come once this stage is finished.",
+  ringCompleteNote: "New moves come with your plan's next stage.",
   seePlan: "See your Plan",
   /** The text link under the map. */
   planLink: "See your Plan",
-  showing: (horizon: string) => `Showing the next step in ${horizon.toLowerCase()}.`,
+  showing: (horizon: string) => `Showing the next move in ${horizon.toLowerCase()}.`,
   legend: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
   state: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
   /** What each row says it does when tapped. */
@@ -467,7 +467,7 @@ export const MAP_COPY = {
   panelHint: "Each one opens in your Plan.",
   panelHintUnstarted: "Ones you have not started open to read about first.",
   askNew: "Ask for a new one",
-  askNone: "Nothing new to suggest right now. Check back after your next step.",
+  askNone: "Nothing new to suggest right now. Check back after your next move.",
   added: (title: string) => `Added to what you\u2019re working on now: ${title}. Open it to start it or skip it.`,
   sheet: {
     where: (horizon: string, stage: number, stageTitle: string) => `${horizon} · Stage ${stage}, ${stageTitle}`,
@@ -494,7 +494,7 @@ export const SIGNAL_PICTURE_COPY = {
   heading: "Your Signal Picture",
   asOf: (date: string) => `Since ${date}`,
   /** Over the one thing to try. */
-  nextLabel: "A next step",
+  nextLabel: "A next move",
   /** Opens the step in the Playbook. */
   nextAction: "Start in the Playbook",
   /** The text link to the Signal Picture page. */

@@ -53,7 +53,7 @@ In the prototype, responsiveness follows the simulated device frame (`data-viewp
 
 ### 3.1 What it counts
 
-Momentum is **"Your week in motion: plan steps, drafts and outcomes, and the signals you add."** It counts four things, each a real event with a day:
+Momentum is **"Your week in motion: plan moves, drafts and outcomes, and the signals you add."** It counts four things, each a real event with a day:
 
 | Counted | When |
 | --- | --- |

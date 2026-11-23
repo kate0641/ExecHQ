@@ -53,8 +53,8 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     name: "Positioning Builder",
     makes: "Your positioning statement, a bio in three lengths and a leadership narrative, in your words.",
     short: "Your statement, bios and narrative",
-    when: "Use it before anything that introduces you: a promotion conversation, a new boss, a conference program.",
-    needs: ["Your statement from onboarding (ExecEngine has it)", "A few recent accomplishments, if you want them in"],
+    when: "Make one for each moment that introduces you: a promotion conversation, a new boss, a conference program. Each is kept in your library, ready to build again.",
+    needs: ["A few recent accomplishments, if you want them in"],
     planStepId: "bio",
     // Like the other three: she can start a new one for each use (Kate,
     // 28 Oct), so it starts one rather than building out the one.
@@ -80,7 +80,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     // caption size (designer, 28 Oct; was "One page before a moment that
     // matters"). For Kate to confirm.
     short: "Your case, talk track and follow-up",
-    when: "Use it a day or two before a review, a board meeting, a negotiation or a hard conversation.",
+    when: "Use it a day or two before a review, a negotiation or a hard conversation.",
     needs: ["What the moment is, and when", "What you want to come out of it"],
     planStepId: "brief-manager",
     start: "Start a brief",
@@ -89,7 +89,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     kind: "thought-leadership",
     label: "Thought leadership",
     name: "Thought Leadership Builder",
-    makes: "A LinkedIn post or an article in your voice, from your own idea, a step on your plan or something you read.",
+    makes: "A LinkedIn post or an article in your voice, from your own idea, a move on your plan or something you read.",
     short: "A post or article in your voice",
     when: "Use it when you have a view worth putting your name to.",
     needs: ["Your point of view, in a line", "One example from your own work"],
@@ -132,6 +132,12 @@ export interface ToolInput {
   /** Not needed for a first draft. */
   optional?: boolean;
   placeholder?: string;
+  /** Asked first in the interview, and so not on the start screen: what
+   *  this one is for, before anything else. */
+  leads?: boolean;
+  /** A long answer's field that grows with what she writes: it starts at
+   *  three lines and stops at this many. Four, fixed, when left out. */
+  rows?: number;
 }
 
 export interface Enricher {
@@ -571,7 +577,7 @@ export const USE_CASE_COPY = {
   needsHeading: "You’ll need",
   planHeading: "On your plan",
   /** Under the first choice, when her plan step chose it (option C). */
-  fromPlan: "Chosen from your plan step. Change it if it’s not right.",
+  fromPlan: "Chosen from the move on your plan. Change it if it’s not right.",
   /** In the answer row her plan step chose, where each answer starts the tool. */
   fromPlanShort: "From your plan",
   /** In the row she chose, when she comes back to the start. */
@@ -674,7 +680,7 @@ export const LIBRARY_COPY = {
    *  her first action step, never to a blank state. */
   empty: {
     heading: "Nothing here yet",
-    body: "Your first draft starts from the first step on your plan.",
+    body: "Your first draft starts from the first move on your plan.",
   },
   actions: {
     open: "Open",
@@ -768,7 +774,7 @@ export const PLAYBOOK_PAGE = {
 export const MOMENT_RULES: readonly { kind: ArtifactKind; words: RegExp }[] = [
   { kind: "pitch", words: /\b(pitch\w*|podcast|conference|panel|speak\w*|(a|give a) talk|keynote|press|editor|journalist|call for (proposals|papers))\b/i },
   { kind: "thought-leadership", words: /\b(post|linkedin|article|blog|newsletter|essay|op-?ed|write|read)\b/i },
-  { kind: "situation-brief", words: /\b(review|board|meeting|negotiat\w*|check-?in|1:1|one-to-one|conversation|interview|offsite|presentation|manager|boss|talk (about|with|to)|scope)\b/i },
+  { kind: "situation-brief", words: /\b(review|meeting|negotiat\w*|check-?in|1:1|one-to-one|conversation|interview|offsite|presentation|manager|boss|talk (about|with|to)|scope)\b/i },
   { kind: "positioning", words: /\b(bio|introduc\w*|promotion|positioning|new (boss|manager|role)|about me|profile)\b/i },
 ];
 
@@ -858,7 +864,7 @@ export const PITCH_INPUTS: readonly ToolInput[] = [
 ];
 
 export const BRIEF_INPUTS: readonly ToolInput[] = [
-  { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A board meeting", "A negotiation", "An executive conversation", "Something else"] },
+  { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A negotiation", "An executive conversation", "Something else"] },
   // Asked only after Something else, so the brief names it (CEO, 19 Oct).
   { id: "named", label: "What is it?", hint: "A skip-level, an offsite, a dinner. Say as much as you like.", kind: "text", placeholder: "A skip-level with my manager’s manager" },
   { id: "date", label: "When is it?", hint: "If you know. ExecEngine asks how it went after it.", kind: "date", optional: true },
@@ -968,7 +974,7 @@ export const STEP_BAR_COPY = {
 
 /** Each question's short name in the bar, by tool and input id. */
 export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
-  positioning: { knownFor: "Known for", context: "Introductions", audience: "Audience", format: "Format", source: "Source text" },
+  positioning: { context: "Moments", knownFor: "Known for", audience: "Audience", format: "Format", source: "Source text" },
   pitch: { type: "Pitching for", target: "Who", angle: "Angle", proof: "Proof", audience: "Audience" },
   "situation-brief": { type: "Moment", named: "What it is", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks", background: "Background" },
   "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view", evidence: "Evidence", voice: "Voice", length: "Length" },
@@ -990,7 +996,7 @@ export const EXAMPLE_ANSWERS: Record<ArtifactKind, Record<string, string>> = {
     audience: "Marketing and commercial leaders",
   },
   "situation-brief": {
-    type: "A board meeting",
+    type: "An executive conversation",
     date: "2026-10-29",
     objective: "Agreement that I lead the Q1 planning workstream",
     audience: "The CEO, the CFO and my manager",
@@ -1360,7 +1366,17 @@ export const SEND_STEPS_COPY = {
  *  headed are known; only what she is known for is asked. The values that
  *  depend on her account are filled in by the flow. */
 export const POSITIONING_INPUTS: readonly ToolInput[] = [
-  { id: "statement", label: "Your positioning statement", kind: "long", source: "onboarding" },
+  // The moment comes first (Kate, 2026-11-18): a statement is made for each
+  // one, so what this one is for leads the interview.
+  {
+    id: "context",
+    label: "Which moments is this one for?",
+    kind: "choice",
+    many: true,
+    optional: true,
+    leads: true,
+    options: ["A promotion conversation", "An executive introduction", "A conference program"],
+  },
   { id: "role", label: "Your role, as you’d say it", kind: "text", source: "plan" },
   { id: "toward", label: "Where you’re headed", kind: "text", source: "direction" },
   {
@@ -1371,23 +1387,13 @@ export const POSITIONING_INPUTS: readonly ToolInput[] = [
     placeholder: "Getting teams that don’t report to me to plan as one",
   },
   { id: "strengths", label: "Strengths you’d want named", kind: "text", optional: true, placeholder: "Calm in a hard room; turning data into a decision" },
-  // The three for now, and she can make more than one (CEO, 19 Oct).
-  {
-    id: "context",
-    label: "Introductions for particular moments",
-    hint: "Pick any, or none.",
-    kind: "choice",
-    many: true,
-    optional: true,
-    options: ["A promotion conversation", "An executive introduction", "A conference program"],
-  },
   // The PRD's optional audience and desired format, asked apart (Kate, 13 Oct).
   {
     id: "audience",
     label: "Who is it mainly for?",
     kind: "choice",
     optional: true,
-    options: ["Senior leaders where I work", "An external audience", "Recruiters and boards"],
+    options: ["Senior leaders where I work", "An external audience"],
   },
   {
     id: "format",
@@ -1404,6 +1410,7 @@ export const POSITIONING_INPUTS: readonly ToolInput[] = [
     hint: "An old bio or profile. ExecEngine uses it to fill what it would otherwise ask.",
     kind: "long",
     optional: true,
+    rows: 8,
   },
 ];
 
@@ -1613,7 +1620,7 @@ export const AFTER_ANSWER: Record<ArtifactKind, Record<OutcomeType, AfterAnswer>
 };
 
 export const NEXT_STEP_COPY = {
-  heading: "Your next step",
+  heading: "Your next move",
   notNow: "Not now",
   /** A note is hers to add, never asked for: every feedback card has it. */
   addNote: "Add a note",
@@ -1693,7 +1700,7 @@ export const INTERVIEW_PICKS: Record<ArtifactKind, Record<string, InterviewPick>
     knownFor: { mode: "many", fromHer: true, options: ["Bringing teams together", "Calm in a hard room", "Building teams others want to join"] },
     strengths: { mode: "many", options: ["Calm in a hard room", "Turning data into a decision", "Cross-team leadership", "Coaching people up"] },
     context: { mode: "many", options: ["A promotion conversation", "An executive introduction", "A conference program"] },
-    audience: { mode: "one", options: ["Senior leaders where I work", "An external audience", "Recruiters and boards"] },
+    audience: { mode: "one", options: ["Senior leaders where I work", "An external audience"] },
     format: { mode: "one", options: ["LinkedIn About section", "A speaker bio", "An internal profile", "An email introduction"] },
   },
 };
@@ -1708,4 +1715,13 @@ export const PICK_COPY = {
   skip: "Skip",
   /** On the drawer's fold: what it holds. */
   peek: "Tap to answer",
+} as const;
+
+/** Over a new draft, for about five seconds (UX review, 2026-11-18): it's
+ *  safe, and where it lives. */
+export const SAVED_NOTICE_COPY = {
+  title: "Draft saved to your library",
+  body: "You can find it any time.",
+  link: "Open your library",
+  close: "Close",
 } as const;

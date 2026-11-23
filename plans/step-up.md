@@ -24,7 +24,7 @@
 - A specific promotion or scope conversation is already set within about 30 days → **Make the Move**, which prepares for one moment.
 - What she wants is to be known in her field more than a bigger role → **Make Your Mark**.
 - She wants more weight where she is, without asking for a bigger role yet → **Lead Where You Are**.
-- She is not sure the broader role is what she wants → **Chart a New Course**.
+- She is not sure the broader role is what she wants → **Find your next direction**.
 
 ### 1.2 Stages and success signals
 

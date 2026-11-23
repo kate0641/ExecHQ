@@ -75,7 +75,7 @@ function nextUse(article: boolean, nextStep?: string, fromRead = false): DraftSe
         ? ""
         : "Post it on a weekday morning, and reply to comments the same day.",
     fromRead ? "Your Briefing is a good place to find your next post: when a read speaks to what you lead, start one from it." : "",
-    nextStep ? `It serves your next step: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "",
+    nextStep ? `It serves your next move: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "",
     "When someone responds, answer in your own words. ExecEngine will ask how it landed in a week.",
   ].filter(Boolean);
   return { id: "next-use", heading: "Recommended next use", segments: [ex(parts.join(" "))] };
@@ -626,7 +626,6 @@ const BIO_FOR_FORMAT: Record<string, { label: string }> = {
 const AUDIENCE_QUESTION: Record<string, string> = {
   "Senior leaders where I work": "Which result would your leadership remember you for?",
   "An external audience": "Where have you spoken or been published?",
-  "Recruiters and boards": "Which decision best shows your judgment?",
 };
 
 /** A pasted bio's first sentence, for what came before her current role. */
@@ -664,7 +663,8 @@ function formatVersion(format: string, p: { name: string; first: string; roleSeg
   return { id: "format", heading: heading[format], segments: segments[format] };
 }
 
-/** Her statement, carried from onboarding, then bios in three lengths, the
+/** Her positioning statement, written from her answers (or the one she
+ *  brings, building an earlier one out again), then bios in three lengths, the
  *  leadership narrative, an introduction for each moment she chose (CEO, 19
  *  Oct: more than one), a version for where she'll use it first, and what to
  *  use it for next. Bios use her name, never a pronoun ExecEngine assumed.
@@ -713,7 +713,14 @@ export function positioningDraft(v: Record<string, string>, name: string, nextSt
   ];
 
   const sections: DraftSection[] = [
-    { id: "statement", heading: "Positioning statement", segments: [statement ? you(statement) : ask("What is your positioning statement?")] },
+    // Written here from what she answered, unless she brings one she has.
+    {
+      id: "statement",
+      heading: "Positioning statement",
+      segments: statement
+        ? [you(statement)]
+        : [ex("I’m known for "), knownSeg, ex(", and I’m building toward "), toward ? you(toward.replace(/[.]$/, "")) : ask("Where are you headed?"), ex(".")],
+    },
     { id: "bio-short", heading: "Short bio", segments: short },
     { id: "bio-medium", heading: "Medium bio", segments: medium },
     { id: "bio-long", heading: "Long bio", segments: long },
@@ -741,7 +748,7 @@ export function positioningDraft(v: Record<string, string>, name: string, nextSt
   const nextUse = [
     // "A speaker bio" → "your speaker bio"; "LinkedIn About section" keeps its capital.
     made ? `Start with the version made for your ${format!.replace(/^(a|an) /i, "")}.` : bio ? `Start with the ${bio.label} for your ${format!.replace(/^(a|an) /i, "")}.` : "Use the short bio wherever you are introduced.",
-    nextStep ? `Then use the narrative for your next step: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "Use the narrative to open your next conversation about scope.",
+    nextStep ? `Then use the narrative for your next move: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "Use the narrative to open your next conversation about scope.",
   ].join(" ");
   sections.push({ id: "next-use", heading: "Recommended next use", segments: [ex(nextUse)] });
   return sections;

@@ -118,6 +118,7 @@ function BriefingConcept2Page() {
         <nav className="briefing-pane__side" aria-label={C.oneAtATime.front}>
           {p.header}
           <BriefingFront reads={p.reads} layout="list" current={paneAt} isRead={(id) => Boolean(p.stateOf(id).read)} onOpen={show} />
+          {p.sparkSignals}
           <BriefingEnd allRead={p.allRead} headingId="briefing-end">
             <div className="brief-end__links">{p.publishersInProfile}</div>
           </BriefingEnd>
@@ -143,6 +144,7 @@ function BriefingConcept2Page() {
       <div className="briefing-page briefing-page--news">
         {p.header}
         <BriefingFront reads={p.reads} onOpen={go} />
+        {p.sparkSignals}
         <BriefingEnd allRead={p.allRead} headingId="briefing-end">
           <div className="brief-end__links">
             {p.publishersInProfile}

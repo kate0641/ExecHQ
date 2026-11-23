@@ -30,7 +30,7 @@ export const mapRingsStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "The strip at the top of the homepage: one ring per horizon, one segment per action on her map. Solid is done, outlined is in progress, dashed is not started. Tapping a ring shows that ring's next step in a card under the strip, its notch pointing at the ring, with Start in the Playbook.",
+    "The strip at the top of the homepage: one ring per horizon, one segment per move on her map. Solid is done, outlined is in progress, dashed is not started. Tapping a ring shows that ring's next step in a card under the strip, its notch pointing at the ring, with Start in the Playbook.",
   component: MapRings,
   notApplicable: {
     disabled: "Every ring can always be opened.",
@@ -42,7 +42,7 @@ export const mapRingsStates = defineComponentStates({
   variants: [
     { label: "Default — started, in progress and not started", props: base },
     { label: "A ring is open", props: { ...base, selected: "short" } },
-    { label: "A ring is open, with its next step", props: { ...base, selected: "short", children: card, legend: true } },
+    { label: "A ring is open, with its next move", props: { ...base, selected: "short", children: card, legend: true } },
     { label: "A ring is open, in another place", description: "The notch moves to the ring the card belongs to.", props: { ...base, selected: "long", children: card, legend: true } },
     { label: "A ring complete, with a check", props: { ...base, rings: completed } },
     { label: "Empty — a ring with nothing on it", props: { ...base, rings: now.map((r) => (r.horizon === "long" ? { ...r, segments: [], done: 0, complete: false } : r)) } },

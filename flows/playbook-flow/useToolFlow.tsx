@@ -7,6 +7,7 @@ import type { StepNavItem } from "@/lib/step-nav";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { EnricherCard } from "@/components/playbook/EnricherCard";
+import { SavedNotice } from "@/components/playbook/SavedNotice";
 import { OutletCard } from "@/components/playbook/OutletCard";
 import { OutletSuggestions } from "@/components/playbook/OutletSuggestions";
 import { SendSteps, type SendCopy } from "@/components/playbook/SendSteps";
@@ -49,7 +50,9 @@ import {
   LIBRARY_COPY,
   LIBRARY_SEED,
   PITCH_INPUTS,
+  OUTLETS,
   POSITIONING_COPY,
+  SAVED_NOTICE_COPY,
   POSITIONING_INPUTS,
   SEED_INPUTS,
   WINS_INPUT,
@@ -95,7 +98,6 @@ function stamp(today: string): string {
 
 /** The kind of moment, from what she said, for the Situation Brief. */
 function momentType(text: string): string | undefined {
-  if (/board/i.test(text)) return "A board meeting";
   if (/negotiat/i.test(text)) return "A negotiation";
   if (/review/i.test(text)) return "A review";
   if (/conversation|1:1|check-?in|meeting/i.test(text)) return "An executive conversation";
@@ -193,6 +195,8 @@ export function useToolFlow(concept: FlowConcept) {
    *  brief from a pitch that went well. */
   const afterId = params.get("after") ?? undefined;
   const moment = params.get("moment") ?? undefined;
+  /** Started from a Spark Signal in the Briefing: the outlet she is pitching, chosen. */
+  const outletId = params.get("outlet") ?? undefined;
 
   const draft: DraftState | undefined = artifactId ? playbook.drafts[artifactId] : undefined;
   const record = artifactId ? loop.records.find((r) => r.id === artifactId) : undefined;
@@ -295,6 +299,8 @@ export function useToolFlow(concept: FlowConcept) {
   // What she said was coming up is a topic for a post, but for a brief or a
   // pitch it only says what kind of moment it is; the rest is still asked.
   const guessed = moment ? (kind === "pitch" ? pitchType(moment) : kind === "situation-brief" ? momentType(moment) : undefined) : undefined;
+  const pitchedOutlet = kind === "pitch" && outletId ? OUTLETS.find((o) => o.id === outletId) : undefined;
+  const fromOutlet: Record<string, string> = pitchedOutlet ? { type: pitchedOutlet.type, target: pitchedOutlet.name } : {};
   const fromMoment: Record<string, string> = moment
     ? kind === "thought-leadership"
       ? { topic: moment }
@@ -317,7 +323,9 @@ export function useToolFlow(concept: FlowConcept) {
   const inputs: readonly ToolInput[] = baseInputs.map((input) =>
     fromStep[input.id]
       ? { ...input, value: fromStep[input.id], source: input.kind === "choice" ? undefined : ("plan" as const) }
-      : fromMoment[input.id]
+      : fromOutlet[input.id]
+        ? { ...input, value: fromOutlet[input.id] }
+        : fromMoment[input.id]
         ? { ...input, value: fromMoment[input.id] }
         : fromEarlier[input.id]
           ? { ...input, value: fromEarlier[input.id] }
@@ -325,7 +333,7 @@ export function useToolFlow(concept: FlowConcept) {
   );
   // A new start (another tool, plan step, read or earlier work) begins with
   // nothing typed: moving between builders keeps this hook, not her answers.
-  const startKey = artifactId ? "" : `${kind}|${stepId ?? ""}|${readId ?? ""}|${afterId ?? ""}|${moment ?? ""}`;
+  const startKey = artifactId ? "" : `${kind}|${stepId ?? ""}|${readId ?? ""}|${afterId ?? ""}|${moment ?? ""}|${outletId ?? ""}`;
   const [lastStart, setLastStart] = useState(startKey);
   if (startKey && startKey !== lastStart) {
     setLastStart(startKey);
@@ -339,7 +347,7 @@ export function useToolFlow(concept: FlowConcept) {
   const rest = inputs.filter((i) => !asked.includes(i));
   /** The tool's first question, which the use case screen asks beside its
    *  button (option C), so Concepts 1 and 2 do not ask it again. */
-  const firstChoice = inputs.find((i) => i.kind === "choice");
+  const firstChoice = inputs.some((i) => i.leads) ? undefined : inputs.find((i) => i.kind === "choice");
   const notFirst = (list: readonly ToolInput[]) => list.filter((i) => i !== firstChoice);
   const [writing, setWriting] = useState(false);
 
@@ -355,7 +363,13 @@ export function useToolFlow(concept: FlowConcept) {
       option.id === "emphasis" ? { ...option, choices: EMPHASIS_BY_KIND[kind] } : kind === "pitch" && option.id === "voice" ? { ...option, label: "Tone" } : option
     );
 
-  const currentValues = () => Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)]));
+  /** Building out a statement she already has, it carries on as the draft's
+   *  statement, without being asked or shown again (Kate, 2026-11-18). */
+  const carriedStatement = kind === "positioning" && (buildingOut || rebuilding) ? statementNow : undefined;
+  const currentValues = (): Record<string, string> => ({
+    ...Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])),
+    ...(carriedStatement ? { statement: carriedStatement } : {}),
+  });
 
   /** "Not sure yet" under Who are you pitching?: up to three
    *  outlets of the kind she is pitching for. */
@@ -433,10 +447,13 @@ export function useToolFlow(concept: FlowConcept) {
     return id;
   }
 
+  /** Says a new draft is in the library, once, as it opens. */
+  const [savedShown, setSavedShown] = useState(false);
+
   function write() {
     setWriting(true);
     window.setTimeout(() => {
-      writeWith(currentValues());
+      if (writeWith(currentValues())) setSavedShown(true);
       setWriting(false);
       focusSoon(DRAFT_LABEL_ID);
     }, 900);
@@ -514,11 +531,6 @@ export function useToolFlow(concept: FlowConcept) {
         {positioningRecord?.state === "closed" ? POSITIONING_COPY.closedBefore(fullDate(statementClosedOn)) : POSITIONING_COPY.reopened(fullDate(statementClosedOn))}
       </span>
       <p className="tool-flow__carried-text">{statementNow}</p>
-    </div>
-  ) : buildingOut ? (
-    <div className="tool-flow__carried">
-      <span className="tool-flow__carried-label">{POSITIONING_COPY.fromOnboarding}</span>
-      <p className="tool-flow__carried-text">{valueOf("statement")}</p>
     </div>
   ) : null;
   // The plan step a draft serves stays on it, as it does in the library.
@@ -604,7 +616,25 @@ export function useToolFlow(concept: FlowConcept) {
     setRebuilding(true);
     onStart?.();
   };
-  const useCase = (options: { onStart?: () => void; noStart?: boolean; choiceStarts?: boolean; noGoesWith?: boolean; noPicture?: boolean; brief?: boolean; noChoice?: boolean } = {}): ReactNode => (
+  /** Whether the start screen ends in a start button (rather than starting
+   *  when she taps an answer): Positioning Builder, whose first question
+   *  leads the interview instead (Kate, 2026-11-18). */
+  const startsWithButton = !firstChoice || Boolean(firstChoice.many);
+  const useCase = (
+    options: { onStart?: () => void; noStart?: boolean; choiceStarts?: boolean; noGoesWith?: boolean; noPicture?: boolean; brief?: boolean; noChoice?: boolean; pinStart?: boolean } = {}
+  ): ReactNode => {
+    const startLabel = startsOnStatement ? POSITIONING_COPY.openIt : firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined;
+    const onStart = startsOnStatement && statementHref ? () => router.push(statementHref) : options.onStart;
+    const noStart = options.noStart ?? !options.onStart;
+    // The start button at the foot of the page, not under the last line (Kate, 2026-11-18).
+    const pinned = Boolean(options.pinStart && !noStart && startsWithButton);
+    const buildAgain =
+      startsOnStatement && options.onStart ? (
+        <Button variant="secondary" fullWidth onClick={() => rebuild(options.onStart)}>
+          {POSITIONING_COPY.buildAgain}
+        </Button>
+      ) : null;
+    return (
     <>
     <ToolUseCase
       tool={tool}
@@ -625,9 +655,9 @@ export function useToolFlow(concept: FlowConcept) {
             }
           : undefined
       }
-      startLabel={startsOnStatement ? POSITIONING_COPY.openIt : firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined}
-      onStart={startsOnStatement && statementHref ? () => router.push(statementHref) : options.onStart}
-      noStart={options.noStart ?? !options.onStart}
+      startLabel={startLabel}
+      onStart={onStart}
+      noStart={pinned || noStart}
       choiceStarts={options.choiceStarts}
       noPicture={options.noPicture}
       brief={options.brief}
@@ -635,13 +665,19 @@ export function useToolFlow(concept: FlowConcept) {
       headingLevel={1}
       headingId={TOOL_TITLE_ID}
     />
-    {startsOnStatement && options.onStart ? (
-      <Button variant="secondary" fullWidth onClick={() => rebuild(options.onStart)}>
-        {POSITIONING_COPY.buildAgain}
-      </Button>
-    ) : null}
+    {pinned ? (
+      <div className="tool-flow__step-actions tool-flow__step-actions--pinned">
+        <Button fullWidth onClick={onStart}>
+          {startLabel ?? tool.start}
+        </Button>
+        {buildAgain}
+      </div>
+    ) : (
+      buildAgain
+    )}
     </>
-  );
+    );
+  };
 
   /** Positioning Builder offers her accomplishments; the draft never waits. */
   const enricher: ReactNode =
@@ -1291,6 +1327,17 @@ export function useToolFlow(concept: FlowConcept) {
   /** Concept 3: the written draft's opening, marked, for its collapsed card. */
   const draftPreview = (): ReactNode => (version ? marked(version.sections, edits) : null);
 
+  const savedNotice: ReactNode = savedShown ? (
+    <SavedNotice
+      title={SAVED_NOTICE_COPY.title}
+      body={SAVED_NOTICE_COPY.body}
+      linkLabel={SAVED_NOTICE_COPY.link}
+      href={`${backHref}#library-heading`}
+      closeLabel={SAVED_NOTICE_COPY.close}
+      onClose={() => setSavedShown(false)}
+    />
+  ) : null;
+
   return {
     concept,
     kind,
@@ -1307,6 +1354,8 @@ export function useToolFlow(concept: FlowConcept) {
     asked,
     rest,
     firstChoice,
+    startsWithButton,
+    savedNotice,
     notFirst,
     valueOf,
     setValue,

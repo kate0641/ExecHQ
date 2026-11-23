@@ -13,7 +13,7 @@ const stages = [
   { title: "Make the case", status: "later" as const },
 ];
 const sparks = [
-  { id: "s1", kind: "step" as const, label: "Your steps", text: "“Add three recent accomplishments” is on hold until next week.", on: "2026-10-05" },
+  { id: "s1", kind: "step" as const, label: "Your moves", text: "“Add three recent accomplishments” is on hold until next week.", on: "2026-10-05" },
   { id: "s2", kind: "record" as const, label: "In ExecEngine", text: "Drafted your leadership story.", on: "2026-10-06" },
 ];
 // The roadmap under the move: the Plan agenda, with its first step closed.
@@ -28,18 +28,16 @@ const roadmap = createElement(PlanAgenda, {
   headingId: "pg-roadmap",
   stages: stages.map((s, index) => ({ index, title: s.title, when: ["Next month", "Next month", "This quarter", "Next quarter"][index], finishing: finishing[index], status: s.status })),
   items: [
-    { id: "use-story", stage: 0, title: moves[0].title, date: "2026-10-13", kind: "step", step: moves[0], accepted: true },
-    { id: "brief-manager", stage: 0, title: moves[1].title, date: "2026-10-08", kind: "step", step: moves[1] },
-    { id: "yours-1", stage: 0, title: "Growth Summit panel", date: "2026-10-29", kind: "yours" },
-    { id: "q1-review", stage: 2, title: moves[2].title, date: "2026-10-30", kind: "step", step: moves[2] },
-    { id: "scope-case", stage: 3, title: moves[3].title, date: "2027-01-11", kind: "step", step: moves[3] },
+    { id: "use-story", stage: 0, title: moves[0].title, date: "2026-10-13", step: moves[0], accepted: true },
+    { id: "brief-manager", stage: 0, title: moves[1].title, date: "2026-10-08", step: moves[1] },
+    { id: "q1-review", stage: 2, title: moves[2].title, date: "2026-10-30", step: moves[2] },
+    { id: "scope-case", stage: 3, title: moves[3].title, date: "2027-01-11", step: moves[3] },
   ],
   today: "2026-10-06",
   startHref: "/playbook-flow/concept-3",
   onAsk: noop,
   onAccept: noop,
   onComplete: noop,
-  onAdd: noop,
 });
 const base = {
   planName: "Step Up",
@@ -53,7 +51,6 @@ const base = {
   onAnswer: noop,
   onTalk: noop,
   onStart: noop,
-  onAdd: noop,
 };
 
 export const planGuidedStates = defineComponentStates({
@@ -63,7 +60,7 @@ export const planGuidedStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it: the way to start (which is also her answer that she is working on it), I’ll do it when it is due, talk it through (which opens the chat on the move), or not for me (which asks why, one optional tap). Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The roadmap (the Plan agenda) sits on the page under the move: the open drawer covers it, and folding the drawer shows the whole road. Adding something of her own slides up as a sheet.",
+    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it: the way to start (which is also her answer that she is working on it), I’ll do it when it is due, talk it through (which opens the chat on the move), or not for me (which asks why, one optional tap). Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The roadmap (the Plan agenda) sits on the page under the move: the open drawer covers it, and folding the drawer shows the whole road.",
   component: PlanGuided,
   notApplicable: {
     hover: "Its controls are chips and Buttons, which show their own states.",
@@ -72,7 +69,7 @@ export const planGuidedStates = defineComponentStates({
     disabled: "Every control can always be used.",
     loading: "Saved on her device at once: there is nothing to wait for.",
     error: "Nothing here can fail: it reads her plan and records what she says.",
-    filled: "Not an input: she answers by choosing, and the add sheet shows its own filled state.",
+    filled: "Not an input: she answers by choosing.",
   },
   variants: [
     { label: "First move — the drawer open — default", props: base },

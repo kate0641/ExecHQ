@@ -18,6 +18,72 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-welcome-copy-2026-11-23",
+    title: "Welcome and Login: new words",
+    description:
+      "The Welcome's heading, line and serif line all change: \"The private, personalized career growth platform for executives.\", \"Built exclusively around your goals, your ambitions and your path forward.\" and \"Part executive coach, part advisor, part confidant.\"; Login's dark panel and promise take the same serif line and line (23 Nov).",
+  },
+  {
+    slug: "ux-review-2026-11-18",
+    title: "UX review, 18 November: everything to build",
+    description:
+      "One page for the build: every change from the 18 Nov UX review, each with its spec and dated brief, and what is still open.",
+  },
+  {
+    slug: "no-boards",
+    title: "No boards",
+    description:
+      "Board meetings and board presentations are gone: the Situation Brief's A board meeting, Make the Move's signs, What's coming up?, Whose view matters? and Who decides it?, and the sample data (18 Nov).",
+  },
+  {
+    slug: "briefing-spark-signals",
+    title: "Briefing: Spark Signals",
+    description:
+      "Up to three opportunities a week after the Briefing's reads, on the page like them, in a carousel of light cards: a show, event or publication picked for her, with Start a pitch (Pitch Builder, outlet chosen) and an × for Not for me (18 Nov).",
+  },
+  {
+    slug: "add-to-your-plan-cut",
+    title: "Plan: Add to your plan is cut",
+    description:
+      "The floating + and Add to your plan, their sheet, and items marked Yours on the roadmap are gone from V1; ExecEngine's own offer of a move after a draft stays (18 Nov).",
+  },
+  {
+    slug: "draft-saved-to-library",
+    title: "Draft saved to your library",
+    description:
+      "In every builder, as a first draft opens: a card with a drawn check, Draft saved to your library, and Open your library; gone in about five seconds, paused while held (18 Nov).",
+  },
+  {
+    slug: "positioning-builder-moments-first",
+    title: "Positioning Builder: the moment first",
+    description:
+      "No statement from onboarding on the start screen or the check; Which moments is this one for? opens the interview; one statement for each moment, said on the start screen; the bio field is twice as tall (18 Nov).",
+  },
+  {
+    slug: "advisor-without-the-logo",
+    title: "Ask your advisor, without the logo",
+    description:
+      "The Ask or go panel's start screen loses the ExecEngine logo; Your advisor and Ask me become one heading, Ask your advisor. The Enterprise Dashboard's advisor is unchanged (18 Nov).",
+  },
+  {
+    slug: "inside-the-company-only",
+    title: "Inside the company only",
+    description:
+      "Recruiters, boards and a way out are gone from the product: Positioning Builder's audience, the bio's audience and why, A board seat, Explore what else is out there, and the unused Get out of where I am (18 Nov).",
+  },
+  {
+    slug: "plan-items-are-moves",
+    title: "Every plan item is a move",
+    description:
+      "Everything on a person's plan is a move on every page they see: Start your first move, Your next move, 3 moves; step stays for progress through a flow; the Enterprise Dashboard's planned actions is unchanged (18 Nov).",
+  },
+  {
+    slug: "onboarding-plan-horizons-grouped",
+    title: "Onboarding: Your plan groups each horizon",
+    description:
+      "Each horizon on Your plan is one group with its count of steps; the short-term stays open under Start here and Then, this week; the medium-term and long-term fold until opened (18 Nov).",
+  },
+  {
     slug: "onboarding-how-it-works-line",
     title: "Onboarding: What ExecEngine is says how it works",
     description:

@@ -9,7 +9,8 @@ export interface SpecDocumentProps {
  * Renders an interaction spec. A small markdown reader written for the specs
  * and nothing else, so the prototype needs no markdown package: headings,
  * paragraphs, bullet and numbered lists, tables, rules, fenced blocks for
- * diagrams, and bold, italic and code inside a line. Anything else shows as plain text.
+ * diagrams, and bold, italic, code and links to the prototype's own pages
+ * (`[text](/path)`) inside a line. Anything else shows as plain text.
  */
 export function SpecDocument({ source }: SpecDocumentProps) {
   // The page already carries the spec's title, so a leading "# Title" is dropped.
@@ -19,13 +20,23 @@ export function SpecDocument({ source }: SpecDocumentProps) {
 }
 
 /* -----------------------------------------------------------------------------
-   Inline: **bold**, *italic*, `code`
+   Inline: **bold**, *italic*, `code`, [a link](/a/page on this site)
    -------------------------------------------------------------------------- */
 
-const INLINE = /(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|`[^`]+`)/g;
+const INLINE = /(\[[^\]]+\]\(\/[^)\s]*\)|\*\*[^*]+\*\*|\*[^*\s][^*]*\*|`[^`]+`)/g;
+/** A link to one of the prototype's own pages: only a path on this site, never another site. */
+const LINK = /^\[([^\]]+)\]\((\/[^)\s]*)\)$/;
 
 function renderInline(text: string): ReactNode {
   return text.split(INLINE).map((part, i) => {
+    const link = LINK.exec(part);
+    if (link) {
+      return (
+        <a key={i} href={link[2]} className="text-link">
+          {link[1]}
+        </a>
+      );
+    }
     if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
       return <strong key={i}>{part.slice(2, -2)}</strong>;
     }

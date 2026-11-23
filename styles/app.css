@@ -235,7 +235,7 @@ samp {
 /* --- SHARED PATTERNS --- */
 
 /* Choice pill: a white pill she taps to pick or send something (ChipGroup, ToggleGroup chips, quick replies,
-   read actions, add-to-plan). Each component keeps its own selected and hover states. */
+   read actions). Each component keeps its own selected and hover states. */
 .choice-pill {
   min-height: var(--pill-height);
   padding: var(--pill-padding-block) var(--pill-padding-inline);
@@ -2853,6 +2853,13 @@ ul.chrome__nav-list {
   color: var(--color-text-primary);
 }
 
+/* The product's start screen has no logo over it, so its heading says who
+   answers, a step up from the small label. */
+.concierge-start__title--lead {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+
 ul.icon-row,
 ul.concierge-suggest {
   margin: 0;
@@ -5118,8 +5125,8 @@ ol.concierge-list {
   flex: none;
 }
 
-/* The welcome sheet's title breaks in even lines, so a quoted phrase stays whole
-   (From “I'd like to be” / to “I'm going to be.”). */
+/* The welcome sheet's title breaks in even lines rather than leaving a word
+   on its own. */
 .welcome__sheet .step-header__title {
   text-wrap: balance;
 }
@@ -7551,28 +7558,6 @@ ul.plan-option__signs {
   color: var(--color-headline-on-inverse);
 }
 
-.guide--navy .agenda__fab,
-.device__screen:has(.guide--navy.plan-guided) .agenda__fab {
-  background-color: var(--color-action);
-  color: var(--color-text-on-action);
-}
-
-.guide--navy .agenda__fab:hover,
-.device__screen:has(.guide--navy.plan-guided) .agenda__fab:hover {
-  background-color: var(--color-action-hover);
-}
-
-.guide--navy .agenda__fab:active,
-.device__screen:has(.guide--navy.plan-guided) .agenda__fab:active {
-  background-color: var(--color-action-active);
-}
-
-.guide--navy .agenda__fab,
-.device__screen:has(.guide--navy.plan-guided) .agenda__fab {
-  border-radius: 50%;
-  box-shadow: 0 0 0 var(--border-width-thin) var(--color-action-edge), var(--shadow-lg);
-}
-
 /* Folded on a phone or a tablet, the stone drawer runs to the foot of the screen and the Ask or go bar sits
    in it, so the two read as one surface instead of stone, navy, white. Only the stage check-in still
    folds to a peek; the move pages' drawer leaves the screen. */
@@ -7948,18 +7933,77 @@ ul.plan-option__signs {
   color: var(--color-text-inverse);
 }
 
-.plan-path__horizon {
+/* Each horizon is one outlined group: its name, how far it looks and its
+   count of steps on one line, then its steps. */
+.plan-path__group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border-inverse);
+  border-radius: var(--radius-xl);
 }
 
-.plan-path__horizon-head {
+.plan-path__group--fold:not([open]) {
+  gap: 0;
+}
+
+.plan-path__group-head {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-2xs) var(--space-sm);
+  align-items: center;
+  gap: var(--space-sm);
+  padding-inline: var(--space-2xs);
+}
+
+.plan-path__group-name {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.plan-path__group-count {
+  flex: none;
+  font-size: var(--text-xs);
+  color: var(--color-text-inverse-muted);
+}
+
+/* A folded horizon's heading is its toggle, with the stages ahead's chevron. */
+.plan-path__group-toggle {
+  min-height: var(--button-target);
+  list-style: none;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+
+.plan-path__group-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.plan-path__group-toggle::after {
+  content: "";
+  flex: none;
+  inline-size: var(--space-xs);
+  block-size: var(--space-xs);
+  border-inline-end: var(--border-width-medium) solid var(--color-text-inverse);
+  border-block-end: var(--border-width-medium) solid var(--color-text-inverse);
+  transform: translateY(-25%) rotate(45deg);
+}
+
+.plan-path__group--fold[open] > .plan-path__group-toggle::after {
+  transform: translateY(25%) rotate(-135deg);
+}
+
+.plan-path__group-toggle:hover .plan-path__horizon-label {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.plan-path__group-toggle:focus-visible {
+  outline: var(--focus-ring);
+  outline-color: var(--color-focus-inverse);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .plan-path__horizon-label {
@@ -7978,23 +8022,39 @@ ul.plan-option__signs {
   color: var(--color-text-inverse-muted);
 }
 
-/* Doubled class: list resets elsewhere in the guide outrank a single one. */
-.plan-path .plan-path__items {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+/* The first step's card sits inside its group, one radius step smaller. */
+.plan-path__group > .plan-path__move {
+  border-radius: var(--radius-lg);
+}
+
+.plan-path__then-label {
+  margin: 0;
+  padding: var(--space-3xs) var(--space-2xs) var(--space-2xs);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-muted);
+}
+
+/* A horizon's other steps: plain rows on hairlines, part of the group, not boxes of their own. */
+.plan-path .plan-path__rows {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.plan-path__item {
-  padding: var(--space-sm) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border-inverse);
-  border-radius: var(--radius-lg);
+.plan-path__row {
+  padding: var(--space-sm) var(--space-2xs);
+  border-block-start: var(--border-width-thin) solid var(--color-border-inverse);
   font-size: var(--text-sm);
   line-height: var(--leading-snug);
   color: var(--color-text-inverse);
+}
+
+.plan-path__group--fold .plan-path__rows {
+  margin-block-start: var(--space-2xs);
 }
 
 .plan-path__move-action {
@@ -8848,12 +8908,13 @@ ul.plan-option__signs {
   flex-direction: column;
 }
 
-/* With the drawn keyboard up, the drawer keeps its full height and the question above gives way,
-   scrolled to its foot, as a phone scrolls the page to keep the field in view. */
+/* With the drawn keyboard up, the drawer keeps its full height and the question above gives way.
+   It sits at the foot of the space while it fits; when it doesn't, its top (the label and the
+   question) stays in view and the rest scrolls, so the question is never cut off (2026-11-18). */
 [data-viewport] .guide.guide--drawer:has(.device-keyboard) > .guide__page {
   min-height: 0;
   overflow-y: auto;
-  justify-content: flex-end;
+  justify-content: safe flex-end;
 }
 
 .answer-drawer {
@@ -14280,15 +14341,6 @@ ol.entry-drawer__rows {
   line-height: var(--leading-snug);
 }
 
-output.agenda__note {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-output.agenda__note:empty {
-  display: none;
-}
-
 .agenda__stages {
   display: flex;
   flex-direction: column;
@@ -14400,10 +14452,6 @@ ul.agenda__list {
   cursor: pointer;
 }
 
-.agenda__line.is-static {
-  cursor: default;
-}
-
 .agenda__line:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
@@ -14414,16 +14462,6 @@ ul.agenda__list {
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
-}
-
-.agenda__yours {
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--type-eyebrow-weight);
-  line-height: var(--type-eyebrow-leading);
-  letter-spacing: var(--type-eyebrow-tracking);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
 }
 
 .agenda__reveal {
@@ -14499,99 +14537,6 @@ ul.agenda__ask-list {
 .agenda__ask-pill:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
-}
-
-fieldset.agenda__whens {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-between-pills);
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.agenda__chip {
-  font-family: inherit;
-  line-height: inherit;
-}
-
-.agenda__chip:hover {
-  background-color: var(--color-surface-active);
-}
-
-.agenda__chip[aria-pressed="true"] {
-  background-color: var(--color-selected);
-  border-color: var(--color-selected);
-  color: var(--color-text-on-selected);
-}
-
-.agenda__chip:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-/* The add button floats over the phone's screen, above the Ask or go pill, and the sheet slides up from it. */
-.agenda__fab {
-  position: absolute;
-  inset-inline-end: var(--space-screen-side);
-  inset-block-end: calc(var(--space-lg) + 3.5rem + var(--space-sm));
-  z-index: 15;
-  display: grid;
-  place-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  border: 0;
-  border-radius: var(--radius-xl);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-lg);
-  cursor: pointer;
-  transition: opacity var(--duration-base);
-}
-
-.agenda__fab:hover {
-  background-color: var(--color-surface-inverse-hover);
-}
-
-.agenda__fab:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.agenda__fab--inline {
-  position: static;
-  align-self: flex-end;
-}
-
-.device__screen[data-concierge="open"] .agenda__fab {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.agenda__add {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.agenda__add-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-}
-
-.agenda__legend {
-  margin-bottom: var(--space-xs);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.agenda__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
 }
 
 /* Stack: cards that overlap, each in its stage colour, the open one grown to hold its steps. */
@@ -14790,11 +14735,6 @@ fieldset.agenda__whens {
   transform: rotate(-90deg);
 }
 
-.agenda--stack .agenda__yours {
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-label);
-}
-
 /* --- THE GUIDED CHECK-IN (Plan, Concept 3) --- */
 .device__screen:has(.concierge-host) .chrome__main:has(> .plan-guided) {
   padding-bottom: var(--space-4xl);
@@ -14824,17 +14764,6 @@ fieldset.agenda__whens {
   padding-bottom: 0;
 }
 
-/* The roadmap's add button steps aside with the pill. Hidden, not faded, so it leaves the tab order
-   while the drawer covers the roadmap. */
-.device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .agenda__fab {
-  visibility: hidden;
-}
-
-/* Folded to a peek (the stage check-in), the peek bar sits above the pill, so the add button rises clear of both. */
-.device__screen:has(.plan-guided .answer-drawer.is-peek) .agenda__fab {
-  inset-block-end: calc(var(--space-4xl) + var(--space-3xl) + var(--space-lg));
-}
-
 /* On the web the answer drawer is a card beside the page, never the foot of the screen, so the pill
    stays where it is and the page keeps its room for it. */
 [data-viewport="web"] .device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .concierge-host__pill:not(:where([data-viewport="mobile"] *)) {
@@ -14850,11 +14779,6 @@ fieldset.agenda__whens {
 
 [data-viewport="web"] .device__screen:has(.concierge-host) .chrome__main:has(> .plan-guided):not(:where([data-viewport="mobile"] *)) {
   padding-bottom: var(--space-4xl);
-}
-
-/* Adding on the web: a plain button at the foot of the road. */
-.agenda__add {
-  align-self: flex-start;
 }
 
 [data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) {
@@ -15359,11 +15283,6 @@ fieldset.agenda__whens {
 
 .plan-guided__reasons > .link {
   margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
-}
-
-.plan-guided__note {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
 }
 
 ul.plan-guided__sparks {
@@ -23355,4 +23274,286 @@ ul.letter-archive__list {
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
   box-shadow: var(--shadow-xs);
+}
+
+/* --- Saved to your library: a card over a new draft, gone in about five seconds (2026-11-18) -- */
+.saved-notice {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-menu);
+  display: grid;
+  place-items: center;
+  padding: var(--space-lg);
+  animation: saved-notice-in var(--duration-base) var(--easing-standard) both;
+}
+
+/* Over the whole page when there is no device frame. */
+body > .saved-notice {
+  position: fixed;
+}
+
+.saved-notice::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-overlay);
+  opacity: 0.5;
+}
+
+.saved-notice.is-leaving {
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--easing-standard);
+}
+
+.saved-notice--demo {
+  position: relative;
+  min-block-size: 18rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.saved-notice__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  inline-size: 100%;
+  max-inline-size: 20rem;
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+.saved-notice__check {
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  margin-block-end: var(--space-xs);
+}
+
+.saved-notice__ring {
+  fill: var(--color-surface-inverse);
+  transform-origin: center;
+  animation: saved-notice-pop var(--duration-slow) var(--easing-standard) both;
+}
+
+.saved-notice__tick {
+  fill: none;
+  stroke: var(--color-headline-on-inverse);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 36;
+  stroke-dashoffset: 36;
+  animation: saved-notice-tick var(--duration-slow) var(--easing-standard) var(--duration-base) forwards;
+}
+
+.saved-notice__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.saved-notice__body {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.saved-notice__link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--button-target);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.saved-notice__close {
+  position: absolute;
+  inset-block-start: var(--space-2xs);
+  inset-inline-end: var(--space-2xs);
+  display: grid;
+  place-items: center;
+  inline-size: var(--button-target);
+  block-size: var(--button-target);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.saved-notice__close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+@keyframes saved-notice-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes saved-notice-pop {
+  from { transform: scale(0.6); }
+  to { transform: scale(1); }
+}
+
+@keyframes saved-notice-tick {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .saved-notice,
+  .saved-notice__ring {
+    animation: none;
+  }
+
+  .saved-notice__tick {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .saved-notice.is-leaving {
+    transition: none;
+  }
+}
+
+/* --- Spark Signals: opportunities to be seen, after today's reads (2026-11-18) ---------------- */
+/* On the page like the reads: a hairline, a serif heading, light cards one at a time. */
+.spark-signals {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.spark-signals__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3xs) var(--space-sm);
+}
+
+.spark-signals__heading:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.spark-signals__heading {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+}
+
+.spark-signals__lede,
+.spark-signals__honest {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.spark-signals__none {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+output.spark-signals__said {
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+output.spark-signals__said:empty {
+  display: none;
+}
+
+.spark-signal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  block-size: 100%;
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+}
+
+.spark-signal__kind {
+  margin: 0;
+  padding-inline-end: var(--button-target);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.spark-signal__name {
+  margin: 0;
+  padding-inline-end: var(--space-lg);
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+}
+
+.spark-signal__why {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.spark-signal__meta {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.spark-signal__due {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.spark-signal__start {
+  align-self: flex-start;
+  margin-block-start: auto;
+}
+
+.spark-signal .spark-signal__start {
+  margin-block-start: var(--space-2xs);
+}
+
+.spark-signal__pass {
+  position: absolute;
+  inset-block-start: var(--space-3xs);
+  inset-inline-end: var(--space-3xs);
+  display: grid;
+  place-items: center;
+  inline-size: var(--button-target);
+  block-size: var(--button-target);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.spark-signal__pass:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.spark-signal__pass:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
 }

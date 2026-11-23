@@ -56,14 +56,15 @@ In the prototype, responsiveness follows the simulated device frame (`data-viewp
 
 The tool's name (level 1, large), what it makes, when to use it, and **You'll need:** with what it needs. If a plan step opened it, **On your plan** and the step.
 
-Then the tool's first question, as one button per answer ("What is the moment?": A review, A board meeting, A negotiation, An executive conversation, Something else). Pressing an answer starts the interview. An answer their plan step already gives is chosen for them and marked ("Chosen from your plan step. Change it if it's not right.").
+**Positioning Builder is the exception** (2026-11-18, UX review): its start screen asks nothing and ends in **Start a positioning statement**, pinned to the foot of the page on phone and tablet (above Safari's toolbar, with the page's words scrolling above it), never just under the last line, and its first question, **Which moments is this one for?** (pick all that apply, optional), opens the interview instead. A statement is made for each moment, and the start screen says so: "Make one for each moment that introduces you: a promotion conversation, a new boss, a conference program. Each is kept in your library, ready to build again." It no longer shows the statement from onboarding, and **You'll need:** no longer lists it.
+
+On every other tool, the tool's first question, as one button per answer ("What is the moment?": A review, A negotiation, An executive conversation, Something else; A board meeting removed 2026-11-18). Pressing an answer starts the interview. An answer their plan step already gives is chosen for them and marked ("Chosen from your plan step. Change it if it's not right.").
 
 Where they came from is said above it, and stays with the draft:
 
 - From the Briefing: **Started from today's Briefing**, with the read's title and publisher (and the passage, if they started from one).
 - From earlier work: **Started from {its name}**, with its title (a brief from a pitch that went well, say).
 - From the advisor: "You said: “{what they told him}”".
-- Positioning Builder, building out their statement: **Your statement from onboarding**, and the statement.
 
 There is no drawing and no "Goes with this" on this start screen.
 
@@ -88,12 +89,22 @@ Most questions are answered with chips, one per line: **Pick all that apply** wh
 
 ### 4.4 What ExecEngine already has
 
-What ExecEngine knows (their role, direction, positioning statement) is never asked. On the last question, one **Built with your {role}, {direction} and {positioning statement}** line sits above Write my first draft, with **Edit** to change any of it. If anything must be checked, a last screen, **Check what ExecEngine has**, lists it as compact rows, with Write my first draft and Back.
+What ExecEngine knows (their role and direction) is never asked. On the last question, one **Built with your {role} and {direction}** line sits above Write my first draft, with **Edit** to change any of it. If anything must be checked, a last screen, **Check what ExecEngine has**, lists it as compact rows, with Write my first draft and Back.
 
 ### 4.5 Writing the draft
 
 "Writing your first draft…" for a moment, then the draft (5). The artifact is created in the Loop as a draft, filed in its tool's folder, and the address moves to the artifact, so a reload or the library comes straight back here.
 
+
+**Saved to your library** (2026-11-18, UX review). As the first draft opens, in every builder, a card appears over it once, so she knows her work is safe and where it lives:
+
+- A check that draws itself in a navy circle, **Draft saved to your library**, "You can find it any time.", and the text link **Open your library**, to the library on the Playbook page.
+- The page behind dims slightly. The card is centered on the screen, at most 20rem wide, with an × in its corner.
+- **It goes on its own after about five seconds,** fading out. The ×, Escape or a tap outside it closes it sooner; the link closes it and opens the library.
+- **It waits while she holds it:** while the pointer is on it or focus is inside it, the five seconds don't run (WCAG 2.2.1).
+- **It never takes focus.** Focus goes to the draft, as before; the card's words are announced politely ("Draft saved to your library. You can find it any time."). Its link and × are reachable with Tab.
+- With reduced motion, the check is drawn at rest and nothing fades.
+- It shows once per draft, when it is written, not when a saved draft is opened again.
 ---
 
 ## 5. The draft
@@ -146,7 +157,7 @@ With the draft open: **Change the draft** and **Mark ready**. Ready: **I've used
 
 What each tool asks, what its draft holds and what comes next after its outcome are in the builder pages. The flow itself differs only here:
 
-- **Positioning Builder** is one artifact: their statement from onboarding, opened as version 1, never copied. Once built out, opening the tool shows the start screen first, and starting opens the statement; **Build it out again** asks the questions again, filled with their last answers, and adds the next version, never replacing the last. Building out a statement they closed reopens it as a draft, saying "You closed this statement on {date}." with the statement. They can pick more than one introduction, a pasted bio is read whole, and where they will use it first adds a version made for it (see the Positioning Builder page). It offers to add their accomplishments, never waiting on it. Each part (statement, each bio, the narrative) has its own Copy, and the bios PDF and Word. Changing the statement offers, never forces, a refresh of the rest.
+- **Positioning Builder** is one artifact: their statement from onboarding, if they wrote one, opened as version 1, never copied; building it out keeps it as the draft's statement without asking for it or showing it on the start screen (2026-11-18). Without one, the draft writes the statement from what they are known for and where they are headed. Once built out, opening the tool shows the start screen first, and starting opens the statement; **Build it out again** asks the questions again, filled with their last answers, and adds the next version, never replacing the last. Building out a statement they closed reopens it as a draft, saying "You closed this statement on {date}." with the statement. They can pick more than one introduction, a pasted bio is read whole, and where they will use it first adds a version made for it (see the Positioning Builder page). It offers to add their accomplishments, never waiting on it. Each part (statement, each bio, the narrative) has its own Copy, and the bios PDF and Word. Changing the statement offers, never forces, a refresh of the rest.
 - **Pitch Builder** names where it goes, above what it says, and ends with **Send it in four steps** ("Ticks are only for you. ExecEngine never sends anything for you."). Under who they're pitching, "Not sure yet? See three that fit" offers up to three outlets of the kind they chose. The follow-up draft lives on the same artifact.
 - **Situation Brief** takes a date, and its follow-up lands the day after it.
 - **Thought Leadership Builder** started from a read carries the read as its source for the life of the draft.

@@ -27,7 +27,8 @@ export const CONCIERGE_COPY = {
   /** The empty panel's sections. */
   goTo: "Go to",
   resumeEyebrow: "Pick up where you left off",
-  askMe: "Ask me",
+  /** The start screen's heading over the suggestions; says who answers, with no logo. */
+  askMe: "Ask your advisor",
 
   /** Suggested questions, by what is going on. */
   suggest: {
@@ -63,7 +64,7 @@ export const CONCIERGE_COPY = {
   nextStepCard: (title: string) => `Next on your plan: ${title}`,
   takeIt: "Take it on",
   /** After she answers how it went (13 Oct): the next step, whatever she said. */
-  yourNextStep: "Here’s your next step.",
+  yourNextStep: "Here’s your next move.",
   /** The second offer, named under the card so its button reads clearly. */
   alsoOffer: (title: string) => `Or: ${title.charAt(0).toLowerCase()}${title.slice(1)}.`,
   takingYou: (title: string) => `Taking you there: ${title.charAt(0).toLowerCase()}${title.slice(1)}.`,
@@ -75,7 +76,7 @@ export const CONCIERGE_COPY = {
   notNow: "Not now",
   talkItThrough: "Talk it through",
   whatsNext: "What’s next?",
-  takenOn: "It’s your next step now. You’ll find it on Home.",
+  takenOn: "It’s your next move now. You’ll find it on Home.",
   goHome: "Go to Home",
   setAside: "Understood. It’s logged and closed.",
 
