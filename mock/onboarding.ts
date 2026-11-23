@@ -2157,7 +2157,7 @@ export const GUIDE_C3 = {
     wordmark: "ExecEngine",
     title: "The private, personalized career growth platform for executives.",
     lede: "Built exclusively around your goals, your ambitions and your path forward.",
-    quote: "No noise. No vanity. No agendas. No comparisons. Just you.",
+    quote: "Part executive coach, part advisor, part confidant.",
     cta: "Get started",
     /** The front door has both ways in (Kate, 2026-11-13): Login's "New to ExecEngine? Start here",
      *  the other way round. */

@@ -10,8 +10,8 @@ All three lines of words on the Welcome change. The wordmark, the button, "Alrea
 | --- | --- | --- |
 | Heading | Somewhere to work on what comes next. | The private, personalized career growth platform for executives. |
 | Line | "Part coach, part advisor, part confidant. Private to you, and built around where you want to go." | "Built exclusively around your goals, your ambitions and your path forward." |
-| Serif line | From "I'd like to be" to "I'm going to be." | No noise. No vanity. No agendas. No comparisons. Just you. |
-| Words on the page | 33 | 38, within the 40-word rule |
+| Serif line | From "I'd like to be" to "I'm going to be." | Part executive coach, part advisor, part confidant. |
+| Words on the page | 33 | 35, within the 40-word rule |
 
 ## Where it shows
 
