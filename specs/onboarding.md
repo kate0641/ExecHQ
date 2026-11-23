@@ -278,7 +278,7 @@ The reflections are:
 | Time | How much time do you spend on your career each week? | None, honestly; Under an hour; An hour or two; More than that |
 | CEO | If your CEO described what you do, would they get it right? | Yes, exactly; Roughly; Probably not; They don't know me |
 | Manager | When did you last talk to your manager about what's next for you? | This month; In the last six months; Over a year ago; Never, really |
-| Story (step 11) | Could you say what you lead in one sentence, right now? | Yes, easily; Roughly; Not really |
+| Story (step 11) | Could you say what you lead today in one sentence? | Yes, easily; Roughly; Not really |
 
 **The questions** use the same pattern as Direction and the deciding question: equal-width options, five options and **None of these? Show me more options.** The **list-type** questions take several answers ("Pick as many as are true."). The **scale-type** questions, where each option is a point on a line, take one. Buttons: **Next** and **Skip this one.** The full list, by direction, is in Appendix B.
 
@@ -304,7 +304,7 @@ The end of onboarding: her plan, tuned to what she said, and what she's working 
 
   | Group | Line | Shown | What is in it |
   | --- | --- | --- | --- |
-  | Short-term | Quick wins, this week | Open | **Start here** as the Plan page's move card ("Write the story of what you lead", "ExecEngine drafts it with you, now or later.") with its own yellow button, **Start your first move**; then **Then, this week** over the stage's other short-term moves, as plain rows on hairlines |
+  | Short-term | Quick wins, this week | Open | **Start here** as the Plan page's move card (the plan's first move, for Step Up "Say what you lead today", was "Write the story of what you lead" until 2026-11-23; under it "Everything toward {her goal} starts here, with the role you have now. You'll come away with one sentence that says what you lead, ready for your next 1:1 or introduction. ExecEngine drafts it with you, now or later." {her goal} is the goal that ends the stages ahead, lowercase, e.g. "a seat on the exec team". The line says why this move comes first, what she comes away with and that ExecEngine helps; 2026-11-23) with its own yellow button, **Start your first move**; then **Then, this week** over the stage's other short-term moves, as plain rows on hairlines |
   | Medium-term | Over the next month | Folded | The stage's medium-term move |
   | Long-term | A quarter or more | Folded | The stage's long-term milestone |
 
@@ -327,7 +327,7 @@ A plan has no end date and no length. A stage is never given a deadline.
 
 **Optional** (Kate, 2026-11-12). The story is the plan's first move, begun from Your plan's **Start your first move**; the person can leave it and go home instead. These pages come after onboarding, so they have no progress line (4.9).
 
-**The question.** The reflection above: "Could you say what you lead in one sentence, right now?" with "Out loud, to someone who's never met you." It behaves as in 3.8. Its fact is Gallup's: only 46% of U.S. employees clearly know what is expected of them at work (2025).
+**The question.** The reflection above: "Could you say what you lead today in one sentence?" with "Your story of where you’re going starts with the role you have now. Knowing what you lead today lets ExecEngine build that story with you." Why this matters: "Where you’re going only lands once people know what you lead now. Every next move, a promotion conversation, a post, an introduction, starts with this sentence." It says why she is asked about the role she has now (2026-11-23; was "Could you say what you lead in one sentence, right now?" with "Out loud, to someone who’s never met you.") It behaves as in 3.8. Its fact is LinkedIn's, the same as Step Up's: 46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street (LinkedIn @Work study; was Gallup's "only 46% of U.S. employees clearly know what is expected of them at work" until 2026-11-23).
 
 **The first draft.** Here the person enters the **Playbook.** The label reads **Playbook · Positioning Builder** on this page, on **Add more detail** and on **Longer versions** (and on the "Writing your first draft" state), because the story is made in the Positioning Builder, one of the Playbook's four workflows. The question before it is still onboarding and keeps its own label. Heading **Here's your first draft.** It is written at once from what the person has already said. The line is "A start, from what you've shared. Add your role and a result to say what you lead." until they add detail, after which it says "Written from what you've shared, with the detail you added."
 
@@ -735,7 +735,7 @@ The first page shows six **first options**, I'm not sure yet among them. "None o
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| Which role are you going for? | Single | Making it yours | My boss’s job; One level up, in my area; Running a whole function; A seat on the exec team; A role that doesn’t exist yet | A bigger role in another part of the business; General manager of a business; A bigger P&L; A company-wide role *(was A board seat, 2026-11-18)* |
+| Which role are you going for? | Single | Making it yours | One level up, in my area; Running a whole function; A seat on the exec team; A role that doesn’t exist yet; A bigger role in another part of the business *(My boss’s job removed 2026-11-23: too confrontational; A bigger role in another part of the business moved up from Held back in its place)* | General manager of a business; A bigger P&L; A company-wide role *(was A board seat, 2026-11-18)* |
 | When is the next real chance at it? | Single | Making it yours (skipped when the direction already says it) | The next promotion round; When my boss moves on; At the next reorganization; Within a year, no set moment; I don’t know when | At year-end reviews; When a new role is created; In two to three years; It depends on someone else |
 | What would the people deciding say you’re missing? | Multiple | Deciding | Proof I can run something bigger; Being known above my boss; A clear case for why me; My boss behind me; A role to step into | Experience outside my area; Seen as too operational; A reorganization has stalled things; I don’t know what they’d say |
 
@@ -774,7 +774,7 @@ The first page shows six **first options**, I'm not sure yet among them. "None o
 
 | Plan (formal name) | For when | This week | Why now, with data | The template's three stages |
 | --- | --- | --- | --- | --- |
-| **Step Up** (Increase leadership scope) | You’re ready for a bigger role and want the remit to match. | Write the story of what you lead | Every conversation about a bigger role starts with “what do you lead?” 46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street. — LinkedIn @Work study | First: Say what you lead; Next: Show the proof; Then: Get in front of the deciders |
+| **Step Up** (Increase leadership scope) | You’re ready for a bigger role and want the remit to match. | Say what you lead today *(was Write the story of what you lead, 2026-11-23)* | Every conversation about a bigger role starts with “what do you lead?” 46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street. — LinkedIn @Work study | First: Say what you lead; Next: Show the proof; Then: Get in front of the deciders |
 | **Make Your Mark** (Build executive presence) | You need to be seen, and to have a clear point of view. | Write how you describe yourself | Everything you say in public builds on it. Executive presence accounts for 26% of what it takes to get promoted. — Center for Talent Innovation, survey of 268 senior executives, 2012 | First: Decide what you stand for; Next: Say it in public; Then: Get invited |
 | **Make the Move** (Prepare for a career inflection point) | A promotion, review, presentation or negotiation is coming up. | Write the story you’ll tell in the room | It’s the core of your case, and the thing you’ll rehearse. *Placeholder: a sourced fact is still needed.* | This week: Get the situation on paper; Before the date: Prepare your case; After: Capture what happened |
 | **Lead Where You Are** (Strengthen influence in the current organization) | You want to grow where you already are. | Write the story of what you own | Your work gets heard when it’s described in the terms decisions are made in. *Placeholder: a sourced fact is still needed.* | First: Make your work easy to see; Next: Widen who hears about it; Then: Become the go-to |

@@ -18,7 +18,7 @@ const horizons = HORIZONS.map((horizon) => ({
 const content = {
   nowLabel: c.nowLabel,
   stage: c.stage(stages.length, stages[0]?.title ?? ""),
-  first: { label: c.firstLabel, title: plan.thisWeek?.title ?? "", line: c.firstLine },
+  first: { label: c.firstLabel, title: plan.thisWeek?.title ?? "", line: c.firstLine("the C\u2011suite within three years") },
   thenLabel: c.thenLabel,
   stepCount: c.stepCount,
   firstAction: createElement(Button, { fullWidth: true } as ComponentProps<typeof Button>, c.start),
@@ -79,7 +79,7 @@ export const planPathStates = defineComponentStates({
         animate: false,
         aheadOpen: true,
         horizonsOpen: true,
-        first: { ...content.first, title: "Write the story of what you lead, in the words your leadership already uses" },
+        first: { ...content.first, title: "Say what you lead today, in the words your leadership already uses" },
         horizons: horizons.map((horizon, index) =>
           index === 1 ? { ...horizon, items: ["Put yourself forward to lead the Q1 planning review, with a one-page note on what you'd change"] } : horizon
         ),

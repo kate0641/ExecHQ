@@ -18,6 +18,18 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-first-move-why-2026-11-23",
+    title: "Onboarding: why the story comes first",
+    description:
+      "Your plan's first move becomes Say what you lead today, and its line names her goal, says why it comes first and what she comes away with; the story question says why it asks about her role now, with LinkedIn's fact in place of Gallup's (23 Nov).",
+  },
+  {
+    slug: "onboarding-no-boss-job-2026-11-23",
+    title: "Onboarding: no \"My boss's job\"",
+    description:
+      "\"My boss's job\" is removed from Which role are you going for? as too confrontational, with its read-back, story and goal lines; A bigger role in another part of the business moves up from More in its place (23 Nov).",
+  },
+  {
     slug: "no-full-stops-in-headings-2026-11-23",
     title: "No full stops in headings",
     description:

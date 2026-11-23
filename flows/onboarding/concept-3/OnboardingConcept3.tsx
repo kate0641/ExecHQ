@@ -742,7 +742,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           <PlanPath
             nowLabel={c.nowLabel}
             stage={c.stage(stages.length, stages[0]?.title ?? "")}
-            first={{ label: c.firstLabel, title: plan.thisWeek?.title ?? "", line: c.firstLine }}
+            first={{ label: c.firstLabel, title: plan.thisWeek?.title ?? "", line: c.firstLine(goal) }}
             thenLabel={c.thenLabel}
             stepCount={c.stepCount}
             firstAction={

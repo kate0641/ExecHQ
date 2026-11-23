@@ -437,8 +437,8 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "scope-kind",
       question: "Which role are you going for?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("My boss’s job", "One level up, in my area", "Running a whole function", "A seat on the exec team", "A role that doesn’t exist yet").map(withHeard("You’re going for your boss’s job, so the case is about being the obvious successor.", "You’re going for the next level up in your area, so the case is about readiness, not reinvention.", "You’re going for a whole function, so the case is about running all of it.", "You’re going for a seat on the exec team, where the big calls get made.", "You’re after a role that doesn’t exist yet, so part of the work is making the case for it.")),
-      more: opts("A bigger role in another part of the business", "General manager of a business", "A bigger P&L", "A company-wide role").map(withHeard("You’re going for a bigger role in another part of the business, so the step up may come from across the company.", "You’re going for general manager of a business, owning the whole of it.", "You want a bigger P&L, with more of the numbers resting on your decisions.", "You’re going for a company-wide role, with reach across every part of the business.")),
+      options: opts("One level up, in my area", "Running a whole function", "A seat on the exec team", "A role that doesn’t exist yet", "A bigger role in another part of the business").map(withHeard("You’re going for the next level up in your area, so the case is about readiness, not reinvention.", "You’re going for a whole function, so the case is about running all of it.", "You’re going for a seat on the exec team, where the big calls get made.", "You’re after a role that doesn’t exist yet, so part of the work is making the case for it.", "You’re going for a bigger role in another part of the business, so the step up may come from across the company.")),
+      more: opts("General manager of a business", "A bigger P&L", "A company-wide role").map(withHeard("You’re going for general manager of a business, owning the whole of it.", "You want a bigger P&L, with more of the numbers resting on your decisions.", "You’re going for a company-wide role, with reach across every part of the business.")),
     },
     {
       id: "scope-when",
@@ -724,7 +724,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     comeAway: "You\u2019ll come away with a clear case for a bigger role, and the story you tell when it\u2019s decided.",
     emphasis: "Your leadership story, proof of what you\u2019ve delivered, and the conversations that decide it.",
     thisWeek: {
-      title: "Write the story of what you lead",
+      title: "Say what you lead today",
       output: "The story of what you lead",
       detail: "The version you\u2019d say out loud in a meeting. ExecEngine will write the first draft for you next.",
       why: "Every conversation about a bigger role starts with \u201cwhat do you lead?\u201d",
@@ -1031,7 +1031,6 @@ const PLAN_GOAL: Record<string, string> = {
 /** The first question's answer, as her goal, for the plans that ask it. */
 const GOAL_FROM_ANSWER: Record<string, Record<string, string>> = {
   "scope-kind": {
-    "My boss\u2019s job": "your boss\u2019s job",
     "One level up, in my area": "the next level up in your area",
     "Running a whole function": "running a whole function",
     "A seat on the exec team": "a seat on the exec team",
@@ -1722,7 +1721,6 @@ const PROMPT_TOWARD_LINE: Record<string, string> = {
  *  options: the read-back's "heard" line, turned round to first person. */
 const SAID: Record<string, string[]> = {
   "scope-kind": [
-    "I’m going for my boss’s job.",
     "I’m going for the next level up in my area.",
     "I’m going for running a whole function.",
     "I’m going for a seat on the exec team.",
@@ -2421,7 +2419,10 @@ export const GUIDE_C3 = {
     thenLabel: "Then, this week",
     /** Beside each horizon's name, so Home's three, one and one come as no surprise. */
     stepCount: (count: number) => `${count} move${count === 1 ? "" : "s"}`,
-    firstLine: "ExecEngine drafts it with you, now or later.",
+    /** Under the first move's title: why it comes first, toward her goal, what she comes away
+     *  with, and that ExecEngine helps. Her goal as the plan page's end names it, lowercase. */
+    firstLine: (goal: string) =>
+      `Everything toward ${goal} starts here, with the role you have now. You\u2019ll come away with one sentence that says what you lead, ready for your next 1:1 or introduction. ExecEngine drafts it with you, now or later.`,
     start: "Start your first move",
     together: "These run side by side. Do the quick wins now, and chip away at the bigger pieces when you have time.",
     aheadLabel: "The stages ahead",
@@ -2444,8 +2445,8 @@ export const GUIDE_C3 = {
     /** Said once, on the first draft: where this is, and where it will be. */
     playbookIntro: "This is the Playbook, where ExecEngine makes your drafts. You\u2019ll find it any time from Ask or go.",
     reflect: {
-      title: "Could you say what you lead in one sentence, right now?",
-      lede: "Out loud, to someone who\u2019s never met you.",
+      title: "Could you say what you lead today in one sentence?",
+      lede: "Your story of where you\u2019re going starts with the role you have now. Knowing what you lead today lets ExecEngine build that story with you.",
       label: "Your story, out loud",
       options: ["Yes, easily", "Roughly", "Not really"],
       replies: [
@@ -2455,10 +2456,10 @@ export const GUIDE_C3 = {
       ],
       fact: {
         label: "Worth knowing",
-        text: "Only 46% of U.S. employees clearly know what is expected of them at work.",
-        source: "Gallup, 2025",
+        text: "46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street.",
+        source: "LinkedIn @Work study",
       },
-      why: "Every next move, a promotion conversation, a post, an introduction, starts with this sentence.",
+      why: "Where you\u2019re going only lands once people know what you lead now. Every next move, a promotion conversation, a post, an introduction, starts with this sentence.",
     },
     /** The first draft, written from what the user has said, by decision on
      *  2026-09-28. Its lede answers the reflection before it. */
