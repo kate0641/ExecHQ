@@ -118,9 +118,9 @@ A step brought onto their plan by a stage check-in carries one line saying why, 
 
 ### 4.6 The last page, and when there is nothing
 
-After the last move: kicker "The road ahead", heading "That's this stretch of the plan.", the line "Here is where your plan stands.", what changed on their plan most recently (up to six notes), and the reply "Then ExecEngine builds the next stage, from what worked and what didn't." Button: **Go through them again**.
+After the last move: kicker "The road ahead", heading "That's this stretch of the plan", the line "Here is where your plan stands.", what changed on their plan most recently (up to six notes), and the reply "Then ExecEngine builds the next stage, from what worked and what didn't." Button: **Go through them again**.
 
-With no moves at all: "Nothing to answer right now." and "Your plan offers the next move when one fits.", with no button.
+With no moves at all: the heading "Nothing to answer right now" and "Your plan offers the next move when one fits.", with no button.
 
 ### 4.7 When a move falls
 

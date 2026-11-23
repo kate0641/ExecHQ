@@ -2155,7 +2155,7 @@ export const GUIDE_C3 = {
   file: { label: "What\u2019s saved", added: "Added" },
   welcome: {
     wordmark: "ExecEngine",
-    title: "The private, personalized career growth platform for executives.",
+    title: "The private, personalized career growth platform for executives",
     lede: "Built exclusively around your goals, your ambitions and your path forward.",
     quote: "Part executive coach, part advisor, part confidant.",
     cta: "Get started",
@@ -2170,7 +2170,7 @@ export const GUIDE_C3 = {
    *  words). 52 words, the line under the heading included. */
   about: {
     kicker: "What ExecEngine is",
-    title: "Everything you need for what comes next.",
+    title: "Everything you need for what comes next",
     /** How it gets there, before the questions that do it. */
     lede: "ExecEngine gathers insight from you to create a customized path forward.",
     points: [

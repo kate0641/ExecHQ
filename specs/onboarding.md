@@ -103,7 +103,7 @@ The order is a decision, not an accident of the list (see section 10). **Most pe
 The cover. A large statement on navy, with the phone's status bar in white.
 
 - The **ExecEngine** wordmark, large, at the top.
-- Heading: **The private, personalized career growth platform for executives.**
+- Heading: **The private, personalized career growth platform for executives** (no full stop: headings never end in one)
 - Line: "Built exclusively around your goals, your ambitions and your path forward." (Kate, 2026-11-23; 35 words on the page.)
 - Closing line, in italic serif: "Part executive coach, part advisor, part confidant."
 - Button: **Get started.**
@@ -119,7 +119,7 @@ The same wordmark, serif line and line open Login, so a returning person and a n
 
 What ExecEngine is, said in a glance and built in one idea at a time (Kate, 2026-11-12; it was a heading, a line, three explained points and a privacy box, about 120 words, which ran below the fold). 52 words, with the line under the heading (decision 45). The detail is left for the product, where the person sees it.
 
-- Label **What ExecEngine is.** Heading: **Everything you need for what comes next.**
+- Label **What ExecEngine is.** Heading: **Everything you need for what comes next**
 - Under it, the line: "ExecEngine gathers insight from you to create a customized path forward." It says how ExecEngine gets her there, before the questions that do it. It is there from the first frame, with the heading.
 - Three statements, each with a small drawing in a tile:
   1. **Know where you stand** (a pin)

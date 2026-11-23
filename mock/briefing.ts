@@ -358,9 +358,9 @@ export const BRIEFING_COPY = {
 
   /* --- End of the day's set ----------------------------------------------- */
   end: {
-    heading: "That’s today’s three.",
+    heading: "That’s today’s three",
     /** Concept A, once all three have been opened. */
-    allRead: "You’ve read today’s three.",
+    allRead: "You’ve read today’s three",
     body: "Tomorrow’s arrive in the morning.",
   },
 

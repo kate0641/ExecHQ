@@ -14,7 +14,7 @@ After the reads, **Spark Signals** offer up to three opportunities a week to be 
 
 What it deliberately does not do:
 
-- **Feel like a feed.** There are only ever three reads a day. No topic tabs, no counts of unread items, no reading times, no "Load more". The day's set ends with "That's today's three." Spark Signals are not reads: up to three a week, in their own section, and they never add to the day's three.
+- **Feel like a feed.** There are only ever three reads a day. No topic tabs, no counts of unread items, no reading times, no "Load more". The day's set ends with "That's today's three". Spark Signals are not reads: up to three a week, in their own section, and they never add to the day's three.
 - **Pick by category.** Every "Why it's here" line grounds in their direction or their plan, never in a topic label.
 - **Make reading a task.** Nothing on a read is done or not done. Reading counts once it is opened, and only toward the Plan's "Read today's Briefing" step, when they came from it (5.3).
 - **Mix in what was saved.** Saved reads live on their own page (4), never among the day's three.
@@ -39,7 +39,7 @@ The page uses the `app` chrome. It is the "Briefing" destination in the navigati
 On web:
 
 - **There is no front page.** The pane opens on the first read, which counts as opening it (5.1).
-- **The list stays in view** (sticky) while the read scrolls. Under the three reads come Spark Signals (3.4a), then "That's today's three." and the Profile link (3.4).
+- **The list stays in view** (sticky) while the read scrolls. Under the three reads come Spark Signals (3.4a), then "That's today's three" and the Profile link (3.4).
 - **The open read is marked** in the list with a raised card and a stronger edge; each read already opened says **Read** beside its publisher.
 
 In the prototype, responsiveness follows the simulated device frame (`data-viewport`), never the browser window. In production use the real breakpoints above.
@@ -76,7 +76,7 @@ Opening a read scrolls to the top of the page and moves focus to its headline. O
 
 ### 3.4 The close
 
-**That's today's three.** (level 2), then "Tomorrow's arrive in the morning." Once all three are opened it says **You've read today's three.** Under it, **Change publishers in Profile**, which opens Profile.
+**That's today's three** (level 2), then "Tomorrow's arrive in the morning." Once all three are opened it says **You've read today's three**. Under it, **Change publishers in Profile**, which opens Profile.
 
 ### 3.4a Spark Signals (2026-11-18)
 

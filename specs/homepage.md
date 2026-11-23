@@ -121,7 +121,7 @@ What the card shows is decided by the first of these that is true:
 | 2 | This ring holds their next step (the one action they are on that has not yet reached the Loop) | The **next-step card** with its eyebrow **"Next in {horizon}"** |
 | 3 | The ring has an action in progress, else one not started | The same next-step card for that action. Eyebrow **"Next in {horizon}"** for one in progress, **"Suggested in {horizon}"** for one not started |
 | 4 | Every action in the ring is done | A note: **"Every {horizon} action is done."**, then "New moves come with your plan's next stage." and a **See your Plan** button |
-| 5 | The ring has no actions | A note: **"Nothing in this part yet."** |
+| 5 | The ring has no actions | A note headed **"Nothing in this part yet"** |
 
 **The next-step card** has, top to bottom: the eyebrow; the action's title as a heading; three labeled rows, **Why this**, **Why now**, **Why you** (any that has no text is left out); a full-width primary button **Start in the Playbook**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
 

@@ -1729,8 +1729,8 @@ export const C3_COPY = {
   /** Follow-through leads. Below the minimum, only how
    *  many joined can be said. */
   headline: (completed: number, accepted: number) =>
-    `Participants have completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on.`,
-  headlineHidden: (joined: number, expected: number) => `${count.format(joined)} of ${count.format(expected)} have joined.`,
+    `Participants have completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on`,
+  headlineHidden: (joined: number, expected: number) => `${count.format(joined)} of ${count.format(expected)} have joined`,
   covers: (day: number) => (day >= 30 ? "These figures cover the last 30 days." : `These figures cover the first ${day} days.`),
   /** By the numbers, under the headline: three figures,
    *  each "31 of 74" over what it counts. */
@@ -1770,7 +1770,7 @@ export const C3_COPY = {
   codeLine: (code: string, open: boolean) => (open ? `Your cohort’s code is ${code}.` : "Your cohort is closed to new joiners."),
   firstIssue: (on: string) => `Your first issue comes on ${formatAsOf(on)}.`,
   ready: {
-    headline: "Your cohort is set up.",
+    headline: "Your cohort is set up",
     body: "Here is the code to share through your own channels.",
     then: (on: string) => `Every Monday I’ll write to you with how the cohort is doing. The first issue comes on ${formatAsOf(on)}.`,
   },

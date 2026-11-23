@@ -1443,7 +1443,7 @@ export const POSITIONING_COPY = {
   copied: (name: string) => `${name} copied.`,
   /** Offered when she changes her statement. Never automatic. */
   refresh: {
-    heading: "Your statement changed.",
+    heading: "Your statement changed",
     body: "Your bios and narrative still say the old one. Refresh them to match?",
     yes: "Refresh them",
     no: "Keep them as they are",

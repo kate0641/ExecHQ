@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "no-full-stops-in-headings-2026-11-23",
+    title: "No full stops in headings",
+    description:
+      "Headings never end in a full stop: the Welcome, What ExecEngine is, Home's ring notes, Plan's guided end, the Briefing's end of the set, the Playbook's statement notice and Enterprise Concept 3's headlines (23 Nov).",
+  },
+  {
     slug: "onboarding-welcome-copy-2026-11-23",
     title: "Welcome and Login: new words",
     description:

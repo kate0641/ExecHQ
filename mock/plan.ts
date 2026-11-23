@@ -463,7 +463,7 @@ export const ROADMAP_COPY = {
   /** Not in onboarding's version of the plan, so a reviewer can find it. */
   addedNote: "Not shown in onboarding yet",
   advance: {
-    title: "You’ve done what this stage asks.",
+    title: "You’ve done what this stage asks",
     body: (next: string) => `The next stage is “${next}”. Move on when you’re ready.`,
     move: (next: string) => `Move to ${next}`,
     notYet: "Not yet",
@@ -999,9 +999,9 @@ export const GUIDED_COPY = {
   /** The title over what changed, the timeline's own words for it. */
   sparksTitle: TIMELINE_COPY.sparksLabel,
   lastKicker: "The road ahead",
-  lastTitle: "That’s this stretch of the plan.",
+  lastTitle: "That’s this stretch of the plan",
   lastLede: "Here is where your plan stands.",
   again: "Go through them again",
-  noneTitle: "Nothing to answer right now.",
+  noneTitle: "Nothing to answer right now",
   noneLede: "Your plan offers the next move when one fits.",
 } as const;

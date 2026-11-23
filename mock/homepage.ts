@@ -448,7 +448,7 @@ export const MAP_COPY = {
   hintPick: "Tap a ring to see what is in it.",
   /** The eyebrow over a step she has not started yet. */
   suggestedIn: (horizon: string) => `Suggested in ${horizon.toLowerCase()}`,
-  ringComplete: (horizon: string) => `Every ${horizon.toLowerCase()} move is done.`,
+  ringComplete: (horizon: string) => `Every ${horizon.toLowerCase()} move is done`,
   stepDone: (title: string) => `Done: ${title}`,
   doneIn: (horizon: string) => `Done in ${horizon.toLowerCase()}`,
   stepDoneNote: "Nice work! New moves come once this stage is finished.",
@@ -463,7 +463,7 @@ export const MAP_COPY = {
   rowOpen: "Opens in your Plan",
   rowRead: "Read why, then start or skip",
   ringCount: (done: number, total: number) => (total === 0 ? "Nothing yet" : done === total ? "All done" : `${done} of ${total} done`),
-  ringEmpty: "Nothing in this part yet.",
+  ringEmpty: "Nothing in this part yet",
   panelHint: "Each one opens in your Plan.",
   panelHintUnstarted: "Ones you have not started open to read about first.",
   askNew: "Ask for a new one",
