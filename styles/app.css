@@ -8248,6 +8248,7 @@ ul.plan-option__signs {
 
 /* Outranks .tool-illustration's own ink, which is set for light pages. */
 .product-intro .product-intro__tool-art {
+  flex-shrink: 0;
   color: var(--color-headline-on-inverse);
 }
 
