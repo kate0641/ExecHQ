@@ -111,7 +111,7 @@ The cover. A large statement on navy, with the phone's status bar in white.
 
 **Welcome is the front door.** A first visit opens Welcome, not Login; someone with an account goes on to Login from it. A returning person, known on the device, opens on Login as before (2026-11-13).
 
-The same wordmark opens Login, so a returning person and a new one see one product. Login keeps its own serif line, "Somewhere to work on what comes next."; it was not changed with the Welcome's words (2026-11-23).
+The same wordmark, serif line and line open Login, so a returning person and a new one see one product. They come from one place in the copy, so the two cannot drift apart (2026-11-23).
 
 **On web the Welcome splits,** as Login's does. A dark panel on the left (40% of the width) carries the **ExecEngine** wordmark and, in italic serif, "Part executive coach, part advisor, part confidant." The sheet on the right carries the heading **The private, personalized career growth platform for executives.**, the line "Built exclusively around your goals, your ambitions and your path forward.", and **Get started**, centered across and down the sheet. Phone and tablet keep the cover above.
 

@@ -19,9 +19,9 @@ export interface HandoffNoteEntry {
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
     slug: "onboarding-welcome-copy-2026-11-23",
-    title: "Onboarding: the Welcome's new words",
+    title: "Welcome and Login: new words",
     description:
-      "The Welcome's heading, line and serif line all change: \"The private, personalized career growth platform for executives.\", \"Built exclusively around your goals, your ambitions and your path forward.\" and \"Part executive coach, part advisor, part confidant.\" (23 Nov).",
+      "The Welcome's heading, line and serif line all change: \"The private, personalized career growth platform for executives.\", \"Built exclusively around your goals, your ambitions and your path forward.\" and \"Part executive coach, part advisor, part confidant.\"; Login's dark panel and promise take the same serif line and line (23 Nov).",
   },
   {
     slug: "ux-review-2026-11-18",

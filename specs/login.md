@@ -35,7 +35,7 @@ Login uses the `minimal` chrome: no header, no navigation, no footer line. It is
 In the sheet, top to bottom:
 
 1. **Welcome back** (small label), then the heading **Log in to ExecEngine**.
-2. **The promise:** "A private career advisor that takes you from "I'd like to be" to "I'm going to be". It doesn't just show you the way. It works for you to get you there." These are the exact words from the start of onboarding. They come from one place in the copy, so the two cannot drift apart.
+2. **The promise:** "Built exclusively around your goals, your ambitions and your path forward." These are the exact words from onboarding's Welcome (2026-11-23). They come from one place in the copy, so the two cannot drift apart.
 3. **Email field:** a pill-shaped field labeled "Your email".
 4. **Keep me logged in on this device:** a checkbox, ticked by default.
 5. **Log in:** a full-width primary button.
@@ -44,7 +44,7 @@ In the sheet, top to bottom:
 8. **New to ExecEngine? Start here.** "Start here" goes to the start of onboarding.
 9. At the very foot: a lock icon, "Private to you.", and a **Learn more** link.
 
-In the dark panel: the **ExecEngine wordmark** and the line **"Somewhere to work on what comes next."** in italic serif.
+In the dark panel: the **ExecEngine wordmark** and the line **"Part executive coach, part advisor, part confidant."** in italic serif, the same as onboarding's Welcome (2026-11-23).
 
 ### 2.2 Layout by viewport
 
