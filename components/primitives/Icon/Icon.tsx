@@ -472,7 +472,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   "chart-bar": <path d="M3 17h14M6 14v-4M10 14V5M14 14V7.5" />,
   "trend-up": <path d="M3 14.5l4.5-4.5 3 3 6-6M12.5 7h4v4" />,
   // The glass pinches in to a narrow neck, so it reads as a bulb, not a balloon.
-  lightbulb: <path d="M8 14.5h4M8.5 17h3M8 14.5c0-1.6-3-3.1-3-6a5 5 0 0 1 10 0c0 2.9-3 4.4-3 6" />,
+  lightbulb: <path d="M7.78 14.72h4.44M8.33 17.5h3.34M7.78 14.72c0-1.78-3.34-3.44-3.34-6.67a5.56 5.56 0 0 1 11.12 0c0 3.23-3.34 4.89-3.34 6.67" />,
   // The i is a touch heavier than the circle, with clear space above the
   // stem, so it holds its own at 16px. Centred: the same gap to the circle
   // above the dot as below the stem.
