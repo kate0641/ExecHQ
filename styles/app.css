@@ -2814,7 +2814,9 @@ ul.chrome__nav-list {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: var(--space-md) var(--space-lg);
+  /* The screen's side margin, as on every page: at 24 the six page names
+     in the nav row ran together on a small phone. */
+  padding: var(--space-md) var(--space-screen-side);
 }
 
 .concierge-panel__foot {
@@ -2869,10 +2871,15 @@ ul.concierge-suggest {
 
 .icon-row {
   display: grid;
-  /* One row however many destinations there are. */
+  /* One row however many destinations there are. Each column is as wide as
+     its name, never narrower than a tap target, and the room left over goes
+     between them, so short names like Home and Plan give their spare width
+     to Playbook and Briefing instead of every column being the same. No set
+     gap: on a 320 phone the six only fit with the spare room as the gap. */
   grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
-  gap: var(--space-2xs);
+  grid-auto-columns: minmax(var(--button-target), auto);
+  justify-content: space-between;
+  gap: 0;
 }
 
 .icon-row__item {
