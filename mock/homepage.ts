@@ -50,7 +50,7 @@ const story = () =>
     title: "Your leadership story",
     name: "your leadership story",
     on: "2026-10-05",
-    recommendation: "Use your leadership story in your next 1:1",
+    recommendation: "Share your leadership story in your next 1:1",
   });
 
 const brief = () =>

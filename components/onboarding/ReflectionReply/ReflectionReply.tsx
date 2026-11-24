@@ -1,6 +1,7 @@
 export interface ReflectionReplyProps {
-  /** Who is speaking, e.g. "ExecEngine". */
-  from: string;
+  /** Who is speaking, e.g. "ExecEngine". Left out where the reply already
+   *  names its speaker, so the quote stands alone without a credit. */
+  from?: string;
   text: string;
   /** A fact to go with it, with where it comes from. Until sourced, it is
    *  shown as a marked placeholder. */
@@ -22,7 +23,7 @@ export function ReflectionReply({ from, text, fact, className }: ReflectionReply
         <blockquote>
           <p>{text}</p>
         </blockquote>
-        <figcaption>{from}</figcaption>
+        {from ? <figcaption>{from}</figcaption> : null}
       </figure>
       {fact ? (
         <div className={["card", "reflection-reply__fact", fact.placeholder ? "is-placeholder" : null].filter(Boolean).join(" ")}>

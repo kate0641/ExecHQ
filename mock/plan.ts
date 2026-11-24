@@ -734,8 +734,9 @@ export const PLAN_DIRECTION_COPY = {
 export const STAGE_CHECKIN_COPY = {
   part: "Stage check-in",
   introKicker: (n: number, of: number) => `Stage ${n} of ${of} · Finished`,
-  introTitle: (stage: string) => `You finished ${stage}!`,
-  introLede: "Here’s what you did. Tell me how it went, and I’ll build on it.",
+  /** No stage name here: the kicker above says which stage. */
+  introTitle: "Here’s what you accomplished",
+  introLede: "Tell me how it went, and I’ll build on it.",
   introQuestion: "Check in on this stage?",
   introNote: (unreported: number) =>
     `${unreported ? `${unreported === 1 ? "One thing" : `${unreported} things`} to hear about, then how the stage went.` : "How the stage went."} About two minutes. You can skip any of it.`,
@@ -995,12 +996,12 @@ export const GUIDED_COPY = {
   reasonLabel: "Why not?",
   next: "Next move",
   seeRoad: "See the road",
-  after: "Then ExecEngine builds the next stage, from what worked and what didn’t.",
+  after: "ExecEngine builds the next stage of your plan, from what worked and what didn’t.",
   /** The title over what changed, the timeline's own words for it. */
   sparksTitle: TIMELINE_COPY.sparksLabel,
   lastKicker: "The road ahead",
-  lastTitle: "That’s this stretch of the plan",
-  lastLede: "Here is where your plan stands.",
+  lastTitle: "Moving forward with insight and direction",
+  lastLede: "",
   again: "Go through them again",
   noneTitle: "Nothing to answer right now",
   noneLede: "Your plan offers the next move when one fits.",

@@ -1,6 +1,7 @@
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
 import { GUIDE_C3 } from "@/mock/onboarding";
+import { GUIDED_COPY } from "@/mock/plan";
 import { ReflectionReply } from "./ReflectionReply";
 
 const time = GUIDE_C3.reflect.time;
@@ -9,7 +10,7 @@ export const reflectionReplyStates = defineComponentStates({
   name: "ReflectionReply",
   group: "cards",
   status: "draft",
-  flows: ["onboarding"],
+  flows: ["onboarding", "plan"],
   description:
     "ExecEngine's answer to a reflection question as a pull quote, with a fact after it and where the fact comes from. A fact not yet sourced shows as a marked placeholder.",
   component: ReflectionReply,
@@ -29,5 +30,10 @@ export const reflectionReplyStates = defineComponentStates({
       },
     },
     { label: "Reply only", props: { from: GUIDE_C3.from, text: time.replies[2] } },
+    {
+      label: "Without a credit",
+      description: "No speaker line under the quote, for a reply that already names ExecEngine in its own words (the Plan's road ahead).",
+      props: { text: GUIDED_COPY.after },
+    },
   ],
 });
