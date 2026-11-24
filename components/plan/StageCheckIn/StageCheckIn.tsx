@@ -186,7 +186,7 @@ export function StageCheckIn({
       <GuidePage
         {...top}
         kicker={C.introKicker(stageIndex + 1, stageCount)}
-        title={C.introTitle(stageTitle)}
+        title={C.introTitle}
         lede={C.introLede}
         className={classes}
         drawer={

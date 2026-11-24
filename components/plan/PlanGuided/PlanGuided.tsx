@@ -168,7 +168,7 @@ export function PlanGuided({
               </ul>
             </section>
           ) : null}
-          <ReflectionReply from="ExecEngine" text={G.after} />
+          <ReflectionReply text={G.after} />
         </GuidePage>
       </>
     );
