@@ -15,7 +15,7 @@ const planStep = {
   action: { label: C.planStep.add, onClick: noop },
 };
 const followUp = { id: "follow-up", title: "Send the follow-up email", body: "It’s in the brief. Add what you agreed and when you’ll come back to them.", action: { label: "Copy the follow-up email", onClick: noop } };
-const nextOnPlan = { id: "next-on-plan", eyebrow: C.nextOnPlan.label, title: "Use your leadership story in your next 1:1", action: { label: C.nextOnPlan.action, href: "/plan/concept-3" } };
+const nextOnPlan = { id: "next-on-plan", eyebrow: C.nextOnPlan.label, title: "Share your leadership story in your next 1:1", action: { label: C.nextOnPlan.action, href: "/plan/concept-3" } };
 const base = { readback: BRIEF_AFTER.positive.readback, offers: [planStep, followUp], onNote: noop, onNotNow: noop, headingId: "outcome-next-demo" };
 
 export const outcomeNextStates = defineComponentStates({

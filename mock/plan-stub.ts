@@ -117,7 +117,7 @@ export const SIGNALS: TrackedSignal[] = [
 export const ACTIONS: LandscapeAction[] = [
   {
     id: "use-story",
-    title: "Use your leadership story in your next 1:1",
+    title: "Share your leadership story in your next 1:1",
     horizon: "short",
     status: "accepted",
     whyThis: "It’s the clearest way to say what you lead, out loud, to the person who decides.",
