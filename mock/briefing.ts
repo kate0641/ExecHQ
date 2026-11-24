@@ -276,7 +276,7 @@ export const BRIEFING_COPY = {
 
   /* --- First visit: no publishers chosen ---------------------------------- */
   firstVisit: {
-    heading: "Where should your reads come from?",
+    heading: "Shape your daily sources of intel",
     body: "Choose the publishers you trust. Each morning ExecEngine picks three reads from them and says why each one is there.",
     suggestedHeading: "Suggested for you",
     suggestedWhy: "Chosen for leading a broader marketing organization. Change any of them.",
