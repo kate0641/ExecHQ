@@ -646,7 +646,7 @@ export type MomentumFigure = "completed" | "artifact" | "outcome" | "signal";
 
 export const MOMENTUM_COPY = {
   heading: "Momentum",
-  intro: "Your week in motion: plan moves, drafts and outcomes, and add your visibility signals.",
+  intro: "Your week in motion: plan moves, drafts and outcomes, and the visibility signals you add.",
   figures: {
     completed: (n: number) => `${n} completed move${n === 1 ? "" : "s"}`,
     artifact: (n: number) => `${n} artifact${n === 1 ? "" : "s"} created or used`,
