@@ -2210,7 +2210,7 @@ export const GUIDE_C3 = {
     kicker: "Where you are",
     title: "Where are you today?",
     lede: "Pick as many as are true.",
-    why: "Your plan starts from where you stand and what you're working through",
+    why: "Your plan starts from where you stand and what you\u2019re working through.",
     options: [
       "Doing well, and ready for more",
       "New in my role",
@@ -2468,7 +2468,7 @@ export const GUIDE_C3 = {
       /** Said from what the draft is built from: the role, scope and result
        *  asked just before it, or only what was said earlier. */
       ledeSharpened: "Written from what you\u2019ve shared, with the detail you added.",
-      ledeStart: "A start, from what you\u2019ve shared about your current role and goals for what\u2019s next",
+      ledeStart: "A start, from what you\u2019ve shared about your current role and goals for what\u2019s next.",
       why: "You can use this today. Add detail or build longer versions now, or come back to them from your plan.",
       sharpen: "Add more detail",
       /** The ways on from the draft, as equal choices. */
