@@ -51,7 +51,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     kind: "positioning",
     label: "Positioning statement",
     name: "Positioning Builder",
-    makes: "Your positioning statement, a bio in three lengths and a leadership narrative, in your words.",
+    makes: "Your positioning statement, a bio and a leadership narrative, in your words.",
     short: "Your statement, bios and narrative",
     when: "Make one for each moment that introduces you: a promotion conversation, a new boss, a conference program. Each is kept in your library, ready to build again.",
     needs: ["A few recent accomplishments, if you want them in"],
