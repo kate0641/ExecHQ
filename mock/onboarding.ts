@@ -2291,8 +2291,8 @@ export const GUIDE_C3 = {
    *  goes the long way to ExecEngine's pick. */
   pick: {
     kicker: "Your first move",
-    title: "Where do you want to start?",
-    lede: "Everyone\u2019s path starts somewhere. Pick one to begin with. You can change it at any time.",
+    title: "Let\u2019s start with what matters most right now",
+    lede: "Choose a starting point. You can change or adjust it at any time.",
     cta: "Use this plan",
     /** Over the signs, when a plan opens (Kate, 2026-11-13). */
     signs: "Pick this if",
@@ -2468,7 +2468,7 @@ export const GUIDE_C3 = {
       /** Said from what the draft is built from: the role, scope and result
        *  asked just before it, or only what was said earlier. */
       ledeSharpened: "Written from what you\u2019ve shared, with the detail you added.",
-      ledeStart: "A start, from what you\u2019ve shared. Add your role and a result to say what you lead.",
+      ledeStart: "A start, from what you\u2019ve shared about your current role and goals for what\u2019s next",
       why: "You can use this today. Add detail or build longer versions now, or come back to them from your plan.",
       sharpen: "Add more detail",
       /** The ways on from the draft, as equal choices. */
