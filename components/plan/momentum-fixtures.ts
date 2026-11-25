@@ -15,7 +15,7 @@ export const TODAY = "2027-01-01";
 /** A busy week: something on Monday, Wednesday and today, of each kind. */
 export const THIS_WEEK: MomentumEvent[] = [
   ev("artifact", "2026-12-22", "Drafted your pitch"),
-  ev("completed", "2026-12-28", "Use your leadership story in your next 1:1"),
+  ev("completed", "2026-12-28", "Share your leadership story in your next 1:1"),
   ev("completed", "2026-12-30", "Share the result with your manager’s manager"),
   ev("artifact", "2026-12-30", "Sent your pitch"),
   ev("outcome", "2027-01-01", "Your story: it went well"),

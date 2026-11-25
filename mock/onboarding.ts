@@ -2194,7 +2194,7 @@ export const GUIDE_C3 = {
     kicker: "Your account",
     ask: "Your personal email",
     emailHint: "Not your work one, so it stays yours wherever your career goes.",
-    title: "First, somewhere to keep all this",
+    title: "Your private HQ starts here",
     inviteField: "Your invite code",
     inviteHint: "From your invitation.",
     cta: "Continue",
@@ -2210,7 +2210,7 @@ export const GUIDE_C3 = {
     kicker: "Where you are",
     title: "Where are you today?",
     lede: "Pick as many as are true.",
-    why: "Your plan starts from where you are, not from a template.",
+    why: "Your plan starts from where you stand and what you\u2019re working through.",
     options: [
       "Doing well, and ready for more",
       "New in my role",
@@ -2282,7 +2282,7 @@ export const GUIDE_C3 = {
     firstLede: "ExecEngine will start there, and keep the rest in view.",
     /** Why the second question is asked, on its own: the first is already answered. */
     firstWhy: "Your plan needs a first move. Starting from the one that matters most gives it a clear direction, and the rest stay in view.",
-    why: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most.",
+    why: "Your goals shape everything ExecEngine builds for you. Select all that apply, then choose the one to focus on first.",
     cta: "Continue",
   },
   /** She chooses her plan, with ExecEngine's pick marked. The plans are the
@@ -2291,8 +2291,8 @@ export const GUIDE_C3 = {
    *  goes the long way to ExecEngine's pick. */
   pick: {
     kicker: "Your first move",
-    title: "Where do you want to start?",
-    lede: "Everyone\u2019s path starts somewhere. Pick one to begin with. You can change it at any time.",
+    title: "Let\u2019s start with what matters most right now",
+    lede: "Choose a starting point. You can change or adjust it at any time.",
     cta: "Use this plan",
     /** Over the signs, when a plan opens (Kate, 2026-11-13). */
     signs: "Pick this if",
@@ -2468,7 +2468,7 @@ export const GUIDE_C3 = {
       /** Said from what the draft is built from: the role, scope and result
        *  asked just before it, or only what was said earlier. */
       ledeSharpened: "Written from what you\u2019ve shared, with the detail you added.",
-      ledeStart: "A start, from what you\u2019ve shared. Add your role and a result to say what you lead.",
+      ledeStart: "A start, from what you\u2019ve shared about your current role and goals for what\u2019s next.",
       why: "You can use this today. Add detail or build longer versions now, or come back to them from your plan.",
       sharpen: "Add more detail",
       /** The ways on from the draft, as equal choices. */
