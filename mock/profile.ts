@@ -67,7 +67,7 @@ export const PROFILE_COPY = {
 
   organization: {
     heading: "Your organization",
-    member: (name: string) => `${name} sees totals for the whole group. It never sees you, your plan or your work.`,
+    member: (name: string) => `${name} sees only totals for the whole group. It never sees your plan or your work.`,
     joined: "Joined",
     never: "What stays private",
     leave: "Leave organization",

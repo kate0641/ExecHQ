@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "profile-privacy-promise-2026-11-25",
+    title: "Profile: the privacy promise, reworded",
+    description:
+      "The line about her organization now reads \"{Organization} sees only totals for the whole group. It never sees your plan or your work.\" on Profile, Edit and Delete, and where the sponsor's Profile quotes it (25 Nov).",
+  },
+  {
     slug: "onboarding-first-move-why-2026-11-23",
     title: "Onboarding: why the story comes first",
     description:
