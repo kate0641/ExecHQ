@@ -135,7 +135,7 @@ export const ACTIONS: LandscapeAction[] = [
     status: "accepted",
     whyThis: "A one-page brief turns a check-in into a conversation about scope.",
     whyNow: "The check-in is on Thursday.",
-    whyYou: "You’re in the Show the proof stage of your plan.",
+    whyYou: "",
     whyLine: "Thursday’s check-in is your chance to talk about scope, and a one-page brief shows the proof.",
     artifactId: "check-in-brief",
     signalId: "decider-access",
