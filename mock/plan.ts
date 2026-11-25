@@ -898,11 +898,10 @@ export const TIMELINE_COPY = {
 export type StepQuestion = "why" | "take" | "else" | "stuck" | "big" | "begin" | CardQuestion;
 
 /** Concept 1's step card (2026-10-07): one question per tile, in her voice, each answered on its own. */
-export type CardQuestion = "this" | "now" | "me" | "moves" | "long" | "done";
+export type CardQuestion = "this" | "now" | "moves" | "long" | "done";
 export const CARD_QUESTIONS: { id: CardQuestion; label: string }[] = [
   { id: "this", label: "Why this?" },
   { id: "now", label: "Why now?" },
-  { id: "me", label: "Why me?" },
   { id: "moves", label: "What does it move?" },
   { id: "long", label: "How long will it take?" },
   { id: "done", label: "When am I done?" },
@@ -919,11 +918,10 @@ const lower = (text: string) => text.charAt(0).toLowerCase() + text.slice(1).rep
 const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1).replace(/\.$/, "");
 
 export const STEP_ANSWERS = {
-  /** Why this, why now, why her, and what it moves: one answer. */
-  why: (step: { whyThis: string; whyNow: string; whyYou: string }, area?: string) => [
+  /** Why this, why now, and what it moves: one answer. */
+  why: (step: { whyThis: string; whyNow: string }, area?: string) => [
     step.whyThis,
     step.whyNow,
-    step.whyYou,
     area ? `It moves “${area}”.` : "It is not tied to one of your signals, so it moves your plan as a whole.",
   ],
   /** How long it will take, and what counts as done: one answer. */

@@ -532,7 +532,6 @@ export function respond(
       const cardAnswer: Partial<Record<StepQuestion, string>> = {
         this: step.whyThis,
         now: step.whyNow,
-        me: step.whyYou,
         moves: STEP_ANSWERS.moves(signalById(step.area ?? "")?.name),
         long: STEP_ANSWERS.long(effort),
         done: STEP_ANSWERS.done(done),

@@ -8,7 +8,7 @@ From Eric's Ask or go review: the Why you section isn't needed. It is cut from e
 
 - **The next-step card has two reasons, not three:** **Why this** and **Why now**. Either is left out when it has no text, as before.
 - This covers Home's next step and the card under each ring.
-- **The step data keeps its "why you" line.** The advisor still uses it when she asks about a step ("Why me?"), and in its answer to "Why this?". Only the card stops showing it.
+- **The advisor drops it too** (later the same day): no "Why me?" question, and its answer to "Why this move?" no longer says why her. See "Advisor: no Why me".
 
 ## Where it is in the prototype
 

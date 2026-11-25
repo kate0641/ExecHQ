@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "advisor-no-why-me-2026-11-25",
+    title: "Advisor: no Why me",
+    description:
+      "The advisor's answer to Why this move? on a Plan step gives why this, why now and what it moves, without why her, and Why me? is gone from its follow-up questions (25 Nov).",
+  },
+  {
     slug: "profile-no-leave-organization-2026-11-25",
     title: "Profile: no Leave organization",
     description:
@@ -27,7 +33,7 @@ export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
     slug: "home-no-why-you-2026-11-25",
     title: "Home: no Why you on the next-step card",
     description:
-      "The next-step card shows Why this and Why now only, on Home's next step and under every ring; the step's why-you line stays for the advisor (25 Nov).",
+      "The next-step card shows Why this and Why now only, on Home's next step and under every ring; the advisor drops it too (25 Nov).",
   },
   {
     slug: "profile-privacy-promise-2026-11-25",
