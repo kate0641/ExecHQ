@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "home-no-why-you-2026-11-25",
+    title: "Home: no Why you on the next-step card",
+    description:
+      "The next-step card shows Why this and Why now only, on Home's next step and under every ring; the step's why-you line stays for the advisor (25 Nov).",
+  },
+  {
     slug: "profile-privacy-promise-2026-11-25",
     title: "Profile: the privacy promise, reworded",
     description:

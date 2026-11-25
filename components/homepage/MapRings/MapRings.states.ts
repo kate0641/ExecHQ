@@ -19,7 +19,7 @@ const shortAction = now.find((r) => r.horizon === "short")!.segments[0].action;
 const card = createElement(NextStepCard, {
   eyebrow: "Next in short-term",
   title: shortAction.title,
-  why: { this: shortAction.whyThis, now: shortAction.whyNow, you: shortAction.whyYou },
+  why: { this: shortAction.whyThis, now: shortAction.whyNow },
   href: "/playbook-flow/concept-3",
 });
 

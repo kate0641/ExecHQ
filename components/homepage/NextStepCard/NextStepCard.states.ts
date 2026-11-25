@@ -5,7 +5,7 @@ import { actionById } from "@/mock/plan-stub";
 import { NextStepCard } from "./NextStepCard";
 
 const a = actionById("brief-manager")!;
-const why = { this: a.whyThis, now: a.whyNow, you: a.whyYou };
+const why = { this: a.whyThis, now: a.whyNow };
 const href = "/playbook-flow/concept-3";
 
 export const nextStepCardStates = defineComponentStates({
@@ -15,7 +15,7 @@ export const nextStepCardStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "One action, with its why this, why now and why you as label and value rows or one sentence, and the way into its Playbook flow (stubbed until Sprint 4). Also the just-answered hand-off, visibly marked as stubbed.",
+    "One action, with its why this and why now as label and value rows or one sentence, and the way into its Playbook flow (stubbed until Sprint 4). Also the just-answered hand-off, visibly marked as stubbed.",
   component: NextStepCard,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -25,7 +25,7 @@ export const nextStepCardStates = defineComponentStates({
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "Why this, now, you — default", props: { title: a.title, why, href } },
+    { label: "Why this and why now — default", props: { title: a.title, why, href } },
     {
       label: "With what it adds to",
       description: "Homepage Concept 2 names the signal the step feeds, under the eyebrow.",
@@ -49,7 +49,7 @@ export const nextStepCardStates = defineComponentStates({
     },
     {
       label: "Reasons in one sentence",
-      description: "Why this, why now and why you said as one line. Homepage Concept 1’s tray.",
+      description: "The reasons said as one line. Homepage Concept 1’s tray.",
       props: { title: a.title, whyLine: a.whyLine, href, eyebrow: "Next in short-term", headingId: "nsc-whyline" },
     },
     {

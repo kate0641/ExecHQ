@@ -168,7 +168,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "A labelled read inside a card is a grey eyebrow, then the words. Blue eyebrows introduce a heading; grey ones label a read.",
-        why: "Why this / Why now / Why you on Home; Name and Email on Profile; Go to in the advisor panel. One look for one job.",
+        why: "Why this / Why now on Home; Name and Email on Profile; Go to in the advisor panel. One look for one job.",
         from: "Home, Profile, Navigation",
         uses: [".read", "--type-eyebrow-*", "--color-text-secondary"],
       },
