@@ -6,8 +6,8 @@ import { Icon } from "@/components/primitives/Icon";
 export interface NextStepCardProps {
   /** The one action. */
   title: string;
-  /** Why this, why now, why you. Any can be left out. */
-  why?: { this?: string; now?: string; you?: string };
+  /** Why this and why now. Either can be left out. */
+  why?: { this?: string; now?: string };
   /** The reasons as one sentence. When set, it shows in place of the rows. */
   whyLine?: string;
   /** Where it starts: its Playbook flow. Stubbed until Sprint 4. */
@@ -36,9 +36,9 @@ export interface NextStepCardProps {
 }
 
 /**
- * One action, with the reasons for it — why this, why now, why you — and
- * the way into its Playbook flow. The reasons show as label and value rows,
- * or as one sentence that says all three.
+ * One action, with the reasons for it — why this and why now — and the way
+ * into its Playbook flow. The reasons show as label and value rows, or as one
+ * sentence that says both.
  */
 export function NextStepCard({
   title,
@@ -60,7 +60,6 @@ export function NextStepCard({
   const rows = [
     ["Why this", why.this],
     ["Why now", why.now],
-    ["Why you", why.you],
   ].filter((row): row is [string, string] => Boolean(row[1]));
   // The plain card — eyebrow and title on top, the reasons as rows below — is
   // a feature card. Anything more above or around the title (a lead, a

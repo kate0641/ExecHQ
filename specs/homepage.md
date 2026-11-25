@@ -123,7 +123,7 @@ What the card shows is decided by the first of these that is true:
 | 4 | Every action in the ring is done | A note: **"Every {horizon} action is done."**, then "New moves come with your plan's next stage." and a **See your Plan** button |
 | 5 | The ring has no actions | A note headed **"Nothing in this part yet"** |
 
-**The next-step card** has, top to bottom: the eyebrow; the action's title as a heading; three labeled rows, **Why this**, **Why now**, **Why you** (any that has no text is left out); a full-width primary button **Start in the Playbook**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
+**The next-step card** has, top to bottom: the eyebrow; the action's title as a heading; two labeled rows, **Why this** and **Why now** (either that has no text is left out; **Why you** was cut on 2026-11-25 from Eric's Ask or go review); a full-width primary button **Start in the Playbook**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
 
 - **Start in the Playbook** opens the action's flow in the Playbook. For an action that was not started, pressing it also marks it **in progress**, so on return its segment is outlined.
 - **I've done this** marks the action done on the person's word. The card moves to the "Done" note (row 1), and focus moves to the check-in question in Stay on track, which now asks how it went (4.3). The ring's segment becomes solid.
@@ -377,7 +377,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 | The Playbook flows the buttons open are placeholders until Sprint 4 | They open the real flows |
 | The Briefing page is a placeholder, and the card always shows the same three reads | The card shows the day’s three real reads and their publishers |
 | The one "A next move" under the Signal Picture is a single stand-in, whatever the person entered | It is chosen from what they have entered and where they are on their plan |
-| The ring card's reasons (why this, why now, why you) are written for Maya | They are written for the person from their direction and plan |
+| The ring card's reasons (why this, why now) are written for Maya | They are written for the person from their direction and plan |
 | Nothing is saved but in the browser | Account data, check-in answers, the starting point and dismissed notes are kept on the account |
 | The weekly check-in is due in every moment but the first return, with three invented past answers (Not yet, Getting there, Getting there); an answer lasts until the page reloads | It is due 7 days after the last answer, and every answer is kept on the account and counted in the organization's totals |
 | The read-back says what changes in the plan, but the plan does not change; Ready offers Maya's first medium-term step, and Add it only says it was added | The next step really changes as in 4.7, and the Plan page shows it with a "why it's here" line ("You said you're not ready yet, so this is a lighter first step.") |
