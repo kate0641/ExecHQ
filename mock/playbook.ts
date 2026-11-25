@@ -624,7 +624,7 @@ export const LIBRARY_SEED: Record<string, ArtifactMeta> = {
     area: "seen-as-leader",
     planStepId: "use-story",
     versions: 2,
-    preview: "I want to move from running campaigns to leading a broader marketing organization.",
+    preview: "I want to move from running campaigns to leading a team.",
     fromOnboarding: true,
   },
   "check-in-brief": {

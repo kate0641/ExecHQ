@@ -122,7 +122,7 @@ A read is marked read when it opens: by its story on the front page, by Next, by
 
 Until they have chosen publishers, the page is the header and **Where should your reads come from?**: "Choose the publishers you trust. Each morning ExecEngine picks three reads from them and says why each one is there."
 
-- **Suggested for you**, "Chosen for leading a broader marketing organization. Change any of them.", with the suggested publishers listed, then **Start with these** (one press, and the day's three load).
+- **Suggested for you**, "Chosen for leading a team. Change any of them.", with the suggested publishers listed, then **Start with these** (one press, and the day's three load).
 - **Choose my own** opens every publisher, in three cards: Leadership and management, Business news, Marketing. Each row is a toggle with a check on the right. "{n} chosen", and "Choose at least 3." until there are three. **Show today's three** finishes.
 - "You can change these at any time."
 

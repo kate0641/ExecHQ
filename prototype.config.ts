@@ -172,7 +172,7 @@ export const prototypeConfig: PrototypeConfig = {
           // Kate, 2026-10-26: approved; Concept 4 is on the scratch branch.
           status: "approved",
           summary:
-            "A map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture, with a weekly check-in in Stay on track (Kate, 2026-10-23): “How ready do you feel to lead a broader marketing organization?”, her own direction, once a week, on a slider with three answers. She sees her answers week by week; her organisation sees only the group’s totals, on the Admin Dashboard’s Concept 1b.",
+            "A map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture, with a weekly check-in in Stay on track (Kate, 2026-10-23): “How ready do you feel to lead a team?”, her own direction, once a week, on a slider with three answers. She sees her answers week by week; her organisation sees only the group’s totals, on the Admin Dashboard’s Concept 1b.",
         },
       ],
     },

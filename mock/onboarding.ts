@@ -210,8 +210,8 @@ export const DIRECTION_MORE_C3: PromptedDirection[] = [
  *  field, or the addition after a prompt or something already typed. The full
  *  answer is the pilot scope's own example. */
 export const VOICE_SAMPLE = {
-  full: "I want to move from running campaigns to leading a broader marketing organization.",
-  addition: "ideally leading a broader marketing organization.",
+  full: "I want to move from running campaigns to leading a team.",
+  addition: "ideally leading a team.",
 } as const;
 
 /** What the plan was built from, as short tags: the direction, then each
@@ -294,7 +294,7 @@ export function interpretNeed(direction: string): DirectionNeed {
 /** The one-sentence read-back, per need. Written to be shown back and edited. */
 const INTERPRETATIONS: Record<DirectionNeed, string> = {
   positioning:
-    "You want to lead a larger organization, and you want the step up to be a scope change rather than a title change.",
+    "You want to lead a team, and you want the step up to be a change in what you lead rather than a title change.",
   visibility:
     "You want the people who make decisions about you to read you as an executive, not as a strong operator.",
   influence:
@@ -314,7 +314,7 @@ export function assumptionFor(direction: string): { statement: string; promise: 
   const need = interpretNeed(direction);
   const statements: Record<DirectionNeed, string> = {
     positioning:
-      "Based on your goal of leading a larger organization, we have started with a concise leadership narrative.",
+      "Based on your goal of leading a team, we have started with a concise leadership narrative.",
     visibility:
       "Based on wanting to be read differently, we have started with how you describe yourself.",
     influence:
@@ -1073,7 +1073,7 @@ export function goalForPlan(planId: string, answers: Record<string, string>): st
  *  description of the template. These are written as "you said X, so Y". */
 const RATIONALES: Record<DirectionNeed, string> = {
   positioning:
-    "You said you want a larger organization and a broader remit, so this plan starts with the narrative and the evidence that the people deciding will ask for.",
+    "You said you want to lead a team, so this plan starts with the narrative and the evidence that the people deciding will ask for.",
   visibility:
     "You said you want to be read differently, so this plan starts with your positioning and the places it needs to show up.",
   influence:

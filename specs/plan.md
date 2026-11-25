@@ -221,7 +221,7 @@ Above the roadmap, a white card. Updated 9 November 2026: it now also holds why 
 1. **"Your direction"** in small capitals, on a soft band.
 2. Their direction in their own words, in full, in the serif. It wraps; it is never cut off. (Until 13 October it was a row that opened and closed; it no longer does, and nothing on the card opens or closes.)
 3. **"Edited by you."**, small, when they have changed their direction since onboarding.
-4. Under a hairline, why they have this plan, as a quiet paragraph in secondary text with no heading: it is tied to what they said in onboarding and starts "You said…", so it explains itself ("You said you want a larger organization and a broader remit, so this plan starts with…"). When they chose the plan themselves, it says "You chose this plan on {date}."
+4. Under a hairline, why they have this plan, as a quiet paragraph in secondary text with no heading: it is tied to what they said in onboarding and starts "You said…", so it explains itself ("You said you want to lead a team, so this plan starts with…"). When they chose the plan themselves, it says "You chose this plan on {date}."
 5. **Change your direction**, a text link, 12px under it. It takes them through the onboarding questions again, filled in, ending back on the Plan, where they choose their plan and can keep this one. Nothing on the card explains that: the flow's first page does, under "Right now it says: …", with "Everything you've done stays, whichever plan you choose." and **Keep it as it is**.
 
 The link's target is 44px tall, though it is drawn at the text's height.

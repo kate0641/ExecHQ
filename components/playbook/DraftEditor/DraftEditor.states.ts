@@ -49,7 +49,7 @@ export const draftEditorStates = defineComponentStates({
         label: DRAFT_COPY.label(2),
         intro: DRAFT_COPY.introFor.positioning,
         sections: positioningDraft(
-          { statement: "I want to move from running campaigns to leading a broader marketing organization.", role: "Senior Director, Campaigns", toward: "leading a broader marketing organization", knownFor: "Getting teams that don’t report to me to plan as one" },
+          { statement: "I want to move from running campaigns to leading a team.", role: "Senior Director, Campaigns", toward: "leading a team", knownFor: "Getting teams that don’t report to me to plan as one" },
           "Maya Chen"
         ),
         sectionActions: (section) =>

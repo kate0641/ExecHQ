@@ -4,7 +4,7 @@ import { Slider } from "./Slider";
 
 const noop = () => {};
 const steps = READINESS_HOME_COPY.answers;
-const label = "How ready do you feel to lead a broader marketing organization?";
+const label = "How ready do you feel to lead a team?";
 
 export const sliderStates = defineComponentStates({
   name: "Slider",

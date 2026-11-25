@@ -1,9 +1,9 @@
 import { defineComponentStates } from "@/components/types";
 import { PlanDirection } from "./PlanDirection";
 
-const direction = "I want to move from running campaigns to leading a broader marketing organization.";
+const direction = "I want to move from running campaigns to leading a team.";
 const why =
-  "You said you want a larger organization and a broader remit, so this plan starts with the narrative and the evidence that the people deciding will ask for.";
+  "You said you want to lead a team, so this plan starts with the narrative and the evidence that the people deciding will ask for.";
 const editHref = "/onboarding/concept-3?edit=1";
 
 export const planDirectionStates = defineComponentStates({
@@ -46,7 +46,7 @@ export const planDirectionStates = defineComponentStates({
       label: "Long text — a long direction wraps",
       props: {
         direction:
-          "I want to move from running regional campaigns to leading a broader marketing organization across product lines, with a seat in the planning conversations that set next year’s priorities.",
+          "I want to move from running regional campaigns to leading a team across product lines, with a seat in the planning conversations that set next year’s priorities.",
         why,
         editHref,
       },

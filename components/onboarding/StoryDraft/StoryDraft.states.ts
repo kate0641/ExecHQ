@@ -56,7 +56,7 @@ export const storyDraftStates = defineComponentStates({
       props: {
         ...base,
         text: firstDraftFor(
-          "I want to move from running campaigns to leading a broader marketing organization, ideally within the next two years",
+          "I want to move from running campaigns to leading a team, ideally within the next two years",
           {},
           sharpened
         ),

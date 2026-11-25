@@ -231,7 +231,7 @@ Onboarding has no free text: the person picks a direction and narrows it to one 
 
 - **Several picks:** the question uses the one they chose as mattering most, which is their direction.
 - **When the direction changes** (in onboarding's "Change", or later on the Plan), the question changes with it from the next check-in.
-- **The prototype's Maya** has "lead a broader marketing organization", written by hand from an older sample. It is not one of the 18. A real account always has one of them.
+- **The prototype's Maya** has "lead a team", written by hand from an older sample. It is not one of the 18. A real account always has one of them.
 
 ### 4.7 What the answer changes in the plan
 

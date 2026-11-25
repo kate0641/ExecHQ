@@ -38,11 +38,10 @@ export interface Account {
   /** Her direction, in her own words from onboarding. */
   direction: string;
   /** The same direction, short enough to follow "toward" on the homepage:
-   *  "leading a broader marketing organization". Written by hand in the
+   *  "leading a team". Written by hand in the
    *  prototype; the product needs a way to make it from her words. */
   towardShort?: string;
-  /** The same direction after "How ready do you feel to": "lead a broader
-   *  marketing organization" (Homepage 4b's weekly check-in, Kate,
+  /** The same direction after "How ready do you feel to": "lead a team" (Homepage 4b's weekly check-in, Kate,
    *  2026-10-26). Written by hand, like towardShort. */
   towardVerb?: string;
   plan: {
@@ -72,9 +71,9 @@ export const MAYA: Account = {
   lastName: "Chen",
   jobTitle: "Senior Director, Campaigns",
   direction:
-    "I want to move from running campaigns to leading a broader marketing organization.",
-  towardShort: "leading a broader marketing organization",
-  towardVerb: "lead a broader marketing organization",
+    "I want to move from running campaigns to leading a team.",
+  towardShort: "leading a team",
+  towardVerb: "lead a team",
   plan: {
     id: "leadership-scope",
     name: "Step Up",

@@ -36,7 +36,7 @@ const word = (value: number) => C.answers[value - 1];
 /**
  * The weekly check-in in Stay on track (Homepage Concept 4b, Kate,
  * 2026-10-23, simplified 2026-10-26): one question with her direction in it,
- * "How ready do you feel to lead a broader marketing organization?", a
+ * "How ready do you feel to lead a team?", a
  * slider with three answers, Not yet, Getting there and Ready, and Save at
  * the right edge, with what it will record on its left.
  * The slider starts on her last answer, so a week with no change is one

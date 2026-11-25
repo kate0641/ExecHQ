@@ -14,7 +14,7 @@ export const readinessCheckInStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "The weekly check-in in Stay on track (Homepage Concept 4b, Kate, 2026-10-23, simplified 2026-10-26): one question with her direction in it, “How ready do you feel to lead a broader marketing organization?”, a slider with three answers (Not yet, Getting there, Ready) starting on her last answer, Save, and Not now as an x in the top corner. The words are 1 to 3 behind the scenes. Once answered, it reads back this week against where she started, in the same words, with her answers week by week. Feeds the enterprise dashboard’s Concept 1b.",
+    "The weekly check-in in Stay on track (Homepage Concept 4b, Kate, 2026-10-23, simplified 2026-10-26): one question with her direction in it, “How ready do you feel to lead a team?”, a slider with three answers (Not yet, Getting there, Ready) starting on her last answer, Save, and Not now as an x in the top corner. The words are 1 to 3 behind the scenes. Once answered, it reads back this week against where she started, in the same words, with her answers week by week. Feeds the enterprise dashboard’s Concept 1b.",
   component: ReadinessCheckIn,
   notApplicable: {
     disabled: "Always answerable while it is shown; it is only shown once a week.",

@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "sample-goal-leading-a-team-2026-11-25",
+    title: "The sample person's goal: leading a team",
+    description:
+      "Maya's goal becomes \"I want to move from running campaigns to leading a team.\" everywhere: her short forms, onboarding's sample answer, the Plan's reasoning, Home's weekly question and the Briefing's lines (25 Nov).",
+  },
+  {
     slug: "briefing-on-your-radar-2026-11-25",
     title: "Briefing: Spark Signals is now On Your Radar",
     description:
