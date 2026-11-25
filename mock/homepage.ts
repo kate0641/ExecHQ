@@ -440,7 +440,7 @@ export const CHECKIN_COPY = {
 export const MAP_COPY = {
   /** The same words as the plan page that ends onboarding, so Home picks up where it left off. */
   heading: "What you\u2019re working on now",
-  /** Under the heading, as on the plan page that ends onboarding: "Stage 1 of 3 · Say what you lead". */
+  /** Under the heading, as on the plan page that ends onboarding: "Stage 1 of 3 · Your leadership story". */
   stage: (n: number, total: number, title: string) => `Stage ${n} of ${total} \u00b7 ${title}`,
   /** Under the map when nothing on it has been started. */
   nothingInProgress: "Nothing in progress yet. Open a ring to read about what is in it and start one.",

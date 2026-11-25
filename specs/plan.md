@@ -322,7 +322,7 @@ The Plan changes with where the person is. In the prototype the dock lists five 
 
 | Moment | What the Plan shows |
 | --- | --- |
-| **First return** | Stage 1, Say what you lead. The moves, starting with "Use your leadership story in your next 1:1" |
+| **First return** | Stage 1, Your leadership story (Say what you lead until 2026-11-25). The moves, starting with "Share your leadership story in your next 1:1" |
 | **Follow-up due** | Stage 1 is finished, so the stage check-in opens, with their leadership story not yet reported |
 | **Drafted, not used** | Stage 1 is finished, and the check-in opens with everything already reported: straight to how the stage went |
 | **Nothing pending** | Stages 1 to 3 are finished. The check-in on stage 3 opens, and an important step they passed on comes back for another look |

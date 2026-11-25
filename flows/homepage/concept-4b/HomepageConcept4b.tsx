@@ -173,7 +173,7 @@ export function HomepageConcept4b() {
   ) : toStep ? (
     <NextStepCard
       eyebrow={C.nextIn(open.label)}
-      title={step.title}
+      title={stepAction?.homeTitle ?? step.title}
       why={stepAction ? { this: stepAction.whyThis, now: stepAction.whyNow } : { now: step.why }}
       href={links.forStep(step.id)}
       headingId="next-step-title"
@@ -192,7 +192,7 @@ export function HomepageConcept4b() {
   ) : ringAction ? (
     <NextStepCard
       eyebrow={ringAction.state === "in-progress" ? C.nextIn(open.label) : M.suggestedIn(open.label)}
-      title={ringAction.action.title}
+      title={ringAction.action.homeTitle ?? ringAction.action.title}
       why={{ this: ringAction.action.whyThis, now: ringAction.action.whyNow }}
       href={links.forStep(ringAction.action.id)}
       headingId="ring-step-title"

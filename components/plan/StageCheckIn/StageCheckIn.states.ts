@@ -20,7 +20,7 @@ const reported = items.map((i) => (i.passed || i.feedback ? i : { ...i, feedback
 const base = {
   stageIndex: 0,
   stageCount: 4,
-  stageTitle: "Say what you lead",
+  stageTitle: "Your leadership story",
   milestone: "You can describe your scope in a sentence, and your bio is ready to send.",
   nextStageTitle: "Show the proof",
   items,

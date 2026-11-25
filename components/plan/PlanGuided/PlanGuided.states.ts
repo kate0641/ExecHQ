@@ -7,7 +7,7 @@ import { PlanGuided } from "./PlanGuided";
 const noop = () => {};
 const moves = ["use-story", "brief-manager", "q1-review", "scope-case"].map((id) => stepById(id)!);
 const stages = [
-  { title: "Say what you lead", status: "current" as const },
+  { title: "Your leadership story", status: "current" as const },
   { title: "Show the proof", status: "later" as const },
   { title: "Get in front of the deciders", status: "later" as const },
   { title: "Make the case", status: "later" as const },

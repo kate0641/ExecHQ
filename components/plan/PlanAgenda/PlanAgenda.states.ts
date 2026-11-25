@@ -6,7 +6,7 @@ import { PlanAgenda } from "./PlanAgenda";
 const noop = () => {};
 const today = "2026-10-06";
 const stages: AgendaStage[] = [
-  { index: 0, title: "Say what you lead", when: "Next month", finishing: "You can describe your scope in a sentence, and your bio is ready to send.", status: "current" },
+  { index: 0, title: "Your leadership story", when: "Next month", finishing: "You can describe your scope in a sentence, and your bio is ready to send.", status: "current" },
   { index: 1, title: "Show the proof", when: "Next month", finishing: "Your manager has seen your three wins, in writing.", status: "later" },
   { index: 2, title: "Get in front of the deciders", when: "This quarter", finishing: "You know who decides on the role, and what they need to see from you.", status: "later" },
   { index: 3, title: "Make the case", when: "Next quarter", finishing: "You’ve asked for the broader role, with your record behind you.", status: "later" },

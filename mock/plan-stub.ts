@@ -49,6 +49,9 @@ export interface TrackedSignal {
 export interface LandscapeAction {
   id: string;
   title: string;
+  /** Home's next-step card says the step this way, where it differs from its
+   *  name. Everywhere else, the Plan included, the step goes by `title`. */
+  homeTitle?: string;
   horizon: Horizon;
   status: ActionStatus;
   whyThis: string;
@@ -84,7 +87,7 @@ export interface RoadmapStage {
 
 /** Increase Leadership Scope, in four stages. */
 export const ROADMAP: RoadmapStage[] = [
-  { title: "Say what you lead", asks: "Put what you lead into words, and say it to the person who decides." },
+  { title: "Your leadership story", asks: "Put what you lead into words, and say it to the person who decides." },
   { title: "Show the proof", asks: "Back up what you lead with work the people above you can see." },
   { title: "Get in front of the deciders", asks: "Put your case in front of the people who decide on scope." },
   { title: "Make the case", asks: "Ask for the broader role, with the record to back it." },
@@ -118,6 +121,7 @@ export const ACTIONS: LandscapeAction[] = [
   {
     id: "use-story",
     title: "Share your leadership story in your next 1:1",
+    homeTitle: "Build momentum in your next 1:1. Share your leadership story",
     horizon: "short",
     status: "accepted",
     whyThis: "It’s the clearest way to say what you lead, out loud, to the person who decides.",

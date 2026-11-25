@@ -743,7 +743,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     stages: [
       {
         window: "First",
-        title: "Say what you lead",
+        title: "Your leadership story",
         outcomes: [
           "The story of what you lead, ready to say out loud",
           "A bio in short, medium and long versions",

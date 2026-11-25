@@ -33,7 +33,7 @@ Home uses the `app` chrome (header with the wordmark, and the navigation with Ho
 On phone and tablet the page is one column, in this order. Web rearranges it (2.2).
 
 1. **Greeting and date.** "Good morning, {first name}", then the long date ("Monday 5 October") beneath, smaller.
-2. **What you're working on now** (section heading; was Your Progress Tracker until 2026-11-17; signed off by Eric in the 2026-11-18 UX review), with **Stage {n} of {total} · {stage}** under it in small capitals, for example "Stage 1 of 4 · Say what you lead" (2026-11-17). The stage is the one the Plan page shows as current, worked out the same way, and the total counts every stage of her plan, as the Plan page and onboarding's Your plan do.
+2. **What you're working on now** (section heading; was Your Progress Tracker until 2026-11-17; signed off by Eric in the 2026-11-18 UX review), with **Stage {n} of {total} · {stage}** under it in small capitals, for example "Stage 1 of 4 · Your leadership story" (2026-11-17; the stage was Say what you lead until 2026-11-25). The stage is the one the Plan page shows as current, worked out the same way, and the total counts every stage of her plan, as the Plan page and onboarding's Your plan do.
    - The **key**: three small shapes with their names: solid "Done", outlined "In progress", dashed "Not started".
    - **The three rings**, side by side.
    - **The card** under the rings (section 3).
@@ -123,7 +123,7 @@ What the card shows is decided by the first of these that is true:
 | 4 | Every action in the ring is done | A note: **"Every {horizon} action is done."**, then "New moves come with your plan's next stage." and a **See your Plan** button |
 | 5 | The ring has no actions | A note headed **"Nothing in this part yet"** |
 
-**The next-step card** has, top to bottom: the eyebrow; the action's title as a heading; two labeled rows, **Why this** and **Why now** (either that has no text is left out; **Why you** was cut on 2026-11-25 from Eric's Ask or go review); a full-width primary button **Start in the Playbook**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
+**The next-step card** has, top to bottom: the eyebrow; the action's title as a heading (or Home's own wording for it, where it has one: "Build momentum in your next 1:1. Share your leadership story" for Share your leadership story in your next 1:1, from Eric's Home review, 2026-11-25); two labeled rows, **Why this** and **Why now** (either that has no text is left out; **Why you** was cut on 2026-11-25 from Eric's Ask or go review); a full-width primary button **Start in the Playbook**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
 
 - **Start in the Playbook** opens the action's flow in the Playbook. For an action that was not started, pressing it also marks it **in progress**, so on return its segment is outlined.
 - **I've done this** marks the action done on the person's word. The card moves to the "Done" note (row 1), and focus moves to the check-in question in Stay on track, which now asks how it went (4.3). The ring's segment becomes solid.

@@ -19,7 +19,7 @@ export interface PlanPathHorizon {
 export interface PlanPathProps {
   /** "What you're working on now", over the three horizons. */
   nowLabel: string;
-  /** Which stage that is, under the heading: "Stage 1 of 3 · Say what you lead". */
+  /** Which stage that is, under the heading: "Stage 1 of 3 · Your leadership story". */
   stage: string;
   /** The first step, drawn as the Plan page's move card at the top of the first horizon. */
   first: { label: string; title: string; line: string };

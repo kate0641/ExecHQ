@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "home-eric-review-2026-11-25",
+    title: "Home: Eric's review edits",
+    description:
+      "Stage 1 of Step Up is Your leadership story everywhere, and Home's next-step card says Build momentum in your next 1:1. Share your leadership story; the step keeps its one name elsewhere (25 Nov).",
+  },
+  {
     slug: "sample-goal-leading-a-team-2026-11-25",
     title: "The sample person's goal: leading a team",
     description:
