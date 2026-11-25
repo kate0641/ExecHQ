@@ -194,7 +194,7 @@ If today's daily update has not arrived, the page shows yesterday's figures and 
 
 ## 5. Privacy rules
 
-These are the promise the participant is given ("{Organization} sees totals for the whole group. It never sees you, your plan or your work.") and they hold everywhere on the page, in the export and in the assistant.
+These are the promise the participant is given ("{Organization} sees only totals for the whole group. It never sees your plan or your work.") and they hold everywhere on the page, in the export and in the assistant.
 
 1. **The minimum is 10.** Below 10 active in the dates chosen, only Joined shows (4.3).
 2. **Channels below 10 are held back.** In Showing up in the world, a channel with fewer than 10 people is not shown with its count. The held-back channels are named together, in a fixed order (never by size), with "Fewer than 10" and a lock.

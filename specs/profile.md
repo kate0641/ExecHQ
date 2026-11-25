@@ -90,7 +90,7 @@ Shown **only** if the person's account came through an organization. Someone who
 
 For a member it shows:
 
-- **Lead:** "{Organization name} sees totals for the whole group. It never sees you, your plan or your work."
+- **Lead:** "{Organization name} sees only totals for the whole group. It never sees your plan or your work." (Reworded 25 Nov from Eric's Profile review.)
 - **What stays private:** "Your name, email and role. Your direction, drafts, progress record and plan." Two short sentences, in this order.
 - **Leave organization** (full-width secondary button), which opens the leave dialog (section 4.2).
 

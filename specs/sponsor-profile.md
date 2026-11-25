@@ -60,7 +60,7 @@ A card with four rules, then what participants are told:
 - "A channel participants post on shows only when 10 or more are behind it."
 - "Exports carry the same totals, with no row for any person."
 
-Then "What participants are told, in their own Profile:", and quoted: "Northgate sees totals for the whole group. It never sees you, your plan or your work." These words come from the participant Profile's own copy, so the two cannot drift apart.
+Then "What participants are told, in their own Profile:", and quoted: "Northgate sees only totals for the whole group. It never sees your plan or your work." These words come from the participant Profile's own copy, so the two cannot drift apart.
 
 ---
 

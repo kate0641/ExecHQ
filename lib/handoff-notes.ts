@@ -24,6 +24,12 @@ export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
       "The next-step card shows Why this and Why now only, on Home's next step and under every ring; the step's why-you line stays for the advisor (25 Nov).",
   },
   {
+    slug: "profile-privacy-promise-2026-11-25",
+    title: "Profile: the privacy promise, reworded",
+    description:
+      "The line about her organization now reads \"{Organization} sees only totals for the whole group. It never sees your plan or your work.\" on Profile, Edit and Delete, and where the sponsor's Profile quotes it (25 Nov).",
+  },
+  {
     slug: "onboarding-first-move-why-2026-11-23",
     title: "Onboarding: why the story comes first",
     description:
