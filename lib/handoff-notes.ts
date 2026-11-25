@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "briefing-on-your-radar-2026-11-25",
+    title: "Briefing: Spark Signals is now On Your Radar",
+    description:
+      "The opportunities after the Daily Briefing's reads are headed On Your Radar in place of Spark Signals; nothing else about them changes (25 Nov).",
+  },
+  {
     slug: "advisor-no-why-me-2026-11-25",
     title: "Advisor: no Why me",
     description:

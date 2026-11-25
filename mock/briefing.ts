@@ -410,7 +410,7 @@ export const BRIEFING_COPY = {
 export const SPARK_SIGNAL_IDS: readonly string[] = ["marketing-leaders-podcast", "commercial-strategy-summit", "commercial-leader-quarterly"];
 
 export const SPARK_SIGNALS_COPY = {
-  heading: "Spark Signals",
+  heading: "On Your Radar",
   lede: "Picked for you this week",
   /** The kind, over each card, from the outlet's pitch type. */
   kind: { Podcast: "Podcast", Speaking: "Event", Press: "Publication" } as Record<string, string>,

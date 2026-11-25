@@ -111,9 +111,9 @@ The labels are internal recommendation inputs. They are **never shown to her as 
 
 **Note for the prototype:** the Signal Picture currently tracks LinkedIn, podcasts, press, talks and published writing. AI discoverability is not tracked there yet.
 
-### 4.3 Spark Signals (18 Nov)
+### 4.3 On Your Radar (18 Nov; Spark Signals until 25 Nov)
 
-The Daily Briefing offers up to three **Spark Signals** a week, after the day's reads: a show to pitch, an event to speak at, a publication to write for, picked for where she is going (Daily Briefing spec 3.4a). They are open to every plan. **Proposed:**
+The Daily Briefing offers up to three **On Your Radar** cards a week, after the day's reads: a show to pitch, an event to speak at, a publication to write for, picked for where she is going (Daily Briefing spec 3.4a). They are open to every plan. **Proposed:**
 
 - The agent may point to one when it fits a step on her plan, such as Make Your Mark's stage 3, Step Up's visibility channel (2.1) or Lead Where You Are's point of view (3.3). It never makes one a step on its own.
 - Starting a pitch from one opens Pitch Builder with that outlet chosen, and the pitch counts for the plan step it serves.
