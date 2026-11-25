@@ -42,15 +42,13 @@ const PANE_HEADING = "profile-detail-heading";
 
 type Ended = "deleted" | "signed-out" | null;
 
-const DETAILS: readonly ProfileDetailId[] = ["account", "organization", "publishers", "delete"];
+const DETAILS: readonly ProfileDetailId[] = ["account", "publishers", "delete"];
 
 /** The heading each detail opens with, which also names its sheet. */
 function headingOf(id: ProfileDetailId): string {
   switch (id) {
     case "account":
       return C.account.editHeading;
-    case "organization":
-      return C.organization.heading;
     case "publishers":
       return BRIEFING_COPY.settings.publishersHeading;
     case "delete":
@@ -234,21 +232,6 @@ export function ProfileConcept1() {
             }}
           />
         );
-      case "organization":
-        return (
-          <OrganizationDetail
-            org={account.org}
-            startConfirming
-            headingId={PANE_HEADING}
-            onClose={onClose}
-            onLeave={() => {
-              const name = account.org?.name ?? "";
-              loopActions.updateAccount({ org: undefined });
-              announce(C.organization.left(name));
-              close();
-            }}
-          />
-        );
       case "publishers":
         return (
           <PublisherPicker
@@ -341,7 +324,7 @@ export function ProfileConcept1() {
           <div className="profile__column">
             {account.org ? (
               <section className="profile__section" aria-labelledby="organization-heading">
-                <OrganizationDetail org={account.org} onLeave={() => {}} onRequestLeave={() => show("organization")} />
+                <OrganizationDetail org={account.org} />
               </section>
             ) : null}
 

@@ -38,7 +38,6 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
       },
       { id: "account", label: "Edit your account", note: "The edit icon on Your account.", query: "screen=account" },
       { id: "publishers", label: "Your publishers", note: "The Publishers row. Briefing opens the same sheet.", query: "screen=publishers" },
-      { id: "organization", label: "Leave your organization", note: "Leave organization, for a member.", query: "screen=organization" },
       { id: "delete", label: "Delete your account", note: "The Delete account row.", query: "screen=delete" },
       { id: "signed-out", label: "Signed out", note: "Sign out, at the foot of the page.", query: "screen=signed-out" },
       { id: "deleted", label: "Account deleted", note: "Delete my account, in its sheet.", query: "screen=deleted" },

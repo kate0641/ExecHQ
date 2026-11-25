@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "profile-no-leave-organization-2026-11-25",
+    title: "Profile: no Leave organization",
+    description:
+      "Your organization on Profile is read only: the Leave organization button and its dialog are gone; the lead and What stays private stay (25 Nov).",
+  },
+  {
     slug: "home-no-why-you-2026-11-25",
     title: "Home: no Why you on the next-step card",
     description:

@@ -92,7 +92,7 @@ For a member it shows:
 
 - **Lead:** "{Organization name} sees only totals for the whole group. It never sees your plan or your work." (Reworded 25 Nov from Eric's Profile review.)
 - **What stays private:** "Your name, email and role. Your direction, drafts, progress record and plan." Two short sentences, in this order.
-- **Leave organization** (full-width secondary button), which opens the leave dialog (section 4.2).
+- **No way to leave.** The section is read only: there is no Leave organization button (cut 2026-11-25, section 4.2).
 
 The rule behind it: an organization sees totals for the whole group together, on the Admin Dashboard, refreshed weekly. It never sees any individual's data. Below 10 active participants it sees only how many joined; every other figure stays hidden (Sprint 5). The copy on this page must match what the Admin Dashboard actually shows. If one changes, the other changes in the same release.
 
@@ -130,13 +130,9 @@ Buttons: **Save** (primary, full width) and **Cancel** (secondary, full width), 
 
 **Changing the email in production.** The email is how the person signs in, so a change takes effect only after it is confirmed. On Save, a 6-digit code is sent to the new address and the dialog asks for it, the same code as Login's: it works for 10 minutes and only once. The change takes effect when the code is entered; until then the new address is shown as pending and sign-in keeps working with the old address. The email carries no link (decided 2026-10-28, to match Login and onboarding). A notice goes to the old address. The prototype skips this and saves at once.
 
-### 4.2 Leave organization
+### 4.2 Leave organization (cut)
 
-**Leave organization** opens a small dialog titled "Leave {Organization name}?" with the text "You keep your account and everything in it. You drop out of the group's summary." Buttons: **Leave** (danger, full width) and **Stay a member** (secondary, full width).
-
-- Leave removes the person from the organization immediately, closes the dialog, announces "You left {Organization name}." and the Organization section disappears from the page.
-- Stay a member, ×, Escape and tapping outside all close the dialog and change nothing.
-- Joining an organization is not part of Profile in V1. Only leaving is.
+Cut on 2026-11-25. A member cannot leave their organization from Profile: the Your organization section only says what the organization sees and what stays private. Joining an organization is not part of Profile in V1 either.
 
 ### 4.3 Download your data
 
@@ -232,7 +228,6 @@ Every interactive control on the page is at least **44 × 44px** (`--button-targ
 | Dialog close (×) | Drawn small; its tappable area is 44 × 44px |
 | Form fields | At least 44px tall |
 | "Download your data" link in the delete dialog | At least 44px tall |
-| Leave organization | At least 44px tall, full width |
 
 Where a control is drawn smaller than 44px, an invisible tappable area makes up the difference. It must not overlap another control's tappable area.
 
@@ -247,7 +242,7 @@ Where a control is drawn smaller than 44px, an invisible tappable area makes up 
 - **Edit button name.** "Edit your account", with the extra words visually hidden.
 - **Delete account** is the danger color and also carries a trash icon and its own label, so color is never the only cue.
 - **Dialogs** are modal and behave as in 4.6. The page behind is inert.
-- **Keyboard.** Everything works with a keyboard alone. Tab order follows reading order: Edit, the two switches, then (on web) across to the right column: Leave organization, Download, Delete account, Sign out. Escape closes any dialog.
+- **Keyboard.** Everything works with a keyboard alone. Tab order follows reading order: Edit, the two switches, then (on web) across to the right column: Download, Delete account, Sign out. Escape closes any dialog.
 - **Focus** is visible on every control, against every background.
 - **Contrast.** Text 4.5:1, non-text 3:1. The "PDF" and "Downloading…" values meet 4.5:1.
 - **Motion.** Everything that moves respects `prefers-reduced-motion`.

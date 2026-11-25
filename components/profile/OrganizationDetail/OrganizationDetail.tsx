@@ -1,7 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { Button } from "@/components/primitives/Button";
 import type { Organization } from "@/mock/account";
 import { PROFILE_COPY } from "@/mock/profile";
 import { DetailPanel } from "../DetailPanel";
@@ -9,12 +5,6 @@ import { DetailPanel } from "../DetailPanel";
 export interface OrganizationDetailProps {
   /** Undefined when she is not part of one. */
   org?: Organization;
-  onLeave: () => void;
-  /** Where the details sit open on the page, Leave hands the asking to the
-   *  caller (a small sheet) instead of swapping the page's content. */
-  onRequestLeave?: () => void;
-  /** Catalogue only: open on the leave confirmation. */
-  startConfirming?: boolean;
   onClose?: () => void;
   headingId?: string;
 }
@@ -27,40 +17,16 @@ function sentence(parts: string[]): string {
 }
 
 /**
- * The organization her account came through, if any: who it is, her role,
- * and in plain words what it can and can never see: totals for everyone in
- * the group as a whole, never her personally. Leaving asks once.
+ * The organization her account came through, if any: who it is, and in plain
+ * words what it can and can never see: totals for everyone in the group as a
+ * whole, never her plan or her work. Read only: there is no way to leave an
+ * organization from Profile.
  */
-export function OrganizationDetail({
-  org,
-  onLeave,
-  onRequestLeave,
-  startConfirming = false,
-  onClose,
-  headingId = "organization-heading",
-}: OrganizationDetailProps) {
-  const [confirming, setConfirming] = useState(startConfirming);
-
+export function OrganizationDetail({ org, onClose, headingId = "organization-heading" }: OrganizationDetailProps) {
   if (!org) {
     return (
       <DetailPanel heading={C.heading} headingId={headingId} lead={C.noneLead} onClose={onClose}>
         <p className="detail-panel__body">{C.noneHint}</p>
-      </DetailPanel>
-    );
-  }
-
-  if (confirming) {
-    return (
-      <DetailPanel heading={C.confirmHeading(org.name)} headingId={headingId} lead={C.confirmBody}>
-        {/* Leave full width; staying is the underlined link under it. In a sheet it closes the sheet. */}
-        <div className="detail-panel__actions sheet-actions">
-          <Button variant="danger" fullWidth onClick={onLeave}>
-            {C.confirm}
-          </Button>
-          <button type="button" className="link link--standalone sheet-actions__out" onClick={onClose ?? (() => setConfirming(false))}>
-            {C.keep}
-          </button>
-        </div>
       </DetailPanel>
     );
   }
@@ -72,9 +38,6 @@ export function OrganizationDetail({
           <span className="profile-fact__label">{C.never}</span>
           <span className="profile-fact__value">{sentence(org.never)}</span>
         </div>
-        <Button variant="secondary" onClick={onRequestLeave ?? (() => setConfirming(true))}>
-          {C.leave}
-        </Button>
       </div>
     </DetailPanel>
   );

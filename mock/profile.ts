@@ -15,7 +15,6 @@
  *  pane on web. */
 export type ProfileDetailId =
   | "account"
-  | "organization"
   | "publishers"
   | "delete";
 
@@ -70,12 +69,6 @@ export const PROFILE_COPY = {
     member: (name: string) => `${name} sees only totals for the whole group. It never sees your plan or your work.`,
     joined: "Joined",
     never: "What stays private",
-    leave: "Leave organization",
-    confirmHeading: (name: string) => `Leave ${name}?`,
-    confirmBody: "You keep your account and everything in it. You drop out of the group’s summary.",
-    confirm: "Leave",
-    keep: "Stay a member",
-    left: (name: string) => `You left ${name}.`,
     noneLead: "You are not part of an organization. This account is yours alone.",
     noneHint: "If a program invites you, it will show up here, with exactly what it can see.",
   },
